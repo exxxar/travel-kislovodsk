@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
+use App\Models\UserRole;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,10 +15,10 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $role = Role::firstOrCreate(
+        $role = UserRole::firstOrCreate(
             ['role_name' => 'admin']
         );
-        $role = Role::firstOrCreate(
+        $role = UserRole::firstOrCreate(
             ['role_name' => 'user']
         );
     }

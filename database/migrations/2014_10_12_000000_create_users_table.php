@@ -23,7 +23,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->foreign('role_id')
                 ->references('id')
-                ->on('roles')
+                ->on('user_roles')
                 ->cascadeOnUpdate();
             $table->timestamps();
         });

@@ -46,14 +46,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function role()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(UserRole::class);
     }
 
     public function getPermissions()
     {
         $role_id = self::role()->first()->id;
-        $permissions = Permission::join('roles_permissions', 'permissions.id', '=', 'roles_permissions.permission_id')
-            ->where('roles_permissions.role_id', $role_id)
+        $permissions = UserPermission::join('user_role_permissions', 'user_permissions.id', '=', 'user_role_permissions.permission_id')
+            ->where('user_role_permissions.role_id', $role_id)
             ->pluck('permission_name')
             ->all();
         return $permissions;
