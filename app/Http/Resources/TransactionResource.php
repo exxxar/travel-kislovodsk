@@ -19,7 +19,7 @@ class TransactionResource extends JsonResource
             'status_type_id' => $this->status_type_id,
             'amount' => $this->amount,
             'user_id' => $this->user_id,
-            'tour_id' => $this->tour_id,
+            'booking_id' => $this->booking_id,
             'description' => $this->description,
             'softdeletes' => $this->softdeletes,
         ];

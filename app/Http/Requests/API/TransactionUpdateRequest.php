@@ -27,7 +27,7 @@ class TransactionUpdateRequest extends FormRequest
             'status_type_id' => ['required', 'integer', 'exists:status_types,id'],
             'amount' => ['required', 'numeric'],
             'user_id' => ['required', 'integer', 'exists:users,id'],
-            'tour_id' => ['required', 'integer', 'exists:tours,id'],
+            'booking_id' => ['required', 'integer', 'exists:bookings,id'],
             'description' => ['string'],
             'softdeletes' => ['required'],
         ];
