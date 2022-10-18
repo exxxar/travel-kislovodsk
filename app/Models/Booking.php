@@ -26,6 +26,7 @@ class Booking extends Model
         'phone',
         'email',
         'start_at',
+        'payed_at'
     ];
 
     /**
@@ -40,6 +41,7 @@ class Booking extends Model
         'selected_prices' => 'array',
         'additional_services' => 'array',
         'start_at' => 'timestamp',
+        'payed_at' => 'timestamp'
     ];
 
     public function tour()

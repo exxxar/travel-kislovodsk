@@ -26,6 +26,7 @@ class BookingResource extends JsonResource
             'phone' => $this->phone,
             'email' => $this->email,
             'start_at' => $this->start_at,
+            'payed_at' => $this->payed_at,
             'softdeletes' => $this->softdeletes,
         ];
     }

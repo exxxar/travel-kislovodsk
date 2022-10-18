@@ -34,6 +34,7 @@ class BookingUpdateRequest extends FormRequest
             'phone' => ['required', 'string', 'max:50'],
             'email' => ['required', 'email', 'max:255'],
             'start_at' => ['required'],
+            'payed_at' => [''],
             'softdeletes' => ['required'],
         ];
     }
