@@ -33,6 +33,13 @@ class Company extends Model
         'id' => 'integer',
     ];
 
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/companies/' . $this->getKey());
+    }
+
     public function documents()
     {
         return $this->hasMany(Document::class);

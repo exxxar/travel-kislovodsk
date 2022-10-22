@@ -37,6 +37,13 @@ class Message extends Model
         'read_at' => 'timestamp',
     ];
 
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/messages/' . $this->getKey());
+    }
+
     public function transaction()
     {
         return $this->belongsTo(Transaction::class);

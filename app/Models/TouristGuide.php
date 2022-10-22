@@ -38,6 +38,13 @@ class TouristGuide extends Model
         'birthday' => 'date',
     ];
 
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/tourist-guides/' . $this->getKey());
+    }
+
     public function touristGroups()
     {
         return $this->hasMany(TouristGroup::class);

@@ -67,6 +67,13 @@ class Tour extends Model
         'verified_at' => 'timestamp',
     ];
 
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/tours/' . $this->getKey());
+    }
+
     public function tourObject()
     {
         return $this->belongsTo(TourObject::class);

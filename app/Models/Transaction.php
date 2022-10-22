@@ -36,6 +36,13 @@ class Transaction extends Model
         'booking_id' => 'integer',
     ];
 
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/transactions/' . $this->getKey());
+    }
+
     public function statusType()
     {
         return $this->belongsTo(Dictionary::class);

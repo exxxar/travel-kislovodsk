@@ -38,6 +38,13 @@ class Review extends Model
         'rating' => 'double',
     ];
 
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/reviews/' . $this->getKey());
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

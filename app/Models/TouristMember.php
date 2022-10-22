@@ -34,6 +34,13 @@ class TouristMember extends Model
         'tourist_group_id' => 'integer',
     ];
 
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/tourist-members/' . $this->getKey());
+    }
+
     public function touristGroup()
     {
         return $this->belongsTo(TouristGroup::class);

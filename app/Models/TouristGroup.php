@@ -76,6 +76,13 @@ class TouristGroup extends Model
         'tourist_guide_id' => 'integer',
     ];
 
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/tourist-groups/' . $this->getKey());
+    }
+
     public function touristAgency()
     {
         return $this->belongsTo(TouristAgency::class);
