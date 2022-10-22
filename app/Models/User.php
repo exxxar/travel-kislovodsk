@@ -59,6 +59,21 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(UserRole::class);
     }
 
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class);
+    }
+
+    public function userLawStatus()
+    {
+        return $this->belongsTo(Dictionary::class);
+    }
+
     public function getPermissions()
     {
         $role_id = self::role()->first()->id;

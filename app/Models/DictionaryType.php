@@ -27,4 +27,9 @@ class DictionaryType extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    public function dictionaries()
+    {
+        return $this->hasMany(Dictionary::class);
+    }
 }

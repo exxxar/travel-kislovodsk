@@ -28,4 +28,9 @@ class TouristAgency extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    public function touristGroups()
+    {
+        return $this->hasMany(TouristGroup::class);
+    }
 }

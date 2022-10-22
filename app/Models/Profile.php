@@ -30,4 +30,9 @@ class Profile extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
 }

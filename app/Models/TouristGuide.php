@@ -37,4 +37,9 @@ class TouristGuide extends Model
         'relative_contact_information' => 'array',
         'birthday' => 'date',
     ];
+
+    public function touristGroups()
+    {
+        return $this->hasMany(TouristGroup::class);
+    }
 }

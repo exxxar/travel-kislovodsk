@@ -85,4 +85,9 @@ class TouristGroup extends Model
     {
         return $this->belongsTo(TouristGuide::class);
     }
+
+    public function touristMembers()
+    {
+        return $this->hasMany(TouristMember::class);
+    }
 }
