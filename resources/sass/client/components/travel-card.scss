@@ -1,0 +1,116 @@
+.dt-travel-card {
+  & .card-header {
+    & .card-img {
+      height: 200px;
+
+      & .dt-excursion__image {
+        height: 100%;
+        width: inherit;
+        object-fit: cover;
+        border-radius: 5px 5px 0 0;
+      }
+    }
+
+    & .dt-excursion-type {
+      position: absolute;
+      left: 15px;
+      top: 15px;
+      background: $color-blue;
+      padding: 0.25rem 1rem;
+      border-radius: 5px;
+      color: $color-white;
+    }
+
+    & .dt-like {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      background: $color-white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+
+      svg {
+        padding-top: 2px;
+        fill: $color-black;
+        opacity: 0.15;
+      }
+
+      &:hover, &.active {
+        svg {
+          fill: $color-blue !important;
+          box-shadow: 0 15px 30px rgba(0, 113, 235, 0.3);
+        }
+      }
+    }
+
+    & .dt-price {
+      bottom: 0;
+      padding: 15px 35px 15px;
+      border-top: 1px solid $color-light-gray;
+
+      h5 {
+        letter-spacing: 3px;
+      }
+
+      &__title {
+        font-size: 8px;
+      }
+    }
+  }
+
+  & .card-body {
+    padding: 32px 30px;
+    max-height: 250px;
+
+    &__excursion {
+      max-height: 100px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    &__excursion-rating {
+      margin-bottom: 30px;
+
+      .dt-rating__star {
+        img {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+
+    &__excursion-name {
+      margin-bottom: 15px;
+      line-height: 19px;
+    }
+
+    &__excursion-description {
+      font-family: $font-family-light;
+    }
+  }
+
+  & .card-footer {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  &__action {
+    color: $color-black;
+    font-family: $font-family-bold;
+    letter-spacing: 3px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .dt-travel-card {
+    & .dt-rating__star {
+      & img {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}

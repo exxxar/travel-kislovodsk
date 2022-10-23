@@ -1,0 +1,62 @@
+.dt-form {
+  --bs-gutter-y: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: calc(var(--bs-gutter-y) * -1);
+  width: 100%;
+
+  & > * {
+    flex-shrink: 0;
+    margin-top: var(--bs-gutter-y);
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  &.bordered {
+    gap: 0 !important;
+    padding: 0 !important;
+    & > * {
+      padding: 0;
+      border: 1px solid #e5e6e6;
+    }
+  }
+}
+
+.dt-block-header {
+  padding-top: 81px;
+  padding-bottom: 40px;
+}
+
+.dt-wrapper-gradient {
+  background: linear-gradient(to top, $color-black, transparent);
+  opacity: 0.75;
+  height: 100%;
+  width: 100%;
+}
+
+.color-black {
+  color: $color-black !important;
+}
+
+.text-muted-black {
+  color: $color-black !important;
+  opacity: 0.4;
+}
+
+.text-muted-white {
+  color: $color-white !important;
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 768px) {
+  .dt-block-header {
+    padding-top: 60px;
+    padding-bottom: 30px;
+  }
+}
+
+@media screen and (max-width: 568px) {
+
+}

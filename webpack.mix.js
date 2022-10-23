@@ -1,5 +1,10 @@
 const mix = require('laravel-mix');
 
+require("laravel-mix-vue3");
+
+
+
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,10 +16,23 @@ const mix = require('laravel-mix');
  |
  */
 
+mix.alias({
+    '@': '/resources/js/client',
+    '~':  '/resources/sass/client',
+});
+
+
+
 mix
-    .js(["resources/js/admin/admin.js"], "public/js")
-    .sass("resources/sass/admin/admin.scss", "public/css")
+    .options({
+        processCssUrls: false
+    })
+   // .js(["resources/js/admin/admin.js"], "public/js")
+    //.sass("resources/sass/admin/admin.scss", "public/css")
+    .sass("resources/sass/client/main.scss", "public/css")
     .vue();
+
+
 
 if (mix.inProduction()) {
   mix.version();

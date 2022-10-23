@@ -1,0 +1,26 @@
+@import "fonts";
+
+$color-white: #ffffff;
+$color-black: #222425;
+$color-black-alpha: #222425a8;
+$color-light-gray: #f6f6f6;
+$color-light-black: #212121;
+$color-blue: #0071eb;
+$color-green: #65c350;
+$color-red: #f73637;
+$color-red-light: #fef1f1;
+
+
+//Typography
+$font-family-bold: "Manrope Bold";
+$font-family-light: "Manrope Light";
+$font-family-thin: "Manrope Thin";
+$font-family-medium: "Manrope Medium";
+$font-family-regular: "Manrope Regular";
+$font-family-semibold: "Manrope Semibold";
+
+$line-height: 20px;
+
+* {
+    font-family: "Manrope";
+}

@@ -1,0 +1,60 @@
+
+
+.dt-switch {
+  position: relative;
+  display: inline-block;
+  width: 58px;
+  height: 36px;
+  flex-shrink: 0;
+
+  & input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  & .dt-slider {
+    position: absolute;
+    bottom: 0;
+    cursor: pointer;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 6px;
+    background-color: $color-white;
+
+    width: 58px;
+    height: 36px;
+  }
+
+  & .dt-slider:before {
+    position: absolute;
+    content: "";
+    width: 24px;
+    height: 24px;
+    left: 5px;
+    bottom: 6px;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 4px;
+    background: $color-blue;
+    box-shadow: 0 3px 10px 0 rgba(0, 113, 235, 0.30);
+    border: 2px solid white;
+  }
+
+  & input:checked + .dt-slider {
+    //background-color: #2196F3;
+  }
+
+  & input:focus + .dt-slider {
+    //box-shadow: 0 0 1px #2196F3;
+  }
+
+  & input:checked + .dt-slider:before {
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
+  }
+}
+
+
+

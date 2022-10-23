@@ -13,9 +13,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'pages.main')->name("page.main");
+Route::view('/about', 'pages.about')->name("page.about");
+Route::view('/contact-us', 'pages.contact-us')->name("page.contact-us");
+Route::view('/contacts', 'pages.contacts')->name("page.contacts");
+Route::view('/faq', 'pages.faq')->name("page.faq");
+Route::view('/favorites', 'pages.favorites')->name("page.favorites");
+Route::view('/for-guides', 'pages.for-guides')->name("page.for-guides");
+Route::view('/for-tourist', 'pages.for-tourist')->name("page.for-tourist");
+Route::view('/group-register', 'pages.group-register')->name("page.group-register");
+Route::view('/guide', 'pages.guide')->name("page.guide");
+Route::view('/guide-cabinet', 'pages.guide-cabinet')->name("page.guide-cabinet");
+Route::view('/how-become-guide', 'pages.how-become-guide')->name("page.how-become-guide");
+Route::view('/messages', 'pages.messages')->name("page.messages");
+Route::view('/partners', 'pages.partners')->name("page.partners");
+Route::view('/privacy-policy', 'pages.privacy-policy')->name("page.privacy-policy");
+Route::view('/rules', 'pages.rules')->name("page.rules");
+Route::view('/tour', 'pages.tour')->name("page.tour");
+Route::view('/tour-object', 'pages.tour-object')->name("page.tour-object");
+Route::view('/tour-search', 'pages.tour-search')->name("page.tour-search");
+Route::view('/user-cabinet', 'pages.user-cabinet')->name("page.user-cabinet");
 
 Route::get('/dashboard', function () {
     return view('dashboard');

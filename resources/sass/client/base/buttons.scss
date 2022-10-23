@@ -1,0 +1,131 @@
+
+
+.dt_btn__recovery {
+  height: 44px !important;
+}
+
+.dt-btn {
+  border: none;
+
+  &-white {
+    margin-left: 40px;
+    width: 162px;
+    height: 60px;
+    background: $color-white;
+    border-radius: 5px;
+
+    span {
+      color: $color-blue;
+      font-family: $font-family-bold;
+      font-weight: bold;
+      letter-spacing: 1px;
+      font-size: 14px;
+    }
+
+    &:hover {
+      background: $color-blue !important;
+      box-shadow: 0 15px 30px rgba(0, 113, 235, 0.3);
+
+      span {
+        color: $color-white;
+      }
+    }
+  }
+
+  &-blue {
+    width: 220px;
+    height: 70px;
+    background: $color-blue;
+    border-radius: 5px;
+
+    span {
+      font-size: 14px;
+      font-family: $font-family-bold;
+      color: $color-white !important;
+    }
+
+    &:hover {
+      background: $color-blue !important;
+      box-shadow: 0 15px 30px rgba(0, 113, 235, 0.3);
+    }
+  }
+
+  &-text {
+    color: #222425;
+    font-family: $font-family-bold;
+    letter-spacing: 3px;
+    font-weight: bold;
+    text-decoration: none;
+
+    &:after {
+      content: '❯';
+      color: $color-blue;
+      padding-left: 8px;
+    }
+
+    &:hover {
+      color: $color-blue;
+    }
+  }
+
+  &-text-red {
+    cursor: pointer;
+    color: $color-red;
+    letter-spacing: 3px;
+    border-bottom: 1px solid rgba(247, 54, 55, 0.07);
+
+    &:hover {
+      border-bottom: 1px solid $color-red;
+    }
+  }
+
+  &-transparent {
+    height: 44px;
+    border: 1px solid #eff0f0;
+    padding: 10px 40px;
+
+    &:hover {
+      border: 1px solid #eff0f0 !important;
+    }
+  }
+
+  &__error {
+    border: 2px solid $color-red !important;
+  }
+}
+
+.dt-close-button {
+  width: 46px;
+  height: 46px;
+  background: $color-red-light;
+  border-radius: 0 6px 0 6px;
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  &:hover {
+    background: $color-red;
+
+    svg {
+      fill: $color-red-light;
+    }
+  }
+
+  svg {
+    fill: $color-red;
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+}
+
+@media screen and (max-width: 568px) {
+  .dt-btn-white {
+    height: 50px;
+
+    span {
+      font-size: 12px;
+    }
+  }
+}

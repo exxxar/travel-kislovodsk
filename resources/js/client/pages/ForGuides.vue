@@ -1,0 +1,3 @@
+<template>
+    for guieds
+</template>

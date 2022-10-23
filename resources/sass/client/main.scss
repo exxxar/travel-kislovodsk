@@ -1,0 +1,107 @@
+// Functions first
+@import "node_modules/bootstrap/scss/functions";
+
+// Variable overrides second
+$primary: #900;
+$enable-shadows: true;
+$prefix: "mo-";
+
+
+// Required Bootstrap imports
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/maps";
+@import "node_modules/bootstrap/scss/mixins";
+@import "node_modules/bootstrap/scss/root";
+
+// Optional components
+@import "node_modules/bootstrap/scss/utilities";
+@import "node_modules/bootstrap/scss/reboot";
+@import "node_modules/bootstrap/scss/containers";
+@import "node_modules/bootstrap/scss/grid";
+@import "node_modules/bootstrap/scss/helpers";
+@import "node_modules/bootstrap/scss/type";
+@import "node_modules/bootstrap/scss/images";
+@import "node_modules/bootstrap/scss/utilities/api";
+@import "node_modules/bootstrap/scss/bootstrap";
+
+// Reset SCSS
+@import 'node_modules/scss-reset/_reset.scss';
+
+
+@import "components/variables";
+// Travel Kislovodsk Components
+@import "components/variables";
+@import "components/header";
+@import "components/footer";
+@import "components/travel-card";
+@import "components/main-page";
+@import "components/modal";
+@import "components/excursions";
+
+@import "base/buttons";
+@import "base/inputs";
+@import "base/checkbox";
+@import "base/switch";
+@import "base/tabs";
+@import "base/base";
+
+body {
+  background: $color-light-gray;
+  color: $color-black;
+  font-family: $font-family-regular !important;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+h1 {
+  font-size: 30px;
+  margin-bottom: 0;
+}
+
+h3 {
+  font-size: 20px;
+  margin-bottom: 0;
+}
+
+h4 {
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+h5 {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+@import "components/main";
+
+h6 {
+  font-size: 10px;
+  margin-bottom: 0;
+}
+
+.dt-page {
+  &__breadcrumbs {
+    padding-top: 40px;
+    padding-bottom: 80px;
+    & .breadcrumb-item > a {
+      color: $color-light-black !important;
+      text-decoration: none;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 20px !important;
+  }
+
+  h3 {
+    font-size: 12px !important;
+  }
+
+  h5 {
+    font-size: 10px !important;
+  }
+}

@@ -1,0 +1,164 @@
+.dt-header {
+  &__title {
+    font-size: 30px;
+    font-family: $font-family-bold;
+  }
+
+  &__subtitle {
+    font-family: $font-family-light;
+    font-size: 14px;
+  }
+}
+
+.dt-page-main {
+  & .dt-online-register {
+    color: white;
+    background: url("/img/3.jpg") no-repeat 50% 45%;
+    background-size: cover;
+    height: 100px;
+    border-radius: 5px;
+    margin: 30px 0 0;
+
+    & .dt-wrapper {
+      background: $color-black;
+      opacity: 0.7;
+      border-radius: 5px;
+    }
+
+    &__info {
+      z-index: 1;
+    }
+  }
+
+  & .dt-popular {
+    &__tabs {
+      & a.nav-link {
+        text-decoration: none;
+        color: $color-black;
+        background: white;
+        border-radius: 5px;
+        padding: 23px;
+        font-size: 12px;
+
+        &.active {
+          background: $color-blue;
+          box-shadow: 0 15px 30px rgba(0, 113, 235, 0.3);
+          color: white;
+        }
+      }
+
+      & .dt-popular-list {
+        margin-bottom: 35px;
+
+        & li.nav-item {
+          height: 63px;
+
+          &:not(:last-child) {
+            margin-right: 0.25rem;
+          }
+        }
+      }
+
+      .dt-excursion__flex {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px -30px;
+
+        & .dt-card {
+          background: white;
+          border-radius: 5px;
+        }
+      }
+
+      .dt-card {
+        width: 25%;
+        padding: 0 15px 30px;
+      }
+    }
+
+    &__action {
+      margin-top: 40px;
+    }
+  }
+
+  & .dt-advantages {
+    margin-bottom: 80px;
+
+    &__content {
+      & .dt-advantage__card {
+        padding: 40px;
+
+        img {
+          width: 50px;
+          height: 100%;
+          margin-right: 30px;
+        }
+
+        & .dt-card__text {
+          font-family: $font-family-bold;
+        }
+
+        & .dt-card__subtitle {
+          font-family: $font-family-thin;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .dt-page-main {
+    & .dt-online-register {
+      height: auto;
+
+      &__info {
+        flex-wrap: wrap;
+        padding: 25px 30px;
+      }
+
+      &-title {
+        margin-bottom: 15px;
+      }
+
+      &-btn {
+        width: 100%;
+        margin: 0;
+      }
+    }
+
+    & .dt-popular {
+      &__header {
+        padding-right: 25px;
+        padding-left: 25px;
+
+        & .dt-header__title {
+          margin-bottom: 15px;
+        }
+      }
+    }
+
+    & .dt-advantages {
+      &__header {
+        padding-right: 25px;
+        padding-left: 25px;
+
+        & .dt-header__title {
+          margin-bottom: 15px;
+        }
+      }
+      &__content {
+        & .dt-advantage__card {
+          img {
+            width: 40px;
+            margin-right: 10px;
+            padding-top: 6px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 568px) {
+
+}

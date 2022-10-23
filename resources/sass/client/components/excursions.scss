@@ -1,0 +1,95 @@
+
+.dt-page {
+  &__header {
+    margin-bottom: 40px !important;
+
+    & .dt-header__title {
+      font-size: 38px;
+      font-family: $font-family-bold;
+      margin-bottom: 32px !important;
+    }
+
+    & .dt-header__description {
+      font-size: 14px !important;
+      font-family: $font-family-thin !important;
+    }
+  }
+
+  &__search-excursion {
+    & .dt-input__wrapper {
+      & .dt-input__group {
+        background: white !important;
+      }
+
+      &:nth-child(2) {
+        & .dt-input__group {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+      }
+
+      &:nth-child(3) {
+        & .dt-input__group {
+          border-radius: 0;
+        }
+      }
+
+      &:nth-child(4) {
+        & .dt-input__group {
+          border-radius: 0;
+        }
+      }
+    }
+
+    & .dt-direction-excursion:not(:last-child) {
+      margin-right: 8px;
+    }
+
+    & .dt-direction-excursion:last-child {
+      margin-right: 25px;
+    }
+
+    & .dt-btn-blue {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+  &__type-excursions {
+    margin-top: 80px;
+  }
+
+  &__content {
+    & .dt-filters-by__item {
+      padding-top: 35px;
+      padding-bottom: 35px;
+      border-bottom: 1px solid rgba(34, 36, 37, 0.07);
+
+      &:first-child {
+        border-top: 1px solid rgba(34, 36, 37, 0.07);
+      }
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    & .dt-sort-by {
+      margin-bottom: 35px;
+      &__title {
+        font-family: $font-family-thin;
+        color: $color-light-black;
+        margin-right: 50px;
+      }
+
+      &__item {
+        font-family: $font-family-regular;
+        margin-right: 25px;
+        cursor: pointer;
+
+        &.active {
+          color: $color-blue;
+        }
+      }
+    }
+  }
+}
