@@ -31,6 +31,13 @@ class Favorite extends Model
         'user_id' => 'integer',
     ];
 
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/favorites/' . $this->getKey());
+    }
+
     public function tour()
     {
         return $this->belongsTo(Tour::class);

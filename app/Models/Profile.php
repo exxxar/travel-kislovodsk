@@ -30,4 +30,16 @@ class Profile extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/profiles/' . $this->getKey());
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
 }

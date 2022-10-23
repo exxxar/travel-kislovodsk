@@ -27,4 +27,16 @@ class DictionaryType extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/dictionary-types/' . $this->getKey());
+    }
+
+    public function dictionaries()
+    {
+        return $this->hasMany(Dictionary::class);
+    }
 }

@@ -30,6 +30,13 @@ class Dictionary extends Model
         'dictionary_type_id' => 'integer',
     ];
 
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/dictionaries/' . $this->getKey());
+    }
+
     public function dictionaryType()
     {
         return $this->belongsTo(DictionaryType::class);

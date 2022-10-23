@@ -31,6 +31,13 @@ class Schedule extends Model
         'start_at' => 'timestamp',
     ];
 
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/schedules/' . $this->getKey());
+    }
+
     public function tour()
     {
         return $this->belongsTo(Tour::class);

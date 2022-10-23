@@ -41,6 +41,13 @@ class TourObject extends Model
         'photos' => 'array',
     ];
 
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/tour-objects/' . $this->getKey());
+    }
+
     public function tourGuide()
     {
         return $this->belongsTo(User::class);

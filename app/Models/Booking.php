@@ -44,6 +44,13 @@ class Booking extends Model
         'payed_at' => 'timestamp'
     ];
 
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/bookings/' . $this->getKey());
+    }
+
     public function tour()
     {
         return $this->belongsTo(Tour::class);

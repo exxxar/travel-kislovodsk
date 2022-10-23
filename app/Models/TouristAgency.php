@@ -28,4 +28,16 @@ class TouristAgency extends Model
     protected $casts = [
         'id' => 'integer',
     ];
+
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/tourist-agencies/' . $this->getKey());
+    }
+
+    public function touristGroups()
+    {
+        return $this->hasMany(TouristGroup::class);
+    }
 }

@@ -36,6 +36,13 @@ class Document extends Model
         'approved_at' => 'timestamp',
     ];
 
+    protected $appends = ['resource_url'];
+
+    public function getResourceUrlAttribute()
+    {
+        return url('/admin/documents/' . $this->getKey());
+    }
+
     public function company()
     {
         return $this->belongsTo(Company::class);
