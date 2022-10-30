@@ -1,0 +1,54 @@
+.dt-page-booking {
+  & .dt-page__content {
+    & .dt-content__title {
+      margin-top: 60px;
+    }
+
+    & .dt-content__date-and-time {
+      margin-top: 60px;
+      margin-bottom: 60px;
+    }
+
+    & .dt-total-price {
+      &__title {
+        font-size: 20px;
+        font-family: $font-family-bold;
+      }
+    }
+
+    & .dt-price {
+      &__non-active {
+        font-size: 16px;
+        font-family: $font-family-bold;
+        color: $color-black;
+
+        &:after {
+          content: ' ₽';
+        }
+      }
+
+      &__active {
+        color: $color-blue;
+        font-family: $font-family-bold;
+        font-size: 30px;
+        line-height: 30px;
+
+        &:after {
+          content: ' ₽';
+        }
+      }
+    }
+
+    & .dt-personal-data {
+      &__item {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+      }
+      &__label {
+        font-size: 12px;
+        font-family: $font-family-thin;
+      }
+    }
+  }
+}

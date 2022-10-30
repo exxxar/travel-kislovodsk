@@ -80,27 +80,27 @@
       margin-top: 40px;
     }
   }
+}
 
-  & .dt-advantages {
-    margin-bottom: 80px;
+.dt-page__advantages {
+  margin-bottom: 80px;
 
-    &__content {
-      & .dt-advantage__card {
-        padding: 40px;
+  &-content {
+    & .dt-advantage__card {
+      padding: 40px;
 
-        img {
-          width: 50px;
-          height: 100%;
-          margin-right: 30px;
-        }
+      img {
+        width: 50px;
+        height: 100%;
+        margin-right: 30px;
+      }
 
-        & .dt-card__text {
-          font-family: $font-family-bold;
-        }
+      & .dt-card__text {
+        font-family: $font-family-bold;
+      }
 
-        & .dt-card__subtitle {
-          font-family: $font-family-thin;
-        }
+      & .dt-card__subtitle {
+        font-family: $font-family-thin;
       }
     }
   }

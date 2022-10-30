@@ -1,0 +1,143 @@
+.personal-account-transactions {
+
+  &__row {
+    display: flex;
+    margin: 35px 0 40px;
+  }
+
+  &-check {
+    margin-right: 42px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &__input {
+      margin-right: 12px;
+    }
+
+    &__label {
+      font-size: 14px;
+      color: rgb(34, 36, 37);
+      line-height: 1.857;
+    }
+  }
+
+  &-card {
+    border-radius: 6px;
+    background-color: rgb(255, 255, 255);
+    height: 141px;
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 40px 15px;
+      border-bottom: 1px solid #eff0f0;
+
+      &__column {
+        display: flex;
+      }
+
+      &__text {
+        font-size: 14px;
+        color: rgb(34, 36, 37);
+        font-weight: bold;
+        line-height: 1.429;
+
+        &_grey {
+          font-size: 12px;
+          color: rgba(34, 36, 37, 0.8);
+          line-height: 1.667;
+          font-weight: 200;
+          margin-left: 45px;
+        }
+      }
+
+      &__status {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        line-height: 1.667;
+
+        &_blue {
+          color: rgb(0, 113, 235);
+
+          .personal-account-transactions-card-head__svg {
+            path {
+              fill: rgb(0, 113, 235);
+            }
+          }
+        }
+
+        &_green {
+          color: rgb(101, 195, 80);
+
+          .personal-account-transactions-card-head__svg {
+            path {
+              fill: rgb(101, 195, 80);
+            }
+          }
+        }
+
+        &_red {
+          color: rgb(248, 55, 55);
+
+          .personal-account-transactions-card-head__svg {
+            path {
+              fill: rgb(248, 55, 55);
+            }
+          }
+        }
+      }
+
+      &__icon {
+        border-radius: 50%;
+        background-color: rgb(246, 246, 246);
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 11px;
+      }
+
+      &__svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    &-body {
+      padding: 28px 40px 23px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &__text {
+        display: flex;
+
+        &_grey {
+          font-size: 14px;
+          color: rgba(34, 36, 37, 0.8);
+          line-height: 1.429;
+          margin-right: 8px;
+          font-weight: 800;
+        }
+
+        &_blue {
+          font-size: 14px;
+          color: rgb(0, 113, 235);
+          line-height: 1.429;
+          border-bottom: 1px solid #e7e7e7;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}

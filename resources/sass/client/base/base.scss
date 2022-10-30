@@ -14,15 +14,42 @@
     padding-left: 5px;
     padding-right: 5px;
   }
+
   &.bordered {
     gap: 0 !important;
     padding: 0 !important;
+
     & > * {
       padding: 0;
       border: 1px solid #e5e6e6;
     }
   }
 }
+
+.dt-page {
+  margin-top: -35px;
+}
+
+/*.dt-page-object {
+  & .dt-header__detail {
+    & .dt-input__wrapper {
+      &:nth-child(1) {
+        & .dt-input__group {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          border-right: 1px solid $color-light-gray;
+        }
+      }
+
+      &:nth-child(2) {
+        & .dt-input__group {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+      }
+    }
+  }
+}*/
 
 .dt-block-header {
   padding-top: 81px;
@@ -50,13 +77,131 @@
   opacity: 0.5;
 }
 
+.dt-main-text-thin {
+  font-family: $font-family-thin;
+  font-size: 14px;
+  letter-spacing: 0.25px;
+  line-height: 26px;
+}
+
+.dt-content--bottom-60 {
+  margin-bottom: 60px;
+}
+
+.dt-check__label--thin {
+  font-family: $font-family-thin;
+}
+.dt-font--size-12 {
+  font-size: 12px;
+}
+.dt-bg-light-gray {
+  background: $color-light-gray;
+}
+.dt-bg-red {
+  background: $color-red !important;
+}
+
 @media screen and (max-width: 768px) {
+  .dt-page {
+    margin-top: -105px;
+  }
+
   .dt-block-header {
     padding-top: 60px;
     padding-bottom: 30px;
+  }
+  .dt-main-text-thin {
+    font-size: 12px;
+    line-height: 20px;
   }
 }
 
 @media screen and (max-width: 568px) {
 
+}
+
+h1 {
+  font-size: 30px;
+  margin-bottom: 0;
+}
+
+h3 {
+  font-size: 20px;
+  margin-bottom: 0;
+}
+
+h4 {
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+h5 {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+h6 {
+  font-size: 10px;
+  margin-bottom: 0;
+}
+
+.letter-spacing-3 {
+  letter-spacing: 2px;
+}
+
+.fw-bold {
+  font-family: $font-family-bold !important;;
+}
+
+.fw-semibold {
+  font-family: $font-family-semibold !important;;
+}
+
+.fw-thin {
+  font-family: $font-family-thin !important;;
+}
+
+.fw-regular {
+  font-family: $font-family-regular !important;
+}
+
+.text-muted {
+  color: $color-light-black !important;
+}
+
+.dt-page {
+  &__breadcrumbs {
+    padding-top: 40px;
+    padding-bottom: 80px;
+
+    & .breadcrumb-item > a {
+      color: $color-light-black !important;
+      text-decoration: none;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+  }
+}
+
+.dt-font--size-12 {
+  font-size: 12px !important;
+}
+
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 20px !important;
+  }
+
+  h3 {
+    //font-size: 12px !important;
+    font-size: 18px;
+  }
+
+  h4 {
+    font-size: 14px !important;
+  }
+
+  h5 {
+    font-size: 10px !important;
+  }
 }

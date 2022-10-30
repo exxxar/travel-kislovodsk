@@ -1,97 +1,74 @@
 .dt-page-footer {
-    background: url("/img/footer-bg.png") no-repeat;
-    background-size: cover;
-    background-position: 0px 50%;
-    position: relative;
+  background: url("/img/footer-bg.png") no-repeat;
 
+  & ul.dt-sitemap__links {
+    display: flex;
+    padding-top: 80px;
+    padding-bottom: 120px;
 
-    & .dt-page-footer__line {
-        width: 100%;
-        height: 1px;
-        background-color: rgba(154, 154, 154, 0.51);
+    & li:not(:last-child) {
+      padding-right: 55px;
+
+      & a.dt-link {
+        display: inline;
+      }
     }
+  }
 
-    & .dt-page-footer__shadow {
-        z-index: 2;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: $color-black-alpha;
+  & .dt-years-payments {
+    padding-bottom: 15px;
 
-    }
-    & ul.dt-sitemap__links {
-        display: flex;
-        padding-top: 80px;
-        padding-bottom: 80px;
-        justify-content: space-between;
+    & .dt-payments {
+      & .dt-payments__item {
+        padding-right: 15px;
 
-        & li:not(:last-child) {
-           // padding-right: 55px;
-
-            & a.dt-link {
-                display: inline;
-                font-family: $font-family-bold;
-            }
+        & img.dt-payment {
+          height: 16px;
         }
+      }
     }
-
-    & .dt-years-payments {
-        padding-bottom: 15px;
-        padding-top: 30px;
-
-        & .dt-payments {
-            & .dt-payments__item {
-                padding-right: 15px;
-
-                & img.dt-payment {
-                    height: 16px;
-                }
-            }
-        }
-    }
+  }
 }
 
 @media screen and (max-width: 768px) {
-    .dt-page-footer {
-        background-size: cover;
+  .dt-page-footer {
+    background-size: cover;
 
-        & .dt-sitemap__links {
-            display: block !important;
+    & .dt-sitemap__links {
+      display: block !important;
 
-            & li {
-                padding-right: 0 !important;
+      & li {
+        padding-right: 0 !important;
 
-                &:not(:last-child) {
-                    padding-bottom: 20px;
-                }
-            }
+        &:not(:last-child) {
+          padding-bottom: 20px;
         }
-
-        & .dt-years-payments {
-            & .row {
-                display: flex;
-
-                & .dt-order-name {
-                    display: flex;
-                    justify-content: center;
-                    margin-bottom: 20px;
-                }
-
-                & .dt-order-payments {
-                    order: -1;
-                    display: flex;
-                    justify-content: center;
-                    margin-bottom: 20px;
-                }
-
-                & .dt-order-privacy {
-                    display: flex;
-                    justify-content: center;
-                    margin-bottom: 20px;
-                }
-            }
-        }
+      }
     }
+
+    & .dt-years-payments {
+      & .row {
+        display: flex;
+
+        & .dt-order-name {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 20px;
+        }
+
+        & .dt-order-payments {
+          order: -1;
+          display: flex;
+          justify-content: center;
+          margin-bottom: 20px;
+        }
+
+        & .dt-order-privacy {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
 }

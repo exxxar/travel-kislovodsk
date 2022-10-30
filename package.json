@@ -1,11 +1,11 @@
 {
     "private": true,
     "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "craftable-dev": "mix",
-        "craftable-watch": "mix watch",
-        "craftable-prod": "mix --production"
+        "vite-dev": "vite",
+        "vite-build": "vite build",
+        "mix-dev": "mix",
+        "mix-watch": "mix watch",
+        "mix-prod": "mix --production"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",

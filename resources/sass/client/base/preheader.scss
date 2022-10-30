@@ -1,0 +1,244 @@
+.dt-page__preheader {
+  background: url("/img/excursions/1.png");
+
+  .dt-preheader__content {
+    padding-top: 80px;
+    padding-bottom: 80px;
+
+    & .curved {
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+
+    & .dt-preheader {
+      &__breadcrumbs {
+        & .breadcrumb-item {
+          text-transform: uppercase;
+          color: $color-white;
+          font-size: 10px;
+          font-family: $font-family-regular;
+          text-decoration: none !important;
+          letter-spacing: 3px;
+        }
+
+        & .breadcrumb-item:not(:last-child) {
+          cursor: pointer;
+        }
+
+        margin-bottom: 80px;
+      }
+
+      &__title {
+        font-size: 46px;
+        font-family: $font-family-bold;
+        color: $color-white;
+        text-align: center;
+        line-height: 20pt;
+        //margin-bottom: 25px;
+      }
+
+      &__tags {
+        & .dt-tags__list {
+          & li {
+            display: inline;
+            color: white;
+            font-size: 8px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 11px 6px;
+            border: 1px solid #6d767b;
+            border-radius: 6px;
+          }
+        }
+      }
+
+      &__description {
+        font-size: 14px;
+        font-family: $font-family-regular;
+        color: $color-white;
+        margin-bottom: 75px;
+      }
+
+      &__photos {
+        display: flex;
+        margin-bottom: 35px;
+
+        & .dt-photos__item--placeholder {
+          background: rgba(0, 113, 235, 0.85) !important;
+        }
+
+        & .dt-photos__item {
+          &:not(:last-child) {
+            margin-right: 6px;
+          }
+
+          height: 100px;
+          width: 100px;
+          border-radius: 6px;
+          background: $color-black;
+          overflow: hidden;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          img {
+            height: 100%;
+            width: auto;
+          }
+
+          .dt-item__placeholder {
+            color: white;
+          }
+        }
+      }
+
+      &__avatar {
+        & .dt-avatar__img {
+          width: 109px;
+          height: 109px;
+          overflow: hidden;
+          border-radius: 6px;
+        }
+      }
+    }
+  }
+}
+
+/*.dt-input__wrapper {
+  & .dt-input__group {
+    background: white !important;
+  }
+
+  &:nth-child(2) {
+    & .dt-input__group {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  &:nth-child(3) {
+    & .dt-input__group {
+      border-radius: 0;
+    }
+  }
+
+  &:nth-child(4) {
+    & .dt-input__group {
+      border-radius: 0;
+    }
+  }
+}*/
+
+@media screen and (max-width: 768px) {
+  .dt-page__preheader {
+    .dt-preheader__content {
+      padding-top: 115px;
+      padding-bottom: 40px;
+
+      & .dt-preheader {
+        &__breadcrumbs {
+          margin-bottom: 50px;
+          & .breadcrumb-item {
+            font-size: 8.22px;
+          }
+        }
+
+        &__title {
+          font-size: 23px;
+          line-height: 31px;
+          letter-spacing: 0;
+          margin-bottom: 0;
+        }
+
+        &__description {
+          font-size: 12px;
+          line-height: 26px;
+          margin-bottom: 20px;
+        }
+
+        &__tags {
+          & .dt-tags__list {
+            line-height: 40px;
+            letter-spacing: 5px;
+          }
+        }
+
+        &__photos {
+          margin-bottom: 150px;
+          & .dt-photos__item {
+            width: 90px;
+            height: 90px;
+          }
+        }
+
+        &__avatar {
+          margin-bottom: 150px;
+        }
+
+        &__view-reviews {
+          flex-wrap: wrap-reverse;
+
+          & .dt-rating__star {
+            margin-bottom: 25px;
+          }
+        }
+      }
+
+      & .curved {
+        padding-top: 25px;
+        padding-bottom: 25px;
+      }
+    }
+  }
+
+  .dt-header__detail {
+    flex-wrap: wrap;
+
+    & .dt-input__wrapper:not(:last-child) {
+      & .dt-input__group {
+        height: 60px;
+        border-bottom: 1px solid $color-gray;
+      }
+    }
+
+    & .dt-input__wrapper:nth-child(1) {
+      & .dt-input__group {
+        border-radius: 6px 6px 0 0 !important;
+      }
+    }
+
+    & .dt-input__wrapper:nth-child(2), & .dt-input__wrapper:nth-child(3) {
+      & .dt-input__group {
+        border-radius: 0;
+      }
+    }
+
+    & .dt-input__wrapper:nth-child(4) {
+      & .dt-input__group {
+        border-radius: 0 0 6px 6px !important;
+      }
+    }
+
+    & .dt-input__wrapper {
+      & .dt-input__group {
+        & .dt-label {
+          font-size: 10px;
+        }
+
+        & .dt-input {
+          font-size: 12px;
+        }
+
+        & .dt-input__icon {
+          width: 16px;
+        }
+      }
+    }
+
+
+  }
+}
+
+@media screen and (max-width: 568px) {
+
+}

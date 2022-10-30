@@ -1,4 +1,6 @@
 .dt-travel-card {
+  border: none !important;
+
   & .card-header {
     & .card-img {
       height: 200px;
@@ -8,6 +10,10 @@
         width: inherit;
         object-fit: cover;
         border-radius: 5px 5px 0 0;
+      }
+
+      & .dt-price__time {
+        font-size: 12px;
       }
     }
 
@@ -19,6 +25,16 @@
       padding: 0.25rem 1rem;
       border-radius: 5px;
       color: $color-white;
+      font-size: 12px;
+    }
+
+    & .dt-price {
+      &__sum {
+        font-size: 14px;
+      }
+      &__title {
+        letter-spacing: 3px;
+      }
     }
 
     & .dt-like {
@@ -50,7 +66,7 @@
       border-top: 1px solid $color-light-gray;
 
       h5 {
-        letter-spacing: 3px;
+        letter-spacing: 2px;
       }
 
       &__title {
@@ -87,6 +103,7 @@
 
     &__excursion-description {
       font-family: $font-family-light;
+      font-size: 12px;
     }
   }
 
@@ -98,7 +115,7 @@
   &__action {
     color: $color-black;
     font-family: $font-family-bold;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     font-weight: bold;
     text-decoration: none;
   }
@@ -111,6 +128,28 @@
         width: 14px;
         height: 14px;
       }
+    }
+
+    & .card-header {
+      & .card-img {
+        & .dt-excursion-type {
+          font-size: 10px;
+        }
+
+        & .dt-price {
+          &__sum {
+            font-size: 10px;
+          }
+
+          &__time {
+            font-size: 10px;
+          }
+        }
+      }
+    }
+
+    & .card-body {
+
     }
   }
 }

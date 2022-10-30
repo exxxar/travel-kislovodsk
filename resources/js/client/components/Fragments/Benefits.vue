@@ -8,7 +8,7 @@
             <div class="dt-form bordered row-cols-lg-3 row-cols-md-2 row-cols-1">
                 <div class="col">
                     <div class="dt-advantage__card d-flex">
-                        <img src="/img/icons/preferences/1.png" alt="">
+                        <img v-lazy="'/img/icons/preferences/1.png'" alt="">
                         <h4 class="dt-card__text">
                             Бесплатная отмена
                             <span class="dt-card__subtitle text-muted-black"><br>
@@ -18,7 +18,7 @@
                 </div>
                 <div class="col">
                     <div class="dt-advantage__card d-flex">
-                        <img src="/img/icons/preferences/2.png" alt="">
+                        <img v-lazy="'/img/icons/preferences/2.png'" alt="">
                         <h4 class="dt-card__text">
                             Мгновенное подтверждение
                             <span class="dt-card__subtitle text-muted-black"><br>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="col">
                     <div class="dt-advantage__card d-flex">
-                        <img src="/img/icons/preferences/3.png" alt="">
+                        <img v-lazy="'/img/icons/preferences/3.png'" alt="">
                         <h4 class="dt-card__text">
                             Оплата онлайн
                             <span class="dt-card__subtitle text-muted-black"><br>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="col">
                     <div class="dt-advantage__card d-flex">
-                        <img src="/img/icons/preferences/4.png" alt="">
+                        <img v-lazy="'/img/icons/preferences/4.png'" alt="">
                         <h4 class="dt-card__text">
                             Честные отзывы
                             <span class="dt-card__subtitle text-muted-black"><br>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="col">
                     <div class="dt-advantage__card d-flex">
-                        <img src="/img/icons/preferences/5.png" alt="">
+                        <img v-lazy="'/img/icons/preferences/5.png'" alt="">
                         <h4 class="dt-card__text">
                             Лучшие экскурсии
                             <span class="dt-card__subtitle text-muted-black"><br>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="col">
                     <div class="dt-advantage__card d-flex">
-                        <img src="/img/icons/preferences/6.png" alt="">
+                        <img v-lazy="'/img/icons/preferences/6.png'" alt="">
                         <h4 class="dt-card__text">
                             Профессиональные гиды
                             <span class="dt-card__subtitle text-muted-black"><br>

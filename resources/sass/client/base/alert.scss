@@ -1,0 +1,14 @@
+.dt-alert {
+  &.dt-alert-danger {
+    & .dt-alert__icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
+    }
+
+    & .dt-alert__title {
+      font-size: 14px;
+      font-family: $font-family-thin;
+    }
+  }
+}

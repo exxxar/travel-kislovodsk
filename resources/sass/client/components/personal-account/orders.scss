@@ -1,0 +1,141 @@
+.personal-account-orders {
+  &__col {
+    &_disabled {
+      .personal-account-orders-info {
+        opacity: 0.4;
+      }
+    }
+  }
+
+  &__links {
+    display: flex;
+    margin: 39px 0;
+  }
+
+  &__link {
+    border-radius: 6px;
+    background-color: rgb(255, 255, 255);
+    padding: 0 25px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 12px;
+    color: rgb(34, 36, 37);
+    line-height: 1.667;
+    margin-right: 6px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &_active {
+      background-color: rgb(0, 113, 235);
+      box-shadow: 0px 10px 27.9px 2.1px rgba(0, 113, 235, 0.3);
+      color: #ffffff;
+    }
+  }
+
+  &__card {
+    height: 562px;
+    display: grid;
+    grid-auto-rows: 196px 295px 69px;
+  }
+
+  &-info {
+    flex-direction: column;
+
+    &__item {
+      margin-bottom: 18px;
+      display: grid !important;
+      grid-template-columns: 24px 1fr;
+      align-items: start !important;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &__img {
+      width: 16px;
+      height: 14px;
+
+    }
+
+    &__text {
+      font-weight: 600;
+      font-size: 12px;
+      color: rgb(34, 36, 37);
+      line-height: 1.667;
+
+      &_grey {
+        margin-bottom: 5px;
+        font-weight: 400;
+        font-size: 12px;
+        color: rgba(34, 36, 37, 0.4);
+        line-height: 0.001;
+      }
+    }
+  }
+
+  &-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 35px;
+
+    &__link {
+      margin-right: 8px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &-completed {
+    &-info {
+      margin: 26px 0 28px;
+    }
+    &__card {
+      height: 534px;
+      display: grid;
+      grid-auto-rows: 196px 198px 137px;
+    }
+
+    &-footer {
+      padding: 30px 35px;
+      &__link {
+        border-radius: 6px;
+        height: 44px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 1.429;
+        text-align: center;
+
+        &_blue {
+          background-color: rgb(0, 113, 235);
+          color: rgb(255, 255, 255);
+          &:hover, &:focus, &:active {
+            color: rgb(255, 255, 255);
+            box-shadow: 0px 10px 27.9px 2.1px rgba(0, 113, 235, 0.3);
+          }
+        }
+
+        &_grey {
+          color: rgb(0, 113, 235);
+          background: #f5f9fe;
+          &:hover, &:focus, &:active {
+            color: rgb(0, 113, 235);
+            box-shadow: 0px 10px 27.9px 2.1px rgba(0, 113, 235, 0.3);
+          }
+        }
+      }
+    }
+  }
+}

@@ -31,6 +31,8 @@ Route::view('/privacy-policy', 'pages.privacy-policy')->name("page.privacy-polic
 Route::view('/rules', 'pages.rules')->name("page.rules");
 Route::view('/tour', 'pages.tour')->name("page.tour");
 Route::view('/tour-object', 'pages.tour-object')->name("page.tour-object");
+Route::view('/tours-all', 'pages.tours-all')->name("page.tours-all");
+Route::view('/tours-hot', 'pages.tours-hot')->name("page.tours-hot");
 Route::view('/tour-search', 'pages.tour-search')->name("page.tour-search");
 Route::view('/user-cabinet', 'pages.user-cabinet')->name("page.user-cabinet");
 

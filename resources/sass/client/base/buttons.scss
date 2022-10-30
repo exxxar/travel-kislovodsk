@@ -1,11 +1,28 @@
-
-
 .dt_btn__recovery {
   height: 44px !important;
 }
 
 .dt-btn {
   border: none;
+  height: 50px;
+  width: 165px;
+
+  span {
+    font-size: 12px;
+    font-family: $font-family-bold;
+  }
+
+  &__icon {
+    width: 20px;
+  }
+
+  &--height-50 {
+    height: 50px !important;
+  }
+
+  &--height-60 {
+    height: 60px !important;
+  }
 
   &-white {
     margin-left: 40px;
@@ -53,9 +70,11 @@
   &-text {
     color: #222425;
     font-family: $font-family-bold;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     font-weight: bold;
     text-decoration: none;
+    cursor: pointer;
+    font-size: 10px;
 
     &:after {
       content: '❯';
@@ -64,14 +83,14 @@
     }
 
     &:hover {
-      color: $color-blue;
+      color: $color-blue !important;
     }
   }
 
   &-text-red {
     cursor: pointer;
     color: $color-red;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     border-bottom: 1px solid rgba(247, 54, 55, 0.07);
 
     &:hover {

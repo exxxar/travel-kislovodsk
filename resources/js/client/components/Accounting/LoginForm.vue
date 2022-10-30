@@ -2,12 +2,12 @@
     <div class="dt-actions d-flex">
         <div class="dt-entry-gosuslugi flex-fill w-100 me-3">
             <button class="btn dt-btn-transparent">
-                <img src="/img/VK_Full_Logo_(2021-present).svg.png" alt="">
+                <img v-lazy="'/img/VK_Full_Logo_(2021-present).svg.png'" alt="">
             </button>
         </div>
         <div class="dt-entry-vk flex-fill w-100">
             <button class="btn dt-btn-transparent">
-                <img src="/img/logo-gosuslugi-ru.png" alt="">
+                <img v-lazy="'/img/logo-gosuslugi-ru.png'" alt="">
             </button>
         </div>
     </div>

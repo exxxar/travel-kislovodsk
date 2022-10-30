@@ -34,11 +34,11 @@
                     <h5 class="fw-bold color-black">4.67</h5>
                 </div>
                 <div class="dt-rating__star d-flex">
-                    <img src="/img/icons/star_blue.svg" alt="">
-                    <img src="/img/icons/star_blue.svg" alt="">
-                    <img src="/img/icons/star_blue.svg" alt="">
-                    <img src="/img/icons/star_blue.svg" alt="">
-                    <img src="/img/icons/star_blue.svg" alt="">
+                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
                 </div>
             </div>
             <div class="card-body__excursion">
@@ -54,7 +54,7 @@
             </div>
             <div class="card-body__excursion-date d-flex justify-content-between">
                 <div class="dt-calendar d-flex align-items-center">
-                    <img src="/img/icons/calendar_today_FILL0_wght400_GRAD0_opsz48_blue.svg"
+                    <img v-lazy="'/img/icons/calendar_today_FILL0_wght400_GRAD0_opsz48_blue.svg'"
                          alt="calendar" style="width: 18px; height: 16px" class="me-2">
                     <h5 class="text-muted-black d-lg-block d-md-block d-none">ближайшая
                         дата</h5>

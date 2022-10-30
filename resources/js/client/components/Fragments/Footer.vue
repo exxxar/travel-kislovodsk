@@ -63,16 +63,16 @@
                         <div class="dt-payments">
                             <ul class="d-flex dt-payments__list justify-content-center">
                                 <li class="dt-payments__item">
-                                    <img class="dt-payment" src="/img/payments/1.png" alt="visa">
+                                    <img class="dt-payment" v-lazy="'/img/payments/1.png'" alt="visa">
                                 </li>
                                 <li class="dt-payments__item">
-                                    <img class="dt-payment" src="/img/payments/2.png" alt="master">
+                                    <img class="dt-payment" v-lazy="'/img/payments/2.png'" alt="master">
                                 </li>
                                 <li class="dt-payments__item">
-                                    <img class="dt-payment" src="/img/payments/3.png" alt="mir">
+                                    <img class="dt-payment" v-lazy="'/img/payments/3.png'" alt="mir">
                                 </li>
                                 <li class="dt-payments__item">
-                                    <img class="dt-payment" src="/img/payments/4.png" alt="youmoney">
+                                    <img class="dt-payment" v-lazy="'/img/payments/4.png'" alt="youmoney">
                                 </li>
                             </ul>
                         </div>

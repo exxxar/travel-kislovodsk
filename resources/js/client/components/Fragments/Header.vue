@@ -6,23 +6,30 @@
                     <ul class="dt-links__list d-flex">
                         <li>
                             <h6>
-                                <a href="#" class="dt-link text-white text-decoration-none text-uppercase">О проекте</a>
+                                <a href="/about"
+                                   target="_blank"
+                                   class="dt-link text-white text-decoration-none text-uppercase">О проекте</a>
                             </h6>
                         </li>
                         <li>
                             <h6>
-                                <a href="#" class="dt-link text-white text-decoration-none text-uppercase">FAQ</a>
+                                <a href="/faq"
+                                   target="_blank" class="dt-link text-white text-decoration-none text-uppercase">FAQ</a>
                             </h6>
                         </li>
                         <li>
                             <h6>
-                                <a href="#" class="dt-link text-white text-decoration-none text-uppercase">Все
+                                <a href="/tours-all"
+                                   target="_blank"
+                                   class="dt-link text-white text-decoration-none text-uppercase">Все
                                     экскурсии</a>
                             </h6>
                         </li>
                         <li>
                             <h6>
-                                <a href="#" class="dt-link text-white text-decoration-none text-uppercase">Горяшие
+                                <a href="/tours-hot"
+                                   target="_blank"
+                                   class="dt-link text-white text-decoration-none text-uppercase">Горяшие
                                     экскурсии</a>
                             </h6>
                         </li>

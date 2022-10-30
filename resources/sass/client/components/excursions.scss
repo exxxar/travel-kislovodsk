@@ -1,3 +1,15 @@
+.dt-header__image {
+  background: $color-black;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
 
 .dt-page {
   &__header {
@@ -10,37 +22,12 @@
     }
 
     & .dt-header__description {
-      font-size: 14px !important;
+      font-size: 14px;
       font-family: $font-family-thin !important;
     }
   }
 
   &__search-excursion {
-    & .dt-input__wrapper {
-      & .dt-input__group {
-        background: white !important;
-      }
-
-      &:nth-child(2) {
-        & .dt-input__group {
-          border-top-right-radius: 0;
-          border-bottom-right-radius: 0;
-        }
-      }
-
-      &:nth-child(3) {
-        & .dt-input__group {
-          border-radius: 0;
-        }
-      }
-
-      &:nth-child(4) {
-        & .dt-input__group {
-          border-radius: 0;
-        }
-      }
-    }
-
     & .dt-direction-excursion:not(:last-child) {
       margin-right: 8px;
     }
@@ -68,6 +55,7 @@
       &:first-child {
         border-top: 1px solid rgba(34, 36, 37, 0.07);
       }
+
       &:last-child {
         border-bottom: none;
       }
@@ -75,21 +63,491 @@
 
     & .dt-sort-by {
       margin-bottom: 35px;
+
       &__title {
+        font-size: 12px;
         font-family: $font-family-thin;
-        color: $color-light-black;
+        color: $color-light-black !important;
         margin-right: 50px;
       }
 
-      &__item {
-        font-family: $font-family-regular;
+      &__item:not(:last-child) {
         margin-right: 25px;
+      }
+
+      &__item {
+        font-size: 12px;
+        font-family: $font-family-regular;
         cursor: pointer;
 
-        &.active {
+        &.active, &:hover {
           color: $color-blue;
         }
       }
     }
   }
+
+  .dt-header__detail {
+    margin-bottom: 60px;
+  }
+
+  &.dt-page-excursions {
+    & .dt-header__detail {
+      & .dt-input__wrapper {
+        & .dt-input__group {
+          background: white !important;
+        }
+
+        &:nth-child(1) {
+          & .dt-input__group {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+          }
+        }
+
+        &:nth-child(2) {
+          & .dt-input__group {
+            border-radius: 0;
+          }
+        }
+
+        &:nth-child(3) {
+          & .dt-input__group {
+            border-radius: 0;
+          }
+        }
+
+        &:nth-child(4) {
+          & .dt-input__group {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+        }
+      }
+    }
+  }
+
+  & .dt-article__title {
+    font-size: 30px;
+    font-family: $font-family-bold !important;
+    margin-bottom: 40px;
+  }
+
+  & .dt-paragraph {
+    margin-top: 40px;
+
+    &__icon {
+      &.blue {
+        display: flex;
+        width: 34px;
+        min-width: 34px;
+        height: 34px;
+        background: $color-blue;
+        border-radius: 6px;
+        padding: 5px;
+      }
+    }
+  }
+
+  & .dt-paragraph__caption {
+    font-family: $font-family-bold !important;
+    margin-bottom: 30px;
+    margin-top: 55px;
+  }
+
+  & .dt-paragraph {
+    &__text {
+      & .dt-text__title {
+        font-family: $font-family-medium;
+      }
+
+      /*& .dt-text__description {
+        font-family: $font-family-thin;
+        font-size: 14px;
+      }*/
+
+      & .dt-text__links {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  & .dt-list__price {
+    & .dt-price__item {
+      font-size: 14px;
+      font-family: $font-family-thin;
+      margin-bottom: 18px;
+    }
+  }
+
+  & .dt-full-width__guide {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    background: url("/img/6.png") no-repeat;
+    background-size: 100% 100%;
+    height: 175px;
+
+    & .dt-guide__info {
+      padding: 50px;
+
+      & .dt-guide__text {
+        margin-right: 180px;
+        line-height: 20px;
+      }
+
+      & .dt-btn-blue {
+        min-width: 260px;
+      }
+    }
+
+    & .dt-header__title {
+      font-size: 12px;
+    }
+
+    & .dt-guide__description {
+      font-size: 14px;
+      margin-top: 17px;
+    }
+  }
+
+  & .dt-bg__guide {
+    background: url("/img/5.png") no-repeat;
+    background-size: 100% 100%;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 30px;
+
+    & .dt-guide {
+      &__info {
+        padding: 40px 50px;
+
+        & .dt-guide__title {
+          color: $color-light-black;
+        }
+
+        & .dt-guide__title, & .dt-guide__rating {
+          font-size: 12px;
+        }
+      }
+
+      &__img {
+        width: 56px;
+        height: 56px;
+        margin-right: 23px;
+        box-shadow: 0 15px 30px rgba(0, 113, 235, 0.3);
+
+        img {
+          border-radius: 6px;
+        }
+      }
+
+      &__title {
+        font-family: $font-family-thin;
+      }
+
+      &__name {
+        font-size: 14px;
+        font-family: $font-family-semibold;
+        margin-bottom: 21px;
+      }
+    }
+
+    & .dt-rating__star {
+      margin-bottom: 25px;
+    }
+  }
+
+  & .dt-bg__price {
+    //height: 535px;
+    background: $color-white;
+    border-radius: 6px;
+
+    & .dt-price {
+      border-bottom: 1px solid #eff0f0;
+
+      &__non-active {
+        font-size: 16px;
+        font-family: $font-family-bold;
+        color: $color-black;
+
+        &:after {
+          content: ' ₽';
+        }
+      }
+
+      &__active {
+        font-family: $font-family-bold;
+        font-size: 30px;
+        line-height: 30px;
+
+        &:after {
+          content: ' ₽';
+        }
+      }
+
+      label {
+        font-size: 14px;
+        font-family: $font-family-regular;
+        color: $color-light-black;
+      }
+    }
+
+    & .dt-preferences, & .dt-price {
+      padding: 32px 50px;
+    }
+
+    & .dt-preferences {
+      & .dt-item__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        min-width: 48px;
+        height: 48px;
+        background: #f5f9fe;
+        border-radius: 6px;
+        padding: 5px;
+      }
+
+      & .dt-text__title {
+        font-size: 14px;
+        font-family: $font-family-bold;
+      }
+
+      & .dt-text__description {
+        font-family: $font-family-thin;
+      }
+    }
+
+    & .dt-set-order {
+      padding-bottom: 30px;
+    }
+
+    & .dt-question-guide {
+      border-top: 1px solid #eff0f0;
+    }
+
+    & .dt-question-guide, & .dt-set-order {
+      padding-right: 40px;
+      padding-left: 40px;
+    }
+
+    & .dt-question-guide {
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+  }
+
+  & .dt-rating__star {
+    //width: 16px;
+    height: 16px;
+
+    img {
+      margin-right: 6px;
+    }
+
+    & .dt-rating__text {
+      font-size: 10px;
+    }
+  }
+
+  &.dt-page-excursion {
+    & .dt-input__wrapper {
+      & .dt-input__group {
+        background: white !important;
+      }
+
+      &:nth-child(1) {
+        & .dt-input__group {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+      }
+
+      &:nth-child(2) {
+        & .dt-input__group {
+          border-radius: 0;
+        }
+      }
+
+      &:nth-child(3) {
+        & .dt-input__group {
+          border-radius: 0;
+        }
+      }
+
+      &:nth-child(4) {
+        & .dt-input__group {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .dt-page {
+    & .dt-page__breadcrumbs {
+      padding-top: 20px;
+      padding-bottom: 30px;
+    }
+
+    & .dt-bg__guide {
+      margin-top: 40px;
+      & .dt-guide {
+        &__info {
+          padding: 25px 30px;
+        }
+
+        &__img {
+          min-width: 45px;
+          width: 45px;
+          height: 45px;
+        }
+
+        &__title {
+          font-size: 10px;
+          line-height: 16px;
+          margin-bottom: 7px;
+        }
+
+        &__name {
+          font-size: 12px;
+          line-height: 18px;
+          margin-bottom: 13px;
+        }
+
+        &__rating {
+          font-size: 10px !important;
+        }
+
+        & .dt-rating__star {
+          height: 14px;
+
+          & img {
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+
+    & .dt-bg__price {
+      & .dt-price {
+        &__non-active {
+          font-size: 14px;
+        }
+
+        &__active {
+          font-size: 27px;
+        }
+
+        label {
+          font-size: 12px;
+        }
+      }
+
+      & .dt-preferences {
+        padding: 25px 30px;
+
+        &__item {
+          & .dt-item__icon {
+            min-width: 40px;
+            width: 40px;
+            height: 40px;
+
+            svg {
+              width: 17px;
+            }
+          }
+
+          & .dt-text__title {
+            font-size: 12px;
+          }
+        }
+      }
+
+      & .dt-set-order {
+        padding: 0 30px 20px 30px;
+        border: none;
+      }
+
+      & .dt-question-guide {
+        padding: 0 20px 30px;
+      }
+    }
+
+    & .dt-article__title {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    & .dt-paragraph {
+      margin-top: 20px;
+
+      &__caption {
+        margin-top: 40px;
+        margin-bottom: 20px;
+      }
+
+      &__text {
+        & .dt-text__title {
+          line-height: 20px;
+          letter-spacing: 0;
+          margin-bottom: 15px;
+        }
+      }
+
+      &__icon {
+        &--width-30 {
+          min-width: 30px !important;
+          width: 30px !important;
+          height: 30px !important;
+        }
+      }
+
+      &__group {
+        & .dt-list__price {
+          & .dt-price__item {
+            font-size: 12px !important;
+            margin-bottom: 5px;
+          }
+        }
+      }
+    }
+
+    & .dt-full-width__guide {
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+
+      .dt-page__header {
+          & .dt-header__title {
+              font-size: 20px;
+              margin-bottom: 30px;
+          }
+
+          & .dt-header__description {
+              font-size: 12px;
+          }
+      }
+
+      & .dt-article__title {
+        font-size: 20px;
+      }
+
+      & .dt-article__subtitle {
+          font-size: 18px;
+      }
+
+      & .dt-article__description {
+          font-size: 12px;
+      }
+  }
+
+
+}
+
+@media screen and (max-width: 568px) {
+
 }
