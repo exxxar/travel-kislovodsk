@@ -18,7 +18,7 @@ class TouristMemberController extends Controller
      */
     public function index(Request $request)
     {
-        $touristMembers = TouristMember::all();
+        $touristMembers = TouristMember::paginate($request->count ?? config('app.results_per_page'));
 
         return new ToursistMemberCollection($touristMembers);
     }

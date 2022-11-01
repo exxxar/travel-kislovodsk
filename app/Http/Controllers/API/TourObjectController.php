@@ -18,7 +18,7 @@ class TourObjectController extends Controller
      */
     public function index(Request $request)
     {
-        $tourObjects = TourObject::all();
+        $tourObjects = TourObject::paginate($request->count ?? config('app.results_per_page'));
 
         return new TourObjectCollection($tourObjects);
     }

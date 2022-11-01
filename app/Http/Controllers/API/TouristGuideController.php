@@ -18,7 +18,7 @@ class TouristGuideController extends Controller
      */
     public function index(Request $request)
     {
-        $touristGuides = TouristGuide::all();
+        $touristGuides = TouristGuide::paginate($request->count ?? config('app.results_per_page'));
 
         return new TouristGuideCollection($touristGuides);
     }

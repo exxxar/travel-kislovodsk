@@ -18,7 +18,7 @@ class ReviewController extends Controller
      */
     public function index(Request $request)
     {
-        $reviews = Review::all();
+        $reviews = Review::paginate($request->count ?? config('app.results_per_page'));
 
         return new ReviewCollection($reviews);
     }

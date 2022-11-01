@@ -18,7 +18,7 @@ class TouristGroupController extends Controller
      */
     public function index(Request $request)
     {
-        $touristGroups = TouristGroup::all();
+        $touristGroups = TouristGroup::paginate($request->count ?? config('app.results_per_page'));
 
         return new TouristGroupCollection($touristGroups);
     }

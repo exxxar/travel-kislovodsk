@@ -18,7 +18,7 @@ class MessageController extends Controller
      */
     public function index(Request $request)
     {
-        $messages = Message::all();
+        $messages = Message::paginate($request->count ?? config('app.results_per_page'));
 
         return new MessageCollection($messages);
     }

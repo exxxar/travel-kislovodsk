@@ -18,7 +18,7 @@ class BookingController extends Controller
      */
     public function index(Request $request)
     {
-        $bookings = Booking::all();
+        $bookings = Booking::paginate($request->count ?? config('app.results_per_page'));
 
         return new BookingCollection($bookings);
     }

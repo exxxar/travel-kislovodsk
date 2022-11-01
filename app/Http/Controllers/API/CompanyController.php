@@ -18,7 +18,7 @@ class CompanyController extends Controller
      */
     public function index(Request $request)
     {
-        $companies = Company::all();
+        $companies = Company::paginate($request->count ?? config('app.results_per_page'));
 
         return new CompanyCollection($companies);
     }

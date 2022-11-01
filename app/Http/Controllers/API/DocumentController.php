@@ -18,7 +18,7 @@ class DocumentController extends Controller
      */
     public function index(Request $request)
     {
-        $documents = Document::all();
+        $documents = Document::paginate($request->count ?? config('app.results_per_page'));
 
         return new DocumentCollection($documents);
     }

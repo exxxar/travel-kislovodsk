@@ -18,7 +18,7 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
-        $profiles = Profile::all();
+        $profiles = Profile::paginate($request->count ?? config('app.results_per_page'));
 
         return new ProfileCollection($profiles);
     }

@@ -18,7 +18,7 @@ class DictionaryTypeController extends Controller
      */
     public function index(Request $request)
     {
-        $dictionaryTypes = DictionaryType::all();
+        $dictionaryTypes = DictionaryType::paginate($request->count ?? config('app.results_per_page'));
 
         return new DictionaryTypeCollection($dictionaryTypes);
     }

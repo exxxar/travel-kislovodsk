@@ -18,7 +18,7 @@ class UserWatchToursController extends Controller
      */
     public function index(Request $request)
     {
-        $userWatchTours = UserWatchTours::all();
+        $userWatchTours = UserWatchTours::paginate($request->count ?? config('app.results_per_page'));
 
         return new UserWatchTourCollection($userWatchTours);
     }

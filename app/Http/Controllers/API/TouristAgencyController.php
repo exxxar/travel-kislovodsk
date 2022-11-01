@@ -18,7 +18,7 @@ class TouristAgencyController extends Controller
      */
     public function index(Request $request)
     {
-        $touristAgencies = TouristAgency::all();
+        $touristAgencies = TouristAgency::paginate($request->count ?? config('app.results_per_page'));
 
         return new TouristAgencyCollection($touristAgencies);
     }

@@ -18,7 +18,7 @@ class DictionaryController extends Controller
      */
     public function index(Request $request)
     {
-        $dictionaries = Dictionary::all();
+        $dictionaries = Dictionary::paginate($request->count ?? config('app.results_per_page'));
 
         return new DictionaryCollection($dictionaries);
     }

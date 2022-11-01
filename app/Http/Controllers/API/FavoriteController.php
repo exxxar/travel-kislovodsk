@@ -18,7 +18,7 @@ class FavoriteController extends Controller
      */
     public function index(Request $request)
     {
-        $favorites = Favorite::all();
+        $favorites = Favorite::paginate($request->count ?? config('app.results_per_page'));
 
         return new FavoriteCollection($favorites);
     }

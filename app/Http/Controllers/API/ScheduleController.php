@@ -18,7 +18,7 @@ class ScheduleController extends Controller
      */
     public function index(Request $request)
     {
-        $schedules = Schedule::all();
+        $schedules = Schedule::paginate($request->count ?? config('app.results_per_page'));
 
         return new ScheduleCollection($schedules);
     }

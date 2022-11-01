@@ -18,7 +18,7 @@ class TourHasTourCategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $tourHasTourCategories = TourHasTourCategory::all();
+        $tourHasTourCategories = TourHasTourCategory::paginate($request->count ?? config('app.results_per_page'));
 
         return new TourHasTourCategoryCollection($tourHasTourCategories);
     }

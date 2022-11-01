@@ -18,7 +18,7 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $transactions = Transaction::all();
+        $transactions = Transaction::paginate($request->count ?? config('app.results_per_page'));
 
         return new TransactionCollection($transactions);
     }

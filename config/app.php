@@ -125,6 +125,7 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'results_per_page' => 10,
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
