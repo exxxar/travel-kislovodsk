@@ -4,6 +4,6 @@
     <modals-component></modals-component>
     <notifications-component></notifications-component>
     <header-component></header-component>
-    <!-- Insert Page component-->
+    <contact-page></contact-page>
     <footer-component></footer-component>
 @endsection

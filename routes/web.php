@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'pages.main')->name("page.main");
 Route::view('/about', 'pages.about')->name("page.about");
-Route::view('/contact-us', 'pages.contact-us')->name("page.contact-us");
-Route::view('/contacts', 'pages.contacts')->name("page.contacts");
-Route::view('/faq', 'pages.faq')->name("page.faq");
+Route::view('/contact-us', 'pages.contact-us')->name("page.contact-us"); // +
+Route::view('/contacts', 'pages.contacts')->name("page.contacts"); // +
+Route::view('/faq', 'pages.faq')->name("page.faq"); // проверить скрытие вопросов
 Route::view('/favorites', 'pages.favorites')->name("page.favorites");
 Route::view('/for-guides', 'pages.for-guides')->name("page.for-guides");
 Route::view('/for-tourist', 'pages.for-tourist')->name("page.for-tourist");
@@ -25,7 +25,7 @@ Route::view('/group-register', 'pages.group-register')->name("page.group-registe
 Route::view('/guide', 'pages.guide')->name("page.guide");
 Route::view('/guide-cabinet', 'pages.guide-cabinet')->name("page.guide-cabinet");
 Route::view('/how-become-guide', 'pages.how-become-guide')->name("page.how-become-guide");
-Route::view('/messages', 'pages.messages')->name("page.messages");
+Route::view('/messages', 'pages.messages')->name("page.messages"); //in progress
 Route::view('/partners', 'pages.partners')->name("page.partners");
 Route::view('/privacy-policy', 'pages.privacy-policy')->name("page.privacy-policy");
 Route::view('/rules', 'pages.rules')->name("page.rules");

@@ -4,8 +4,8 @@
         <div class="container" style="z-index: 4; position: relative;">
             <ul class="dt-sitemap__links">
                 <li>
-                    <h6><a href="/partners" target="_blank"
-                           class="dt-link text-white text-decoration-none text-uppercase">Партнерам</a></h6>
+                    <a href="/partners" target="_blank"
+                           class="dt-link text-white text-decoration-none text-uppercase">Партнерам</a>
                 </li>
                 <li>
                     <h6><a href="/for-guides'" target="_blank"

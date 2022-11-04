@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <advantages-component/>
+        <benefits-component/>
     </main>
 
 </template>

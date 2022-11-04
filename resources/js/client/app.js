@@ -55,7 +55,7 @@ app.component('header-component', Header)
 app.component('footer-component', Footer)
 app.component('modals-component', Modals)
 app.component('notifications-component', Notifications)
-app.component('advantages-component', Benefits)
+//app.component('advantages-component', Benefits)
 app.component('benefits-component', Benefits)
 app.component('login-form-component', LoginForm)
 
