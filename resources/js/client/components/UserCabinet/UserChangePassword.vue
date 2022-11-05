@@ -8,7 +8,7 @@
                 <label class="personal-account-input__label">
                     новый пароль
                 </label>
-                <div class="dt-input__group personal-account-input__group">
+                <div class="dt-input__group personal-account-input__group bg-white">
                     <input type="text" name="name" class="dt-input" autocomplete="off">
                 </div>
             </div>
@@ -16,7 +16,7 @@
                 <label class="personal-account-input__label">
                     повторите новый пароль
                 </label>
-                <div class="dt-input__group personal-account-input__group">
+                <div class="dt-input__group personal-account-input__group bg-white">
                     <input type="text" name="name" class="dt-input" autocomplete="off">
                 </div>
             </div>

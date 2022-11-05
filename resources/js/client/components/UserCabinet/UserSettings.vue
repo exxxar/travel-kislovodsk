@@ -134,10 +134,11 @@
                     </div>
                 </div>
             </div>
-            <button class="personal-account-input__btn personal-account-input-photo__btn">
+            <button class="personal-account-input__btn personal-account-input-photo__btn fw-bold">
                 сменить фото
             </button>
-            <button class="personal-account-input__btn personal-account-input-photo__btn personal-account-input-photo__btn_red">
+            <button class="personal-account-input__btn personal-account-input-photo__btn fw-bold
+                personal-account-input-photo__btn_red">
                 удалить фото
             </button>
         </div>
@@ -160,7 +161,7 @@
             </div>
             <label class="dt-check__label">
                 <slot name="label">
-                    <h5>получать рекламные материалы по e-mail</h5>
+                    <h5>получать уведомления по СМС</h5>
                 </slot>
             </label>
         </div>
