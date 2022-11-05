@@ -38,6 +38,13 @@ $prefix: "mo-";
 @import "components/excursions";
 @import "components/reviews";
 @import "components/booking";
+@import "components/personal-account/changing-password";
+@import "components/personal-account/orders";
+@import "components/personal-account/reviews";
+@import "components/personal-account/settings";
+@import "components/personal-account/transactions";
+@import "components/personal-account/viewed";
+@import "components/personal-account/main";
 
 @import "base/buttons";
 @import "base/inputs";

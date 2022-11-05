@@ -1,35 +1,50 @@
 .dt-pagination {
-  margin-top: 40px;
+    margin-top: 40px;
 
-  & .dt-nav-pagination {
-    & .page-item {
-      margin-left: 6px;
+    & .dt-nav-pagination {
+        & .page-item {
+            cursor: pointer;
+            margin-left: 6px;
 
-      &.active {
-        & .page-link {
-          background: $color-blue !important;
-          box-shadow: 0 15px 30px rgba(0, 113, 235, 0.3);
-          color: $color-white;
+            &.page-item-control {
+                & svg {
+                    fill: $color-black;
+                }
+            }
+
+            &.page-item-control.disabled {
+                opacity: 40%;
+            }
+
+            &.active {
+                & .page-link {
+                    background: $color-blue !important;
+                    box-shadow: 0 15px 30px rgba(0, 113, 235, 0.3);
+                    color: $color-white;
+                }
+            }
         }
-      }
-    }
 
-    & .page-link {
-      color: $color-black;
-      font-size: 12px;
-      font-family: $font-family-bold;
-      border: none;
-      border-radius: 6px;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+        & .page-link {
+            color: $color-black;
+            font-size: 12px;
+            font-family: $font-family-bold;
+            border: none;
+            border-radius: 6px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-      &:hover {
-        color: $color-blue;
-        background: $color-white;
-      }
+            &:hover {
+                color: $color-blue;
+                background: $color-white;
+
+                svg {
+                    color: $color-blue;
+                }
+            }
+        }
     }
-  }
 }

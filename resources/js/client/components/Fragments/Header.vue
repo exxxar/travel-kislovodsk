@@ -29,7 +29,7 @@
                             <h6>
                                 <a href="/tours-hot"
                                    target="_blank"
-                                   class="dt-link text-white text-decoration-none text-uppercase">Горяшие
+                                   class="dt-link text-white text-decoration-none text-uppercase">Горящие
                                     экскурсии</a>
                             </h6>
                         </li>

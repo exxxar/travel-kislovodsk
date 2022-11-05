@@ -1,33 +1,33 @@
 .dt-form {
-  --bs-gutter-y: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 0;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: calc(var(--bs-gutter-y) * -1);
-  width: 100%;
-
-  & > * {
-    flex-shrink: 0;
-    margin-top: var(--bs-gutter-y);
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-
-  &.bordered {
-    gap: 0 !important;
-    padding: 0 !important;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: calc(var(--bs-gutter-y) * -1);
+    width: 100%;
 
     & > * {
-      padding: 0;
-      border: 1px solid #e5e6e6;
+        flex-shrink: 0;
+        margin-top: var(--bs-gutter-y);
+        padding-left: 5px;
+        padding-right: 5px;
     }
-  }
+
+    &.bordered {
+        gap: 0 !important;
+        padding: 0 !important;
+
+        & > * {
+            padding: 0;
+            border: 1px solid #e5e6e6;
+        }
+    }
 }
 
 .dt-page {
-  margin-top: -35px;
+    margin-top: -35px;
 }
 
 /*.dt-page-object {
@@ -52,68 +52,77 @@
 }*/
 
 .dt-block-header {
-  padding-top: 81px;
-  padding-bottom: 40px;
+    padding-top: 81px;
+    padding-bottom: 40px;
 }
 
 .dt-wrapper-gradient {
-  background: linear-gradient(to top, $color-black, transparent);
-  opacity: 0.75;
-  height: 100%;
-  width: 100%;
+    background: linear-gradient(to top, $color-black, transparent);
+    opacity: 0.75;
+    height: 100%;
+    width: 100%;
 }
 
 .color-black {
-  color: $color-black !important;
+    color: $color-black !important;
 }
 
 .text-muted-black {
-  color: $color-black !important;
-  opacity: 0.4;
+    color: $color-black !important;
+    opacity: 0.4;
 }
 
 .text-muted-white {
-  color: $color-white !important;
-  opacity: 0.5;
+    color: $color-white !important;
+    opacity: 0.5;
 }
 
 .dt-main-text-thin {
-  font-family: $font-family-thin;
-  font-size: 14px;
-  letter-spacing: 0.25px;
-  line-height: 26px;
+    font-family: $font-family-thin;
+    font-size: 14px;
+    letter-spacing: 0.25px;
+    line-height: 26px;
 }
 
 .dt-content--bottom-60 {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 .dt-check__label--thin {
-  font-family: $font-family-thin;
+    font-family: $font-family-thin;
 }
+
 .dt-font--size-12 {
-  font-size: 12px;
+    font-size: 12px;
 }
+
 .dt-bg-light-gray {
-  background: $color-light-gray;
+    background: $color-light-gray;
 }
+
 .dt-bg-red {
-  background: $color-red !important;
+    background: $color-red !important;
+}
+
+.dt-icon {
+    &--width-20 {
+        width: 20px;
+    }
 }
 
 @media screen and (max-width: 768px) {
-  .dt-page {
-    margin-top: -105px;
-  }
+    .dt-page {
+        margin-top: -105px;
+    }
 
-  .dt-block-header {
-    padding-top: 60px;
-    padding-bottom: 30px;
-  }
-  .dt-main-text-thin {
-    font-size: 12px;
-    line-height: 20px;
-  }
+    .dt-block-header {
+        padding-top: 60px;
+        padding-bottom: 30px;
+    }
+    .dt-main-text-thin {
+        font-size: 12px;
+        line-height: 20px;
+    }
 }
 
 @media screen and (max-width: 568px) {
@@ -121,87 +130,88 @@
 }
 
 h1 {
-  font-size: 30px;
-  margin-bottom: 0;
+    font-size: 30px;
+    margin-bottom: 0;
 }
 
 h3 {
-  font-size: 20px;
-  margin-bottom: 0;
+    font-size: 20px;
+    margin-bottom: 0;
 }
 
 h4 {
-  font-size: 16px;
-  margin-bottom: 0;
+    font-size: 16px;
+    margin-bottom: 0;
 }
 
 h5 {
-  font-size: 12px;
-  margin-bottom: 0;
+    font-size: 12px;
+    margin-bottom: 0;
 }
 
 h6 {
-  font-size: 10px;
-  margin-bottom: 0;
+    font-size: 10px;
+    margin-bottom: 0;
 }
 
 .letter-spacing-3 {
-  letter-spacing: 2px;
+    letter-spacing: 2px;
 }
 
 .fw-bold {
-  font-family: $font-family-bold !important;;
+    font-family: $font-family-bold !important;;
 }
 
 .fw-semibold {
-  font-family: $font-family-semibold !important;;
+    font-family: $font-family-semibold !important;;
 }
 
 .fw-thin {
-  font-family: $font-family-thin !important;;
+    font-family: $font-family-thin !important;;
 }
 
 .fw-regular {
-  font-family: $font-family-regular !important;
+    font-family: $font-family-regular !important;
 }
 
 .text-muted {
-  color: $color-light-black !important;
+    color: $color-light-black !important;
 }
 
 .dt-page {
-  &__breadcrumbs {
-    padding-top: 40px;
-    padding-bottom: 80px;
+    &__breadcrumbs {
+        //padding-top: 40px;
+        padding-bottom: 80px;
+        opacity: 40%;
 
-    & .breadcrumb-item > a {
-      color: $color-light-black !important;
-      text-decoration: none;
-      text-transform: uppercase;
-      white-space: nowrap;
+        & .breadcrumb-item > a {
+            color: $color-light-black !important;
+            text-decoration: none;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
     }
-  }
 }
 
 .dt-font--size-12 {
-  font-size: 12px !important;
+    font-size: 12px !important;
 }
 
 @media screen and (max-width: 768px) {
-  h1 {
-    font-size: 20px !important;
-  }
+    h1 {
+        font-size: 20px !important;
+    }
 
-  h3 {
-    //font-size: 12px !important;
-    font-size: 18px;
-  }
+    h3 {
+        //font-size: 12px !important;
+        font-size: 18px;
+    }
 
-  h4 {
-    font-size: 14px !important;
-  }
+    h4 {
+        font-size: 14px !important;
+    }
 
-  h5 {
-    font-size: 10px !important;
-  }
+    h5 {
+        font-size: 10px !important;
+    }
 }

@@ -8,7 +8,7 @@
                            class="dt-link text-white text-decoration-none text-uppercase">Партнерам</a>
                 </li>
                 <li>
-                    <h6><a href="/for-guides'" target="_blank"
+                    <h6><a href="/for-guides" target="_blank"
                            class="dt-link text-white text-decoration-none text-uppercase">Гидам</a></h6>
                 </li>
                 <li>
