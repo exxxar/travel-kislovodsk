@@ -1,5 +1,20 @@
-@media screen and (max-width: 767.98px){
-  .personal-account-nav__link {
-    font-size: 12px;
-  }
+.personal-account-nav__link {
+    background: white;
+
+    svg {
+        fill: $color-blue !important;
+    }
+}
+.personal-account-nav__link_active {
+    background: white;
+
+    svg {
+        fill: white !important;
+    }
+}
+
+@media screen and (max-width: 767.98px) {
+    .personal-account-nav__link {
+        font-size: 12px;
+    }
 }
