@@ -630,9 +630,11 @@
                                         <img src="/img/icons/star_blue.svg" alt="">
                                         <p class="dt-guide__rating fw-bold">4.84</p>
                                     </div>
-                                    <p class="dt-btn-text text-uppercase me-3 d-lg-flex d-none">смотреть отзывы
-                                        (140)</p>
-                                    <p class="dt-btn-text text-uppercase text-nowrap d-flex d-lg-none">отзывы (140)</p>
+                                    <a href="/guide" class="dt-btn-text text-uppercase me-3 d-lg-flex d-none">смотреть
+                                        отзывы
+                                        (140)</a>
+                                    <a href="/guide" class="dt-btn-text text-uppercase text-nowrap d-flex d-lg-none">отзывы
+                                        (140)</a>
                                 </div>
                             </div>
                         </div>
@@ -690,7 +692,7 @@
                 </div>
             </div>
         </div>
-        <benefits-component v-if="!isBooking" />
+        <benefits-component v-if="!isBooking"/>
     </main>
 </template>
 <script>

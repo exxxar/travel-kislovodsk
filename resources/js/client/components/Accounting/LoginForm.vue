@@ -16,7 +16,7 @@
             class="dt-input__label">телефон</label>
         </div>
         <div class="dt-input__group">
-            <input type="text" name="name" placeholder="+7 (000) 000-00-00"
+            <input type="text" name="phone" placeholder="+7 (000) 000-00-00"
                    class="dt-input" autocomplete="off">
             <div class="dt-input__group-item">
                 <div class="dt-input__icon">
@@ -33,7 +33,7 @@
             class="dt-input__label">пароль</label>
         </div>
         <div class="dt-input__group">
-            <input type="password" name="name" class="dt-input" autocomplete="off">
+            <input type="password" name="password" class="dt-input" autocomplete="off">
             <div class="dt-input__group-item">
                 <div class="dt-input__icon">
                     <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"
