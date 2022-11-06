@@ -1,48 +1,55 @@
+.dt-page-header--bg-none-image {
+    background: none !important;
+}
+
+.dt-page-header--bg-image {
+    background: url('/img/excursions/1.png') no-repeat;
+}
 
 .dt-page-header {
-  background: url("/img/header-bg.png") no-repeat;
+    //background: url("/img/header-bg.png") no-repeat;
 
-  & > * {
-    color: white;
-    font-family: $font-family-regular;
-      background: #00000078;
-  }
-
-  p.dt-page__title {
-    font-size: 46px;
-    font-family: $font-family-bold;
-  }
-
-  &__actions {
-    //padding: 25px 0 25px 40px;
-    border-bottom: 1px solid $color-light-gray;
-
-    & .dt-actions__links {
-      padding-left: 40px;
+    & > * {
+        color: white;
+        font-family: $font-family-regular;
+        //background: #00000078;
     }
 
-    & .dt-links__list {
-      & li:not(:last-child) {
-        padding-right: 40px;
-      }
+    p.dt-page__title {
+        font-size: 46px;
+        font-family: $font-family-bold;
     }
 
-    & .dt-buttons {
-      & .dt-btn-entry {
-        padding: 22px 32px;
-        border-left: 1px solid $color-light-gray;
-        // border-right: 1px solid $color-light-gray;
+    &__actions {
+        //padding: 25px 0 25px 40px;
+        border-bottom: 1px solid $color-light-gray;
 
-        &:last-child {
-          border-right: none;
+        & .dt-actions__links {
+            padding-left: 40px;
         }
-      }
+
+        & .dt-links__list {
+            & li:not(:last-child) {
+                padding-right: 40px;
+            }
+        }
+
+        & .dt-buttons {
+            & .dt-btn-entry {
+                padding: 22px 32px;
+                border-left: 1px solid $color-light-gray;
+                // border-right: 1px solid $color-light-gray;
+
+                &:last-child {
+                    border-right: none;
+                }
+            }
+        }
     }
-  }
 }
 
 .dt-link {
-  &:hover, &.active {
-    color: $color-red !important;
-  }
+    &:hover, &.active {
+        color: $color-red !important;
+    }
 }

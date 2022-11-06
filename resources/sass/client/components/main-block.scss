@@ -376,11 +376,11 @@ a:hover {
 }
 
 svg {
-    fill: $color-blue;
+    //fill: $color-blue;
 }
 
 .bg-image {
-    background-image: url("./img/4.jpg");
+    background-image: url("/img/4.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50% 40%;

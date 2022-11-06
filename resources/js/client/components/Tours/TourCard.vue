@@ -18,7 +18,7 @@
                     </svg>
                 </div>
                 <img class="dt-excursion__image" :src="data.image" alt="">
-                <div class="dt-price d-flex justify-content-between position-absolute w-100">
+                <div class="dt-price d-flex justify-content-between position-absolute w-100 align-items-end">
                     <h5 class="align-items-end d-flex dt-price__sum text-white">
                         <span class="fw-bold text-white me-2">{{ data.price }} руб.</span>
                         <span class="dt-price__title text-uppercase text-muted-white d-lg-block d-md-block d-none">

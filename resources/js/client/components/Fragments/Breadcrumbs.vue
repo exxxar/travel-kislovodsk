@@ -3,8 +3,8 @@
         <nav style="--bs-breadcrumb-divider: '❯';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item d-flex align-items-center" v-for="(item, index) in items" :key="index"
-                    :class="{ active: item[0] }">
-                    <a href="#"><h6>{{ item.text }}</h6></a>
+                    :class="{ active: item[0] }" :disabled="item.active">
+                    <a :href="item.href" class="breadcrumb-link">{{ item.text }}</a>
                 </li>
             </ol>
         </nav>

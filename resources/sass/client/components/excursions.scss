@@ -161,12 +161,17 @@
                 background: $color-blue;
                 border-radius: 6px;
                 padding: 5px;
+
+                svg {
+                    fill: $color-white !important;
+                }
             }
         }
     }
 
     & .dt-paragraph__caption {
         font-family: $font-family-bold !important;
+        font-size: 20px;
         margin-bottom: 30px;
         margin-top: 55px;
     }
@@ -228,7 +233,7 @@
 
     & .dt-bg__guide {
         background: url("/img/5.png") no-repeat;
-        background-size: 100% 100%;
+        background-size: cover;
         border-radius: 6px;
         padding: 10px;
         margin-bottom: 30px;
@@ -358,10 +363,6 @@
         //width: 16px;
         height: 16px;
 
-        img {
-            margin-right: 6px;
-        }
-
         & .dt-rating__text {
             font-size: 10px;
         }
@@ -403,6 +404,11 @@
 }
 
 @media screen and (max-width: 768px) {
+    .dt-page__content-tour {
+        & .dt-header__detail {
+            margin-top: -210px;
+        }
+    }
     .dt-page {
         & .dt-page__breadcrumbs {
             padding-top: 20px;
@@ -415,6 +421,19 @@
             & .dt-guide {
                 &__info {
                     padding: 25px 30px;
+                    flex-wrap: wrap;
+
+                    & .dt-main-text-thin {
+                        margin-bottom: 25px;
+                    }
+
+                    & .dt-btn-blue {
+                        height: 60px;
+
+                        span {
+                            font-size: 14px;
+                        }
+                    }
                 }
 
                 &__img {
@@ -446,6 +465,12 @@
                         margin-right: 5px;
                     }
                 }
+            }
+
+            & .dt-guide__caption {
+                font-size: 14px;
+                font-weight: $font-weight-bold;
+                margin-bottom: 15px;
             }
         }
 
@@ -497,6 +522,11 @@
         & .dt-article__title {
             font-size: 20px;
             margin-bottom: 20px;
+        }
+
+        & .dt-paragraph__caption {
+            font-size: 14px;
+            font-family: $font-family-medium;
         }
 
         & .dt-paragraph {

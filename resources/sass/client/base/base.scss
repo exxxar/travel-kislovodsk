@@ -191,6 +191,18 @@ h6 {
             white-space: nowrap;
         }
     }
+
+    & .breadcrumbs__links-white {
+        opacity: 100%;
+
+        & .breadcrumb-item > a.breadcrumb-link {
+            color: $color-white !important;
+            text-decoration: none;
+            text-transform: uppercase;
+            white-space: nowrap;
+            font-size: 10px;
+        }
+    }
 }
 
 .dt-font--size-12 {
@@ -213,5 +225,22 @@ h6 {
 
     h5 {
         font-size: 10px !important;
+    }
+
+    .dt-page {
+        & .breadcrumbs__links-white {
+            opacity: 100%;
+
+            & .breadcrumb {
+                display: flex;
+                justify-content: center;
+            }
+
+            & .breadcrumb-item > a.breadcrumb-link {
+                font-size: 7.68px !important;
+                letter-spacing: 2px;
+                line-height: 10px;
+            }
+        }
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <header class="dt-page-header d-none d-md-block">
+    <header class="d-none d-md-block w-100 dt-page-header dt-page-header--bg-image">
         <div class="">
             <div class="dt-page-header__actions d-flex justify-content-between">
                 <div class="dt-actions__links align-items-center d-flex">
@@ -56,7 +56,7 @@
                             </a>
                         </li>
                         <li class="dt-btn-entry">
-                            <a href="#"><img width="18" height="18"
+                            <a href="/messages"><img width="18" height="18"
                                              v-lazy="'/img/icons/sms_FILL0_wght600_GRAD0_opsz48_white.svg'"
                                              alt="sms"></a>
                         </li>
