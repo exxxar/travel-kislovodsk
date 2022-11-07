@@ -2,7 +2,7 @@
     background: url("/img/excursions/1.png");
 
     .dt-preheader__content {
-        padding-top: 80px;
+        padding-top: 85px;
         padding-bottom: 80px;
 
         & .curved {
@@ -107,30 +107,16 @@
     }
 }
 
-/*.dt-input__wrapper {
-  & .dt-input__group {
-    background: white !important;
-  }
-
-  &:nth-child(2) {
-    & .dt-input__group {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
+.dt-page__preheader-search {
+    background: url('/img/header-bg.png') no-repeat;
+    background-size: cover;
+    height: 650px;
+    padding-top: 85px;
+    & .dt-search__title {
+        font-size: 46px;
+        font-family: $font-family-bold;
     }
-  }
-
-  &:nth-child(3) {
-    & .dt-input__group {
-      border-radius: 0;
-    }
-  }
-
-  &:nth-child(4) {
-    & .dt-input__group {
-      border-radius: 0;
-    }
-  }
-}*/
+}
 
 @media screen and (max-width: 768px) {
     .dt-page__preheader {

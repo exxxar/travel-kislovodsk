@@ -11,6 +11,16 @@
 }
 
 .dt-page-main {
+    & .dt-page__search-bg {
+        /*background: url('/img/header-bg.png') no-repeat;
+        background-size: cover;
+        height: 650px;
+        & .dt-search__title {
+            font-size: 46px;
+            font-family: $font-family-bold;
+        }*/
+    }
+
     & .dt-online-register {
         color: white;
         background: url("/img/3.jpg") no-repeat 50% 45%;

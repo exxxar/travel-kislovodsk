@@ -3,7 +3,7 @@
 @section("content")
     <modals-component></modals-component>
     <notifications-component></notifications-component>
-    <header-component></header-component>
+    <header-component ></header-component>
     <main-page></main-page>
     <footer-component></footer-component>
 @endsection
