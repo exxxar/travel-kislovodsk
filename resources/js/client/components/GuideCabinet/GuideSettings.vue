@@ -77,7 +77,7 @@
                     </svg>
                     <div class="add-additional-photo hide">
                         <img class="position-relative top-0 start-0 img rounded w-100 h-100"
-                             src="/img/travels/1.jpg" alt="">
+                             v-lazy="'/img/travels/1.jpg'" alt="">
                         <div class="delete rounded position-absolute justify-content-center align-items-center">
                             <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                                  height="20" width="20">

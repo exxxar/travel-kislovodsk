@@ -10,7 +10,7 @@
             </div>
             <div class="icon-wrap col-auto px-0 mx-0">
                 <div class="big-icon rounded-3 d-flex align-items-center justify-content-center bg-light">
-                    <img class="rounded-3 big-icon" src="/img/avatars/1.jpg" alt="">
+                    <img class="rounded-3 big-icon" v-lazy="'/img/avatars/1.jpg'" alt="">
                     <svg class="black opacity-15 hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                          height="23" width="23">
                         <path

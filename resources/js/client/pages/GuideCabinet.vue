@@ -360,7 +360,7 @@
                             </div>
                         </div>
                         <div class="excursion__image col-12 col-xl-4 px-0">
-                            <img class="cover w-100 h-100" src="/img/travels/2.jpg" alt=""/>
+                            <img class="cover w-100 h-100" v-lazy="'/img/travels/2.jpg'" alt=""/>
                         </div>
                     </div>
                     <div class="excursion row bg-white rounded mx-0 mb-4 overflow-hidden">
@@ -560,7 +560,7 @@
                             </div>
                         </div>
                         <div class="excursion__image col-12 col-xl-4 px-0">
-                            <img class="cover w-100 h-100" src="/img/travels/4.jpg" alt=""/>
+                            <img class="cover w-100 h-100" v-lazy="'/img/travels/4.jpg'" alt=""/>
                         </div>
                     </div>
                 </div>
@@ -719,7 +719,7 @@
                             </div>
                         </div>
                         <div class="excursion__image col-12 col-xl-4 px-0">
-                            <img class="cover w-100 h-100 archived" src="/img/travels/4.jpg" alt=""/>
+                            <img class="cover w-100 h-100 archived" v-lazy="'/img/travels/4.jpg'" alt=""/>
                         </div>
                     </div>
                     <div class="excursion row bg-white rounded mx-0 mb-4 overflow-hidden">
@@ -874,7 +874,7 @@
                             </div>
                         </div>
                         <div class="excursion__image col-12 col-xl-4 px-0">
-                            <img class="cover w-100 h-100 archived" src="/img/travels/4.jpg" alt=""/>
+                            <img class="cover w-100 h-100 archived" v-lazy="'/img/travels/4.jpg'" alt=""/>
                         </div>
                     </div>
                 </div>
@@ -950,7 +950,7 @@
                             </div>
                         </div>
                         <div class="excursion__image col-12 col-xl-4 px-0">
-                            <img class="cover w-100 h-100" src="/img/travels/2.jpg" alt=""/>
+                            <img class="cover w-100 h-100" v-lazy="'/img/travels/2.jpg'" alt=""/>
                         </div>
                     </div>
                     <div class="excursion row bg-white rounded mx-0 mb-4 overflow-hidden">
@@ -1022,7 +1022,7 @@
                             </div>
                         </div>
                         <div class="excursion__image col-12 col-xl-4 px-0">
-                            <img class="cover w-100 h-100" src="/img/travels/2.jpg" alt=""/>
+                            <img class="cover w-100 h-100" v-lazy="'/img/travels/2.jpg'" alt=""/>
                         </div>
                     </div>
                 </div>
@@ -1090,7 +1090,7 @@
                             </div>
                         </div>
                         <div class="excursion__image col-12 col-xl-4 px-0">
-                            <img class="cover w-100 h-100" src="/img/travels/2.jpg" alt=""/>
+                            <img class="cover w-100 h-100" v-lazy="'/img/travels/2.jpg'" alt=""/>
                         </div>
                     </div>
                     <div class="excursion row bg-white rounded mx-0 mb-4 overflow-hidden">
@@ -1154,7 +1154,7 @@
                             </div>
                         </div>
                         <div class="excursion__image col-12 col-xl-4 px-0">
-                            <img class="cover w-100 h-100" src="/img/travels/2.jpg" alt=""/>
+                            <img class="cover w-100 h-100" v-lazy="'/img/travels/2.jpg'" alt=""/>
                         </div>
                     </div>
                 </div>
@@ -1357,7 +1357,7 @@
                         </div>
                     </div>
                     <div class="current-excursion__image col-12 col-lg-4 px-0 mt-4 mt-lg-0">
-                        <img class="rounded cover w-100 h-100 rounded-end" src="/img/travels/2.jpg" alt=""/>
+                        <img class="rounded cover w-100 h-100 rounded-end" v-lazy="'/img/travels/2.jpg'" alt=""/>
                     </div>
                 </div>
                 <div class="accordion row mx-0 mb-6 gap-2">
@@ -1397,7 +1397,7 @@
                                 class="accordion__content-item row splitted px-4 py-3 align-items-center justify-content-between">
                                 <div class="col-auto col-xl-1 order-first">
                                     <div class="big-icon rounded d-flex align-items-center justify-content-center">
-                                        <img class="rounded big-icon" src="/img/avatars/1.jpg" alt="">
+                                        <img class="rounded big-icon" v-lazy="'/img/avatars/1.jpg'" alt="">
                                     </div>
                                 </div>
                                 <span class="col-5 col-xl-3 order-2 semibold ps-0">Петренко Николаев Алексей</span>
@@ -1425,7 +1425,7 @@
                                 class="accordion__content-item row splitted px-4 py-3 align-items-center justify-content-between">
                                 <div class="col-auto col-xl-1 order-first">
                                     <div class="big-icon rounded d-flex align-items-center justify-content-center">
-                                        <img class="rounded big-icon" src="/img/avatars/1.jpg" alt="">
+                                        <img class="rounded big-icon" v-lazy="'/img/avatars/1.jpg'" alt="">
                                     </div>
                                 </div>
                                 <span class="col-5 col-xl-3 order-2 semibold ps-0">Петренко Николаев Алексей</span>
@@ -1453,7 +1453,7 @@
                                 class="accordion__content-item row splitted px-4 py-3 align-items-center justify-content-between">
                                 <div class="col-auto col-xl-1 order-first">
                                     <div class="big-icon rounded d-flex align-items-center justify-content-center">
-                                        <img class="rounded big-icon" src="/img/avatars/1.jpg" alt="">
+                                        <img class="rounded big-icon" v-lazy="'/img/avatars/1.jpg'" alt="">
                                     </div>
                                 </div>
                                 <span class="col-5 col-xl-3 order-2 semibold ps-0">Петренко Николаев Алексей</span>
@@ -1481,7 +1481,7 @@
                                 class="accordion__content-item row splitted px-4 py-3 align-items-center justify-content-between">
                                 <div class="col-auto col-xl-1 order-first">
                                     <div class="big-icon rounded d-flex align-items-center justify-content-center">
-                                        <img class="rounded big-icon" src="/img/avatars/1.jpg" alt="">
+                                        <img class="rounded big-icon" v-lazy="'/img/avatars/1.jpg'" alt="">
                                     </div>
                                 </div>
                                 <span class="col-5 col-xl-3 order-2 semibold ps-0">Петренко Николаев Алексей</span>
@@ -2386,7 +2386,7 @@
                     <div class="comment__avatar col-auto row mx-0 px-0 align-items-center">
                         <div
                             class="comment__avatar big-icon col-auto px-0 rounded d-flex align-items-center justify-content-center bg-white">
-                            <img class="rounded big-icon" src="/img/avatars/2.jpg" alt="">
+                            <img class="rounded big-icon" v-lazy="'/img/avatars/2.jpg'" alt="">
                         </div>
                         <div class="col hide-md">
                             <div class="row lh-1">
@@ -2647,10 +2647,10 @@
                             sit amet consectetur adipisicing elit. Hic, quibusdam. Veritatis, est assumenda quas
                             obcaecati corrupti maiores enim quasi!</p>
                         <div class="comment__images row-cols-auto d-flex mt-3">
-                            <img class="comment__image col-auto rounded" src="/img/travels/2.jpg" alt="">
-                            <img class="comment__image col-auto rounded" src="/img/travels/5.jpg" alt="">
-                            <img class="comment__image col-auto rounded" src="/img/travels/1.jpg" alt="">
-                            <img class="comment__image col-auto rounded" src="/img/travels/3.jpg" alt="">
+                            <img class="comment__image col-auto rounded" v-lazy="'/img/travels/2.jpg'" alt="">
+                            <img class="comment__image col-auto rounded" v-lazy="'/img/travels/5.jpg'" alt="">
+                            <img class="comment__image col-auto rounded" v-lazy="'/img/travels/1.jpg'" alt="">
+                            <img class="comment__image col-auto rounded" v-lazy="'/img/travels/3.jpg'" alt="">
                         </div>
                     </div>
                 </div>
@@ -2926,7 +2926,7 @@
                     <div class="comment__avatar col-auto row mx-0 px-0">
                         <div
                             class="comment__avatar big-icon col-auto px-0 rounded d-flex align-items-center justify-content-center bg-white">
-                            <img class="rounded big-icon" src="/img/avatars/7.jpg" alt="">
+                            <img class="rounded big-icon" v-lazy="'/img/avatars/7.jpg'" alt="">
                         </div>
                         <div class="col hide-md">
                             <div class="row lh-1">
@@ -3230,7 +3230,7 @@
                     <div class="row mx-0 row-cols-1 row-cols-xl-3 gap-3 justify-content-center">
                         <div class="object row col bg-white rounded mx-0 px-0">
                             <div class="col-12 px-0">
-                                <img class="cover w-100 rounded-top" src="/img/travels/2.jpg" alt=""/>
+                                <img class="cover w-100 rounded-top" v-lazy="'/img/travels/2.jpg'" alt=""/>
                             </div>
                             <div class="col-12 px-0">
                                 <div class="px-5 py-4">
@@ -3277,7 +3277,7 @@
                         </div>
                         <div class="object row col bg-white rounded mx-0 px-0">
                             <div class="col-12 px-0">
-                                <img class="cover w-100 rounded-top" src="/img/travels/2.jpg" alt=""/>
+                                <img class="cover w-100 rounded-top" v-lazy="'/img/travels/2.jpg'" alt=""/>
                             </div>
                             <div class="col-12 px-0">
                                 <div class="px-5 py-4">
@@ -3324,7 +3324,7 @@
                         </div>
                         <div class="object row col bg-white rounded mx-0 px-0">
                             <div class="col-12 px-0">
-                                <img class="cover w-100 rounded-top" src="/img/travels/2.jpg" alt=""/>
+                                <img class="cover w-100 rounded-top" v-lazy="'/img/travels/2.jpg'" alt=""/>
                             </div>
                             <div class="col-12 px-0">
                                 <div class="px-5 py-4">
@@ -3371,7 +3371,7 @@
                         </div>
                         <div class="object row col bg-white rounded mx-0 px-0">
                             <div class="col-12 px-0">
-                                <img class="cover w-100 rounded-top" src="/img/travels/2.jpg" alt=""/>
+                                <img class="cover w-100 rounded-top" v-lazy="'/img/travels/2.jpg'" alt=""/>
                             </div>
                             <div class="col-12 px-0">
                                 <div class="px-5 py-4">
@@ -3418,7 +3418,7 @@
                         </div>
                         <div class="object row col bg-white rounded mx-0 px-0">
                             <div class="col-12 px-0">
-                                <img class="cover w-100 rounded-top" src="/img/travels/2.jpg" alt=""/>
+                                <img class="cover w-100 rounded-top" v-lazy="'/img/travels/2.jpg'" alt=""/>
                             </div>
                             <div class="col-12 px-0">
                                 <div class="px-5 py-4">
@@ -3465,7 +3465,7 @@
                         </div>
                         <div class="object row col bg-white rounded mx-0 px-0">
                             <div class="col-12 px-0">
-                                <img class="cover w-100 rounded-top" src="/img/travels/2.jpg" alt=""/>
+                                <img class="cover w-100 rounded-top" v-lazy="'/img/travels/2.jpg'" alt=""/>
                             </div>
                             <div class="col-12 px-0">
                                 <div class="px-5 py-4">
@@ -3537,7 +3537,7 @@
                     <div class="row mx-0 row-cols-1 row-cols-xl-3 gap-3 justify-content-center">
                         <div class="object row col bg-white rounded mx-0 px-0">
                             <div class="col-12 px-0">
-                                <img class="cover w-100 rounded-top archived" src="/img/travels/2.jpg" alt=""/>
+                                <img class="cover w-100 rounded-top archived" v-lazy="'/img/travels/2.jpg'" alt=""/>
                             </div>
                             <div class="col-12 px-0">
                                 <div class="px-5 py-4">
@@ -3561,7 +3561,7 @@
                         </div>
                         <div class="object row col bg-white rounded mx-0 px-0">
                             <div class="col-12 px-0">
-                                <img class="cover w-100 rounded-top archived" src="/img/travels/2.jpg" alt=""/>
+                                <img class="cover w-100 rounded-top archived" v-lazy="'/img/travels/2.jpg'" alt=""/>
                             </div>
                             <div class="col-12 px-0">
                                 <div class="px-5 py-4">
@@ -3696,7 +3696,7 @@
                             </svg>
                             <div class="add-additional-photo hide">
                                 <img class="position-relative top-0 start-0 img rounded w-100 h-100"
-                                     src="/img/travels/1.jpg" alt="">
+                                     v-lazy="'/img/travels/1.jpg'" alt="">
                                 <div class="delete rounded position-absolute justify-content-center align-items-center">
                                     <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                                          height="20" width="20">
@@ -4395,7 +4395,7 @@
                             </svg>
                             <div class="add-additional-photo hide">
                                 <img class="position-relative top-0 start-0 img rounded w-100 h-100"
-                                     src="/img/travels/1.jpg" alt="">
+                                     v-lazy="'/img/travels/1.jpg'" alt="">
                                 <div class="delete rounded position-absolute justify-content-center align-items-center">
                                     <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                                          height="20" width="20">

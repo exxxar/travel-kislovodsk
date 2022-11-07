@@ -17,7 +17,7 @@
                                xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAOCAYAAAAi2ky3AAAAoklEQVQoka3SvwpBYRQA8B/dFAaewztIFhPlCWxeTNmMDBaLwWt4AJOUTfrKV7fbxedeZz2nX+dfY3mcqxEdZLhmNZEtuphUhSIyxh2D5h+QKU6/QmXIISQi1EarKhKhULDD5gP2EYnQECPM3mBfkQjtscCjBEtC8jtal2D9VMTrK+WwEKsXdkYvBSlCRSwZyY9WxMKYt1SkrKM8Fo5wSUHgCWEEMQufwN2RAAAAAElFTkSuQmCC"/>
                     </svg>
                 </div>
-                <img class="dt-excursion__image" :src="data.image" alt="">
+                <img class="dt-excursion__image" v-lazy="data.image" alt="">
                 <div class="dt-price d-flex justify-content-between position-absolute w-100 align-items-end">
                     <h5 class="align-items-end d-flex dt-price__sum text-white">
                         <span class="fw-bold text-white me-2">{{ data.price }} руб.</span>
@@ -41,11 +41,11 @@
                     <h5 class="fw-bold color-black">{{ data.rating }}</h5>
                 </div>
                 <div class="dt-rating__star d-flex">
-                    <img src="/img/icons/star_blue.svg" alt="">
-                    <img src="/img/icons/star_blue.svg" alt="">
-                    <img src="/img/icons/star_blue.svg" alt="">
-                    <img src="/img/icons/star_blue.svg" alt="">
-                    <img src="/img/icons/star_blue.svg" alt="">
+                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
                 </div>
             </div>
             <div class="card-body__excursion">
@@ -58,7 +58,7 @@
             </div>
             <div class="card-body__excursion-date d-flex justify-content-between">
                 <div class="dt-calendar d-flex align-items-center">
-                    <img src="/img/icons/calendar_today_FILL0_wght400_GRAD0_opsz48_blue.svg"
+                    <img v-lazy="'/img/icons/calendar_today_FILL0_wght400_GRAD0_opsz48_blue.svg'"
                          alt="calendar" style="width: 18px; height: 16px" class="me-2">
                     <h5 class="text-muted-black d-lg-block d-md-block d-none">ближайшая
                         дата</h5>

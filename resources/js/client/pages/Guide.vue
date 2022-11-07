@@ -13,11 +13,11 @@
                         </div>
                         <p class="dt-preheader__title">Имя Фамилия</p>
                         <div class="curved">
-                            <img src="/img/curved_strip.png" alt="">
+                            <img v-lazy="'/img/curved_strip.png'" alt="">
                         </div>
                         <div class="dt-preheader__avatar d-flex justify-content-center">
                             <div class="dt-avatar__img">
-                                <img src="/img/avatars/7.jpg" alt="">
+                                <img v-lazy="'/img/avatars/7.jpg'" alt="">
                             </div>
                         </div>
                     </div>
@@ -91,11 +91,11 @@
                             <div class="dt-article__reviews-count d-flex align-items-center">
                                 <p class="dt-rating-of fw-bold me-3">4.86 из 5</p>
                                 <div class="dt-rating__star d-flex w-auto me-3">
-                                    <img src="/img/icons/star_blue.svg" alt="">
-                                    <img src="/img/icons/star_blue.svg" alt="">
-                                    <img src="/img/icons/star_blue.svg" alt="">
-                                    <img src="/img/icons/star_blue.svg" alt="">
-                                    <img src="/img/icons/star_blue.svg" alt="">
+                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
                                 </div>
                                 <p class="dt-count-marks fw-thin">43 оценки</p>
                             </div>
@@ -103,45 +103,45 @@
                         <div class="dt-reviews__rating">
                             <div class="dt-rating__item d-flex align-items-center">
                                 <div class="dt-rating__star d-flex me-4">
-                                    <img src="/img/icons/star_grey.svg" alt="">
-                                    <img src="/img/icons/star_grey.svg" alt="">
-                                    <img src="/img/icons/star_grey.svg" alt="">
-                                    <img src="/img/icons/star_grey.svg" alt="">
-                                    <img src="/img/icons/star_grey.svg" alt="">
+                                   <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
                                 </div>
                                 <div class="loading loading--percently-80 me-2"></div>
                                 <p class="dt-main-text-thin">1090</p>
                             </div>
                             <div class="dt-rating__item d-flex align-items-center">
                                 <div class="dt-rating__star d-flex me-4">
-                                    <img src="/img/icons/star_grey.svg" alt="">
-                                    <img src="/img/icons/star_grey.svg" alt="">
-                                    <img src="/img/icons/star_grey.svg" alt="">
-                                    <img src="/img/icons/star_grey.svg" alt="">
+                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
+                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
+                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
+                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
                                 </div>
                                 <div class="loading loading--percently-40 me-2"></div>
                                 <p class="dt-main-text-thin">140</p>
                             </div>
                             <div class="dt-rating__item d-flex align-items-center">
                                 <div class="dt-rating__star d-flex me-4">
-                                    <img src="/img/icons/star_grey.svg" alt="">
-                                    <img src="/img/icons/star_grey.svg" alt="">
-                                    <img src="/img/icons/star_grey.svg" alt="">
+                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
+                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
+                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
                                 </div>
                                 <div class="loading loading--percently-20 me-2"></div>
                                 <p class="dt-main-text-thin">21</p>
                             </div>
                             <div class="dt-rating__item d-flex align-items-center">
                                 <div class="dt-rating__star d-flex me-4">
-                                    <img src="/img/icons/star_grey.svg" alt="">
-                                    <img src="/img/icons/star_grey.svg" alt="">
+                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
+                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
                                 </div>
                                 <div class="loading me-2"></div>
                                 <p class="dt-main-text-thin">0</p>
                             </div>
                             <div class="dt-rating__item d-flex align-items-center">
                                 <div class="dt-rating__star d-flex me-4">
-                                    <img src="/img/icons/star_grey.svg" alt="">
+                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
                                 </div>
                                 <div class="loading loading--percently-10 me-2"></div>
                                 <p class="dt-main-text-thin">4</p>
@@ -155,7 +155,7 @@
                         <div class="dt-reviews__content">
                             <div class="dt-review__item d-flex">
                                 <div class="dt-review__avatar">
-                                    <img src="/img/avatars/2.jpg" alt="">
+                                    <img v-lazy="'/img/avatars/2.jpg'" alt="">
                                 </div>
                                 <div class="dt-review__header d-lg-none d-block">
                                     <div class="dt-header__user">
@@ -163,11 +163,11 @@
                                         <p class="dt-user__name fw-semibold">Екатерина Иванова</p>
                                     </div>
                                     <div class="dt-rating__star w-auto d-flex">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
+                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
                                     </div>
                                 </div>
                                 <div class="dt-review__block flex-grow-1">
@@ -177,11 +177,11 @@
                                             <p class="dt-user__name fw-semibold">Екатерина Иванова</p>
                                         </div>
                                         <div class="dt-rating__star w-auto d-flex">
-                                            <img src="/img/icons/star_blue.svg" alt="">
-                                            <img src="/img/icons/star_blue.svg" alt="">
-                                            <img src="/img/icons/star_blue.svg" alt="">
-                                            <img src="/img/icons/star_blue.svg" alt="">
-                                            <img src="/img/icons/star_blue.svg" alt="">
+                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
                                         </div>
                                     </div>
                                     <p class="dt-review__description dt-main-text-thin">
@@ -194,16 +194,16 @@
 
                                     <div class="dt-form dt-review__photos">
                                         <div class="dt-photos__item p-0">
-                                            <img src="/img/travels/1.jpg">
+                                            <img v-lazy="'/img/travels/1.jpg'">
                                         </div>
                                         <div class="dt-photos__item p-0">
-                                            <img src="/img/travels/2.jpg">
+                                            <img v-lazy="'/img/travels/2.jpg'">
                                         </div>
                                         <div class="dt-photos__item p-0">
-                                            <img src="/img/travels/3.jpg">
+                                            <img v-lazy="'/img/travels/3.jpg'">
                                         </div>
                                         <div class="dt-photos__item p-0">
-                                            <img src="/img/travels/4.jpg">
+                                            <img v-lazy="'/img/travels/4.jpg'">
                                         </div>
                                     </div>
                                 </div>
@@ -223,11 +223,11 @@
                                         <p class="dt-user__name fw-semibold">Николаев Алексей</p>
                                     </div>
                                     <div class="dt-rating__star w-auto d-flex">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
+                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
                                     </div>
                                 </div>
                                 <div class="dt-review__block flex-grow-1">
@@ -237,11 +237,11 @@
                                             <p class="dt-user__name fw-semibold">Николаев Алексей</p>
                                         </div>
                                         <div class="dt-rating__star w-auto d-flex">
-                                            <img src="/img/icons/star_blue.svg" alt="">
-                                            <img src="/img/icons/star_blue.svg" alt="">
-                                            <img src="/img/icons/star_blue.svg" alt="">
-                                            <img src="/img/icons/star_blue.svg" alt="">
-                                            <img src="/img/icons/star_blue.svg" alt="">
+                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
                                         </div>
                                     </div>
                                     <p class="dt-review__description dt-main-text-thin">
@@ -252,7 +252,7 @@
                             </div>
                             <div class="dt-review__item d-flex">
                                 <div class="dt-review__avatar">
-                                    <img src="/img/avatars/2.jpg" alt="">
+                                    <img v-lazy="'/img/avatars/2.jpg'" alt="">
                                 </div>
                                 <div class="dt-review__header d-lg-none d-block">
                                     <div class="dt-header__user">
@@ -260,11 +260,11 @@
                                         <p class="dt-user__name fw-semibold">Имя Отчество</p>
                                     </div>
                                     <div class="dt-rating__star w-auto d-flex">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
+                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
                                     </div>
                                 </div>
                                 <div class="dt-review__block flex-grow-1">
@@ -274,11 +274,11 @@
                                             <p class="dt-user__name fw-semibold">Имя Отчество</p>
                                         </div>
                                         <div class="dt-rating__star w-auto d-flex">
-                                            <img src="/img/icons/star_blue.svg" alt="">
-                                            <img src="/img/icons/star_blue.svg" alt="">
-                                            <img src="/img/icons/star_blue.svg" alt="">
-                                            <img src="/img/icons/star_blue.svg" alt="">
-                                            <img src="/img/icons/star_blue.svg" alt="">
+                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
                                         </div>
                                     </div>
                                     <p class="dt-review__description dt-main-text-thin">

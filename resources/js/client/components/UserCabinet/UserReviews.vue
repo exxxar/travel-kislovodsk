@@ -22,11 +22,11 @@
                                 </p>
                             </div>
                             <div class="dt-rating__star w-auto d-flex">
-                                <img src="dist/images/icons/star_blue.svg" alt="">
-                                <img src="dist/images/icons/star_blue.svg" alt="">
-                                <img src="dist/images/icons/star_blue.svg" alt="">
-                                <img src="dist/images/icons/star_blue.svg" alt="">
-                                <img src="dist/images/icons/star_blue.svg" alt="">
+                                <img v-lazy="'/images/icons/star_blue.svg'" alt="">
+                                <img v-lazy="'/images/icons/star_blue.svg'" alt="">
+                                <img v-lazy="'/images/icons/star_blue.svg'" alt="">
+                                <img v-lazy="'/images/icons/star_blue.svg'" alt="">
+                                <img v-lazy="'/images/icons/star_blue.svg'" alt="">
                             </div>
                         </div>
                         <p class="dt-review__description dt-main-text-thin">
@@ -38,16 +38,16 @@
                         </p>
                         <div class="dt-review__photos">
                             <div class="dt-photos__item">
-                                <img src="dist/images/travels/1.jpg">
+                                <img v-lazy="'/images/travels/1.jpg'">
                             </div>
                             <div class="dt-photos__item">
-                                <img src="dist/images/travels/2.jpg">
+                                <img v-lazy="'/images/travels/2.jpg'">
                             </div>
                             <div class="dt-photos__item">
-                                <img src="dist/images/travels/3.jpg">
+                                <img v-lazy="'/images/travels/3.jpg'">
                             </div>
                             <div class="dt-photos__item">
-                                <img src="dist/images/travels/4.jpg">
+                                <img v-lazy="'/images/travels/4.jpg'">
                             </div>
                         </div>
                     </div>
@@ -71,11 +71,11 @@
                                 </p>
                             </div>
                             <div class="dt-rating__star w-auto d-flex">
-                                <img src="dist/images/icons/star_blue.svg" alt="">
-                                <img src="dist/images/icons/star_blue.svg" alt="">
-                                <img src="dist/images/icons/star_blue.svg" alt="">
-                                <img src="dist/images/icons/star_blue.svg" alt="">
-                                <img src="dist/images/icons/star_blue.svg" alt="">
+                                <img v-lazy="'/images/icons/star_blue.svg'" alt="">
+                                <img v-lazy="'/images/icons/star_blue.svg'" alt="">
+                                <img v-lazy="'/images/icons/star_blue.svg'" alt="">
+                                <img v-lazy="'/images/icons/star_blue.svg'" alt="">
+                                <img v-lazy="'/images/icons/star_blue.svg'" alt="">
                             </div>
                         </div>
                         <p class="dt-review__description dt-main-text-thin">
@@ -87,16 +87,16 @@
                         </p>
                         <div class="dt-review__photos">
                             <div class="dt-photos__item">
-                                <img src="dist/images/travels/1.jpg">
+                                <img v-lazy="'/images/travels/1.jpg'">
                             </div>
                             <div class="dt-photos__item">
-                                <img src="dist/images/travels/2.jpg">
+                                <img v-lazy="'/images/travels/2.jpg'">
                             </div>
                             <div class="dt-photos__item">
-                                <img src="dist/images/travels/3.jpg">
+                                <img v-lazy="'/images/travels/3.jpg'">
                             </div>
                             <div class="dt-photos__item">
-                                <img src="dist/images/travels/4.jpg">
+                                <img v-lazy="'/images/travels/4.jpg'">
                             </div>
                         </div>
                     </div>

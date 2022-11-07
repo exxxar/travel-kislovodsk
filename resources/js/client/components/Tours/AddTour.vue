@@ -231,7 +231,7 @@
                             <path d="M22 38.5V26H9.5v-4H22V9.5h4V22h12.5v4H26v12.5Z"/>
                         </svg>
                         <div class="add-main-photo hide">
-                            <img class="img rounded w-100 h-100" src="/img/travels/5.jpg" alt="">
+                            <img class="img rounded w-100 h-100" v-lazy="'/img/travels/5.jpg'" alt="">
                             <div
                                 class="delete rounded position-absolute justify-content-center align-items-center">
                                 <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
@@ -276,7 +276,7 @@
                         </svg>
                         <div class="add-additional-photo hide">
                             <img class="position-relative top-0 start-0 img rounded w-100 h-100"
-                                 src="/img/travels/1.jpg" alt="">
+                                 v-lazy="'/img/travels/1.jpg'" alt="">
                             <div
                                 class="delete rounded position-absolute justify-content-center align-items-center">
                                 <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
@@ -294,7 +294,7 @@
                             <path d="M22 38.5V26H9.5v-4H22V9.5h4V22h12.5v4H26v12.5Z"/>
                         </svg>
                         <div class="add-additional-photo hide">
-                            <img class="img rounded w-100 h-100" src="/img/travels/5.jpg" alt="">
+                            <img class="img rounded w-100 h-100" v-lazy="'/img/travels/5.jpg'" alt="">
                             <div
                                 class="delete rounded position-absolute justify-content-center align-items-center">
                                 <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
@@ -312,7 +312,7 @@
                             <path d="M22 38.5V26H9.5v-4H22V9.5h4V22h12.5v4H26v12.5Z"/>
                         </svg>
                         <div class="add-additional-photo hide">
-                            <img class="img rounded w-100 h-100" src="/img/travels/3.jpg" alt="">
+                            <img class="img rounded w-100 h-100" v-lazy="'/img/travels/3.jpg'" alt="">
                             <div
                                 class="delete rounded position-absolute justify-content-center align-items-center">
                                 <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
@@ -330,7 +330,7 @@
                             <path d="M22 38.5V26H9.5v-4H22V9.5h4V22h12.5v4H26v12.5Z"/>
                         </svg>
                         <div class="add-additional-photo hide">
-                            <img class="img rounded w-100 h-100" src="/img/travels/4.jpg" alt="">
+                            <img class="img rounded w-100 h-100" v-lazy="'/img/travels/4.jpg'" alt="">
                             <div
                                 class="delete rounded position-absolute justify-content-center align-items-center">
                                 <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
@@ -733,7 +733,7 @@
                                 </svg>
                                 <div class="add-additional-photo hide">
                                     <img class="position-relative top-0 start-0 img rounded w-100 h-100"
-                                         src="/img/travels/1.jpg" alt="">
+                                         v-lazy="'/img/travels/1.jpg'" alt="">
                                     <div
                                         class="delete rounded position-absolute justify-content-center align-items-center">
                                         <svg class="white" xmlns="http://www.w3.org/2000/svg"
@@ -854,7 +854,7 @@
                                 </svg>
                                 <div class="add-additional-photo hide">
                                     <img class="position-relative top-0 start-0 img rounded w-100 h-100"
-                                         src="/img/travels/1.jpg" alt="">
+                                         v-lazy="'/img/travels/1.jpg'" alt="">
                                     <div
                                         class="delete rounded position-absolute justify-content-center align-items-center">
                                         <svg class="white" xmlns="http://www.w3.org/2000/svg"

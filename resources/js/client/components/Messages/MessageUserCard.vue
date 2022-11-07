@@ -3,7 +3,7 @@
          :class="{'unread': user.unread}">
         <div class="icon-wrap col-auto px-0 mx-0">
             <div class="round-icon rounded-3 d-flex align-items-center justify-content-center bg-light">
-                <img class="rounded-3 round-icon" :class="{'hide': !user.img}" :src="user.img" alt="">
+                <img class="rounded-3 round-icon" :class="{'hide': !user.img}" v-lazy="user.img" alt="">
                 <svg v-if="!user.img" class="black opacity-15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
                      height="23" width="23">
                     <path
