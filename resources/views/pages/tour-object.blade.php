@@ -1,4 +1,4 @@
-tours-search.blade.php@extends("layouts.app")
+@extends("layouts.app")
 
 @section("content")
     <modals-component></modals-component>
