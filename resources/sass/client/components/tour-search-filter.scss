@@ -1,0 +1,41 @@
+.dt-page {
+    &__search-excursion {
+        & .dt-direction-excursion:not(:last-child) {
+            margin-right: 8px;
+        }
+
+        & .dt-direction-excursion:last-child {
+            margin-right: 25px;
+        }
+
+        & .dt-btn-blue {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        & .dt-filters {
+            & .dt-list {
+                gap: 15px;
+
+                & > a {
+                    font-family: $font-family-regular;
+                }
+            }
+            &--links-white {
+                & > * {
+                    color: $color-white;
+                }
+                & .dt-list {
+                    a {
+                        color: $color-white;
+                    }
+                }
+            }
+        }
+
+        & .dt-border-right-gray {
+            border-right: 1px solid;
+            border-right-style: ridge;
+        }
+    }
+}

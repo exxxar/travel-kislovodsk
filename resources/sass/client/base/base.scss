@@ -209,6 +209,45 @@ h6 {
     font-size: 12px !important;
 }
 
+.dt-wrapper--black-50 {
+    background: $color-black;
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+}
+
+.dt-text-muted--white-50 {
+    color: $color-white;
+    opacity: 0.5;
+}
+
+.dt-none-link--white-50:hover {
+    color: $color-white;
+    opacity: 0.5;
+}
+
+.dt-link-filter--hover-blue {
+    font-size: 12px !important;
+    border-bottom: 1px solid $color-light-gray-link !important;
+    font-family: $font-family-regular;
+
+    &:hover {
+        border-bottom-color: $color-blue !important;
+        color: inherit;
+    }
+}
+
+.dt-link-filter--hover-red {
+    font-size: 12px !important;
+    border-bottom: 1px solid $color-light-red-link !important;
+    font-family: $font-family-regular;
+
+    &:hover {
+        border-bottom-color: $color-red !important;
+        color: inherit;
+    }
+}
+
 @media screen and (max-width: 768px) {
     h1 {
         font-size: 20px !important;

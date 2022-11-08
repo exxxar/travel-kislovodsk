@@ -27,21 +27,6 @@
         }
     }
 
-    &__search-excursion {
-        & .dt-direction-excursion:not(:last-child) {
-            margin-right: 8px;
-        }
-
-        & .dt-direction-excursion:last-child {
-            margin-right: 25px;
-        }
-
-        & .dt-btn-blue {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-    }
-
     &__type-excursions {
         margin-top: 80px;
     }

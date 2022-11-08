@@ -1,18 +1,23 @@
 <template>
     <div class="dt-page__search-excursion">
         <div class="d-flex dt-top-info-block--three-input">
-            <div class="d-flex align-items-center">
-                <h5 class="dt-direction-excursion">Куда?</h5>
-                <div class="dt-direction-excursion d-flex">
-                    <label class="dt-switch">
-                        <input type="checkbox">
-                        <span class="dt-slider"></span>
-                    </label>
+            <div class="d-flex flex-wrap align-items-end">
+                <div class="switcher d-flex align-items-center">
+                    <h5 class="dt-direction-excursion">Куда?</h5>
+                    <div class="dt-direction-excursion d-flex">
+                        <label class="dt-switch d-flex">
+                            <input type="checkbox">
+                            <span class="dt-slider"></span>
+                        </label>
+                    </div>
+                    <h5 class="dt-direction-excursion">Откуда?</h5>
                 </div>
-                <h5 class="dt-direction-excursion">Откуда?</h5>
+                <div class="dt-filters" :class="{'dt-filters--links-white': isLinksWhite}">
+                    <a href="#" class="dt-link-filter--hover-blue">Смотреть карту</a>
+                </div>
             </div>
             <div class="dt-input__wrapper">
-                <div class="dt-input__group bg-white">
+                <div class="dt-input__group bg-white dt-border-right-gray">
                     <div class="d-flex flex-wrap">
                         <label class="dt-label fw-thin">Куда?</label>
                         <input type="text" name="name" class="dt-input fw-semibold h-100" autocomplete="off"
@@ -28,9 +33,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="dt-filters" :class="{'dt-filters--links-white': isLinksWhite}">
+                    <div class="d-flex dt-list">
+                        <a href="#" class="dt-link-filter--hover-blue">Некоторый город</a>
+                        <a href="#" class="dt-link-filter--hover-blue">Ставрополь</a>
+                        <a href="#" class="dt-link-filter--hover-blue">Направление</a>
+                    </div>
+                </div>
             </div>
             <div class="dt-input__wrapper">
-                <div class="dt-input__group bg-white">
+                <div class="dt-input__group bg-white dt-border-right-gray">
                     <input type="text" name="name" class="dt-input fw-semibold" value="Когда?" autocomplete="off"
                            disabled>
                     <div class="dt-input__group-item">
@@ -41,6 +53,13 @@
                                     d="M9.25 44.7q-1.6 0-2.775-1.175Q5.3 42.35 5.3 40.75v-30.5q0-1.65 1.175-2.825Q7.65 6.25 9.25 6.25h3v-3H16v3h16v-3h3.75v3h3q1.65 0 2.825 1.175Q42.75 8.6 42.75 10.25v30.5q0 1.6-1.175 2.775Q40.4 44.7 38.75 44.7Zm0-3.95h29.5V19.5H9.25v21.25Zm0-24.25h29.5v-6.25H9.25Zm0 0v-6.25 6.25ZM24 28.15q-.9 0-1.525-.625Q21.85 26.9 21.85 26q0-.9.625-1.525.625-.625 1.525-.625.9 0 1.525.625.625.625.625 1.525 0 .9-.625 1.525-.625.625-1.525.625Zm-8 0q-.9 0-1.525-.625Q13.85 26.9 13.85 26q0-.9.625-1.525.625-.625 1.525-.625.9 0 1.525.625.625.625.625 1.525 0 .9-.625 1.525-.625.625-1.525.625Zm16 0q-.9 0-1.525-.625Q29.85 26.9 29.85 26q0-.9.625-1.525.625-.625 1.525-.625.9 0 1.525.625.625.625.625 1.525 0 .9-.625 1.525-.625.625-1.525.625Zm-8 8q-.9 0-1.525-.625Q21.85 34.9 21.85 34q0-.9.625-1.525.625-.625 1.525-.625.9 0 1.525.625.625.625.625 1.525 0 .9-.625 1.525-.625.625-1.525.625Zm-8 0q-.9 0-1.525-.625Q13.85 34.9 13.85 34q0-.9.625-1.525.625-.625 1.525-.625.9 0 1.525.625.625.625.625 1.525 0 .9-.625 1.525-.625.625-1.525.625Zm16 0q-.9 0-1.525-.625Q29.85 34.9 29.85 34q0-.9.625-1.525.625-.625 1.525-.625.9 0 1.525.625.625.625.625 1.525 0 .9-.625 1.525-.625.625-1.525.625Z"/>
                             </svg>
                         </div>
+                    </div>
+                </div>
+                <div class="dt-filters" :class="{'dt-filters--links-white': isLinksWhite}">
+                    <div class="d-flex dt-list">
+                        <a href="#" class="dt-link-filter--hover-blue">Завтра</a>
+                        <a href="#" class="dt-link-filter--hover-blue">В ближайшие 3 дня</a>
+                        <a href="#" class="dt-link-filter--hover-blue">Эти выходные</a>
                     </div>
                 </div>
             </div>
@@ -65,18 +84,25 @@
                 <span>Найти экскурсии</span>
             </button>
         </div>
-        <div class="row">
-            <div class="col-2">
-
-            </div>
-            <div class="col-3">
-                <div class="d-flex">
-                    <h6>Некоторый город</h6>
-                    <h6>Ставрополь</h6>
-                    <h6>Направление</h6>
-                </div>
-            </div>
-            <div class="col-3"></div>
-        </div>
     </div>
 </template>
+<script>
+export default {
+    props: {
+        isLinksWhite: {
+            type: Boolean,
+            default: false
+        }
+    }
+}
+</script>
+<script>
+export default {
+    props: {
+        isLinksWhite: {
+            type: Boolean,
+            default: false
+        }
+    }
+}
+</script>
