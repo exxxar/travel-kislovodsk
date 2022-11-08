@@ -96,13 +96,3 @@ export default {
     }
 }
 </script>
-<script>
-export default {
-    props: {
-        isLinksWhite: {
-            type: Boolean,
-            default: false
-        }
-    }
-}
-</script>

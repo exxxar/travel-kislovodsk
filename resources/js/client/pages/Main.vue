@@ -44,10 +44,3 @@ export default {
     components: {TourSearchFilter}
 }
 </script>
-<script>
-import TourSearchFilter from "@/components/Tours/TourSearchFilter.vue";
-
-export default {
-    components: {TourSearchFilter}
-}
-</script>
