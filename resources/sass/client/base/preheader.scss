@@ -108,13 +108,17 @@
 }
 
 .dt-page__preheader-search {
-    background: url('/img/header-bg.png') no-repeat;
     background-size: cover;
+    background: $color-light-black url('/img/header-bg.png') no-repeat center 60%;
     height: 650px;
-    padding-top: 85px;
-    & .dt-search__title {
-        font-size: 46px;
-        font-family: $font-family-bold;
+    & .dt-search__content {
+        padding-top: 85px;
+        & .dt-search__title {
+            font-size: 46px;
+            font-family: $font-family-bold;
+            color: white;
+            margin-bottom: 45px;
+        }
     }
 }
 

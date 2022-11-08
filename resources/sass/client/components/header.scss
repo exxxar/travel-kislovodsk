@@ -24,8 +24,14 @@
         }
 
         & .dt-links__list {
-            & li:not(:last-child) {
-                padding-right: 40px;
+            gap: 40px;
+
+            & li {
+                letter-spacing: 3px;
+                & a {
+                    font-size: 10px;
+                    font-family: $font-family-bold;
+                }
             }
         }
 
@@ -33,10 +39,15 @@
             & .dt-btn-entry {
                 padding: 22px 32px;
                 border-left: 1px solid $color-light-gray;
-                // border-right: 1px solid $color-light-gray;
 
                 &:last-child {
                     border-right: none;
+                }
+
+                & .dt-btn__text-entry {
+                    letter-spacing: 2px;
+                    font-family: $font-family-bold;
+                    font-size: 10px;
                 }
             }
         }

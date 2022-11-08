@@ -25,10 +25,13 @@
     }
 
     &--weather {
-        height: 40px !important;
+        padding: 15px !important;
+        & button {
+            height: 40px !important;
 
-        img {
-            max-height: 39px;
+            img {
+                max-height: 39px;
+            }
         }
     }
 

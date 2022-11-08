@@ -11,14 +11,10 @@
 }
 
 .dt-page-main {
-    & .dt-page__search-bg {
-        /*background: url('/img/header-bg.png') no-repeat;
-        background-size: cover;
-        height: 650px;
-        & .dt-search__title {
-            font-size: 46px;
-            font-family: $font-family-bold;
-        }*/
+    & .dt-page__preheader-search {
+        & .dt-search__content {
+            opacity: 99%;
+        }
     }
 
     & .dt-online-register {
