@@ -1,6 +1,6 @@
 <template>
     <main class="dt-advantages">
-        <div class="col-11 col-sm-12 align-self-center row mx-0 px-0 mt-5 d-flex justify-content-center">
+        <div class="col-12 col-sm-12 align-self-center row mx-0 px-0 mt-5 d-flex justify-content-center">
             <h1 class="col-12 px-0 text-center bold fs-1">Преимущества нашего сервиса</h1>
             <span class="col-12 px-0 text-center thin font-size-09">вы оцените качество нашего сервиса по
                     достоинству</span>

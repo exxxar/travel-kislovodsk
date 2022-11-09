@@ -4,41 +4,54 @@
 
 .dt-page-header--bg-image {
     background: url('/img/excursions/1.png') no-repeat;
+    background-color: $color-black;
 }
 
 .dt-page-header {
-    //background: url("/img/header-bg.png") no-repeat;
-
     & > * {
         color: white;
         font-family: $font-family-regular;
-        //background: #00000078;
     }
 
     &__actions {
-        //padding: 25px 0 25px 40px;
-        border-bottom: 1px solid $color-light-gray;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
         & .dt-actions__links {
             padding-left: 40px;
         }
 
-        & .dt-links__list {
-            gap: 40px;
-
-            & li {
-                letter-spacing: 3px;
-                & a {
-                    font-size: 10px;
-                    font-family: $font-family-bold;
-                }
-            }
-        }
-
         & .dt-buttons {
             & .dt-btn-entry {
                 padding: 22px 32px;
-                border-left: 1px solid $color-light-gray;
+                border-left: 1px solid rgba(255, 255, 255, 0.2);
+
+                &:last-child {
+                    border-right: none;
+                }
+
+                & .dt-btn__text-entry {
+                    letter-spacing: 2px;
+                    font-family: $font-family-bold;
+                    font-size: 10px;
+                }
+            }
+        }
+    }
+
+    & .dt-actions__entry--mobile {
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+        & .dt-buttons {
+            & .dt-btn-entry {
+                height: 48px;
+                width: 58px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                outline: 1px solid rgba(255, 255, 255, 0.2);
+                //border-left: 1px solid $color-light-gray;
 
                 &:last-child {
                     border-right: none;
@@ -54,8 +67,56 @@
     }
 }
 
+.dt-links__list {
+    gap: 40px;
+
+    & li {
+        letter-spacing: 3px;
+
+        & a {
+            font-size: 10px;
+            font-family: $font-family-regular;
+        }
+    }
+}
+
 .dt-link {
     &:hover, &.active {
         color: $color-red !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .dt-menu__links {
+        height: 43px;
+
+        & .dropdown-menu {
+            padding: 30px 20px;
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+            margin-top: 5px !important;
+
+            & a.dropdown-item {
+                font-size: 10px;
+                font-family: $font-family-medium;
+                letter-spacing: 3px
+            }
+
+            & > li:not(:last-child) {
+                margin-bottom: 30px;
+            }
+        }
+    }
+    .dt-links__list {
+        padding-right: 20px;
+        padding-left: 20px;
+        right: 0;
+        top: 7px;
+
+        & .dt-link {
+            font-family: $font-family-bold;
+            font-size: 8px;
+            letter-spacing: 3px;
+        }
     }
 }

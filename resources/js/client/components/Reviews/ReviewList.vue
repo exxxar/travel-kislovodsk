@@ -3,7 +3,8 @@
         <ReviewCounter></ReviewCounter>
         <div class="dt-reviews__content">
             <ReviewCard v-for="(item, i) in review_list" :key="i" :item="item"></ReviewCard>
-            <button class="align-items-center d-flex dt-btn dt-btn--height-50 dt-btn-blue justify-content-center w-100">
+            <a href="#" class="align-items-center d-flex dt-btn dt-btn--height-50 dt-btn-blue
+                    justify-content-center w-100">
                 <span>Показать еще</span>
                 <div class="dt-btn__icon">
                     <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"
@@ -11,7 +12,7 @@
                         <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
                     </svg>
                 </div>
-            </button>
+            </a>
         </div>
     </div>
 </template>

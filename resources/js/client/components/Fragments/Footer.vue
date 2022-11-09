@@ -1,51 +1,47 @@
 <template>
-    <footer class="dt-page-footer text-center">
+    <footer class="dt-page-footer text-center position-relative">
         <div class="dt-page-footer__shadow"></div>
         <div class="container" style="z-index: 4; position: relative;">
-            <ul class="dt-sitemap__links">
+            <ul class="dt-links__list dt-sitemap__links justify-content-between h-100">
                 <li>
                     <a href="/partners" target="_blank"
-                           class="dt-link text-white text-decoration-none text-uppercase">Партнерам</a>
+                       class="dt-link text-white text-decoration-none text-uppercase">Партнерам</a>
                 </li>
                 <li>
-                    <h6><a href="/for-guides" target="_blank"
-                           class="dt-link text-white text-decoration-none text-uppercase">Гидам</a></h6>
+                    <a href="/for-guides" target="_blank"
+                       class="dt-link text-white text-decoration-none text-uppercase">Гидам</a>
                 </li>
                 <li>
-                    <h6><a href="/for-tourist" target="_blank"
-                           class="dt-link text-white text-decoration-none text-uppercase">Путешественникам</a>
-                    </h6>
+                    <a href="/for-tourist" target="_blank"
+                       class="dt-link text-white text-decoration-none text-uppercase">Путешественникам</a>
                 </li>
                 <li>
-                    <h6><a href="/faq" target="_blank"
-                           class="dt-link text-white text-decoration-none text-uppercase">FAQ</a></h6>
+                    <a href="/faq" target="_blank"
+                       class="dt-link text-white text-decoration-none text-uppercase">FAQ</a>
                 </li>
                 <li>
-                    <h6><a href="/about" target="_blank"
-                           class="dt-link text-white text-decoration-none text-uppercase">О проекте</a></h6>
+                    <a href="/about" target="_blank"
+                       class="dt-link text-white text-decoration-none text-uppercase">О проекте</a>
                 </li>
                 <li>
-                    <h6><a href="#" target="_blank"
-                           class="dt-link text-white text-decoration-none text-uppercase">Вход</a></h6>
+                    <a href="#" target="_blank"
+                       class="dt-link text-white text-decoration-none text-uppercase">Вход</a>
                 </li>
                 <li>
-                    <h6><a href="/tour-search" target="_blank"
-                           class="dt-link text-white text-decoration-none text-uppercase">Поиск экскурсий</a>
-                    </h6>
+                    <a href="/tour-search" target="_blank"
+                       class="dt-link text-white text-decoration-none text-uppercase">Поиск экскурсий</a>
                 </li>
                 <li>
-                    <h6><a href="/contacts" target="_blank"
-                           class="dt-link text-white text-decoration-none text-uppercase">Контакты</a></h6>
+                    <a href="/contacts" target="_blank"
+                       class="dt-link text-white text-decoration-none text-uppercase">Контакты</a>
                 </li>
                 <li>
-                    <h6><a href="/contact-us" target="_blank"
-                           class="dt-link text-white text-decoration-none text-uppercase">Связаться с нами</a>
-                    </h6>
+                    <a href="/contact-us" target="_blank"
+                       class="dt-link text-white text-decoration-none text-uppercase">Связаться с нами</a>
                 </li>
                 <li>
-                    <h6><a href="/how-become-guide" target="_blank"
-                           class="dt-link text-white text-decoration-none text-uppercase">Как стать гидом</a>
-                    </h6>
+                    <a href="/how-become-guide" target="_blank"
+                       class="dt-link text-white text-decoration-none text-uppercase">Как стать гидом</a>
                 </li>
             </ul>
 
@@ -59,7 +55,7 @@
                             <h5 class="text-muted-white">2012-2022 "Название"</h5>
                         </div>
                     </div>
-                    <div class="col-4 col-12 dt-order-payments">
+                    <div class="col-lg-4 col-12 dt-order-payments">
                         <div class="dt-payments">
                             <ul class="d-flex dt-payments__list justify-content-center">
                                 <li class="dt-payments__item">
@@ -77,15 +73,17 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-4 col-12 dt-order-privacy">
+                    <div class="col-lg-4 col-12 dt-order-privacy">
                         <div class="dt-privacy text-end">
-                            <h6>
-                                <a href="#" class="dt-link text-white text-uppercase text-decoration-underline">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</a>
-                            </h6>
+                            <a href="#"
+                               class="dt-link dt-link--thin-12 text-white text-decoration-underline">
+                                политика конфиденциальности
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="dt-wrapper--black-50 position-absolute top-0"></div>
     </footer>
 </template>

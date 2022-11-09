@@ -3,16 +3,16 @@
         <div class="d-flex dt-top-info-block--three-input">
             <div class="d-flex flex-wrap align-items-end">
                 <div class="switcher d-flex align-items-center">
-                    <h5 class="dt-direction-excursion">Куда?</h5>
+                    <p class="dt-direction-excursion" :class="{'text-white': isLinksWhite}">Куда?</p>
                     <div class="dt-direction-excursion d-flex">
                         <label class="dt-switch d-flex">
                             <input type="checkbox">
                             <span class="dt-slider"></span>
                         </label>
                     </div>
-                    <h5 class="dt-direction-excursion">Откуда?</h5>
+                    <p class="dt-direction-excursion" :class="{'text-white': isLinksWhite}">Откуда?</p>
                 </div>
-                <div class="dt-filters" :class="{'dt-filters--links-white': isLinksWhite}">
+                <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters--links-white': isLinksWhite}">
                     <a href="#" class="dt-link-filter--hover-blue">Смотреть карту</a>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="dt-filters" :class="{'dt-filters--links-white': isLinksWhite}">
+                <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters--links-white': isLinksWhite}">
                     <div class="d-flex dt-list">
                         <a href="#" class="dt-link-filter--hover-blue">Некоторый город</a>
                         <a href="#" class="dt-link-filter--hover-blue">Ставрополь</a>
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="dt-filters" :class="{'dt-filters--links-white': isLinksWhite}">
+                <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters--links-white': isLinksWhite}">
                     <div class="d-flex dt-list">
                         <a href="#" class="dt-link-filter--hover-blue">Завтра</a>
                         <a href="#" class="dt-link-filter--hover-blue">В ближайшие 3 дня</a>

@@ -1195,7 +1195,7 @@
                             class="dropdown-menu col-12 flex-grow-1 border-0 px-2rem pb-3 pt-0 text-center rounded font-size-09">
                             <li>
                                 <button
-                                    class="dropdonw-item p-0 col-12 mt-3 font-size-07 blue-hover letter-spacing-3 text-uppercase bold">
+                                    class="dropdown-item p-0 col-12 mt-3 font-size-07 blue-hover letter-spacing-3 text-uppercase bold">
                                     редактировать<span class="blue fs-6">&gt;</span>
                                 </button>
                             </li>

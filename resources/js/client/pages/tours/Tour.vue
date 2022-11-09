@@ -1,5 +1,5 @@
 <template>
-    <main class="wrapper">
+    <main class="wrapper mt-2rem">
         <div class="dt-page dt-page__preheader">
             <div class="container dt-preheader__content w-100 h-100 text-center">
                 <div class="row">
@@ -206,90 +206,7 @@
                                 Товарищи! постоянное информационно-пропагандистское обеспечение нашей деятельности в
                                 значительной степени обуславливает создание систем массового участия.</p>
                         </div>
-                        <div class="d-flex dt-paragraph">
-                            <div class="dt-paragraph__icon dt-paragraph__icon--width-30 blue me-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 48 48"
-                                     fill="white">
-                                    <path
-                                        d="M9.3 42.7V7.25h18.45l.95 4.3h12.05V31.5H26.6l-.95-4.25h-12.4V42.7ZM25 19.4Zm5 8.15h6.75v-12H25.3l-.95-4.3h-11.1V23.3h15.8Z"></path>
-                                </svg>
-                            </div>
-                            <div class="dt-paragraph__text">
-                                <h4 class="dt-text__title">Замок Нессельбек</h4>
-                                <p class="dt-main-text-thin">Не аутентичная, но очень колоритная постройка, на фоне
-                                    которой получаются интересные фотографии.</p>
-                                <div class="dt-text__links d-flex">
-                                    <p class="dt-btn-text text-uppercase me-3 d-lg-flex d-none">Смотреть на карте</p>
-                                    <p class="dt-btn-text text-uppercase me-3 d-flex d-lg-none">на карте</p>
-                                    <p class="dt-btn-text text-uppercase">Фото</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex dt-paragraph">
-                            <div class="dt-paragraph__icon dt-paragraph__icon--width-30 blue me-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 48 48"
-                                     fill="white">
-                                    <path
-                                        d="M9.3 42.7V7.25h18.45l.95 4.3h12.05V31.5H26.6l-.95-4.25h-12.4V42.7ZM25 19.4Zm5 8.15h6.75v-12H25.3l-.95-4.3h-11.1V23.3h15.8Z"></path>
-                                </svg>
-                            </div>
-                            <div class="dt-paragraph__text">
-                                <h4 class="dt-text__title">Высоту Эфа</h4>
-                                <p class="dt-main-text-thin"><span class="text-danger">Внимание!!!</span> Место встречи
-                                    может быть изменено. Мы вышлем вам точное место начала вместе с
-                                    контактами гида после бронирования билетов.</p>
-                                <div class="dt-text__links d-flex">
-                                    <p class="dt-btn-text text-uppercase me-3 d-lg-flex d-none">Смотреть на карте</p>
-                                    <p class="dt-btn-text text-uppercase me-3 d-flex d-lg-none">на карте</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex dt-paragraph">
-                            <div class="dt-paragraph__icon blue dt-paragraph__icon--width-30 me-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 48 48"
-                                     fill="white">
-                                    <path
-                                        d="M9.3 42.7V7.25h18.45l.95 4.3h12.05V31.5H26.6l-.95-4.25h-12.4V42.7ZM25 19.4Zm5 8.15h6.75v-12H25.3l-.95-4.3h-11.1V23.3h15.8Z"></path>
-                                </svg>
-                            </div>
-                            <div class="dt-paragraph__text">
-                                <h4 class="dt-text__title">Высоту Мюллера</h4>
-                            </div>
-                        </div>
-                        <div class="d-flex dt-paragraph">
-                            <div class="dt-paragraph__icon blue dt-paragraph__icon--width-30 me-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 48 48"
-                                     fill="white">
-                                    <path
-                                        d="M9.3 42.7V7.25h18.45l.95 4.3h12.05V31.5H26.6l-.95-4.25h-12.4V42.7ZM25 19.4Zm5 8.15h6.75v-12H25.3l-.95-4.3h-11.1V23.3h15.8Z"></path>
-                                </svg>
-                            </div>
-                            <div class="dt-paragraph__text">
-                                <h4 class="dt-text__title">Пляж Балтийского моря</h4>
-                                <p class="dt-main-text-thin">Атмосферный, безлюдный и будто созданный для
-                                    инста-прогулки.</p>
-                            </div>
-                        </div>
-                        <div class="d-flex dt-paragraph">
-                            <div class="dt-paragraph__icon blue dt-paragraph__icon--width-30 me-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 48 48"
-                                     fill="white">
-                                    <path
-                                        d="M9.3 42.7V7.25h18.45l.95 4.3h12.05V31.5H26.6l-.95-4.25h-12.4V42.7ZM25 19.4Zm5 8.15h6.75v-12H25.3l-.95-4.3h-11.1V23.3h15.8Z"></path>
-                                </svg>
-                            </div>
-                            <div class="dt-paragraph__text">
-                                <h4 class="dt-text__title">Зеленоградск</h4>
-                                <p class="dt-main-text-thin">Один из красивейших курортных городков побережья с
-                                    довоенной
-                                    архитектурой, чудесным променадом и современным «культом кошек».</p>
-                                <div class="dt-text__links d-flex">
-                                    <p class="dt-btn-text text-uppercase me-3 d-lg-flex d-none">Смотреть на карте</p>
-                                    <p class="dt-btn-text text-uppercase me-3 d-flex d-lg-none">на карте</p>
-                                    <p class="dt-btn-text text-uppercase">Фото</p>
-                                </div>
-                            </div>
-                        </div>
+                        <tour-object-list />
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
@@ -418,7 +335,6 @@
                         <span style="color:#f83737;text-decoration:line-through">
                         <p class="dt-price__non-active">25 200</p>
                         </span>
-
                             <p class="dt-price__active">21 900</p>
                             <label>за человека</label>
                         </div>
@@ -466,16 +382,17 @@
                 </div>
             </div>
         </div>
-        <benefits-component v-if="!isBooking"/>
+        <benefits-component v-if="!isBooking" class="container"/>
     </main>
 </template>
 <script>
 import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
 import TourBooking from "@/components/TourObjects/TourBooking.vue";
 import ReviewList from "@/components/Reviews/ReviewList.vue";
+import TourObjectList from "@/components/TourObjects/TourObjectList.vue";
 
 export default {
-    components: {ReviewList, TourBooking, Breadcrumbs},
+    components: {TourObjectList, ReviewList, TourBooking, Breadcrumbs},
     data() {
         return {
             breadcrumbs: [
