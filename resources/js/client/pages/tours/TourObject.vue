@@ -12,26 +12,26 @@
                         </div>
                         <p class="dt-preheader__title">Название объекта</p>
                         <div class="curved">
-                            <img src="/img/curved_strip.png" alt="">
+                            <img :src="'/img/curved_strip.png'" alt="">
                         </div>
                         <div class="dt-preheader__photos justify-content-center">
                             <div class="dt-photos__item">
-                                <img src="/img/travels/1.jpg" alt="">
+                                <img :src="'/img/travels/1.jpg'" alt="">
                             </div>
                             <div class="dt-photos__item">
-                                <img src="/img/travels/2.jpg" alt="">
+                                <img :src="'/img/travels/2.jpg'" alt="">
                             </div>
                             <div class="dt-photos__item d-none d-lg-block">
-                                <img src="/img/travels/3.jpg" alt="">
+                                <img :src="'/img/travels/3.jpg'" alt="">
                             </div>
                             <div class="dt-photos__item d-none d-lg-block">
-                                <img src="/img/travels/4.jpg" alt="">
+                                <img :src="'/img/travels/4.jpg'" alt="">
                             </div>
                             <div class="dt-photos__item d-none d-lg-block">
-                                <img src="/img/travels/1.jpg" alt="">
+                                <img :src="'/img/travels/1.jpg'" alt="">
                             </div>
                             <div class="dt-photos__item d-none d-lg-block">
-                                <img src="/img/travels/2.jpg" alt="">
+                                <img :src="'/img/travels/2.jpg'" alt="">
                             </div>
                             <div class="dt-photos__item dt-photos__item--placeholder">
                                 <div class="dt-item__placeholder">
@@ -121,17 +121,17 @@
                         <div class="dt-bg-light-gray">
                             <div class="dt-guide__info d-flex w-100 h-100">
                                 <div class="dt-guide__img">
-                                    <img src="/img/avatars/7.jpg" alt="">
+                                    <img :src="'/img/avatars/7.jpg'" alt="">
                                 </div>
                                 <div class="dt-guide__text">
                                     <p class="dt-guide__title fw-thin">экскурсию для вас проведет</p>
                                     <p class="dt-guide__name">Петров Николай Игоревич</p>
                                     <div class="dt-rating__star d-flex">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
-                                        <img src="/img/icons/star_blue.svg" alt="">
+                                        <img :src="'/img/icons/star_blue.svg'" alt="">
+                                        <img :src="'/img/icons/star_blue.svg'" alt="">
+                                        <img :src="'/img/icons/star_blue.svg'" alt="">
+                                        <img :src="'/img/icons/star_blue.svg'" alt="">
+                                        <img :src="'/img/icons/star_blue.svg'" alt="">
                                         <p class="dt-guide__rating fw-bold">4.84</p>
                                     </div>
                                     <a href="/guide" class="dt-btn-text text-uppercase me-3 d-lg-flex d-none">смотреть отзывы

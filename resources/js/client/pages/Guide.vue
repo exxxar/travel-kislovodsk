@@ -13,11 +13,11 @@
                         </div>
                         <p class="dt-preheader__title">Имя Фамилия</p>
                         <div class="curved">
-                            <img src="/img/curved_strip.png" alt="">
+                            <img v-lazy="'/img/curved_strip.png'" alt="">
                         </div>
                         <div class="dt-preheader__avatar d-flex justify-content-center">
                             <div class="dt-avatar__img">
-                                <img src="/img/avatars/7.jpg" alt="">
+                                <img v-lazy="'/img/avatars/7.jpg'" alt="">
                             </div>
                         </div>
                     </div>

@@ -18,11 +18,11 @@
                             </p>
                         </div>
                         <div class="dt-rating__star w-auto d-flex">
-                            <img src="/img/icons/star_blue.svg" alt="">
-                            <img src="/img/icons/star_blue.svg" alt="">
-                            <img src="/img/icons/star_blue.svg" alt="">
-                            <img src="/img/icons/star_blue.svg" alt="">
-                            <img src="/img/icons/star_blue.svg" alt="">
+                            <img :src="'/img/icons/star_blue.svg'" alt="">
+                            <img :src="'/img/icons/star_blue.svg'" alt="">
+                            <img :src="'/img/icons/star_blue.svg'" alt="">
+                            <img :src="'/img/icons/star_blue.svg'" alt="">
+                            <img :src="'/img/icons/star_blue.svg'" alt="">
                         </div>
                     </div>
                     <p class="dt-review__description dt-main-text-thin">
@@ -34,16 +34,16 @@
                     </p>
                     <div class="dt-review__photos">
                         <div class="dt-photos__item">
-                            <img src="/img/travels/1.jpg">
+                            <img :src="'/img/travels/1.jpg'">
                         </div>
                         <div class="dt-photos__item">
-                            <img src="/img/travels/2.jpg">
+                            <img :src="'/img/travels/2.jpg'">
                         </div>
                         <div class="dt-photos__item">
-                            <img src="/img/travels/3.jpg">
+                            <img :src="'/img/travels/3.jpg'">
                         </div>
                         <div class="dt-photos__item">
-                            <img src="/img/travels/4.jpg">
+                            <img :src="'/img/travels/4.jpg'">
                         </div>
                     </div>
                 </div>
@@ -67,11 +67,11 @@
                             </p>
                         </div>
                         <div class="dt-rating__star w-auto d-flex">
-                            <img src="/img/icons/star_blue.svg" alt="">
-                            <img src="/img/icons/star_blue.svg" alt="">
-                            <img src="/img/icons/star_blue.svg" alt="">
-                            <img src="/img/icons/star_blue.svg" alt="">
-                            <img src="/img/icons/star_blue.svg" alt="">
+                            <img :src="'/img/icons/star_blue.svg'" alt="">
+                            <img :src="'/img/icons/star_blue.svg'" alt="">
+                            <img :src="'/img/icons/star_blue.svg'" alt="">
+                            <img :src="'/img/icons/star_blue.svg'" alt="">
+                            <img :src="'/img/icons/star_blue.svg'" alt="">
                         </div>
                     </div>
                     <p class="dt-review__description dt-main-text-thin">
@@ -83,16 +83,16 @@
                     </p>
                     <div class="dt-review__photos">
                         <div class="dt-photos__item">
-                            <img src="/img/travels/1.jpg">
+                            <img :src="'/img/travels/1.jpg'">
                         </div>
                         <div class="dt-photos__item">
-                            <img src="/img/travels/2.jpg">
+                            <img :src="'/img/travels/2.jpg'">
                         </div>
                         <div class="dt-photos__item">
-                            <img src="/img/travels/3.jpg">
+                            <img :src="'/img/travels/3.jpg'">
                         </div>
                         <div class="dt-photos__item">
-                            <img src="/img/travels/4.jpg">
+                            <img :src="'/img/travels/4.jpg'">
                         </div>
                     </div>
                 </div>

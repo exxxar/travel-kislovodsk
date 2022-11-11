@@ -17,7 +17,7 @@
                                xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAOCAYAAAAi2ky3AAAAoklEQVQoka3SvwpBYRQA8B/dFAaewztIFhPlCWxeTNmMDBaLwWt4AJOUTfrKV7fbxedeZz2nX+dfY3mcqxEdZLhmNZEtuphUhSIyxh2D5h+QKU6/QmXIISQi1EarKhKhULDD5gP2EYnQECPM3mBfkQjtscCjBEtC8jtal2D9VMTrK+WwEKsXdkYvBSlCRSwZyY9WxMKYt1SkrKM8Fo5wSUHgCWEEMQufwN2RAAAAAElFTkSuQmCC"/>
                     </svg>
                 </div>
-                <img class="dt-excursion__image" :src="data.image" alt="">
+                <img class="dt-excursion__image" :v-lazy="data.image" alt="">
                 <div v-if="data.payment != null" class="dt-price d-flex justify-content-between position-absolute w-100 align-items-end">
                     <h5 class="align-items-end d-flex dt-price__sum text-white">
                         <span class="dt-price__title text-uppercase text-muted-white me-2s">
@@ -52,11 +52,11 @@
                     <h5 class="fw-bold color-black">{{ data.rating }}</h5>
                 </div>
                 <div class="dt-rating__star d-flex">
-                    <img src="/img/icons/star_blue.svg" alt="">
-                    <img src="/img/icons/star_blue.svg" alt="">
-                    <img src="/img/icons/star_blue.svg" alt="">
-                    <img src="/img/icons/star_blue.svg" alt="">
-                    <img src="/img/icons/star_blue.svg" alt="">
+                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
                 </div>
             </div>
             <div class="card-body__excursion">
@@ -69,7 +69,7 @@
             </div>
             <div v-if="data.dateEnd && data.finish" class="card-body__excursion-date d-flex justify-content-between">
                 <div class="dt-calendar d-flex align-items-center">
-                    <img src="/img/icons/calendar_today_FILL0_wght400_GRAD0_opsz48_blue.svg"
+                    <img v-lazy="'/img/icons/calendar_today_FILL0_wght400_GRAD0_opsz48_blue.svg'"
                          alt="calendar" style="width: 18px; height: 16px" class="me-2">
                     <h5 class="text-muted-black d-lg-block d-md-block d-none">дата окончания</h5>
                     <h5 class="text-muted-black d-block d-md-none">дата оконч.</h5>
@@ -78,7 +78,7 @@
             </div>
             <div v-if="!data.dateStart && !data.finish" class="card-body__excursion-date d-flex justify-content-between">
                 <div class="dt-calendar d-flex align-items-center">
-                    <img src="/img/icons/calendar_today_FILL0_wght400_GRAD0_opsz48_blue.svg"
+                    <img v-lazy="'/img/icons/calendar_today_FILL0_wght400_GRAD0_opsz48_blue.svg'"
                          alt="calendar" style="width: 18px; height: 16px" class="me-2">
                     <h5 class="text-muted-black d-lg-block d-md-block d-none">ближайшая
                         дата</h5>
@@ -92,7 +92,7 @@
                 <div class="dt-wrapper--black-50"></div>
                 <div class="personal-account-orders-info__item dt-calendar d-flex align-items-center">
                     <img class="personal-account-orders-info__img me-2"
-                         src="/img/icons/calendar_today_FILL0_wght400_GRAD0_opsz48_blue.svg"
+                         v-lazy="'/img/icons/calendar_today_FILL0_wght400_GRAD0_opsz48_blue.svg'"
                          alt="calendar" style="width: 18px; height: 16px">
                     <h5 class="personal-account-orders-info__text d-lg-block d-md-block"
                         :class="{'dt-text-muted--white-50': !data.payment}">
