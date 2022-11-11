@@ -216,14 +216,19 @@ h6 {
     height: 100%;
 }
 
+.dt-wrapper--black-70 {
+    background: $color-black;
+    opacity: 0.7;
+    width: 100%;
+    height: 100%;
+}
+
 .dt-text-muted--white-50 {
-    color: $color-white;
-    opacity: 0.5;
+    color: $color-white-50;
 }
 
 .dt-none-link--white-50:hover {
-    color: $color-white;
-    opacity: 0.5;
+    color: $color-white-50;
 }
 
 .dt-link-filter--hover-blue {
@@ -246,6 +251,16 @@ h6 {
         border-bottom-color: $color-red !important;
         color: inherit;
     }
+}
+
+.dt-link--thin-12 {
+    font-size: 12px;
+    font-family: $font-family-thin;
+}
+
+.dt-arrow-right::after {
+    content: "❯";
+    color: $color-blue;
 }
 
 @media screen and (max-width: 768px) {

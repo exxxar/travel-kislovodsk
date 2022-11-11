@@ -13,8 +13,8 @@
         </div>
         <div class="col align-items-center ps-3 mx-0">
             <span class="messages-head__name semibold font-size-09 lh-1">{{ user.name }}</span>
-            <p class="messages-head__text opacity-40 thin lh-1 d-none">{{ user.message }}</p>
-            <p class="messages-head__date opacity-40 thin lh-1">4 дня назад</p>
+            <p class="messages-head__text opacity-40 thin d-none">{{ user.message }}</p>
+            <p class="messages-head__date opacity-40 thin">4 дня назад</p>
         </div>
         <div class="messages-head__unread col-auto mx-0 px-0 d-none"></div>
     </div>

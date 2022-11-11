@@ -13,11 +13,11 @@
                         </div>
                         <p class="dt-preheader__title">Имя Фамилия</p>
                         <div class="curved">
-                            <img v-lazy="'/img/curved_strip.png'" alt="">
+                            <img src="/img/curved_strip.png" alt="">
                         </div>
                         <div class="dt-preheader__avatar d-flex justify-content-center">
                             <div class="dt-avatar__img">
-                                <img v-lazy="'/img/avatars/7.jpg'" alt="">
+                                <img src="/img/avatars/7.jpg" alt="">
                             </div>
                         </div>
                     </div>
@@ -84,235 +84,8 @@
                         озеро, преодолев первые 500 м вертикального набора высоты. У озера сделаем привал. А далее
                         поднимемся еще выше до станции канатной дороги горы Чегет, где находится смотровая площадка и
                         знаменитое кафе Ай (луна), где любил бывать Высоций и Визбор.</p>
-                    <div class="dt-reviews">
-                        <div class="dt-reviews__header d-flex flex-wrap justify-content-between">
-                            <p class="dt-article__title mb-0 d-lg-flex d-none">Отзывы об экскурсоводе</p>
-                            <p class="dt-article__title mb-0 d-lg-none d-flex mb-3">Отзывы</p>
-                            <div class="dt-article__reviews-count d-flex align-items-center">
-                                <p class="dt-rating-of fw-bold me-3">4.86 из 5</p>
-                                <div class="dt-rating__star d-flex w-auto me-3">
-                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                </div>
-                                <p class="dt-count-marks fw-thin">43 оценки</p>
-                            </div>
-                        </div>
-                        <div class="dt-reviews__rating">
-                            <div class="dt-rating__item d-flex align-items-center">
-                                <div class="dt-rating__star d-flex me-4">
-                                   <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                </div>
-                                <div class="loading loading--percently-80 me-2"></div>
-                                <p class="dt-main-text-thin">1090</p>
-                            </div>
-                            <div class="dt-rating__item d-flex align-items-center">
-                                <div class="dt-rating__star d-flex me-4">
-                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
-                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
-                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
-                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
-                                </div>
-                                <div class="loading loading--percently-40 me-2"></div>
-                                <p class="dt-main-text-thin">140</p>
-                            </div>
-                            <div class="dt-rating__item d-flex align-items-center">
-                                <div class="dt-rating__star d-flex me-4">
-                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
-                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
-                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
-                                </div>
-                                <div class="loading loading--percently-20 me-2"></div>
-                                <p class="dt-main-text-thin">21</p>
-                            </div>
-                            <div class="dt-rating__item d-flex align-items-center">
-                                <div class="dt-rating__star d-flex me-4">
-                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
-                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
-                                </div>
-                                <div class="loading me-2"></div>
-                                <p class="dt-main-text-thin">0</p>
-                            </div>
-                            <div class="dt-rating__item d-flex align-items-center">
-                                <div class="dt-rating__star d-flex me-4">
-                                    <img v-lazy="'/img/icons/star_grey.svg'" alt="">
-                                </div>
-                                <div class="loading loading--percently-10 me-2"></div>
-                                <p class="dt-main-text-thin">4</p>
-                            </div>
-                        </div>
-                        <div class="dt-reviews__sort-by d-flex justify-content-end">
-                            <p class="dt-sort-by__title fw-thin">сортировка по</p>
-                            <p class="dt-sort-by__item active fw-regular">дате</p>
-                            <p class="dt-sort-by__item fw-regular d-lg-flex d-none">оценке</p>
-                        </div>
-                        <div class="dt-reviews__content">
-                            <div class="dt-review__item d-flex">
-                                <div class="dt-review__avatar">
-                                    <img v-lazy="'/img/avatars/2.jpg'" alt="">
-                                </div>
-                                <div class="dt-review__header d-lg-none d-block">
-                                    <div class="dt-header__user">
-                                        <p class="dt-user__date-ago fw-thin text-muted">2 недели назад</p>
-                                        <p class="dt-user__name fw-semibold">Екатерина Иванова</p>
-                                    </div>
-                                    <div class="dt-rating__star w-auto d-flex">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                    </div>
-                                </div>
-                                <div class="dt-review__block flex-grow-1">
-                                    <div class="dt-review__header d-lg-block d-none">
-                                        <div class="dt-header__user">
-                                            <p class="dt-user__date-ago fw-thin text-muted">2 недели назад</p>
-                                            <p class="dt-user__name fw-semibold">Екатерина Иванова</p>
-                                        </div>
-                                        <div class="dt-rating__star w-auto d-flex">
-                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        </div>
-                                    </div>
-                                    <p class="dt-review__description dt-main-text-thin">
-                                        Не следует, однако забывать, что новая модель организационной деятельности
-                                        влечет за собой процесс внедрения и модернизации систем массового участия.
-                                        Товарищи! постоянное информационно-пропагандистское обеспечение нашей
-                                        деятельности в значительной степени обуславливает создание систем массового
-                                        участия.
-                                    </p>
 
-                                    <div class="dt-form dt-review__photos">
-                                        <div class="dt-photos__item p-0">
-                                            <img v-lazy="'/img/travels/1.jpg'">
-                                        </div>
-                                        <div class="dt-photos__item p-0">
-                                            <img v-lazy="'/img/travels/2.jpg'">
-                                        </div>
-                                        <div class="dt-photos__item p-0">
-                                            <img v-lazy="'/img/travels/3.jpg'">
-                                        </div>
-                                        <div class="dt-photos__item p-0">
-                                            <img v-lazy="'/img/travels/4.jpg'">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="dt-review__item d-flex">
-                                <div class="dt-review__avatar">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"
-                                         viewBox="0 0 48 48"
-                                         fill="#22242566">
-                                        <path
-                                            d="M17.8 28.9q-1.15 0-1.95-.8t-.8-1.95q0-1.2.8-1.975.8-.775 1.95-.775 1.2 0 1.975.8.775.8.775 1.95 0 1.2-.8 1.975-.8.775-1.95.775Zm12.45 0q-1.2 0-1.975-.8-.775-.8-.775-1.95 0-1.2.8-1.975.8-.775 1.95-.775t1.95.8q.8.8.8 1.95 0 1.2-.8 1.975-.8.775-1.95.775ZM24 40.75q7 0 11.875-4.875T40.75 24q0-1.3-.2-2.5t-.5-2.25q-1 .3-2.125.375-1.125.075-2.375.075-4.8 0-9.05-1.95-4.25-1.95-7.3-5.6-1.65 3.95-4.775 6.925Q11.3 22.05 7.3 23.7v.35q0 7 4.85 11.85T24 40.75Zm0 3.95q-4.25 0-8.025-1.625-3.775-1.625-6.6-4.425-2.825-2.8-4.45-6.575Q3.3 28.3 3.3 24q0-4.3 1.625-8.075Q6.55 12.15 9.375 9.35q2.825-2.8 6.6-4.45 3.775-1.65 8.075-1.65 4.3 0 8.05 1.65 3.75 1.65 6.55 4.45 2.8 2.8 4.45 6.575Q44.75 19.7 44.75 24q0 4.3-1.625 8.075-1.625 3.775-4.45 6.575-2.825 2.8-6.6 4.425Q28.3 44.7 24 44.7ZM19.4 7.65q4.4 5.15 8.125 7.05 3.725 1.9 8.175 1.9 1.2 0 1.9-.05t1.55-.3Q36.9 12.2 33.025 9.6 29.15 7 24 7q-1.35 0-2.55.2-1.2.2-2.05.45ZM7.45 20.1q2.4-.9 5.475-4.075Q16 12.85 17.3 8.35q-4.35 1.95-6.575 4.975Q8.5 16.35 7.45 20.1ZM19.4 7.65Zm-2.1.7Z"/>
-                                    </svg>
-                                </div>
-                                <div class="dt-review__header d-lg-none d-block">
-                                    <div class="dt-header__user">
-                                        <p class="dt-user__date-ago fw-thin text-muted">3 месяца назад</p>
-                                        <p class="dt-user__name fw-semibold">Николаев Алексей</p>
-                                    </div>
-                                    <div class="dt-rating__star w-auto d-flex">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                    </div>
-                                </div>
-                                <div class="dt-review__block flex-grow-1">
-                                    <div class="dt-review__header d-lg-block d-none">
-                                        <div class="dt-header__user">
-                                            <p class="dt-user__date-ago fw-thin text-muted">3 месяца назад</p>
-                                            <p class="dt-user__name fw-semibold">Николаев Алексей</p>
-                                        </div>
-                                        <div class="dt-rating__star w-auto d-flex">
-                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        </div>
-                                    </div>
-                                    <p class="dt-review__description dt-main-text-thin">
-                                        Что новая модель организационной деятельности обеспечивает широкому кругу
-                                        (специалистов) участие в формировании соответствующий условий активизации.
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="dt-review__item d-flex">
-                                <div class="dt-review__avatar">
-                                    <img v-lazy="'/img/avatars/2.jpg'" alt="">
-                                </div>
-                                <div class="dt-review__header d-lg-none d-block">
-                                    <div class="dt-header__user">
-                                        <p class="dt-user__date-ago fw-thin text-muted">пол года назад</p>
-                                        <p class="dt-user__name fw-semibold">Имя Отчество</p>
-                                    </div>
-                                    <div class="dt-rating__star w-auto d-flex">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                    </div>
-                                </div>
-                                <div class="dt-review__block flex-grow-1">
-                                    <div class="dt-review__header d-lg-block d-none">
-                                        <div class="dt-header__user">
-                                            <p class="dt-user__date-ago fw-thin text-muted">пол года назад</p>
-                                            <p class="dt-user__name fw-semibold">Имя Отчество</p>
-                                        </div>
-                                        <div class="dt-rating__star w-auto d-flex">
-                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                            <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        </div>
-                                    </div>
-                                    <p class="dt-review__description dt-main-text-thin">
-                                        Равным образом дальнейшее развитие различных форм деятельности требуют от нас
-                                        анализа позиций, занимаемых участниками в отношении поставленных задач. Идейные
-                                        соображения высшего порядка, а также дальнейшее развитие различных форм
-                                        деятельности
-                                        играет важную роль в формировании соответствующий условий активизации. Товарищи!
-                                        сложившаяся структура организации позволяет оценить значение систем массового
-                                        участия. Значимость этих проблем настолько очевидна, что постоянное
-                                        информационно-пропагандистское обеспечение нашей деятельности в значительной
-                                        степени
-                                        обуславливает создание соответствующий условий активизации. Задача организации,
-                                        в
-                                        особенности же реализация намеченных плановых заданий влечет за собой процесс
-                                        внедрения и модернизации модели развития. Равным образом консультация с широким
-                                        активом влечет за собой процесс внедрения и модернизации направлений
-                                        прогрессивного
-                                        развития.
-                                    </p>
-                                </div>
-                            </div>
-                            <button
-                                class="align-items-center d-flex dt-btn dt-btn--height-50 dt-btn-blue justify-content-center w-100">
-                                <span>Показать еще</span>
-                                <div class="dt-btn__icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"
-                                         viewBox="0 0 48 48" fill="#ffffff">
-                                        <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
-                                    </svg>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
+                    <review-list />
                 </div>
                 <div class="col-lg-1"></div>
                 <div class="col-lg-3">
@@ -328,8 +101,9 @@
 </template>
 <script>
 import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
+import ReviewList from "@/components/Reviews/ReviewList.vue";
 export default {
-    components: {Breadcrumbs},
+    components: {ReviewList, Breadcrumbs},
     data() {
         return {
             breadcrumbs: [
@@ -350,7 +124,7 @@ export default {
                 image: "/img/travels/1.jpg",
                 title: "Бермамыт", description: "Это путешествие, пожалуй одно из самх впечатляющих " +
                     "из всех экскурский по Северному Кавказу.", date: "15 августа в 10:00",
-                links: [{text: "все даты и запись", link: "#"}]
+                links: [{text: "все даты и запись", link: "/tour"}]
             }, {
                 id: 1,
                 tag: "групповая экскурсия",
@@ -362,7 +136,7 @@ export default {
                 description: "Медовые водопады - группа водопадов в ущелье реки Аликоновки " +
                     "прорезавшей скалы глубоким каньономю",
                 date: "завтра в 18:00",
-                links: [{text: "все даты и запись", link: "#"}]
+                links: [{text: "все даты и запись", link: "/tour"}]
             }]
         }
     }

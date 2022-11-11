@@ -1,7 +1,7 @@
 <template>
     <main class="dt-page-main mt-0">
         <div class="align-items-center d-flex dt-page__preheader-search justify-content-center position-relative">
-            <div class="dt-wrapper--black-50 position-absolute"></div>
+            <div class="dt-wrapper--black-70 position-absolute"></div>
 
             <div class="container dt-search__content text-center">
                 <h1 class="dt-search__title">Экскурсии по Ставропольскому краю</h1>

@@ -17,8 +17,19 @@
                                xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAOCAYAAAAi2ky3AAAAoklEQVQoka3SvwpBYRQA8B/dFAaewztIFhPlCWxeTNmMDBaLwWt4AJOUTfrKV7fbxedeZz2nX+dfY3mcqxEdZLhmNZEtuphUhSIyxh2D5h+QKU6/QmXIISQi1EarKhKhULDD5gP2EYnQECPM3mBfkQjtscCjBEtC8jtal2D9VMTrK+WwEKsXdkYvBSlCRSwZyY9WxMKYt1SkrKM8Fo5wSUHgCWEEMQufwN2RAAAAAElFTkSuQmCC"/>
                     </svg>
                 </div>
-                <img class="dt-excursion__image" v-lazy="data.image" alt="">
-                <div class="dt-price d-flex justify-content-between position-absolute w-100 align-items-end">
+                <img class="dt-excursion__image" :src="data.image" alt="">
+                <div v-if="data.payment != null" class="dt-price d-flex justify-content-between position-absolute w-100 align-items-end">
+                    <h5 class="align-items-end d-flex dt-price__sum text-white">
+                        <span class="dt-price__title text-uppercase text-muted-white me-2s">
+                                                        {{ data.payment ? 'оплачено' : 'ожидание оплаты' }}
+                                                    </span>
+                        <span class="fw-bold text-white me-2">{{ data.pricePayment }} руб.</span>
+                        <span class="dt-price__title text-uppercase text-muted-white">
+                                                        {{ data.payment ? 'за 3 чел.' : '' }}
+                                                    </span>
+                    </h5>
+                </div>
+                <div v-else class="dt-price d-flex justify-content-between position-absolute w-100 align-items-end">
                     <h5 class="align-items-end d-flex dt-price__sum text-white">
                         <span class="fw-bold text-white me-2">{{ data.price }} руб.</span>
                         <span class="dt-price__title text-uppercase text-muted-white d-lg-block d-md-block d-none">
@@ -41,11 +52,11 @@
                     <h5 class="fw-bold color-black">{{ data.rating }}</h5>
                 </div>
                 <div class="dt-rating__star d-flex">
-                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                    <img src="/img/icons/star_blue.svg" alt="">
+                    <img src="/img/icons/star_blue.svg" alt="">
+                    <img src="/img/icons/star_blue.svg" alt="">
+                    <img src="/img/icons/star_blue.svg" alt="">
+                    <img src="/img/icons/star_blue.svg" alt="">
                 </div>
             </div>
             <div class="card-body__excursion">
@@ -56,9 +67,18 @@
                     <h5>{{ data.description }}</h5>
                 </div>
             </div>
-            <div class="card-body__excursion-date d-flex justify-content-between">
+            <div v-if="data.dateEnd && data.finish" class="card-body__excursion-date d-flex justify-content-between">
                 <div class="dt-calendar d-flex align-items-center">
-                    <img v-lazy="'/img/icons/calendar_today_FILL0_wght400_GRAD0_opsz48_blue.svg'"
+                    <img src="/img/icons/calendar_today_FILL0_wght400_GRAD0_opsz48_blue.svg"
+                         alt="calendar" style="width: 18px; height: 16px" class="me-2">
+                    <h5 class="text-muted-black d-lg-block d-md-block d-none">дата окончания</h5>
+                    <h5 class="text-muted-black d-block d-md-none">дата оконч.</h5>
+                </div>
+                <h5 class="fw-bold">{{ data.date }}</h5>
+            </div>
+            <div v-if="!data.dateStart && !data.finish" class="card-body__excursion-date d-flex justify-content-between">
+                <div class="dt-calendar d-flex align-items-center">
+                    <img src="/img/icons/calendar_today_FILL0_wght400_GRAD0_opsz48_blue.svg"
                          alt="calendar" style="width: 18px; height: 16px" class="me-2">
                     <h5 class="text-muted-black d-lg-block d-md-block d-none">ближайшая
                         дата</h5>
@@ -66,18 +86,52 @@
                 </div>
                 <h5 class="fw-bold">{{ data.date }}</h5>
             </div>
+
+            <div v-if="data.dateStart && !data.finish" class="position-relative personal-account-orders-info card-body__excursion-date
+                        d-flex justify-content-between">
+                <div class="dt-wrapper--black-50"></div>
+                <div class="personal-account-orders-info__item dt-calendar d-flex align-items-center">
+                    <img class="personal-account-orders-info__img me-2"
+                         src="/img/icons/calendar_today_FILL0_wght400_GRAD0_opsz48_blue.svg"
+                         alt="calendar" style="width: 18px; height: 16px">
+                    <h5 class="personal-account-orders-info__text d-lg-block d-md-block"
+                        :class="{'dt-text-muted--white-50': !data.payment}">
+                        <div class="personal-account-orders-info__text_grey">
+                            дата начала
+                        </div>
+                        {{ data.dateStart }}
+                    </h5>
+                </div>
+                <div class="personal-account-orders-info__item dt-calendar d-flex align-items-center">
+                    <svg class="personal-account-orders-info__img me-2"
+                         xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink" width="13" height="16"
+                         viewBox="0 0 13 16">
+                        <image id="location_on_FILL0_wght400_GRAD0_opsz48" width="13"
+                               height="16"
+                               xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQCAYAAADNo/U5AAABN0lEQVQokYXSP0tcURAF8J+i7YI2GkHsxMIvICwi2kRQ8gFUrGysTBqt7ewWhBQJ2Ii9fxIQi6CmDlikspIgSLTSzkZllnlw9yF6YODdmXPuu2dmuny+U0MDHzGa6Usc46GiddcEq/iHFiYyWplbrUg9hWArCxF7eCouXsBXjGC9Es3gC6bxu/b3EO/iCr9wUnk6xH+s1A3W8B0DlacmDop6NOMoo1Hkg9MMURf6cF0UpzCXMVnkg9MXnp6znUO4yOIpfmbtvBB9CG7laR/3WH7H0w76K0/b2dbxNwRjWAxuuRFhcjgH+lgT9OYzb/Gp3Iho9yC+ZXNKxEtisO2RlBsRt8znjTfYyPwmlrKLwekQBf6k8EeeYxvWsvVRa6MuCsSqzOaWBOL7rCS8JgoEKbYk5vS3o4IXC9BBg8EJGV4AAAAASUVORK5CYII="/>
+                    </svg>
+                    <h5 class="personal-account-orders-info__text d-lg-block d-md-block"
+                        :class="{'dt-text-muted--white-50': !data.payment}">
+                        <div class="personal-account-orders-info__text_grey">
+                            место встречи
+                        </div>
+                        {{ data.place }}
+                    </h5>
+                </div>
+            </div>
         </div>
         <div class="card-footer bg-white text-center">
             <div class="card-footer__actions d-flex justify-content-around">
-                <a href="#" class="text-uppercase dt-travel-card__action" v-for="item in data.links">
+                <a :href="item.link" class="text-uppercase dt-travel-card__action" v-for="item in data.links">
                     <h6 class="dt-btn-text">{{ item.text }}</h6>
                 </a>
             </div>
-            <a v-if="data.complete" href="#" class="mt-4 personal-account-orders-completed-footer__link
+            <a v-if="data.complete && data.finish" href="#" class="mt-4 personal-account-orders-completed-footer__link
                 personal-account-orders-completed-footer__link_blue">
                 Поставить оценку
             </a>
-            <a v-if="data.review" href="#" class="mt-4 personal-account-orders-completed-footer__link
+            <a v-if="data.review && data.finish" href="#" class="mt-4 personal-account-orders-completed-footer__link
                 personal-account-orders-completed-footer__link_grey">
                 Смотреть мой отзыв
             </a>

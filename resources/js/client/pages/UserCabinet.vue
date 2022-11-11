@@ -1,6 +1,6 @@
 <template>
     <section id="personal-account" class="personal-account">
-        <div class="container">
+        <main class="container">
             <breadcrumbs :items="breadcrumbs" />
             <div class="personal-account__row">
                 <div class="personal-account-nav-mobile"
@@ -77,7 +77,7 @@
                 <user-watched-tours v-if="mobileMenuActive.title === 'Просмотренные'" />
                 <user-settings v-if="mobileMenuActive.title === 'Настройка профиля'" />
             </div>
-        </div>
+        </main>
     </section>
 </template>
 

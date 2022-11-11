@@ -134,8 +134,27 @@
         margin-bottom: 40px;
     }
 
+    & .dt-paragraph__caption {
+        font-family: $font-family-bold !important;
+        font-size: 20px;
+        margin-bottom: 30px;
+        margin-top: 55px;
+    }
+
     & .dt-paragraph {
         margin-top: 40px;
+
+        &__text {
+            & .dt-text__title {
+                font-family: $font-family-medium;
+                font-size: 16px;
+                color: $color-black;
+            }
+
+            & .dt-text__links {
+                margin-top: 10px;
+            }
+        }
 
         &__icon {
             &.blue {
@@ -150,30 +169,6 @@
                 svg {
                     fill: $color-white !important;
                 }
-            }
-        }
-    }
-
-    & .dt-paragraph__caption {
-        font-family: $font-family-bold !important;
-        font-size: 20px;
-        margin-bottom: 30px;
-        margin-top: 55px;
-    }
-
-    & .dt-paragraph {
-        &__text {
-            & .dt-text__title {
-                font-family: $font-family-medium;
-            }
-
-            /*& .dt-text__description {
-              font-family: $font-family-thin;
-              font-size: 14px;
-            }*/
-
-            & .dt-text__links {
-                margin-top: 10px;
             }
         }
     }
@@ -528,6 +523,7 @@
                     line-height: 20px;
                     letter-spacing: 0;
                     margin-bottom: 15px;
+                    font-size: 14px;
                 }
             }
 

@@ -1,6 +1,6 @@
 <template>
     <main class="container-xl">
-        <breadcrumbs :items="breadcrumbs"></breadcrumbs>
+        <breadcrumbs :items="breadcrumbs" class="pb-4"></breadcrumbs>
         <div class="main row">
             <h1 class="col-12 mb-4 ps-4 ps-lg-0 bold fs-1">Сообщения</h1>
             <!--HEAD-->

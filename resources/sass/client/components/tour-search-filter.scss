@@ -39,3 +39,11 @@
         }
     }
 }
+
+@media (max-width: 767.98px) {
+    .dt-search__content {
+        & .dt-search__title {
+            font-size: 27px !important;
+        }
+    }
+}
