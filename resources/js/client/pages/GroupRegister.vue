@@ -2,8 +2,7 @@
     <main class="container">
         <div class="main row d-flex justify-content-center">
             <div class="row col-11 col-md-10 col-lg-8 mx-0 px-0">
-                <h3 class="col-12 px-0 mb-5 opacity-40 letter-spasing-3 text-uppercase">главная <span
-                    class="fs-6 opacity-40">&gt;</span> онлайн-заявка на регистрацию туристких групп</h3>
+                <breadcrumbs :items="breadcrumbs" class="d-flex justify-content-center" />
                 <h1 class="col-12 px-0 mb-4 bold fs-1">Онлайн-заявка на регистрацию туристких групп</h1>
                 <p class="col-12 px-0 mb-5 thin font-size-09">
                     <span class="bold red font-size-09">Собрались в поход - проинформируйте МЧС!</span>
@@ -306,7 +305,7 @@
                     </div>
                     <div class="col-12 row mx-0 mt-3 px-0 align-items-center">
                         <div class="col-12 col-md-3 ps-0 pe-4 d-flex flex-column">
-                            <span class="thin ">Проятженность маршрута</span>
+                            <span class="thin ">Протяженность маршрута</span>
                             <span class="thin opacity-70">Route distance</span>
                         </div>
                         <input type="text" name="group-route-distance"
@@ -315,7 +314,7 @@
                     <div class="col-12 row mx-0 mt-3 px-0">
                         <div class="col-12 col-md-3 ps-0 pe-4 d-flex flex-column">
                             <span class="thin ">Сведения о субъектах РФ, по которым пролегает маршрут</span>
-                            <span class="thin opacity-70">Areas of the Russina Federation on which the route runs</span>
+                            <span class="thin opacity-70">Areas of the Russian Federation on which the route runs</span>
                         </div>
                         <input type="text" name="group-route-subjects"
                                class="thin col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
@@ -501,31 +500,38 @@
                            class="thin col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
                 </div>
                 <div class="col-12 px-0 mx-0 mb-3">
-                    <label for="all-data-is-correct"
-                           class="align-items-center col-12 col-md-auto checkbox row mx-0 px-0 align-items-center">
-                        <input type="checkbox" name="all-data-is-correct" class="col-auto custom-checkbox">
-                        <div
-                            class="col-auto custom-checkbox rounded bg-white d-flex align-items-center justify-content-center">
-                            <div class="col-auto custom-checkbox dot"></div>
+                    <div class="dt-check">
+                        <div class="dt-check__input bg-white">
+                            <input type="checkbox" name="type_person"/>
+                            <div class="dt-check__input-check"></div>
                         </div>
-                        <span class="col-auto thin ms-1">все данные введены мною верно</span>
-                    </label>
+                        <label class="dt-check__label">
+                            <slot name="label">
+                                <p class="fw-thin letter-spacing-1">все данные введены мною верно</p>
+                            </slot>
+                        </label>
+                    </div>
                 </div>
-                <div class="col-12 row mx-0 px-0 align-items-center">
-                    <label for="accept-terms" class="col-12 col-md-8 checkbox row mx-0 ps-0 pe-0 pe-md-5">
-                        <input type="checkbox" name="accept-terms" class="col-auto custom-checkbox">
-                        <div class="col-auto custom-checkbox rounded bg-white d-flex justify-content-center">
-                            <div class="col-auto custom-checkbox dot"></div>
+                <div class="col-12 row mx-0 px-0 align-items-center mb-3">
+                    <div class="dt-check ps-0">
+                        <div class="dt-check__input bg-white">
+                            <input type="checkbox" name="type_person"/>
+                            <div class="dt-check__input-check"></div>
                         </div>
-                        <div class="col ms-3 px-0 mx-0 align-items-center lh-sm">
-                            <span class="thin">Я соглашаюсь с
-                                <a class="text-decoration-underline">Условиями использования сайта</a> и даю
-                                согласие на обработку своих персональных данных в соотвествии с
-                                <a class="text-decoration-underline">Политикой обработки персональных
-                                    данных.</a>
-                            </span>
-                        </div>
-                    </label>
+                        <label class="dt-check__label">
+                            <slot name="label">
+                                <p class="fw-thin letter-spacing-1">
+                                    Я соглашаюсь с
+                                    <a href="#" class="text-decoration-underline">Условиями использования сайта</a> и даю
+                                    согласие на обработку своих персональных данных в соотвествии с
+                                    <a href="#" class="text-decoration-underline">Политикой обработки персональных
+                                        данных.</a>
+                                </p>
+                            </slot>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-12 row mx-0 px-0 align-items-center mb-3">
                     <button
                         class="big-button bold bg-blue col-12 col-md-4 mt-5 mt-md-0 px-5 rounded font-size-09">Отправить
                         заявку</button>
@@ -534,3 +540,22 @@
         </div>
     </main>
 </template>
+<script>
+import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
+export default {
+    components: {Breadcrumbs},
+    data(){
+        return {
+            breadcrumbs: [
+                {
+                    text: "Главная",
+                    href: "/",
+                },
+                {
+                    text: "онлайн-заявка на регистрацию туристких групп",
+                    active: true,
+                }]
+        }
+    }
+}
+</script>

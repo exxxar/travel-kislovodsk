@@ -5,56 +5,61 @@
         </h2>
         <div class="personal-account-input__grid_three">
             <div class="personal-account-input__container">
-                <label class="personal-account-input__label">
-                    фамилия
-                </label>
-                <div class="dt-input__group personal-account-input__group">
-                    <input type="text" name="name" class="dt-input" autocomplete="off" placeholder="Иванов">
-                    <div class="dt-input__group-item">
-                        <div class="dt-input__icon">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16"
-                                 viewBox="0 0 16 16">
-                                <image id="иконка" width="16" height="16"
-                                       xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHElEQVQ4jZ3TzSqGURAH8J+PHVLCSpKVsEUpomzY2+ACLGx8rLgAKykfNyAL16CUUiywZC8rryhZWNjo1NDT8by8TJ1mzsz8p/+cmVNn+VGJtGAJYxE6wx5e89TGKuBzDBZ801jAKF6KyfUlBVYDfI2JOMnux1otDMZDL+KqYF9iMk8uY9AQ+r3ge89iPxa4CL2Lvji7WexLyqbQEdS7M/89hvBQdJa9Qao4jPVsjJs5WBUGf5KcQROmYhIDaAv/E25wihO85QxSvxuYQ/MvDNI2HkZL96lAT8y4PYJHOMYtKgHqDEYzmA2mzxhJBbawgoPY/2/7nkkr9jGfdNqD3kjYqQGcJP2F7bC70iPWxeVzbf88hdTn3X/AqHwA8VY7499UjPsAAAAASUVORK5CYII="/>
-                            </svg>
+                <div class="dt-input__wrapper">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">фамилия</label>
+                    </div>
+                    <div class="dt-input__group bg-white">
+                        <input type="text" placeholder="Иванов" class="dt-input"
+                               autocomplete="off" maxlength="255">
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"
+                                     viewBox="0 0 48 48" fill="#0071eb">
+                                    <path
+                                        d="M24 23.8q-3.45 0-5.625-2.175T16.2 16q0-3.45 2.175-5.625T24 8.2q3.45 0 5.625 2.175T31.8 16q0 3.45-2.175 5.625T24 23.8ZM7.7 40.45v-5q0-2 1-3.425 1-1.425 2.55-2.175 3.4-1.5 6.5-2.25t6.25-.75q3.15 0 6.225.775Q33.3 28.4 36.7 29.9q1.6.7 2.6 2.125t1 3.425v5Zm3.4-3.4h25.8V35.5q0-.8-.475-1.525-.475-.725-1.175-1.075-3.15-1.5-5.775-2.075Q26.85 30.25 24 30.25q-2.85 0-5.525.575Q15.8 31.4 12.7 32.9q-.7.35-1.15 1.075-.45.725-.45 1.525ZM24 20.4q1.9 0 3.15-1.25T28.4 16q0-1.9-1.25-3.15T24 11.6q-1.9 0-3.15 1.25T19.6 16q0 1.9 1.25 3.15T24 20.4Zm0-4.4Zm0 21.05Z"/>
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="personal-account-input__container">
-                <label class="personal-account-input__label">
-                    имя
-                </label>
-                <div class="dt-input__group personal-account-input__group">
-                    <input type="text" name="name" class="dt-input" autocomplete="off" placeholder="Иван">
-                    <div class="dt-input__group-item">
-                        <div class="dt-input__icon">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16"
-                                 viewBox="0 0 16 16">
-                                <image id="иконка" width="16" height="16"
-                                       xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHElEQVQ4jZ3TzSqGURAH8J+PHVLCSpKVsEUpomzY2+ACLGx8rLgAKykfNyAL16CUUiywZC8rryhZWNjo1NDT8by8TJ1mzsz8p/+cmVNn+VGJtGAJYxE6wx5e89TGKuBzDBZ801jAKF6KyfUlBVYDfI2JOMnux1otDMZDL+KqYF9iMk8uY9AQ+r3ge89iPxa4CL2Lvji7WexLyqbQEdS7M/89hvBQdJa9Qao4jPVsjJs5WBUGf5KcQROmYhIDaAv/E25wihO85QxSvxuYQ/MvDNI2HkZL96lAT8y4PYJHOMYtKgHqDEYzmA2mzxhJBbawgoPY/2/7nkkr9jGfdNqD3kjYqQGcJP2F7bC70iPWxeVzbf88hdTn3X/AqHwA8VY7499UjPsAAAAASUVORK5CYII="/>
-                            </svg>
+                <div class="dt-input__wrapper">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">имя</label>
+                    </div>
+                    <div class="dt-input__group bg-white">
+                        <input type="text" placeholder="Николай" class="dt-input"
+                               autocomplete="off" maxlength="255">
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"
+                                     viewBox="0 0 48 48" fill="#0071eb">
+                                    <path
+                                        d="M24 23.8q-3.45 0-5.625-2.175T16.2 16q0-3.45 2.175-5.625T24 8.2q3.45 0 5.625 2.175T31.8 16q0 3.45-2.175 5.625T24 23.8ZM7.7 40.45v-5q0-2 1-3.425 1-1.425 2.55-2.175 3.4-1.5 6.5-2.25t6.25-.75q3.15 0 6.225.775Q33.3 28.4 36.7 29.9q1.6.7 2.6 2.125t1 3.425v5Zm3.4-3.4h25.8V35.5q0-.8-.475-1.525-.475-.725-1.175-1.075-3.15-1.5-5.775-2.075Q26.85 30.25 24 30.25q-2.85 0-5.525.575Q15.8 31.4 12.7 32.9q-.7.35-1.15 1.075-.45.725-.45 1.525ZM24 20.4q1.9 0 3.15-1.25T28.4 16q0-1.9-1.25-3.15T24 11.6q-1.9 0-3.15 1.25T19.6 16q0 1.9 1.25 3.15T24 20.4Zm0-4.4Zm0 21.05Z"/>
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="personal-account-input__container">
-                <label class="personal-account-input__label">
-                    отчество
-                </label>
-                <div class="dt-input__group personal-account-input__group">
-                    <input type="text" name="name" class="dt-input" autocomplete="off"
-                           placeholder="Иванович">
-                    <div class="dt-input__group-item">
-                        <div class="dt-input__icon">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16"
-                                 viewBox="0 0 16 16">
-                                <image id="иконка" width="16" height="16"
-                                       xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHElEQVQ4jZ3TzSqGURAH8J+PHVLCSpKVsEUpomzY2+ACLGx8rLgAKykfNyAL16CUUiywZC8rryhZWNjo1NDT8by8TJ1mzsz8p/+cmVNn+VGJtGAJYxE6wx5e89TGKuBzDBZ801jAKF6KyfUlBVYDfI2JOMnux1otDMZDL+KqYF9iMk8uY9AQ+r3ge89iPxa4CL2Lvji7WexLyqbQEdS7M/89hvBQdJa9Qao4jPVsjJs5WBUGf5KcQROmYhIDaAv/E25wihO85QxSvxuYQ/MvDNI2HkZL96lAT8y4PYJHOMYtKgHqDEYzmA2mzxhJBbawgoPY/2/7nkkr9jGfdNqD3kjYqQGcJP2F7bC70iPWxeVzbf88hdTn3X/AqHwA8VY7499UjPsAAAAASUVORK5CYII="/>
-                            </svg>
+                <div class="dt-input__wrapper">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">отчество</label>
+                    </div>
+                    <div class="dt-input__group bg-white">
+                        <input type="text" placeholder="Петрович" class="dt-input"
+                               autocomplete="off" maxlength="255">
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"
+                                     viewBox="0 0 48 48" fill="#0071eb">
+                                    <path
+                                        d="M24 23.8q-3.45 0-5.625-2.175T16.2 16q0-3.45 2.175-5.625T24 8.2q3.45 0 5.625 2.175T31.8 16q0 3.45-2.175 5.625T24 23.8ZM7.7 40.45v-5q0-2 1-3.425 1-1.425 2.55-2.175 3.4-1.5 6.5-2.25t6.25-.75q3.15 0 6.225.775Q33.3 28.4 36.7 29.9q1.6.7 2.6 2.125t1 3.425v5Zm3.4-3.4h25.8V35.5q0-.8-.475-1.525-.475-.725-1.175-1.075-3.15-1.5-5.775-2.075Q26.85 30.25 24 30.25q-2.85 0-5.525.575Q15.8 31.4 12.7 32.9q-.7.35-1.15 1.075-.45.725-.45 1.525ZM24 20.4q1.9 0 3.15-1.25T28.4 16q0-1.9-1.25-3.15T24 11.6q-1.9 0-3.15 1.25T19.6 16q0 1.9 1.25 3.15T24 20.4Zm0-4.4Zm0 21.05Z"/>
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -65,7 +70,7 @@
                 <label class="personal-account-input__label">
                     телефон
                 </label>
-                <div class="dt-input__group personal-account-input__group personal-account-input-tel__group">
+                <div class="dt-input__group personal-account-input__group personal-account-input-tel__group bg-white">
                     <input type="tel" name="name" class="dt-input tel" autocomplete="off"
                            placeholder="+7 (495) 400-56-66">
                     <div class="dt-input__group-item">
@@ -80,31 +85,28 @@
                     </div>
                 </div>
             </div>
-            <a href="" class="personal-account-input__link personal-account-input-tel__link">
+            <button class="personal-account-input__link personal-account-input-tel__link dt-btn-text">
                 сменить номер
-                <svg class="personal-account-input-tel__svg" xmlns="http://www.w3.org/2000/svg"
-                     xmlns:xlink="http://www.w3.org/1999/xlink" width="6" height="9" viewBox="0 0 6 9">
-                    <image id="expand_more_FILL0_wght600_GRAD0_opsz48" width="6" height="9"
-                           xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAJCAYAAAARml2dAAAAb0lEQVQImU3KsQ2CYBAF4A9DwwBuYEnHAla2LmDpALIGI1CzgAsYa4egMFBZuYCaM/mTe8kr7n1X6V/Q4Yn/Edmgwogbthm+OKLJGBBZsM9YoOAZLYYMO0x44FIgxjtWHPAOiF7zGJ81PjhhLiP8AB73FgByhMxbAAAAAElFTkSuQmCC"/>
-                </svg>
-            </a>
+            </button>
         </div>
         <div class="personal-account-input__row">
             <div class="personal-account-input__container personal-account-input-email__container">
-                <label class="personal-account-input__label">
-                    почта
-                </label>
-                <div class="dt-input__group personal-account-input__group personal-account-input-email__group">
-                    <input type="email" name="name" class="dt-input" autocomplete="off"
-                           placeholder="pochta123@gmail.com">
-                    <div class="dt-input__group-item">
-                        <div class="dt-input__icon">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="16"
-                                 viewBox="0 0 20 16">
-                                <image id="mail_FILL0_wght600_GRAD0_opsz48" width="20" height="16"
-                                       xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAA/UlEQVQ4jc3Su0pDQRDG8V/CAS+llZWdraSwUMRnsPYt4iVooyA2iqitvY2vIShYCEY7H0Gs7FIYlYUJrCHx6DmNH0wxO7P/ncs2bLw20cGyerrDSYF1HNWEJa3hJQHn4+AN27j/I2gRx5jBQpEFJnGBM+yjVwKaiLwdvMdZo5kltHGOLXSx9AMsxR6wG3fag0AO7MVyVsK/xSmms5ypNPiINSO3k3eTAwdK22pF6+nlR6yGPWEzYq3I/aZRwOFq+7gO64+qKlcxBjhc7WH4e2XLKgPm1f5K41qurP8PzGc4FwuoonQ36TMBn8M5CKujbgJeYTY+btURfOAGl184JDFFmd6fPgAAAABJRU5ErkJggg=="/>
-                            </svg>
+                <div class="d-flex align-items-center justify-content-between"><label
+                    class="dt-input__label">почта</label>
+                </div>
+                <div class="dt-input__wrapper">
+                    <div class="dt-input__group bg-white">
+                        <input type="text" placeholder="pochta123@gmail.com" class="dt-input"
+                               autocomplete="off">
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="16"
+                                     viewBox="0 0 20 16">
+                                    <image id="mail_FILL0_wght600_GRAD0_opsz48" width="20" height="16"
+                                           xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAA/UlEQVQ4jc3Su0pDQRDG8V/CAS+llZWdraSwUMRnsPYt4iVooyA2iqitvY2vIShYCEY7H0Gs7FIYlYUJrCHx6DmNH0wxO7P/ncs2bLw20cGyerrDSYF1HNWEJa3hJQHn4+AN27j/I2gRx5jBQpEFJnGBM+yjVwKaiLwdvMdZo5kltHGOLXSx9AMsxR6wG3fag0AO7MVyVsK/xSmms5ypNPiINSO3k3eTAwdK22pF6+nlR6yGPWEzYq3I/aZRwOFq+7gO64+qKlcxBjhc7WH4e2XLKgPm1f5K41qurP8PzGc4FwuoonQ36TMBn8M5CKujbgJeYTY+btURfOAGl184JDFFmd6fPgAAAABJRU5ErkJggg=="/>
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -134,7 +136,7 @@
                     </div>
                 </div>
             </div>
-            <button class="personal-account-input__btn personal-account-input-photo__btn fw-bold">
+            <button class="personal-account-input__btn personal-account-input-photo__btn fw-bold blue-underline">
                 сменить фото
             </button>
             <button class="personal-account-input__btn personal-account-input-photo__btn fw-bold

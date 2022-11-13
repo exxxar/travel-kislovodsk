@@ -1,16 +1,5 @@
-.personal-account__content {
-    & .dt-input__group {
-        background: white !important;
-    }
-}
-
 .personal-account {
     background: #f6f6f6;
-    //padding: 40px 0 80px;
-
-    & .dt-input__group {
-        background: white !important;
-    }
 
     &-breadcrumbs {
         font-size: 10px;
@@ -40,7 +29,7 @@
     }
 
     &__row {
-        //margin-top: 82px;
+        // margin-top: 82px;
         display: grid;
         grid-template-columns: minmax(auto, 300px) 1fr;
     }
@@ -113,7 +102,7 @@
     }
 
     &__content {
-        padding-left: 60px;
+        padding-left: 3rem;
     }
 
     &-input {
@@ -207,8 +196,13 @@
         }
 
         &-photo {
+            &__wraper {
+                margin-bottom: 30px;
+            }
+
             &__container {
                 margin: 0;
+                padding: 0;
             }
 
             &__group {
@@ -275,18 +269,160 @@
     opacity: 1 !important;
 }
 
-@media screen and (max-width: 778px) {
+@media (max-width: 1380px) {
+    .personal-account {
+        &-card {
+            &__list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    }
+}
+
+@media (max-width: 991.98px) {
     .personal-account {
         &__row {
-            margin-top: 29px;
-            grid-template-columns: minmax(auto, 215px) 1fr;
+            //margin-top: 29px;
+            grid-template-columns: 1fr;
         }
+
+        &__content {
+            padding: 29px 0 0 0;
+        }
+
 
         &-input {
             &__grid {
                 &_three {
                     grid-template-columns: 1fr;
+                    margin: 32px 0 0;
                 }
+            }
+
+            &__container {
+                margin: 0;
+                padding-bottom: 20px;
+            }
+
+            &-inter {
+                &__link, &__btn {
+                    margin-top: 10px;
+                }
+            }
+
+            &-tel {
+                &__container {
+                    margin-right: 26px;
+                }
+            }
+
+            &-email {
+                &__container {
+                    margin-right: 10px;
+                }
+            }
+
+            &-photo {
+                &__container {
+                    padding: 0;
+                }
+            }
+        }
+
+    }
+}
+
+@media (max-width: 767.98px) {
+    .personal-account {
+        //padding: 20px 0 59px;
+
+        &-input {
+            &-email, &-tel {
+                &__container {
+                    max-width: 100%;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 556px) {
+    .personal-account {
+        &-input {
+            &-inter {
+                &__row {
+                    flex-direction: column;
+                }
+
+                &__link, &__btn {
+                    margin: 0;
+                }
+            }
+
+            &-tel {
+                &__container {
+                    margin: 0 0 15px;
+                    padding: 0;
+                }
+
+                &__row {
+                    margin-bottom: 20px;
+                }
+            }
+
+            &-email {
+                &__container {
+                    margin: 0 0 4px;
+                    padding: 0;
+                }
+
+                &__btn {
+                    width: 100%;
+                    height: 50px;
+                }
+
+                &__row {
+                    margin-bottom: 18px;
+                }
+            }
+
+            &-photo {
+                &__wraper {
+                    margin-bottom: 21px;
+                }
+
+
+                &__group {
+                    width: 80px;
+                    height: 80px;
+                }
+
+                &__btns {
+                    display: flex;
+                    flex-direction: column;
+                    margin-left: 26px;
+                }
+
+                &__btn {
+                    margin: 0 0 20px;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+
+        &__submit {
+            width: 100%;
+            margin-top: 20px;
+            height: 60px;
+        }
+
+        &-card {
+            &__list {
+                grid-template-columns: 1fr;
             }
         }
     }

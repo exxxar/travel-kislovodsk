@@ -39,6 +39,7 @@ $prefix: "mo-";
 @import "components/reviews";
 @import "components/booking";
 @import "components/tour-search-filter";
+@import "components/guide-cabinet";
 @import "components/personal-account/changing-password";
 @import "components/personal-account/orders";
 @import "components/personal-account/reviews";
@@ -85,6 +86,7 @@ h5 {
     font-size: 12px;
     margin-bottom: 0;
 }
+
 @import "components/main";
 
 h6 {
@@ -98,9 +100,9 @@ h6 {
     max-width: 1420px;
 }
 
-@media screen and (max-width: 768px) {
+@media (max-width: 1599.98px) {
     .container {
-        padding-right: 20px;
-        padding-left: 20px;
+        padding-right: 20px !important;
+        padding-left: 20px !important;
     }
 }

@@ -1,7 +1,8 @@
 <template>
     <div id="add-excursion" class="add-excursion col ">
         <div class="row align-items-center mx-0 mb-4 mb-lg-5">
-            <button class="button col-auto px-2rem active rounded shadow-none bold">
+            <button @click="$emit('hideAddExcursion')"
+                    class="personal-account-nav__link_active button col-auto px-2rem active rounded shadow-none bold">
                 <span class="fs-6 me-1">&lt;</span>Назад
             </button>
             <h1 class="col-12 col-lg-auto bold fs-2 ms-lg-3 mt-5 mt-lg-0 px-0">Добавление новой экскурсии</h1>
@@ -85,7 +86,7 @@
                             </g>
                         </svg>
                     </span>
-            <div class="row row-cols-auto mx-0 px-0 hide visible-lg">
+            <div class="row row-cols-auto mx-0 px-0 d-lg-flex d-none gap-1">
                 <label class="align-items-center checkbox px-0 mx-0 mt-1">
                     <input type="checkbox" id="">
                     <span class="semibold category bg-white px-4 py-3 rounded">Активные</span>

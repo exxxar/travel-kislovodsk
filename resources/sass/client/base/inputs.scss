@@ -13,6 +13,7 @@
         font-size: 12px;
         font-family: $font-family-thin;
         margin-bottom: 11px;
+        letter-spacing: 0.35px;
     }
 
     &__wrapper {
@@ -28,7 +29,8 @@
         color: $color-black;
         font-size: 14px;
         height: 70px;
-        padding: 26px 27px 26px 30px;
+        padding: 26px 0 26px 30px;
+        //padding: 26px 27px 26px 30px;
 
         & .dt-label {
             font-size: 12px;
@@ -69,5 +71,23 @@
         align-items: center;
         display: flex;
         position: relative;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .dt-input__wrapper {
+        & .dt-input__group {
+            height: 50px;
+            padding: 0 0 0 20px;
+
+            & .dt-input__icon {
+                width: 14px;
+                height: 14px;
+            }
+        }
+
+        & .dt-input__label {
+            font-size: 10px;
+        }
     }
 }

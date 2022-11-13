@@ -29,23 +29,31 @@
     }
 }
 
-@media screen and (max-width: 768px) {
+@media (max-width: 991.98px) {
     .dt-page-footer {
         background-size: cover;
 
         & .dt-sitemap__links {
             display: block !important;
+            padding-top: 60px !important;
+            padding-bottom: 60px !important;
 
             & li {
                 padding-right: 0 !important;
-
-                &:not(:last-child) {
-                    padding-bottom: 20px;
+                a {
+                    font-size: 10px;
+                    font-family: $font-family-regular;
                 }
             }
         }
 
+        & .dt-page-footer__line {
+            height: 1px;
+            background: $color-white-50;
+        }
+
         & .dt-years-payments {
+            padding-top: 20px;
             & .row {
                 display: flex;
 
