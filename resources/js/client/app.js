@@ -85,8 +85,9 @@ app.component('tour-object-page', TourObjectPage)
 app.component('tour-search-page', ToursSearchPage)
 app.component('user-cabinet-page', UserCabinetPage)
 
+import store from './store'
 
-
+/*
 const store = createStore({
     state () {
         return {
@@ -94,6 +95,7 @@ const store = createStore({
         }
     }
 })
+*/
 
 app.use(store)
 
