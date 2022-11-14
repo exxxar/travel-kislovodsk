@@ -12,7 +12,7 @@ c
 const getters = {
     //todo: need add filter by date (day)
     getGuideSchedules: state => state.guide_schedules || [],
-    getGuideSchedulesById: (state) => (id) => {
+    getGuideScheduleById: (state) => (id) => {
         return state.guide_schedules.find(item => item.id === id)
     },
     getGuideSchedulesPaginateObject: state => state.guide_schedules_paginate_object || [],

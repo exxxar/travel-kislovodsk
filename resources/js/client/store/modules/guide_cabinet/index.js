@@ -2,8 +2,8 @@ import axios from 'axios';
 import transactions from './guide_transactions'
 import schedules from './guide_schedules'
 import tours from './guide_tours'
-import reviews from './guide_reviews'
-import tourObjects from './guide_tour_object/guide_tour_objects'
+
+import tourObjects from './guide_tour_object'
 
 const BASE_GUIDE_CABINET_LINK = '/api/guide-cabinet'
 
@@ -22,6 +22,10 @@ const getters = {
     ...tours.getters,
     ...reviews.getters,
     ...tourObjects.getters,
+    getGuideDocuments: state => state.documents || [],
+    getGuideDocumentById: (state) => (id) => {
+        return state.documents.find(item => item.id === id)
+    },
 }
 
 const actions = {

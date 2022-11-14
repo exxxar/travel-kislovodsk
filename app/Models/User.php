@@ -7,6 +7,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -82,5 +84,10 @@ class User extends Authenticatable implements MustVerifyEmail
             ->pluck('permission_name')
             ->all();
         return $permissions;
+    }
+
+    public static function self(): object
+    {
+       return User::query()->with([])->find(Auth::user()->id);
     }
 }

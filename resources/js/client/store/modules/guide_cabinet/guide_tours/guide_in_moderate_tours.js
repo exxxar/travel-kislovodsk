@@ -9,7 +9,7 @@ let state = {
 
 const getters = {
     getGuideInModerateTours: state => state.guide_in_moderate_tours || [],
-    getGuideInModerateToursById: (state) => (id) => {
+    getGuideInModerateTourById: (state) => (id) => {
         return state.guide_in_moderate_tours.find(item => item.id === id)
     },
     getGuideInModerateToursPaginateObject: state => state.guide_in_moderate_tours_paginate_object || [],

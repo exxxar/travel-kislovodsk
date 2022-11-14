@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import tours from'./modules/tours';
+import reviews from'./modules/reviews';
 import favorites from'./modules/favorites';
 import dictionaries from'./modules/dictionaries';
 import categories from'./modules/tour-categories';
@@ -17,6 +18,7 @@ export default createStore({
         categories,
         bookings,
         chats,
+        reviews,
         guideCabinet,
         userCabinet
     }

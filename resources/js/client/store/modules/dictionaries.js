@@ -14,7 +14,7 @@ const getters = {
         return state.dictionaries.find(item => item.id === id)
     },
     getDictionariesByType: (state) => (type) => {
-        return state.dictionaries.find(item => item.type === type)
+        return state.dictionaries.filter(item => item.type === type)
     },
     getDictionariesPaginateObject: state => state.paginate_object || [],
 }

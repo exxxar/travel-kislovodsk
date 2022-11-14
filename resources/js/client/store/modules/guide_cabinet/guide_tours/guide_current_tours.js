@@ -9,7 +9,7 @@ let state = {
 
 const getters = {
     getGuideCurrentTours:state => state.guide_current_tours || [],
-    getGuideCurrentToursById: (state) => (id) => {
+    getGuideCurrentTourById: (state) => (id) => {
         return state.guide_current_tours.find(item => item.id === id)
     },
     getGuideCurrentToursPaginateObject: state => state.guide_current_tours_paginate_object || [],

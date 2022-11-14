@@ -9,7 +9,7 @@ let state = {
 
 const getters = {
     getGuideArchiveTours: state => state.guide_archive_tours || [],
-    getGuideArchiveToursById: (state) => (id) => {
+    getGuideArchiveTourById: (state) => (id) => {
         return state.guide_archive_tours.find(item => item.id === id)
     },
     getGuideArchiveToursPaginateObject: state => state.guide_archive_tours_paginate_object || [],
