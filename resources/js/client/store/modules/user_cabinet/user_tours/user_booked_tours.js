@@ -9,6 +9,12 @@ let state = {
 
 const getters = {
     getUserBookedTours:state => state.user_booked_tours || [],
+    getUserUpcomingBookedTours: (state)  => {
+        return state.user_booked_tours.filter(item => item.payed_at   == null)
+    },
+    getUserCompletedBookedTours: (state)  => {
+        return state.user_booked_tours.filter(item => item.payed_at   !== null)
+    },
     getUserBookedTourById: (state) => (id) => {
         return state.user_booked_tours.find(item => item.id === id)
     },

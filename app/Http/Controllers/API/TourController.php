@@ -18,7 +18,10 @@ class TourController extends Controller
      */
     public function index(Request $request)
     {
-        $tours = Tour::paginate($request->count ?? config('app.results_per_page'));
+        $size = $request->get("size") ?? config('app.results_per_page');
+
+        $tours = Tour::query()
+            ->paginate($size);
 
         return new TourCollection($tours);
     }
