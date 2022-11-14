@@ -44,20 +44,22 @@ Route::prefix("api")
     ->group(function () {
 
         Route::prefix("tours")
+            ->controller(\App\Http\Controllers\API\TourController::class)
             ->group(function () {
-                Route::get('/', []);
-                Route::get('/all', []);
-                Route::get('/hot', []);
-                Route::post('/search', []);
+                Route::get('/', 'index');
+                Route::get('/all', 'all');
+                Route::get('/hot', 'hot');
+                Route::post('/search', 'search');
             });
 
         Route::prefix("chats")
+            ->controller(\App\Http\Controllers\API\MessageController::class)
             ->group(function () {
-                Route::get('/messages/{userId}', []);
-                Route::get('/users', []);
-                Route::post('/send-message', []);
-                Route::post('/send-file', []);
-                Route::post('/send-transaction', []);
+                Route::get('/messages/{userId}', 'messageByUserId');
+                Route::get('/users', 'userList');
+                Route::post('/send-message', 'sendMessage');
+                Route::post('/send-file', 'sendFile');
+                Route::post('/send-transaction', 'sendTransaction');
             });
 
         Route::prefix("guide-cabinet")
@@ -75,10 +77,12 @@ Route::prefix("api")
                     });
 
                 Route::prefix("tours")
+                    ->controller(\App\Http\Controllers\API\TourController::class)
                     ->group(function () {
                         Route::prefix("archive")
+                            ->controller(\App\Http\Controllers\API\TourController::class)
                             ->group(function () {
-                                Route::get('/', []);
+                                Route::get('/', '');
                                 Route::post('/search', []);
                                 Route::get('/restore/{id}', []);
                                 Route::get('/add/{id}', []);
@@ -137,6 +141,80 @@ Route::prefix("api")
                 Route::post('/send-transaction', []);
             });
 
+        Route::prefix("user-cabinet")
+            ->group(function () {
+
+                Route::prefix("transactions")
+                    ->group(function () {
+                        Route::get('/', []);
+                        Route::post('/search', []);
+                    });
+
+                Route::prefix("tours")
+                    ->group(function () {
+                        Route::prefix("watched")
+                            ->group(function () {
+                                Route::get('/', []);
+                                Route::post('/search', []);
+                                Route::get('/restore/{id}', []);
+                                Route::get('/add/{id}', []);
+                                Route::delete('/clear', []);
+                            });
+
+                        Route::prefix("booked")
+                            ->group(function () {
+                                Route::get('/', []);
+                                Route::post('/search', []);
+                                Route::delete('/clear', []);
+                            });
+
+
+                        Route::post('/', []);
+                        Route::put('/{id}', []);
+                    });
+
+                Route::prefix("tour-objects")
+                    ->group(function () {
+                        Route::prefix("active")
+                            ->group(function () {
+                                Route::get('/', []);
+                                Route::post('/search', []);
+                                Route::delete('/clear', []);
+                            });
+
+                        Route::prefix("removed")
+                            ->group(function () {
+                                Route::get('/', []);
+                                Route::post('/search', []);
+                                Route::get('/restore/{id}', []);
+                            });
+
+                        Route::delete('/remove/{id}', []);
+                        Route::post('/', []);
+                        Route::put('/{id}', []);
+                    });
+
+                Route::prefix("schedules")
+                    ->group(function () {
+
+                    });
+
+                Route::get('/messages/{userId}', []);
+                Route::get('/users', []);
+                Route::post('/send-message', []);
+                Route::post('/send-file', []);
+                Route::post('/send-transaction', []);
+            });
+
+        Route::prefix("reviews")
+            ->group(function () {
+                Route::get('/', [\App\Http\Controllers\API\BookingController::class,]);
+                Route::post('/', []);
+                Route::delete('/{id}', []);
+                Route::get('/all', []);
+                Route::get('/tour/{id}', []);
+                Route::get('/guide/{id}', []);
+            });
 
         Route::prefix("bookings")
             ->group(function () {
@@ -156,6 +234,7 @@ Route::prefix("api")
         Route::prefix("dictionaries")
             ->group(function () {
                 Route::get('/', []);
+                Route::get('/all', []);
                 Route::get('/types', []);
                 Route::get('/groups/{type}', []);
             });
