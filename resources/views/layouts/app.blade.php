@@ -7,6 +7,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    @if (Auth::check())
+        <meta name="user" content="{{ \App\Models\User::self() }}"/>
+    @endif
 
     @vite(['resources/css/app.css'])
 

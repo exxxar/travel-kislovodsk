@@ -2,16 +2,23 @@ import axios from "axios";
 
 export default {
     async makeAxiosFactory(link,method = 'GET', data = null){
+        let result;
         switch(method.toUpperCase()) {
             default:
             case 'GET':
-                return await axios.get(link);
+                result =  await axios.get(link);
+                break;
             case 'POST':
-                return await axios.post(link, data)
+                result =  await axios.post(link, data)
+                break;
             case 'PUT':
-                return await axios.put(link, data)
+                result =  await axios.put(link, data)
+                break;
             case 'DELETE':
-                return await axios.delete(link)
+                result =  await axios.delete(link)
+                break;
         }
+
+        return result;
     }
 }

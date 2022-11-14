@@ -32,3 +32,23 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
+
+window.user = document.head.querySelector('meta[name="user"]') != null ?
+    document.head.querySelector('meta[name="user"]').content : null;
+
+if (window.user) {
+    window.user = JSON.parse(window.user)
+    //todo: добавить роль на клиент
+   /* window.user.is_transporter = window.user.roles.filter(item => item.name === "transporter").length > 0 || false;
+    window.user.is_customer = window.user.roles.filter(item => item.name === "customer").length > 0 || false;
+    window.user.is_admin = window.user.roles.filter(item => item.name === "admin").length > 0 || false;
+    window.user.is_guest = false*/
+} else {
+    window.user = {}
+    //todo: добавить роль на клиент
+ /*   window.user.is_transporter = false;
+    window.user.is_customer = false
+    window.user.is_admin = false
+    window.user.is_guest = true*/
+
+}
