@@ -8,7 +8,7 @@ let state = {
     guide_schedules_paginate_object: [],
 }
 
-c
+
 const getters = {
     //todo: need add filter by date (day)
     getGuideSchedules: state => state.guide_schedules || [],

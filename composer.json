@@ -11,7 +11,9 @@
         "laravel/breeze": "^1.14",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
-        "laravel/tinker": "^2.7"
+        "laravel/socialite": "^5.5",
+        "laravel/tinker": "^2.7",
+        "socialiteproviders/vkontakte": "^5.0"
     },
     "require-dev": {
         "brackets/admin-generator": "^6.2",

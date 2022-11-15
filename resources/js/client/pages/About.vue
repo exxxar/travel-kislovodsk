@@ -6,6 +6,8 @@
                     class="fs-6 opacity-40">&gt;</span>
                     о проекте</h3>
                 <h1 class="col-12 px-0 mb-4 bold fs-1">О проекте</h1>
+
+
                 <p class="col-12 px-0 mb-5 thin font-size-09">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ad exercitationem laborum
                     consequuntur blanditiis quae excepturi nisi voluptas ea quibusdam sunt ipsam amet dignissimos, quam

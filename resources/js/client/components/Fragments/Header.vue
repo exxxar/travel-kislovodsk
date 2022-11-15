@@ -36,24 +36,32 @@
                                 <img width="18" height="18" v-lazy="'/img/icons/searchWhite.svg'" alt="search">
                             </a>
                         </li>
-                        <li class="dt-btn-entry">
+                        <li class="dt-btn-entry" v-if="!user.is_guest">
                             <a href="#">
                                 <img width="18" height="18"
                                      v-lazy="'/img/icons/favorite_FILL0_wght600_GRAD0_opsz48_white.svg'"
                                      alt="favorite">
                             </a>
                         </li>
-                        <li class="dt-btn-entry">
+                        <li class="dt-btn-entry" v-if="!user.is_guest">
                             <a href="/messages">
                                 <img width="18" height="18"
                                      v-lazy="'/img/icons/sms_FILL0_wght600_GRAD0_opsz48_white.svg'"
                                      alt="sms">
                             </a>
                         </li>
-                        <li class="dt-btn-entry">
+                        <li class="dt-btn-entry" v-if="user.is_guest">
                             <a data-bs-toggle="modal" data-bs-target="#dtModalEntry"
                                class="dt-btn__text-entry dt-text-muted--white-50 dt-none-link--white-50 text-decoration-none"
                                href="#">ВХОД</a>
+                        </li>
+                        <li class="dt-btn-entry" v-if="!user.is_guest">
+                            <a href="/user-cabinet" v-if="user.is_user" class="d-flex justify-content-between">
+                                <p>{{user.profile.fname}}</p>
+                                <img width="18" height="18"
+                                     v-lazy="user.profile.photo"
+                                     alt="profile photo">
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -109,21 +117,21 @@
                                 <img width="18" height="18" v-lazy="'/img/icons/searchWhite.svg'" alt="search">
                             </a>
                         </li>
-                        <li class="dt-btn-entry">
+                        <li class="dt-btn-entry" v-if="!user.is_guest">
                             <a href="#">
                                 <img width="18" height="18"
                                      v-lazy="'/img/icons/favorite_FILL0_wght600_GRAD0_opsz48_white.svg'"
                                      alt="favorite">
                             </a>
                         </li>
-                        <li class="dt-btn-entry">
+                        <li class="dt-btn-entry" v-if="!user.is_guest">
                             <a href="/messages">
                                 <img width="18" height="18"
                                      v-lazy="'/img/icons/sms_FILL0_wght600_GRAD0_opsz48_white.svg'"
                                      alt="sms">
                             </a>
                         </li>
-                        <li class="dt-btn-entry flex-fill">
+                        <li class="dt-btn-entry flex-fill" v-if="user.is_guest">
                             <a data-bs-toggle="modal" data-bs-target="#dtModalEntry"
                                class="dt-btn__text-entry dt-text-muted--white-50 dt-none-link--white-50 text-decoration-none"
                                href="#">ВХОД</a>
@@ -134,3 +142,13 @@
         </div>
     </header>
 </template>
+
+<script>
+    export default  {
+        computed:{
+            user(){
+                return window.user;
+            }
+        }
+    }
+</script>

@@ -15,11 +15,14 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $role = UserRole::firstOrCreate(
+        UserRole::firstOrCreate(
             ['role_name' => 'admin']
         );
-        $role = UserRole::firstOrCreate(
+        UserRole::firstOrCreate(
             ['role_name' => 'user']
+        );
+        UserRole::firstOrCreate(
+            ['role_name' => 'guide']
         );
     }
 }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import userTours from 'user_tours'
+import userTours from './user_tours'
 import userTransactions from './user_transactions'
 
 const BASE_USER_CABINET_LINK = '/api/user-cabinet'
