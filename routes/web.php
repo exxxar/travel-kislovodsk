@@ -23,7 +23,7 @@ Route::view('/for-guides', 'pages.for-guides')->name("page.for-guides");
 Route::view('/for-tourist', 'pages.for-tourist')->name("page.for-tourist");
 Route::view('/group-register', 'pages.group-register')->name("page.group-register");
 Route::view('/guide', 'pages.guide')->name("page.guide");
-Route::view('/guide-cabinet', 'pages.guide-cabinet')->name("page.guide-cabinet");
+
 Route::view('/how-become-guide', 'pages.how-become-guide')->name("page.how-become-guide");
 Route::view('/messages', 'pages.messages')->name("page.messages"); //in progress
 Route::view('/partners', 'pages.partners')->name("page.partners");
@@ -34,7 +34,17 @@ Route::view('/tour-object', 'pages.tour-object')->name("page.tour-object");
 Route::view('/tours-all', 'pages.tours-all')->name("page.tours-all");
 Route::view('/tours-hot', 'pages.tours-hot')->name("page.tours-hot");
 Route::view('/tour-search', 'pages.tour-search')->name("page.tour-search");
-Route::view('/user-cabinet', 'pages.user-cabinet')->name("page.user-cabinet");
+
+
+Route::get("/vk-login", [\App\Http\Controllers\SocialAuthController::class,"vkAuth"]);
+
+Route::get('/vk/callback', [\App\Http\Controllers\SocialAuthController::class,'vkCallback']);
+
+Route::middleware(["auth"])->group(function (){
+    Route::view('/guide-cabinet', 'pages.guide-cabinet')->name("page.guide-cabinet");
+    Route::view('/user-cabinet', 'pages.user-cabinet')->name("page.user-cabinet");
+    Route::get('/logout', \App\Http\Controllers\SocialAuthController::class . '@logout')->name("logout");
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -42,6 +52,12 @@ Route::get('/dashboard', function () {
 
 Route::prefix("api")
     ->group(function () {
+
+        Route::controller(\App\Http\Controllers\SocialAuthController::class)
+            ->group(function(){
+                Route::post('/registration', 'registration');
+                Route::post('/login', 'login');
+            });
 
         Route::prefix("tours")
             ->controller(\App\Http\Controllers\API\TourController::class)

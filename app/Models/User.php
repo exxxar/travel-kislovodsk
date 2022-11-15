@@ -88,6 +88,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public static function self(): object
     {
-       return User::query()->with([])->find(Auth::user()->id);
+       return User::query()->with(["profile"])->find(Auth::user()->id);
     }
 }

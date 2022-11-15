@@ -29,7 +29,7 @@
                             </div>
                         </li>
                         <li class="personal-account-nav-mobile__item personal-account-nav-mobile__item_exit personal-account-nav__item">
-                            <a href="/" class="personal-account-nav-mobile__link personal-account-nav__link">
+                            <a href="/logout" class="personal-account-nav-mobile__link personal-account-nav__link">
                                 <div class="personal-account-nav-mobile__icon personal-account-nav__icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
                                          viewBox="0 0 44 44">
@@ -57,7 +57,7 @@
                             </div>
                         </li>
                         <li class="personal-account-nav__item">
-                            <a href="/" class=" personal-account-nav__link">
+                            <a href="/logout" class=" personal-account-nav__link">
                                 Выход
                                 <div class="personal-account-nav__icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"

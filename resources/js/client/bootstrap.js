@@ -38,6 +38,10 @@ window.user = document.head.querySelector('meta[name="user"]') != null ?
 
 if (window.user) {
     window.user = JSON.parse(window.user)
+    console.log(window.user)
+    window.user.is_guide = false
+    window.user.is_user = true
+    window.user.is_guest = false
     //todo: добавить роль на клиент
    /* window.user.is_transporter = window.user.roles.filter(item => item.name === "transporter").length > 0 || false;
     window.user.is_customer = window.user.roles.filter(item => item.name === "customer").length > 0 || false;
@@ -45,10 +49,13 @@ if (window.user) {
     window.user.is_guest = false*/
 } else {
     window.user = {}
+    window.user.is_guest = true
+    window.user.is_guide = false
+    window.user.is_user = false
     //todo: добавить роль на клиент
  /*   window.user.is_transporter = false;
     window.user.is_customer = false
     window.user.is_admin = false
-    window.user.is_guest = true*/
+    */
 
 }

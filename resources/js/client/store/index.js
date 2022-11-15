@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import auth from'./modules/auth';
 import tours from'./modules/tours';
 import reviews from'./modules/reviews';
 import favorites from'./modules/favorites';
@@ -12,6 +13,7 @@ import userCabinet from'./modules/user_cabinet';
 
 export default createStore({
     modules: {
+        auth,
         tours,
         favorites,
         dictionaries,
