@@ -74,9 +74,9 @@ class Tour extends Model
         return url('/admin/tours/' . $this->getKey());
     }
 
-    public function tourObject()
+    public function tourObjects()
     {
-        return $this->belongsTo(TourObject::class);
+        return $this->belongsToMany(TourObject::class);
     }
 
     public function durationType()

@@ -48,6 +48,10 @@ class TourObject extends Model
         return url('/admin/tour-objects/' . $this->getKey());
     }
 
+    public function tours(){
+        return $this->belongsToMany(Tour::class);
+    }
+
     public function tourGuide()
     {
         return $this->belongsTo(User::class);

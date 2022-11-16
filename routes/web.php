@@ -34,14 +34,14 @@ Route::view('/tour-object', 'pages.tour-object')->name("page.tour-object");
 Route::view('/tours-all', 'pages.tours-all')->name("page.tours-all");
 Route::view('/tours-hot', 'pages.tours-hot')->name("page.tours-hot");
 Route::view('/tour-search', 'pages.tour-search')->name("page.tour-search");
+Route::view('/not-found', 'pages.errors.404')->name("page.not-found");
+Route::view('/error', 'pages.errors.500')->name("page.error");
 
+Route::middleware(["auth"])->group(function () {
 
-Route::get("/vk-login", [\App\Http\Controllers\SocialAuthController::class,"vkAuth"]);
-
-Route::get('/vk/callback', [\App\Http\Controllers\SocialAuthController::class,'vkCallback']);
-
-Route::middleware(["auth"])->group(function (){
-    Route::view('/guide-cabinet', 'pages.guide-cabinet')->name("page.guide-cabinet");
+    Route::middleware(["is_guide"])->group(function () {
+        Route::view('/guide-cabinet', 'pages.guide-cabinet')->name("page.guide-cabinet");
+    });
     Route::view('/user-cabinet', 'pages.user-cabinet')->name("page.user-cabinet");
     Route::get('/logout', \App\Http\Controllers\SocialAuthController::class . '@logout')->name("logout");
 });
@@ -54,7 +54,7 @@ Route::prefix("api")
     ->group(function () {
 
         Route::controller(\App\Http\Controllers\SocialAuthController::class)
-            ->group(function(){
+            ->group(function () {
                 Route::post('/registration', 'registration');
                 Route::post('/login', 'login');
             });
@@ -68,11 +68,23 @@ Route::prefix("api")
                 Route::post('/search', 'search');
             });
 
+        Route::prefix("dictionaries")
+            ->controller(\App\Http\Controllers\API\DictionaryController::class)
+            ->group(function () {
+                Route::get('/all', 'getAllDictionaries');
+                Route::get('/types', 'getAllTypes');
+                Route::get('/groups/{type}', 'getTypeGroups');
+                Route::get('/types/{id}', 'getByTypeId');
+                Route::get('/{id}', 'getById');
+            });
+
         Route::prefix("chats")
             ->controller(\App\Http\Controllers\API\MessageController::class)
             ->group(function () {
+                Route::get('/self-message', 'selfMessages');
                 Route::get('/messages/{userId}', 'messageByUserId');
-                Route::get('/users', 'userList');
+                Route::get('/self-chats', 'selfChats');
+                //Route::get('/users', 'userList');
                 Route::post('/send-message', 'sendMessage');
                 Route::post('/send-file', 'sendFile');
                 Route::post('/send-transaction', 'sendTransaction');
@@ -247,13 +259,7 @@ Route::prefix("api")
                 Route::get('/top', []);
             });
 
-        Route::prefix("dictionaries")
-            ->group(function () {
-                Route::get('/', []);
-                Route::get('/all', []);
-                Route::get('/types', []);
-                Route::get('/groups/{type}', []);
-            });
+
 
         Route::prefix("favorites")
             ->group(function () {

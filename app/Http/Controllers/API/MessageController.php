@@ -8,7 +8,9 @@ use App\Http\Requests\API\MessageUpdateRequest;
 use App\Http\Resources\MessageCollection;
 use App\Http\Resources\MessageResource;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -18,9 +20,52 @@ class MessageController extends Controller
      */
     public function index(Request $request)
     {
-        $messages = Message::paginate($request->count ?? config('app.results_per_page'));
+        $messages = Message::paginate($request->size ?? config('app.results_per_page'));
 
         return new MessageCollection($messages);
+    }
+
+    public function selfMessages(Request $request)
+    {
+        $userId = Auth::user()->id ?? null;
+
+        if (is_null($userId))
+            return response()->json(["message" => "Error"], 400);
+
+        $user = User::query()->with(["role"])->where("id", $userId)->first();
+
+        if (is_null($user))
+            return response()->json(["message" => "Error"], 400);
+
+        $messages = Message::query()->where(
+            ($user->role->role_name === "user" ? "user_id" : "tour_guide_id"),
+            $user->id
+        )->paginate($request->size ?? config('app.results_per_page'));
+
+
+        return new MessageCollection($messages);
+    }
+
+    public function messageByUserId(Request $request, $userId)
+    {
+        $user = User::query()->with(["role"])->where("id", $userId)->first();
+
+        if (is_null($user))
+            return response()->json(["message" => "Error"], 400);
+
+        $messages = Message::query()->where(
+            ($user->role->role_name === "user" ? "user_id" : "tour_guide_id"),
+            $user->id
+        )->paginate($request->size ?? config('app.results_per_page'));
+
+        return new MessageCollection($messages);
+
+    }
+
+    public function selfChats(Request $request)
+    {
+
+        return null;
     }
 
     /**
@@ -66,5 +111,9 @@ class MessageController extends Controller
         $message->delete();
 
         return response()->noContent();
+    }
+
+    public function sendMessage(Request $request){
+
     }
 }

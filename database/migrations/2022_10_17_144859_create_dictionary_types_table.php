@@ -15,7 +15,8 @@ class CreateDictionaryTypesTable extends Migration
     {
         Schema::create('dictionary_types', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 190)->unique();
+            $table->string('title', 255);
+            $table->string('slug', 255)->unique();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -17,16 +17,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-        $dictType = DictionaryType::query()->where("title","Юридический статус")->first();
-
-        Dictionary::firstOrCreate(
-            ['title' => 'Физическое лицо' , 'dictionary_type_id'=>$dictType->id]
-
-        );
-
-        Dictionary::firstOrCreate(
-            ['title' => 'Юридическое лицо' , 'dictionary_type_id'=>$dictType->id]
-        );
+        $this->call([
+           RoleSeeder::class,
+           DictionaryTypeSeeder::class,
+           DictionarySeeder::class,
+        ]);
 
     }
 }

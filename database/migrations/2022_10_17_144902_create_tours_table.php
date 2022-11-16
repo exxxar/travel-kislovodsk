@@ -26,7 +26,6 @@ class CreateToursTable extends Migration
             $table->boolean('is_hot')->default(false);
             $table->boolean('is_active')->default(true);
             $table->boolean('is_draft')->default(true);
-            $table->string('duration', 255)->nullable();
             $table->double('rating')->default('0');
             $table->json('images')->nullable();
             $table->json('prices')->nullable();

@@ -17,26 +17,19 @@ class DictionaryTypeSeeder extends Seeder
      */
     public function run()
     {
-        $dict_types = [
-            "Статус транзакций",
-            "Юридический статус",
-            "Тип контента в сообщении",
-            "Тип сообщения",
-            "Статус сообщения",
-            "Категория тура",
-            "Тип тура",
-            "Тип билета",
-            "Тип оплаты",
-            "Длительность",
-            "Передвижение",
-            "Виды сервиса",
-        ];
-
-        foreach ($dict_types as $dict)
-            DictionaryType::firstOrCreate(
-                ['title' => $dict]
-            );
-
-
+        DictionaryType::firstOrCreate(['title' => "Статус транзакций", "slug" => "transaction_type"]);
+        DictionaryType::firstOrCreate(['title' => "Юридический статус", "slug" => "law_status_type"]);
+        DictionaryType::firstOrCreate(['title' => "Тип контента в сообщении", "slug" => "message_content_type"]);
+        DictionaryType::firstOrCreate(['title' => "Тип сообщения", "slug" => "message_type"]);
+        DictionaryType::firstOrCreate(['title' => "Статус сообщения", "slug" => "message_status_type"]);
+        DictionaryType::firstOrCreate(['title' => "Категория тура", "slug" => "tour_category_type"]);
+        DictionaryType::firstOrCreate(['title' => "Тип тура", "slug" => "tour_type"]);
+        DictionaryType::firstOrCreate(['title' => "Тип билета", "slug" => "ticket_type"]);
+        DictionaryType::firstOrCreate(['title' => "Тип оплаты", "slug" => "payment_type"]);
+        DictionaryType::firstOrCreate(['title' => "Длительность", "slug" => "duration_type"]);
+        DictionaryType::firstOrCreate(['title' => "Передвижение", "slug" => "movement_type"]);
+        DictionaryType::firstOrCreate(['title' => "Виды сервиса", "slug" => "service_type"]);
+        DictionaryType::firstOrCreate(['title' => "Тип сортировки", "slug" => "sort_type"]);
+        DictionaryType::firstOrCreate(['title' => "Другое", "slug" => "other_type"]);
     }
 }

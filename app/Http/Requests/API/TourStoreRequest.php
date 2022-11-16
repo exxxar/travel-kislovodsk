@@ -45,9 +45,10 @@ class TourStoreRequest extends FormRequest
             'movement_type_id' => ['integer', 'exists:movement_types,id'],
             'tour_type_id' => ['integer', 'exists:tour_types,id'],
             'payment_type_id' => ['integer', 'exists:payment_types,id'],
-            'creator_id' => ['required', 'integer', 'exists:creators,id'],
+            'creator_id' => [''],
             'verified_at' => [''],
-            'softdeletes' => ['required'],
+            'deleted_at' => [''],
+            'tour_objects' => [''],
         ];
     }
 }
