@@ -17,6 +17,7 @@ class DictionaryType extends Model
      */
     protected $fillable = [
         'title',
+        'slug',
     ];
 
     /**

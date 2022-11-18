@@ -17,8 +17,8 @@ class DictionaryResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'dictionary_type_id' => $this->dictionary_type_id,
-            'softdeletes' => $this->softdeletes,
+            'dictionary_type_id' => $this->dictionary_type_id??null,
+            'slug' => $this->slug,
         ];
     }
 }

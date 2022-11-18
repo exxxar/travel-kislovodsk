@@ -2,10 +2,17 @@
 
 namespace App\Http\Requests\API;
 
+use App\Exceptions\ExceptionAPI;
+use App\Traits\FailedValidation;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class TourObjectStoreRequest extends FormRequest
 {
+    use FailedValidation;
+
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,8 +20,9 @@ class TourObjectStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return config("app.debug") || !is_null(Auth::user());
     }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -30,10 +38,7 @@ class TourObjectStoreRequest extends FormRequest
             'latitude' => ['required', 'numeric'],
             'longitude' => ['required', 'numeric'],
             'comment' => ['string'],
-            'tour_guide_id' => ['required', 'integer', 'exists:tour_guides,id'],
-            'creator_id' => ['required', 'integer', 'exists:creators,id'],
-            'photos' => ['json'],
-            'softdeletes' => ['required'],
+            'photos' => ['array']
         ];
     }
 }

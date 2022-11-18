@@ -9,7 +9,7 @@ class DictionaryTypeResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -17,7 +17,8 @@ class DictionaryTypeResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'softdeletes' => $this->softdeletes,
+            'slug' => $this->slug,
+            'dictionaries' => (new DictionaryCollection($this->dictionaries))->jsonSerialize()["data"] ?? []
         ];
     }
 }

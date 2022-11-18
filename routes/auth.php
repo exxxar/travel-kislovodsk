@@ -11,6 +11,10 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
+    Route::get("/vk-login", [\App\Http\Controllers\SocialAuthController::class,"vkAuth"]);
+
+    Route::get('/vk/callback', [\App\Http\Controllers\SocialAuthController::class,'vkCallback']);
+
     Route::get('register', [RegisteredUserController::class, 'create'])
                 ->name('register');
 
