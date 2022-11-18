@@ -17,6 +17,8 @@ class DictionaryTypeSeeder extends Seeder
      */
     public function run()
     {
+
+
         DictionaryType::firstOrCreate(['title' => "Статус транзакций", "slug" => "transaction_type"]);
         DictionaryType::firstOrCreate(['title' => "Юридический статус", "slug" => "law_status_type"]);
         DictionaryType::firstOrCreate(['title' => "Тип контента в сообщении", "slug" => "message_content_type"]);

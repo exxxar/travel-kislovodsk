@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\ExceptionAPI;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
@@ -28,6 +29,9 @@ class IsGuide
             ->first();
 
         if (is_null($user))
+            return redirect("login");
+
+        if ($user->role!=="guide")
             return redirect("login");
 
         return $next($request);

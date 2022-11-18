@@ -25,7 +25,9 @@ class TourObjectResource extends JsonResource
             'tour_guide_id' => $this->tour_guide_id,
             'creator_id' => $this->creator_id,
             'photos' => $this->photos,
-            'softdeletes' => $this->softdeletes,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'deleted_at' => $this->deleted_at,
         ];
     }
 }

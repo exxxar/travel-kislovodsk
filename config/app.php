@@ -42,6 +42,7 @@ return [
     */
 
     'debug' => (bool) env('APP_DEBUG', false),
+    'default_guide_id' => (int) env('DEFAULT_GUIDE_ID', 1),
 
     /*
     |--------------------------------------------------------------------------

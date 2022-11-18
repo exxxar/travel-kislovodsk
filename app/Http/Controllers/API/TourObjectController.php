@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Exceptions\ExceptionAPI;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\TourObjectSearchRequest;
 use App\Http\Requests\API\TourObjectStoreRequest;
 use App\Http\Requests\API\TourObjectUpdateRequest;
 use App\Http\Resources\TourObjectCollection;
 use App\Http\Resources\TourObjectResource;
 use App\Models\TourObject;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\UnauthorizedException;
+use Illuminate\Validation\ValidationException;
 
 class TourObjectController extends Controller
 {
@@ -18,18 +25,24 @@ class TourObjectController extends Controller
      */
     public function index(Request $request)
     {
-        $tourObjects = TourObject::paginate($request->count ?? config('app.results_per_page'));
+        $tourObjects = TourObject::withTrashed()
+            ->paginate($request->count ?? config('app.results_per_page'));
 
         return new TourObjectCollection($tourObjects);
     }
 
+
     /**
      * @param \App\Http\Requests\API\TourObjectStoreRequest $request
-     * @return \App\Http\Resources\TourObjectResource
+     * @return TourObjectResource|\Illuminate\Http\JsonResponse
      */
     public function store(TourObjectStoreRequest $request)
     {
-        $tourObject = TourObject::create($request->validated());
+        $tmp = (object)$request->validated();
+
+        $tmp->creator_id = Auth::user()->id??config("app.default_guide_id");
+
+        $tourObject = TourObject::query()->create((array)$tmp);
 
         return new TourObjectResource($tourObject);
     }
@@ -47,7 +60,7 @@ class TourObjectController extends Controller
     /**
      * @param \App\Http\Requests\API\TourObjectUpdateRequest $request
      * @param \App\Models\TourObject $tourObject
-     * @return \App\Http\Resources\TourObjectResource
+     * @return TourObjectResource|\Illuminate\Http\JsonResponse
      */
     public function update(TourObjectUpdateRequest $request, TourObject $tourObject)
     {
@@ -63,8 +76,101 @@ class TourObjectController extends Controller
      */
     public function destroy(Request $request, TourObject $tourObject)
     {
-        $tourObject->delete();
+        if (!is_null($tourObject))
+            $tourObject->delete();
 
         return response()->noContent();
     }
+
+    public function search(TourObjectSearchRequest $request)
+    {
+        $tourObjects = TourObject::withTrashed();
+
+        $tourObjects = $tourObjects->where("description", 'like', '%' . $request->search . '%')
+            ->orWhere('title', 'like', '%' . $request->search . '%')
+            ->orWhere('comment', 'like', '%' . $request->search . '%')
+            ->orWhere('address', 'like', '%' . $request->search . '%');
+
+        $tourObjects = $tourObjects
+            ->paginate($request->count ??
+                config('app.results_per_page'));
+
+        return new TourObjectCollection($tourObjects);
+    }
+
+    public function clearActive(Request $request)
+    {
+        $userId = Auth::user()->id;
+
+        $tourObjects = TourObject::query()
+            ->where('creator_id', $userId)
+            ->get();
+
+        foreach ($tourObjects as $tourObject)
+            $tourObject->delete();
+
+        return response()->noContent();
+
+    }
+
+    public function clearRemoved(Request $request)
+    {
+        $userId = Auth::user()->id;
+
+        $tourObjects = TourObject::withTrashed()
+            ->where('creator_id', $userId)
+            ->whereNotNull('deleted_at')
+            ->get();
+
+        foreach ($tourObjects as $tourObject)
+            $tourObject->forceDelete();
+
+        return response()->noContent();
+    }
+
+    public function clear(Request $request)
+    {
+        $userId = Auth::user()->id;
+
+        $tourObjects = TourObject::withTrashed()
+            ->where('creator_id', $userId)
+            ->get();
+
+        foreach ($tourObjects as $tourObject)
+            $tourObject->forceDelete();
+
+        return response()->noContent();
+    }
+
+    public function restoreAll(Request $request)
+    {
+        $userId = Auth::user()->id;
+
+        $tourObjects = TourObject::withTrashed()
+            ->where('creator_id', $userId)
+            ->whereNotNull('deleted_at')
+            ->get();
+
+        foreach ($tourObjects as $tourObject) {
+            $tourObject->deleted_at = null;
+            $tourObject->save();
+        }
+
+
+        $tourObjects = $tourObjects->fresh();
+
+        return new TourObjectCollection($tourObjects);
+    }
+
+
+
+    public function restore(Request $request, TourObject $tourObject)
+    {
+        $tourObject->deleted_at = null;
+        $tourObject->save();
+
+        return new TourObjectResource($tourObject);
+    }
 }
+
+

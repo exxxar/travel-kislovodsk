@@ -2,10 +2,14 @@
 
 namespace App\Http\Requests\API;
 
+use App\Traits\FailedValidation;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class TourUpdateRequest extends FormRequest
 {
+
+    use FailedValidation;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,7 +17,7 @@ class TourUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return config("app.debug") || !is_null(Auth::user());
     }
 
     /**
@@ -41,10 +45,10 @@ class TourUpdateRequest extends FormRequest
             'prices' => ['json'],
             'include_services' => ['json'],
             'exclude_services' => ['json'],
-            'duration_type_id' => ['integer', 'exists:duration_types,id'],
-            'movement_type_id' => ['integer', 'exists:movement_types,id'],
-            'tour_type_id' => ['integer', 'exists:tour_types,id'],
-            'payment_type_id' => ['integer', 'exists:payment_types,id'],
+            'duration_type_id' => ['integer', 'exists:dictionaries,id'],
+            'movement_type_id' => ['integer', 'exists:dictionaries,id'],
+            'tour_type_id' => ['integer', 'exists:dictionaries,id'],
+            'payment_type_id' => ['integer', 'exists:dictionaries,id'],
             'creator_id' => [''],
             'verified_at' => [''],
             'deleted_at' => [''],

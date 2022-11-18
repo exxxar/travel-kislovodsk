@@ -75,7 +75,13 @@ Route::prefix("api")
                 Route::get('/types', 'getAllTypes');
                 Route::get('/groups/{type}', 'getTypeGroups');
                 Route::get('/types/{id}', 'getByTypeId');
-                Route::get('/{id}', 'getById');
+
+                Route::middleware(["is_admin_api"])->group(function () {
+                    Route::post('/types', 'addType');
+                    Route::post('/', 'addDictionary');
+                    Route::get('/{id}', 'getById');
+                    Route::delete('/{id}', 'removeDictionaryById');
+                });
             });
 
         Route::prefix("chats")
@@ -107,29 +113,12 @@ Route::prefix("api")
                 Route::prefix("tours")
                     ->controller(\App\Http\Controllers\API\TourController::class)
                     ->group(function () {
-                        Route::prefix("archive")
-                            ->controller(\App\Http\Controllers\API\TourController::class)
-                            ->group(function () {
-                                Route::get('/', '');
-                                Route::post('/search', []);
-                                Route::get('/restore/{id}', []);
-                                Route::get('/add/{id}', []);
-                                Route::delete('/clear', []);
-                            });
 
-                        Route::prefix("current")
-                            ->group(function () {
-                                Route::get('/', []);
-                                Route::post('/search', []);
-                                Route::delete('/clear', []);
-                            });
-
-                        Route::prefix("in-draft")
-                            ->group(function () {
-                                Route::get('/', []);
-                                Route::post('/search', []);
-                                Route::delete('/clear', []);
-                            });
+                        Route::get('/', '');
+                        Route::post('/search', []);
+                        Route::get('/restore/{id}', []);
+                        Route::get('/add/{id}', []);
+                        Route::delete('/clear', []);
 
                         Route::delete('/remove/{id}', []);
                         Route::post('/', []);
@@ -137,24 +126,18 @@ Route::prefix("api")
                     });
 
                 Route::prefix("tour-objects")
+                    ->controller(\App\Http\Controllers\API\TourObjectController::class)
                     ->group(function () {
-                        Route::prefix("active")
-                            ->group(function () {
-                                Route::get('/', []);
-                                Route::post('/search', []);
-                                Route::delete('/clear', []);
-                            });
-
-                        Route::prefix("removed")
-                            ->group(function () {
-                                Route::get('/', []);
-                                Route::post('/search', []);
-                                Route::get('/restore/{id}', []);
-                            });
-
-                        Route::delete('/remove/{id}', []);
-                        Route::post('/', []);
-                        Route::put('/{id}', []);
+                        Route::post('/search', 'search');
+                        Route::delete('/clear-active', 'clearActive');
+                        Route::delete('/clear-removed', 'clearRemoved');
+                        Route::delete('/clear', 'clear');
+                        Route::get('/restore-all', 'restoreAll');
+                        Route::get('/restore/{id}', 'restore');
+                        Route::delete('/remove/{id}', 'destroy');
+                        Route::get('/', 'index');
+                        Route::post('/', 'store');
+                        Route::put('/{id}', 'update');
                     });
 
                 Route::prefix("schedules")
@@ -258,7 +241,6 @@ Route::prefix("api")
                 Route::get('/all', []);
                 Route::get('/top', []);
             });
-
 
 
         Route::prefix("favorites")

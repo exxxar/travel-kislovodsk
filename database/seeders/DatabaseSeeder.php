@@ -18,9 +18,12 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
-           RoleSeeder::class,
-           DictionaryTypeSeeder::class,
-           DictionarySeeder::class,
+            RoleSeeder::class,
+            DictionaryTypeSeeder::class,
+            DictionarySeeder::class,
+            UserSeeder::class,
+            TourObjectSeeder::class,
+            TourSeeder::class
         ]);
 
     }

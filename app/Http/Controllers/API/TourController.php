@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\TourSearchRequest;
 use App\Http\Requests\API\TourStoreRequest;
 use App\Http\Requests\API\TourUpdateRequest;
 use App\Http\Resources\TourCollection;
@@ -49,26 +50,36 @@ class TourController extends Controller
         return new TourCollection($tours);
     }
 
-    public function search(Request $request)
+    public function search(TourSearchRequest $request)
     {
-        $request->validate([
-            "from_place" => [''],
-            "from_date" => [''],
-            "tour_type" => [''],
-            "payment_type" => [''],
-            "duration_type" => [''],
-            "is_hot" => [''],
-            "price_type" => [''],
-            "price_range_start" => [''],
-            "price_range_end" => [''],
-            "movement_type" => [''],
-            "sort_type" => [''],
-            "tour_categories" => [''],
-        ]);
+
+        $filterObject = (object)[
+            'from_place' => $request->from_place ?? null,
+            'from_date' => $request->from_date ?? null,
+            'to_place' => $request->to_place ?? null,
+            'tour_types' => $filters->tour_types ?? [],
+            'payment_types' => $filters->payment_types ?? [],
+            'duration_types' => $filters->duration_types ?? [],
+            'is_hot' => $filters->is_hot ?? null,
+            'price_types' => $filters->price_types ?? [],
+            'price_range_start' => $filters->price_range_start ?? null,
+            'price_range_end' => $filters->price_range_end ?? null,
+            'movement_types' => $filters->movement_types ?? [],
+            'tour_categories' => $filters->tour_categories ?? [],
+            'include_services' => $filters->include_services ?? [],
+            'exclude_services' => $filters->exclude_services ?? [],
+        ];
+
+        $sortObject = (object)[
+            'sort_type' => $filters->sort_type ?? 0,
+            'sort_direction' => $filters->sort_direction ?? 0
+        ];
+
 
         $size = $request->get("size") ?? config('app.results_per_page');
 
-        $tours = Tour::query()
+        $tours = Tour::withFilters($filterObject)
+            ->withSort($sortObject)
             ->paginate($size);
 
         return new TourCollection($tours);

@@ -16,8 +16,10 @@ class CreateToursTable extends Migration
         Schema::create('tours', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
+            $table->text('short_description')->nullable();
             $table->text('description')->nullable();
             $table->string('start_place', 255);
+            $table->boolean('comfort_loading')->default(false)->comment("Перевозчика забирает от указанного места");
             $table->double('start_latitude')->default('0');
             $table->double('start_longitude')->default('0');
             $table->text('start_comment')->nullable();
@@ -27,6 +29,9 @@ class CreateToursTable extends Migration
             $table->boolean('is_active')->default(true);
             $table->boolean('is_draft')->default(true);
             $table->double('rating')->default('0');
+            $table->string('duration')->nullable();
+            $table->integer('min_group_size')->default(0)->nullable();
+            $table->integer('max_group_size')->default(0)->nullable();
             $table->json('images')->nullable();
             $table->json('prices')->nullable();
             $table->json('include_services')->nullable();

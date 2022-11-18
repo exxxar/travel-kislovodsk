@@ -18,6 +18,7 @@ class DictionarySeeder extends Seeder
     public function run()
     {
 
+
         $dt = DictionaryType::query()->get();
 
         foreach ($dt as $type) {
