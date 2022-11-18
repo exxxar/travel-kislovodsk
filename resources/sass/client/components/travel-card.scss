@@ -17,17 +17,6 @@
             }
         }
 
-        & .dt-excursion-type {
-            position: absolute;
-            left: 15px;
-            top: 15px;
-            background: $color-blue;
-            padding: 0.25rem 1rem;
-            border-radius: 5px;
-            color: $color-white;
-            font-size: 12px;
-        }
-
         & .dt-price {
             &__sum {
                 font-size: 14px;
@@ -124,7 +113,18 @@
     }
 }
 
-@media screen and (max-width: 768px) {
+.dt-excursion-type {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    background: $color-blue;
+    padding: 0.25rem 1rem;
+    border-radius: 5px;
+    color: $color-white;
+    font-size: 12px;
+}
+
+@media (max-width: 767.88px) {
     .dt-travel-card {
         & .dt-rating__star {
             & img {
@@ -153,6 +153,39 @@
 
         & .card-body {
 
+        }
+    }
+    .dt-excursion-type {
+        font-size: 10px;
+    }
+
+    .dt-excursions__item {
+        & .excursion__name {
+            font-size: 16px;
+        }
+
+        & .short-descrtiption {
+            font-size: 12px;
+            font-family: $font-family-thin;
+        }
+
+        & .excursion_number,{
+            font-size: 10px;
+        }
+
+        & .excursion_number__rating {
+            letter-spacing: 1px;
+        }
+
+        & .excursion__rating {
+            font-size: 10px;
+            font-family: $font-family-regular;
+        }
+
+        & .dt-rating {
+            & > svg {
+                width: 14px;
+            }
         }
     }
 }

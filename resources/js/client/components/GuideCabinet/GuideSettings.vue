@@ -1,29 +1,34 @@
 <template>
-    <div id="settings" class="settings mt-5 mt-lg-0 col">
-        <div class="row mx-0 px-0">
-            <h2 class="lh-1 mb-4 bold px-0">Настройка профиля гида</h2>
-            <button
-                class="col-auto hide visible-lg letter-spacing-3 blue-hover text-uppercase bold px-0 font-size-07 ms-auto">
-                смотреть профиль
-                <span class="blue fs-6">&gt;</span>
-            </button>
+    <div id="settings" class="col">
+        <div class="d-flex justify-content-between">
+            <h2 class="lh-1 bold px-0 title-guide-cabinet">Настройка профиля гида</h2>
+            <button class="d-lg-flex d-none dt-btn-text">смотреть профиль</button>
         </div>
-        <div class="mb-4 row mx-0 position-relative">
-            <span class="thin mb-2 col-12 px-0">ваше имя фамилия или название организации</span>
-            <div class="col-12 bg-white rounded mx-0 px-0 pe-2rem d-flex align-items-center">
-                <input type="text" name="settings-name" placeholder="Николаев Артем"
-                       class="d-flex flex-grow-1 ps-2rem py-4 rounded border-0 font-size-09">
-                <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="20" width="20">
-                    <path
-                        d="M24 23.8q-3.45 0-5.625-2.175T16.2 16q0-3.45 2.175-5.625T24 8.2q3.45 0 5.625 2.175T31.8 16q0 3.45-2.175 5.625T24 23.8ZM7.7 40.45v-5q0-2 1-3.425 1-1.425 2.55-2.175 3.4-1.5 6.5-2.25t6.25-.75q3.15 0 6.225.775Q33.3 28.4 36.7 29.9q1.6.7 2.6 2.125t1 3.425v5Zm3.4-3.4h25.8V35.5q0-.8-.475-1.525-.475-.725-1.175-1.075-3.15-1.5-5.775-2.075Q26.85 30.25 24 30.25q-2.85 0-5.525.575Q15.8 31.4 12.7 32.9q-.7.35-1.15 1.075-.45.725-.45 1.525ZM24 20.4q1.9 0 3.15-1.25T28.4 16q0-1.9-1.25-3.15T24 11.6q-1.9 0-3.15 1.25T19.6 16q0 1.9 1.25 3.15T24 20.4Zm0-4.4Zm0 21.05Z"/>
-                </svg>
+        <div class="mb-4 mx-0 position-relative">
+            <div class="dt-input__wrapper">
+                <div class="d-flex align-items-center justify-content-between"><label
+                    class="dt-input__label">ваше имя фамилия или название организации</label>
+                </div>
+                <div class="dt-input__group bg-white">
+                    <input type="text" placeholder="Николаев Артем" class="dt-input"
+                           autocomplete="off" maxlength="255">
+                    <div class="dt-input__group-item">
+                        <div class="dt-input__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"
+                                 viewBox="0 0 48 48" fill="#0071eb">
+                                <path
+                                    d="M24 23.8q-3.45 0-5.625-2.175T16.2 16q0-3.45 2.175-5.625T24 8.2q3.45 0 5.625 2.175T31.8 16q0 3.45-2.175 5.625T24 23.8ZM7.7 40.45v-5q0-2 1-3.425 1-1.425 2.55-2.175 3.4-1.5 6.5-2.25t6.25-.75q3.15 0 6.225.775Q33.3 28.4 36.7 29.9q1.6.7 2.6 2.125t1 3.425v5Zm3.4-3.4h25.8V35.5q0-.8-.475-1.525-.475-.725-1.175-1.075-3.15-1.5-5.775-2.075Q26.85 30.25 24 30.25q-2.85 0-5.525.575Q15.8 31.4 12.7 32.9q-.7.35-1.15 1.075-.45.725-.45 1.525ZM24 20.4q1.9 0 3.15-1.25T28.4 16q0-1.9-1.25-3.15T24 11.6q-1.9 0-3.15 1.25T19.6 16q0 1.9 1.25 3.15T24 20.4Zm0-4.4Zm0 21.05Z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="mb-4 row mx-0">
-                    <span class="thin position-relative mb-2 col-12 px-0">описание <svg
-                        class="opacity-25 position-relative info-icon" version="1.0"
-                        xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                        viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+                    <span class="dt-label thin position-relative mb-2 col-12 px-0 d-flex align-items-center">описание
+                        <svg class="opacity-25 info-icon ms-1 " version="1.0"
+                             xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                             viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
 
                             <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000"
                                stroke="none">
@@ -47,10 +52,10 @@
                       class="col-12 px-2rem py-4 rounded border-0 font-size-09"></textarea>
         </div>
         <div class="mb-4 row mx-0">
-                    <span class="thin position-relative mb-2 col-12 px-0">добавьте фото <svg
-                        class="opacity-25 position-relative info-icon" version="1.0"
-                        xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                        viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+                    <span class="dt-label thin position-relative mb-2 col-12 px-0 d-flex align-items-center">добавьте фото
+                        <svg class="opacity-25 info-icon ms-1" version="1.0"
+                             xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                             viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
                             <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000"
                                stroke="none">
                                 <path d="M2315 5109 c-800 -83 -1501 -518 -1927 -1196 -604 -961 -490 -2237

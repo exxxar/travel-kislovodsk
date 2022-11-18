@@ -2,9 +2,12 @@
     margin-top: 40px;
 
     & .dt-nav-pagination {
+        & .pagination {
+            gap: 6px;
+        }
+
         & .page-item {
             cursor: pointer;
-            margin-left: 6px;
 
             &.page-item-control {
                 & svg {
@@ -44,6 +47,24 @@
                 svg {
                     color: $color-blue;
                 }
+            }
+        }
+    }
+}
+
+@media (max-width: 991.98px) {
+    .dt-pagination {
+        flex-wrap: wrap;
+
+        button {
+            margin-bottom: 20px !important;
+        }
+
+        & .dt-nav-pagination {
+            flex: 1 1 auto !important;
+
+            & .pagination {
+                justify-content: center;
             }
         }
     }

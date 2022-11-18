@@ -12,7 +12,7 @@
                             class="personal-account-nav-mobile__link personal-account-nav__link_active personal-account-nav__link">
                             <div class="personal-account-nav-mobile__icon personal-account-nav__icon"
                                  v-html="mobileMenuActive.svg"></div>
-                            <span>{{ mobileMenuActive.title }}</span>
+                            <span class="text-white">{{ mobileMenuActive.title }}</span>
                         </div>
                     </div>
                     <ul class="personal-account-nav-mobile__list">

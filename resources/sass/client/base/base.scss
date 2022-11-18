@@ -30,27 +30,6 @@
     margin-top: -35px;
 }
 
-/*.dt-page-object {
-  & .dt-header__detail {
-    & .dt-input__wrapper {
-      &:nth-child(1) {
-        & .dt-input__group {
-          border-top-right-radius: 0;
-          border-bottom-right-radius: 0;
-          border-right: 1px solid $color-light-gray;
-        }
-      }
-
-      &:nth-child(2) {
-        & .dt-input__group {
-          border-top-left-radius: 0;
-          border-bottom-left-radius: 0;
-        }
-      }
-    }
-  }
-}*/
-
 .dt-block-header {
     padding-top: 81px;
     padding-bottom: 40px;
@@ -110,6 +89,13 @@
     }
 }
 
+@media screen and (max-width: 320px) {
+    #app{
+        width: 320px;
+    }
+
+}
+
 @media screen and (max-width: 768px) {
     .dt-page {
         margin-top: -105px;
@@ -154,8 +140,16 @@ h6 {
     margin-bottom: 0;
 }
 
-.letter-spacing-3 {
+.letter-spacing-1 {
+    letter-spacing: 1px;
+}
+
+.letter-spacing-2 {
     letter-spacing: 2px;
+}
+
+.letter-spacing-3 {
+    letter-spacing: 3px;
 }
 
 .fw-bold {
@@ -182,13 +176,16 @@ h6 {
     &__breadcrumbs {
         //padding-top: 40px;
         padding-bottom: 80px;
-        opacity: 40%;
+        //opacity: 40%;
 
         & .breadcrumb-item > a {
-            color: $color-light-black !important;
+            color: rgba(34, 36, 37, 0.6) !important;
             text-decoration: none;
             text-transform: uppercase;
             white-space: nowrap;
+            line-height: 20px;
+            font-size: 10px;
+            font-family: $font-family-regular;
         }
     }
 }
@@ -202,6 +199,7 @@ h6 {
         text-transform: uppercase;
         white-space: nowrap;
         font-size: 10px;
+        letter-spacing: 2px;
     }
 }
 
@@ -263,6 +261,16 @@ h6 {
     color: $color-blue;
 }
 
+.personal-account {
+    & svg {
+        fill: $color-blue;
+    }
+
+    input[type="checkbox"]{
+        display: none;
+    }
+}
+
 @media screen and (max-width: 768px) {
     h1 {
         font-size: 20px !important;
@@ -287,11 +295,21 @@ h6 {
             display: flex;
             justify-content: center;
         }
+    }
+}
 
-        & .breadcrumb-item > a.breadcrumb-link {
-            font-size: 7.68px !important;
-            letter-spacing: 2px;
-            line-height: 10px;
+@media (max-width: 767.88px) {
+    .dt-page {
+        &__breadcrumbs {
+            padding-bottom: 30px;
+            & .breadcrumb-item > a {
+                font-size: 8px;
+                line-height: 10px;
+            }
         }
+    }
+
+    .personal-account {
+        margin-bottom: 30px;
     }
 }

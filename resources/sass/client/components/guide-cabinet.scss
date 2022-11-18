@@ -1,0 +1,116 @@
+.dt-guide-cabinet {
+    & .dt-excursions__item {
+        & .excursion__name {
+            font-size: 20px;
+            letter-spacing: 0;
+        }
+
+        & .short-descrtiption {
+            font-size: 12px;
+            letter-spacing: 0.25px;
+        }
+
+        & .splitted {
+            & .dt-btn-text-red {
+                font-size: 10px !important;
+            }
+        }
+    }
+
+    & .object__info {
+        & .object__body {
+            padding: 30px 35px;
+
+            & .object__name {
+                font-size: 16px;
+            }
+
+            & .short-descrtiption {
+                font-size: 12px;
+                font-family: $font-family-thin;
+            }
+        }
+
+        & .splitted {
+            button {
+                font-size: 10px !important;
+            }
+        }
+    }
+
+    & #settings {
+        .big-button {
+            height: 60px;
+        }
+
+        & .dt-label {
+            font-size: 12px;
+        }
+    }
+}
+
+@media (max-width: 767.88px) {
+    .dt-guide-cabinet {
+        margin-top: 0.5rem !important;
+
+        & .excursion__info {
+            & > * {
+                padding: 0;
+            }
+        }
+
+        & .dt-btn__menu {
+            font-size: 10px;
+        }
+
+        & .dt-btn-add {
+            font-size: 12px;
+        }
+
+        & .dt-btn__dropdown-menu {
+            & .dropdown-toggle {
+                height: 50px;
+            }
+
+            & .menu-item__name {
+                font-size: 12px;
+            }
+        }
+
+        & .dt-excursions__item {
+            & .excursion__name {
+                font-size: 16px;
+            }
+        }
+
+        /*Мои объекты*/
+        & .object__info {
+            & .object__body {
+                padding: 25px 30px;
+            }
+        }
+
+        /*Настройки*/
+        & #settings {
+            & .dt-label {
+                font-size: 10px;
+            }
+
+            textarea {
+                height: 290px;
+            }
+
+            .add-additional-photo {
+                height: 90px;
+                width: 90px;
+            }
+        }
+    }
+}
+
+@media (max-width: 991.98px) {
+    .title-guide-cabinet {
+        padding-top: 30px !important;
+        padding-bottom: 25px !important;
+    }
+}
