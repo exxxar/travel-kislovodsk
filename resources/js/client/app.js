@@ -1,8 +1,10 @@
 import './bootstrap';
 import {createApp} from 'vue/dist/vue.esm-bundler';
-import {createStore} from 'vuex'
+import mitt from 'mitt'
+
 import VueLazyLoad from 'vue3-lazyload'
 
+import VueTheMask from 'vue-the-mask'
 
 /*import Head from '@/components/Fragments/Header'
 import Footer from '@/components/Fragments/Footer'
@@ -48,25 +50,18 @@ import ToursHotPage from '@/pages/tours/ToursHot.vue'
 import TourObjectPage from '@/pages/tours/TourObject.vue'
 import ToursSearchPage from '@/pages/tours/ToursSearch.vue'
 import UserCabinetPage from '@/pages/UserCabinet.vue'
-
+const eventBus = mitt()
 const app = createApp({})
+
+app.config.globalProperties.eventBus = eventBus
 
 app.use(VueLazyLoad,
     {
         loading: '/img/preloader.gif',
-        error: '/img/error.png',
-        lifecycle: {
-            loading: (el) => {
-                console.log('loading', el)
-            },
-            error: (el) => {
-                console.log('error', el)
-            },
-            loaded: (el) => {
-                console.log('loaded', el)
-            }
-        }
+        error: '/img/error.png'
     })
+
+app.use(VueTheMask)
 
 app.component('header-component', Header)
 app.component('footer-component', Footer)
@@ -108,16 +103,6 @@ app.component('tour-search-page', ToursSearchPage)
 app.component('user-cabinet-page', UserCabinetPage)
 
 import store from './store'
-
-/*
-const store = createStore({
-    state () {
-        return {
-            count: 1
-        }
-    }
-})
-*/
 
 app.use(store)
 

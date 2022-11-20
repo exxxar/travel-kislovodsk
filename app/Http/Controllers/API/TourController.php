@@ -57,22 +57,22 @@ class TourController extends Controller
             'from_place' => $request->from_place ?? null,
             'from_date' => $request->from_date ?? null,
             'to_place' => $request->to_place ?? null,
-            'tour_types' => $filters->tour_types ?? [],
-            'payment_types' => $filters->payment_types ?? [],
-            'duration_types' => $filters->duration_types ?? [],
-            'is_hot' => $filters->is_hot ?? null,
-            'price_types' => $filters->price_types ?? [],
-            'price_range_start' => $filters->price_range_start ?? null,
-            'price_range_end' => $filters->price_range_end ?? null,
-            'movement_types' => $filters->movement_types ?? [],
-            'tour_categories' => $filters->tour_categories ?? [],
-            'include_services' => $filters->include_services ?? [],
-            'exclude_services' => $filters->exclude_services ?? [],
+            'tour_types' => $request->tour_types ?? [],
+            'payment_types' => $request->payment_types ?? [],
+            'duration_types' => $request->duration_types ?? [],
+            'is_hot' => $request->is_hot ?? null,
+            'price_type' => $request->price_type ?? 0,
+            'price_range_start' => $request->price_range_start ?? null,
+            'price_range_end' => $request->price_range_end ?? null,
+            'movement_types' => $request->movement_types ?? [],
+            'tour_categories' => $request->tour_categories ?? [],
+            'include_services' => $request->include_services ?? [],
+            'exclude_services' => $request->exclude_services ?? [],
         ];
 
         $sortObject = (object)[
-            'sort_type' => $filters->sort_type ?? 0,
-            'sort_direction' => $filters->sort_direction ?? 0
+            'sort_type' => $request->sort_type ?? null,
+            'sort_direction' => $request->sort_direction ?? 'ASC'
         ];
 
 
@@ -161,8 +161,10 @@ class TourController extends Controller
      * @param \App\Models\Tour $tour
      * @return \App\Http\Resources\TourResource
      */
-    public function show(Request $request, Tour $tour)
+    public function show(Request $request, $id)
     {
+        $tour = Tour::query()->where("id", $id)
+            ->first();
         return new TourResource($tour);
     }
 

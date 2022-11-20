@@ -59,19 +59,28 @@ Route::prefix("api")
                 Route::post('/login', 'login');
             });
 
+
+        Route::prefix("tour-categories")
+            ->controller(\App\Http\Controllers\API\TourCategoryController::class)
+            ->group(function () {
+                Route::get('/', 'index');
+
+            });
+
         Route::prefix("tours")
             ->controller(\App\Http\Controllers\API\TourController::class)
             ->group(function () {
                 Route::get('/', 'index');
                 Route::get('/all', 'all');
                 Route::get('/hot', 'hot');
+                Route::get('/{id}', 'show');
                 Route::post('/search', 'search');
             });
 
         Route::prefix("dictionaries")
             ->controller(\App\Http\Controllers\API\DictionaryController::class)
             ->group(function () {
-                Route::get('/all', 'getAllDictionaries');
+                Route::get('/', 'getAllDictionaries');
                 Route::get('/types', 'getAllTypes');
                 Route::get('/groups/{type}', 'getTypeGroups');
                 Route::get('/types/{id}', 'getByTypeId');
@@ -235,12 +244,6 @@ Route::prefix("api")
                 Route::delete('/remove/{id}', []);
             });
 
-        Route::prefix("tour-categories")
-            ->group(function () {
-                Route::get('/', []);
-                Route::get('/all', []);
-                Route::get('/top', []);
-            });
 
 
         Route::prefix("favorites")

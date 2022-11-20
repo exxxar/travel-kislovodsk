@@ -33,5 +33,6 @@ class DictionaryTypeSeeder extends Seeder
         DictionaryType::firstOrCreate(['title' => "Виды сервиса", "slug" => "service_type"]);
         DictionaryType::firstOrCreate(['title' => "Тип сортировки", "slug" => "sort_type"]);
         DictionaryType::firstOrCreate(['title' => "Другое", "slug" => "other_type"]);
+
     }
 }

@@ -87,12 +87,33 @@
     </div>
 </template>
 <script>
+import {mapGetters} from "vuex";
+
 export default {
     props: {
         isLinksWhite: {
             type: Boolean,
             default: false
         }
+    },
+    data(){
+        return {
+
+        }
+    },
+    computed: {
+        ...mapGetters(['getToursByCategoryId', 'getTourById', 'getTours','getDictionariesByTypeSlug','getDictionaryTypes']),
+
+    },
+    mounted() {
+        this.loadDictionaries()
+    },
+    methods:{
+        loadDictionaries(){
+            this.$store.dispatch("loadAllDictionaryTypes", this.filterObject).then(() => {
+                this.tours = this.getTours
+            })
+        },
     }
 }
 </script>

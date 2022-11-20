@@ -24,9 +24,11 @@
             <label class="dt-input__label">телефон</label>
         </div>
         <div class="dt-input__group">
+
             <input type="text" name="phone" id="phone_reg"
                    v-model="form.phone"
-                   placeholder="+7 (000) 000-00-00"
+                   v-mask="'+7(###)###-##-##'"
+                   placeholder="+7(000)000-00-00"
                    class="dt-input" autocomplete="off">
             <div class="dt-input__group-item">
                 <div class="dt-input__icon">
@@ -117,6 +119,7 @@
     </form>
 </template>
 <script>
+
 export default {
     data() {
         return {

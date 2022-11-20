@@ -32,9 +32,11 @@
         "bootstrap": "^5.2.1",
         "laravel-mix-alias": "^1.0.3",
         "laravel-mix-vue3": "^0.7.0",
+        "mitt": "^3.0.0",
         "scss-reset": "^1.2.2",
         "vite-plugin-ssr": "^0.4.43",
         "vue-flatpickr-component": "^9.0.8",
+        "vue-the-mask": "^0.11.1",
         "vue3-lazyload": "^0.3.6",
         "vuex": "^4.1.0"
     }

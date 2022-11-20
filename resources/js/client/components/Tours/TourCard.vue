@@ -3,7 +3,7 @@
         <div class="card-header bg-white p-0 position-relative">
             <div class="card-img">
                 <div class="dt-wrapper-gradient position-absolute"></div>
-                <h5 class="dt-excursion-type">{{ data.tag }}</h5>
+                <h5 class="dt-excursion-type">{{ data.tour_type }}</h5>
                 <div class="dt-like d-flex align-items-center justify-content-center">
                     <svg v-if="!data.complete && !data.review" xmlns="http://www.w3.org/2000/svg" height="18" width="18"
                          viewBox="0 0 50 50" overflow="visible">
@@ -17,7 +17,7 @@
                                xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAOCAYAAAAi2ky3AAAAoklEQVQoka3SvwpBYRQA8B/dFAaewztIFhPlCWxeTNmMDBaLwWt4AJOUTfrKV7fbxedeZz2nX+dfY3mcqxEdZLhmNZEtuphUhSIyxh2D5h+QKU6/QmXIISQi1EarKhKhULDD5gP2EYnQECPM3mBfkQjtscCjBEtC8jtal2D9VMTrK+WwEKsXdkYvBSlCRSwZyY9WxMKYt1SkrKM8Fo5wSUHgCWEEMQufwN2RAAAAAElFTkSuQmCC"/>
                     </svg>
                 </div>
-                <img class="dt-excursion__image" v-lazy="data.image" alt="">
+                <img class="dt-excursion__image" v-lazy="data.preview_image" alt="">
                 <div v-if="data.payment != null" class="dt-price d-flex justify-content-between position-absolute w-100 align-items-end">
                     <h5 class="align-items-end d-flex dt-price__sum text-white">
                         <span class="dt-price__title text-uppercase text-muted-white me-2s">
@@ -31,7 +31,7 @@
                 </div>
                 <div v-else class="dt-price d-flex justify-content-between position-absolute w-100 align-items-end">
                     <h5 class="align-items-end d-flex dt-price__sum text-white">
-                        <span class="fw-bold text-white me-2">{{ data.price }} руб.</span>
+                        <span class="fw-bold text-white me-2">{{ data.base_price }} руб.</span>
                         <span class="dt-price__title text-uppercase text-muted-white d-lg-block d-md-block d-none">
                                                         за человека
                                                     </span>
@@ -49,14 +49,14 @@
                     <h5 class="dt-rating__title text-muted-black me-2">
                         рейтинг экскурсии
                     </h5>
-                    <h5 class="fw-bold color-black">{{ data.rating }}</h5>
+                  <h5 class="fw-bold color-black">{{ data.rating }}</h5>
                 </div>
                 <div class="dt-rating__star d-flex">
-                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                    <img v-lazy="'/img/icons/star_blue.svg'" alt="">
+                    <img v-lazy="data.rating>=1?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'"  alt="">
+                    <img v-lazy="data.rating>=2?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'"  alt="">
+                    <img v-lazy="data.rating>=3?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'"  alt="">
+                    <img v-lazy="data.rating>=4?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'"  alt="">
+                    <img v-lazy="data.rating>=5?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'"  alt="">
                 </div>
             </div>
             <div class="card-body__excursion">
@@ -64,7 +64,7 @@
                     <h4 class="fw-bold">{{ data.title }}</h4>
                 </div>
                 <div class="card-body__excursion-description fw-light">
-                    <h5>{{ data.description }}</h5>
+                    <h5>{{ data.short_description }}</h5>
                 </div>
             </div>
             <div v-if="data.dateEnd && data.finish" class="card-body__excursion-date d-flex justify-content-between">
@@ -116,15 +116,15 @@
                         <div class="personal-account-orders-info__text_grey">
                             место встречи
                         </div>
-                        {{ data.place }}
+                        {{ data.start_place }}
                     </h5>
                 </div>
             </div>
         </div>
         <div class="card-footer bg-white text-center">
             <div class="card-footer__actions d-flex justify-content-around">
-                <a :href="item.link" class="text-uppercase dt-travel-card__action" v-for="item in data.links">
-                    <h6 class="dt-btn-text">{{ item.text }}</h6>
+                <a href="/tour" target="_blank" class="text-uppercase dt-travel-card__action">
+                    <h6 class="dt-btn-text">Подробнее</h6>
                 </a>
             </div>
             <a v-if="data.complete && data.finish" href="#" class="mt-4 personal-account-orders-completed-footer__link

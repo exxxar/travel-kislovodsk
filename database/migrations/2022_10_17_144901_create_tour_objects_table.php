@@ -15,18 +15,14 @@ class CreateTourObjectsTable extends Migration
     {
         Schema::create('tour_objects', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
-            $table->text('description');
-            $table->string('address', 255);
+            $table->string('title', 255)->nullable();
+            $table->text('description')->nullable();
+            $table->string('address', 255)->nullable();
             $table->double('latitude')->default('0');
             $table->double('longitude')->default('0');
             $table->text('comment')->nullable();
-            $table->unsignedBigInteger('tour_guide_id')->nullable();
             $table->unsignedBigInteger('creator_id');
             $table->json('photos')->nullable();
-            $table->foreign('tour_guide_id')
-                ->references('id')
-                ->on('users');
             $table->foreign('creator_id')
                 ->references('id')
                 ->on('users');

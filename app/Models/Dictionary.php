@@ -70,6 +70,17 @@ class Dictionary extends Model
         return Dictionary::getDictionaryByTypes("movement_type");
     }
 
+    public static function getTourCategoryTypes(): Builder
+    {
+        return Dictionary::getDictionaryByTypes("tour_category_type");
+    }
+
+    public static function getSortTypes(): Builder
+    {
+        return Dictionary::getDictionaryByTypes("sort_type");
+    }
+
+
     public static function getTourTypes(): Builder
     {
         return Dictionary::getDictionaryByTypes("tour_type");
@@ -105,10 +116,6 @@ class Dictionary extends Model
         return Dictionary::getDictionaryByTypes("message_status_type");
     }
 
-    public static function getTourCategoryTypes(): Builder
-    {
-        return Dictionary::getDictionaryByTypes("tour_category_type");
-    }
 
     public static function getTicketTypes(): Builder
     {

@@ -81,8 +81,10 @@ class DictionarySeeder extends Seeder
 
                     break;
 
+
                 case "tour_type":
                     Dictionary::firstOrCreate(['title' => 'Группа', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Индивидуальная', 'dictionary_type_id' => $type->id]);
 
                     break;
 

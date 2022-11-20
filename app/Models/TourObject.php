@@ -22,7 +22,6 @@ class TourObject extends Model
         'latitude',
         'longitude',
         'comment',
-        'tour_guide_id',
         'creator_id',
         'photos',
     ];
