@@ -1,7 +1,5 @@
 import './bootstrap';
-/*import firebaseMessaging from './firebase'*/
-
-
+import {createApp} from 'vue/dist/vue.esm-bundler';
 import mitt from 'mitt'
 
 import Datepicker from '@vuepic/vue-datepicker';
@@ -58,13 +56,11 @@ import TourObjectPage from '@/pages/tours/TourObject.vue'
 import ToursSearchPage from '@/pages/tours/ToursSearch.vue'
 import UserCabinetPage from '@/pages/UserCabinet.vue'
 
-import { createApp } from "vue";
+
 
 const eventBus = mitt()
 const app = createApp({})
 
-
-/*app.config.globalProperties.$messaging = firebaseMessaging*/
 
 app.config.globalProperties.eventBus = eventBus
 
