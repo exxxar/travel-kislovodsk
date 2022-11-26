@@ -18,8 +18,8 @@
             </p>
         </div>
         <div class="messages-head__unread col-auto mx-0 px-0 float-end d-none"></div>
-
     </div>
+    <div class="messages-head__scroll"></div>
     <button v-if="canLoadMore" @click="loadMoreChats">Загрузить еще
     </button>
 </template>
@@ -88,6 +88,11 @@ export default {
 <style lang="scss">
 .messages-head {
     height: 500px;
+    position: relative;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 .messages-head__text {
@@ -95,5 +100,16 @@ export default {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+.messages-head__scroll {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 3px;
+    height: 20%;
+    background-color: #0071eb;
+    cursor: pointer;
+    border-radius: 0.375rem;
 }
 </style>

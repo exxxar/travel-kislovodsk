@@ -12,6 +12,7 @@
                     <span class="thin opacity-40">{{ moment(item.created_at).format('HH:mm') }}</span>
                 </div>
             </div>
+            <div class="messages-body__scroll"></div>
         </div>
         <div class="messages-control">
             <form v-on:submit.prevent="sendChatMessage" class="d-flex rounded bg-light align-items-center m-2rem pe-2">
@@ -319,16 +320,19 @@ export default {
             }
         }
 
-        &::-webkit-scrollbar {
+        .messages-body__scroll {
+            position: absolute;
+            top: 0;
+            right: 0;
             width: 3px;
-        }
-
-        &::-webkit-scrollbar-thumb {
+            height: 20%;
             background-color: #0071eb;
+            cursor: pointer;
+            border-radius: 0.375rem;
         }
 
-        &::-webkit-scrollbar-track {
-            background: none;
+        &::-webkit-scrollbar {
+            display: none;
         }
     }
 
