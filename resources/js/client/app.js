@@ -1,7 +1,5 @@
 import './bootstrap';
-/*import firebaseMessaging from './firebase'*/
-
-
+import {createApp} from 'vue/dist/vue.esm-bundler';
 import mitt from 'mitt'
 
 import Datepicker from '@vuepic/vue-datepicker';
@@ -58,7 +56,6 @@ import TourObjectPage from '@/pages/tours/TourObject.vue'
 import ToursSearchPage from '@/pages/tours/ToursSearch.vue'
 import UserCabinetPage from '@/pages/UserCabinet.vue'
 
-<<<<<<< HEAD
 /*------------------------*/
 import GuideTours from '@/components/GuideCabinet/GuideTours.vue'
 import GuideTourList from '@/components/GuideCabinet/GuideTourList.vue'
@@ -67,19 +64,10 @@ import GuideTourObjects from '@/components/GuideCabinet/GuideTourObjects.vue'
 import GuideTourObjectList from '@/components/GuideCabinet/GuideTourObjectList.vue'
 import GuideTourObjectCard from '@/components/GuideCabinet/GuideTourObjectCard.vue'
 import GuideTourObjectPaginate from '@/components/GuideCabinet/GuideTourObjectPaginate.vue'
-=======
-import { createApp } from "vue";
->>>>>>> parent of 5278463 (large update)
 
 const eventBus = mitt()
 const app = createApp({})
 
-<<<<<<< HEAD
-=======
-
-/*app.config.globalProperties.$messaging = firebaseMessaging*/
-
->>>>>>> parent of 5278463 (large update)
 app.config.globalProperties.eventBus = eventBus
 
 app.use(VueLazyLoad,

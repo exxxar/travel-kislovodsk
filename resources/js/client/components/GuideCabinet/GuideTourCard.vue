@@ -248,8 +248,3 @@ export default {
     }
 }
 </script>
-<style lang="scss">
-.excursion__image {
-    height: 250px;
-}
-</style>

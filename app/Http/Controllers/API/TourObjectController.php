@@ -27,14 +27,14 @@ class TourObjectController extends Controller
      */
     public function index(Request $request)
     {
-        $removed = (boolean)($request->removed??0);
+        $removed = (boolean)($request->removed ?? 0);
         if ($removed)
             $tourObjects = TourObject::query()
                 ->whereNotNull("deleted_at")
                 ->paginate($request->size ?? config('app.results_per_page'));
-            else
-                $tourObjects = TourObject::query()
-                    ->paginate($request->size ?? config('app.results_per_page'));
+        else
+            $tourObjects = TourObject::query()
+                ->paginate($request->size ?? config('app.results_per_page'));
 
         return new TourObjectCollection($tourObjects);
     }
@@ -42,7 +42,7 @@ class TourObjectController extends Controller
     public function loadGuideTourObjectsByPage(Request $request)
     {
 
-        $removed = (boolean)($request->removed??0);
+        $removed = (boolean)($request->removed ?? 0);
         if ($removed)
             $tourObjects = TourObject::query()
                 ->whereNotNull("deleted_at")
@@ -55,6 +55,7 @@ class TourObjectController extends Controller
 
         return new TourObjectCollection($tourObjects);
     }
+
 
     /**
      * @param \App\Http\Requests\API\TourObjectStoreRequest $request

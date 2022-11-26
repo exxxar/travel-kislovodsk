@@ -32,6 +32,16 @@ class TourController extends Controller
         return new TourCollection($tours);
     }
 
+    public function loadGuideToursByPage(Request $request){
+
+        $size = $request->get("size") ?? config('app.results_per_page');
+
+        $tours = Tour::query()
+            ->where("creator_id", Auth::user()->id)
+            ->paginate($size);
+
+        return new TourCollection($tours);
+    }
 
     public function all(Request $request)
     {

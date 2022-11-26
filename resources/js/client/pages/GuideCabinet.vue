@@ -133,61 +133,12 @@
                 </svg>
             </div>
 
-            <div v-if="activeTitle == 'Мои экскурсии'" id="my-excurions" class="col">
-                <h2 class="lh-1 mb-5 bold mt-5 mt-lg-0">Мои экскурсии</h2>
-                <div class="row mx-0 mb-5">
-                    <div class="order-2 order-lg-1 row flex-nowrap col-12 col-lg-auto overflow-x-auto px-0 mx-0
-                                mt-5 mt-lg-0">
-                        <button @click="activeType = 'Действующие'"
-                                :class="{'personal-account-nav__link_active': activeType == 'Действующие',
-                                'bg-white' : activeType != 'Действующие'}"
-                                class="dt-btn__menu col-auto button d-flex rounded px-4 justify-content-center align-items-center semibold">
-                            Действующие
-                        </button>
-                        <button @click="activeType = 'Архив'"
-                                :class="{'personal-account-nav__link_active': activeType == 'Архив',
-                                'bg-white' : activeType != 'Архив'}"
-                                class="dt-btn__menu col-auto button d-flex rounded ms-2 px-4 justify-content-center align-items-center semibold">
-                            Архив
-                        </button>
-                        <button @click="activeType = 'На модерации'"
-                                :class="{'personal-account-nav__link_active': activeType == 'На модерации',
-                                'bg-white' : activeType != 'На модерации'}"
-                                class="dt-btn__menu col-auto button d-flex rounded ms-2 px-4 justify-content-center align-items-center semibold">
-                            На модерации
-                        </button>
-                        <button @click="activeType = 'Черновики'"
-                                :class="{'personal-account-nav__link_active': activeType == 'Черновики',
-                                'bg-white' : activeType != 'Черновики'}"
-                                class="dt-btn__menu col-auto button d-flex rounded ms-2 px-4 justify-content-center align-items-center semibold">
-                            Черновики
-                        </button>
-                    </div>
-                    <button @click="changeActiveTitle('Добавить экскурсию')"
-                            class="dt-btn-add order-1 order-lg-2 button col-12 col-lg-3 bg-green d-flex rounded ms-auto px-4
-                                    justify-content-center align-items-center bold">
-                        Добавить экскурсию
-                    </button>
-                </div>
+            <guide-tours-component v-if="activeTitle == 'Мои экскурсии'"/>
+            <guide-tour-objects-component v-if="activeTitle == 'Мои объекты'" />
 
-                <div v-if="activeType == 'Действующие'" class="dt-excursions">
-                    <guide-tour-list :data="myActiveTours"/>
-                </div>
 
-                <div v-if="activeType == 'Архив'" class="dt-excursions">
-                    <guide-tour-list :data="myArchiveTours"/>
-                </div>
-
-                <div v-if="activeType == 'На модерации'" class="dt-excursions">
-                    <guide-tour-list :data="myModerationTours"/>
-                </div>
-
-                <div v-if="activeType == 'Черновики'" class="dt-excursions">
-                    <guide-tour-list :data="myDraftTours"/>
-                </div>
-            </div>
             <add-tour v-if="activeTitle == 'Добавить экскурсию'" @hideAddExcursion="activeTitle='Мои экскурсии'"/>
-            <tour-object-list v-if="activeTitle == 'Мои объекты'" />
+
             <guide-transactions v-if="activeTitle == 'Транзакции'" />
             <guide-schedule v-if="activeTitle == 'Календарь'" />
             <guide-settings v-if="activeTitle == 'Настройки'" />
@@ -240,10 +191,7 @@
 <script>
 import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
 import AddTour from "@/components/Tours/AddTour.vue";
-import GuideTourCard from "@/components/Tours/GuideTourCard.vue";
-import GuideTourList from "@/components/Tours/GuideTourList.vue";
-import TourObjectList from "@/components/TourObjects/TourObjectList.vue";
-import TransactionList from "@/components/Transactions/TransactionList.vue";
+
 import GuideSchedule from "@/components/GuideCabinet/GuideSchedule.vue";
 import GuideSettings from "@/components/GuideCabinet/GuideSettings.vue";
 import GuideTransactions from "@/components/GuideCabinet/GuideTransactions.vue";
@@ -251,7 +199,7 @@ import GuideTransactions from "@/components/GuideCabinet/GuideTransactions.vue";
 export default {
     components: {
         GuideSettings, GuideTransactions,
-        GuideSchedule, TransactionList, TourObjectList, GuideTourList, GuideTourCard, AddTour, Breadcrumbs},
+        GuideSchedule , AddTour, Breadcrumbs},
     data() {
         return {
             visible: false,
@@ -263,93 +211,9 @@ export default {
                 {
                     text: "Кабинет гида",
                     active: true,
-                }], activeType: 'Действующие',
-            activeTitle: 'Мои экскурсии', myActiveTours: [{
-                title: 'Медовые водопады',
-                description: '118 увлекательных экскурсий в городе Ставропольский край – Минеральные воды и источники в Ставрополье славились лечебными свойствами уже давно: здесь лечили больных в войсках Кавказской линии. А с 1803 года начали обустраивать курорты',
-                price: '2500',
-                prices: {},
-                is_active: true,
-                tour_type: 'групповая экскурсия',
-                duration: '2 дня',
-                rating: '4.20',
-                preview_image: '/img/travels/2.jpg',
-            }, {
-                title: 'Чарующий Пятигорск - город горячих вод',
-                description: 'Приглашаем пройтись по старым паркам и гротам, вообразить как по ту сторону аллеи гуляет Лермонтов, вон в той. Приглашаем пройтись по старым паркам и гротам, вообразить как по ту сторону аллеи гуляет Лермонтов, вон в той ...Приглашаем пройтись по старым паркам и гротам.',
-                price: '700',
-                prices: {},
-                is_active: true,
-                tour_type: 'групповая экскурсия',
-                duration: '1 час',
-                rating: '4.20',
-                preview_image: '/img/travels/4.jpg',
-            }],
-            myArchiveTours: [{
-                title: 'Медовые водопады',
-                description: '118 увлекательных экскурсий в городе Ставропольский край – Минеральные воды и источники в Ставрополье славились лечебными свойствами уже давно: здесь лечили больных в войсках Кавказской линии. А с 1803 года начали обустраивать курорты',
-                price: '2500',
-                prices: {},
-                is_active: false,
-                tour_type: 'групповая экскурсия',
-                duration: '2 дня',
-                rating: '4.20',
-                preview_image: '/img/travels/2.jpg',
-            }, {
-                title: 'Чарующий Пятигорск - город горячих вод',
-                description: 'Приглашаем пройтись по старым паркам и гротам, вообразить как по ту сторону аллеи гуляет Лермонтов, вон в той. Приглашаем пройтись по старым паркам и гротам, вообразить как по ту сторону аллеи гуляет Лермонтов, вон в той ...Приглашаем пройтись по старым паркам и гротам.',
-                price: '700',
-                prices: {},
-                is_active: false,
-                tour_type: 'групповая экскурсия',
-                duration: '1 час',
-                rating: '4.20',
-                preview_image: '/img/travels/4.jpg',
-            }],
-            myModerationTours: [
-                {
-                    title: 'Медовые водопады',
-                    description: '118 увлекательных экскурсий в городе Ставропольский край – Минеральные воды и источники в Ставрополье славились лечебными свойствами уже давно: здесь лечили больных в войсках Кавказской линии. А с 1803 года начали обустраивать курорты',
-                    price: '2500',
-                    prices: {},
-                    is_moderation: true,
-                    tour_type: 'групповая экскурсия',
-                    duration: '2 дня',
-                    rating: '4.20',
-                    preview_image: '/img/travels/2.jpg',
-                }, {
-                    title: 'Чарующий Пятигорск - город горячих вод',
-                    description: 'Приглашаем пройтись по старым паркам и гротам, вообразить как по ту сторону аллеи гуляет Лермонтов, вон в той. Приглашаем пройтись по старым паркам и гротам, вообразить как по ту сторону аллеи гуляет Лермонтов, вон в той ...Приглашаем пройтись по старым паркам и гротам.',
-                    price: '700',
-                    prices: {},
-                    is_moderation: true,
-                    tour_type: 'групповая экскурсия',
-                    duration: '1 час',
-                    rating: '4.20',
-                    preview_image: '/img/travels/4.jpg',
                 }],
-            myDraftTours: [
-                {
-                    title: 'Медовые водопады',
-                    description: '118 увлекательных экскурсий в городе Ставропольский край – Минеральные воды и источники в Ставрополье славились лечебными свойствами уже давно: здесь лечили больных в войсках Кавказской линии. А с 1803 года начали обустраивать курорты',
-                    price: '2500',
-                    prices: {},
-                    is_draft: true,
-                    tour_type: 'групповая экскурсия',
-                    duration: '2 дня',
-                    rating: '4.20',
-                    preview_image: '/img/travels/2.jpg',
-                }, {
-                    title: 'Чарующий Пятигорск - город горячих вод',
-                    description: 'Приглашаем пройтись по старым паркам и гротам, вообразить как по ту сторону аллеи гуляет Лермонтов, вон в той. Приглашаем пройтись по старым паркам и гротам, вообразить как по ту сторону аллеи гуляет Лермонтов, вон в той ...Приглашаем пройтись по старым паркам и гротам.',
-                    price: '700',
-                    prices: {},
-                    is_draft: true,
-                    tour_type: 'групповая экскурсия',
-                    duration: '1 час',
-                    rating: '4.20',
-                    preview_image: '/img/travels/4.jpg',
-                }]
+            activeType: 'Действующие',
+            activeTitle: 'Мои экскурсии',
         }
     },
     methods: {
