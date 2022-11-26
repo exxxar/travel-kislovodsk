@@ -27,12 +27,34 @@ class TourObjectController extends Controller
      */
     public function index(Request $request)
     {
-        $tourObjects = TourObject::withTrashed()
-            ->paginate($request->count ?? config('app.results_per_page'));
+        $removed = (boolean)($request->removed??0);
+        if ($removed)
+            $tourObjects = TourObject::query()
+                ->whereNotNull("deleted_at")
+                ->paginate($request->size ?? config('app.results_per_page'));
+            else
+                $tourObjects = TourObject::query()
+                    ->paginate($request->size ?? config('app.results_per_page'));
 
         return new TourObjectCollection($tourObjects);
     }
 
+    public function loadGuideTourObjectsByPage(Request $request)
+    {
+
+        $removed = (boolean)($request->removed??0);
+        if ($removed)
+            $tourObjects = TourObject::query()
+                ->whereNotNull("deleted_at")
+                ->where("creator_id", Auth::user()->id)
+                ->paginate($request->size ?? config('app.results_per_page'));
+        else
+            $tourObjects = TourObject::query()
+                ->where("creator_id", Auth::user()->id)
+                ->paginate($request->size ?? config('app.results_per_page'));
+
+        return new TourObjectCollection($tourObjects);
+    }
 
     /**
      * @param \App\Http\Requests\API\TourObjectStoreRequest $request
@@ -42,7 +64,7 @@ class TourObjectController extends Controller
     {
         $tmp = (object)$request->validated();
 
-        $tmp->creator_id = Auth::user()->id??config("app.default_guide_id");
+        $tmp->creator_id = Auth::user()->id ?? config("app.default_guide_id");
 
         $tourObject = TourObject::query()->create((array)$tmp);
 
@@ -58,7 +80,7 @@ class TourObjectController extends Controller
     {
 
         $tourObject = TourObject::query()
-            ->with(["creator","creator.profile"])
+            ->with(["creator", "creator.profile"])
             ->where("id", $id)
             ->first();
 
@@ -169,7 +191,6 @@ class TourObjectController extends Controller
 
         return new TourObjectCollection($tourObjects);
     }
-
 
 
     public function restore(Request $request, TourObject $tourObject)

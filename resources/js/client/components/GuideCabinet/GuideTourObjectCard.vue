@@ -2,7 +2,7 @@
     <div class="object object__info row col bg-white rounded mx-0 px-0">
         <div class="col-12 px-0">
             <img class="cover w-100 rounded-top" :class="{'archived': data.deleted_at}"
-                 :src="data.preview_image"
+                 v-lazy="data.photos[0]"
                  alt="travel"/>
         </div>
         <div class="col-12 px-0">
@@ -61,6 +61,10 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+    .object__info {
+        img {
+            height: 350px;
+        }
+    }
 </style>

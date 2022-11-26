@@ -1,38 +1,41 @@
 <template>
     <div class="dt-page__messages-content bg-white col-12 col-lg-8">
 
-        <div class="messages-list px-2rem">
-            <div v-for="item in sortedChatMessages" v-bind:class="{ 'self-message': item.user_id === user.id }"
-                class="message mt-2 d-flex align-items-center">
+        <div class="messages-list">
+            <div v-for="item in sortedChatMessages"
+                 v-bind:class="{'self-message':item.user_id===user.id}"
+                 class="message">
 
-                <div class="message-text rounded-3">
-                    {{ item.message }}
+                <div class="message-text">
+                    {{item.message}}
                 </div>
                 <div class="message-info">
-                    <span class="thin opacity-40">{{ moment(item.created_at).format('HH:mm') }}</span>
+                   <span>от  <em>{{item.profile.fname}} {{item.profile.fname}} </em><small>( {{moment(item.created_at).format('YYYY-MM-DD H:m:s')}})</small></span>
                 </div>
             </div>
-            <div class="messages-body__scroll"></div>
         </div>
         <div class="messages-control">
-            <form v-on:submit.prevent="sendChatMessage" class="d-flex rounded bg-light align-items-center m-2rem pe-2">
-                <input v-model="message"
-                    class="d-flex rounded order-2 order-lg-1 flex-grow-1 px-3 px-lg-4 border-0 bg-light" type="text">
-                <button class="attach-file big-icon order-1 order-lg-2 ps-4 ps-xl-0 position-relative">
-                    <svg class="black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="24" width="24">
+            <form
+                v-on:submit.prevent="sendChatMessage">
+                <input
+                    v-model="message"
+                    class="d-flex order-2 order-lg-1 flex-grow-1 px-3 px-lg-4 border-0 bg-light" type="text">
+                <button class="big-icon order-1 order-lg-2 ps-4 ps-xl-0">
+                    <svg class="black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="24"
+                         width="24">
                         <path
-                            d="M23 45.4q-5.15 0-8.775-3.55T10.6 33.2V11.15q0-3.7 2.575-6.3 2.575-2.6 6.275-2.6 3.75 0 6.325 2.6t2.575 6.35v19.95q0 2.25-1.55 3.825-1.55 1.575-3.8 1.575-2.3 0-3.825-1.65-1.525-1.65-1.525-4V11.05h3.15v20q0 1 .65 1.7t1.55.7q.95 0 1.575-.675t.625-1.625v-20q0-2.4-1.675-4.05T19.45 5.45q-2.4 0-4.075 1.65Q13.7 8.75 13.7 11.15V33.3q0 3.8 2.725 6.4Q19.15 42.3 23 42.3q3.9 0 6.6-2.625 2.7-2.625 2.7-6.475V11.05h3.15v22.1q0 5.1-3.65 8.675Q28.15 45.4 23 45.4Z" />
+                            d="M23 45.4q-5.15 0-8.775-3.55T10.6 33.2V11.15q0-3.7 2.575-6.3 2.575-2.6 6.275-2.6 3.75 0 6.325 2.6t2.575 6.35v19.95q0 2.25-1.55 3.825-1.55 1.575-3.8 1.575-2.3 0-3.825-1.65-1.525-1.65-1.525-4V11.05h3.15v20q0 1 .65 1.7t1.55.7q.95 0 1.575-.675t.625-1.625v-20q0-2.4-1.675-4.05T19.45 5.45q-2.4 0-4.075 1.65Q13.7 8.75 13.7 11.15V33.3q0 3.8 2.725 6.4Q19.15 42.3 23 42.3q3.9 0 6.6-2.625 2.7-2.625 2.7-6.475V11.05h3.15v22.1q0 5.1-3.65 8.675Q28.15 45.4 23 45.4Z"/>
                     </svg>
-                    <input type="file" class="w-100 h-100 opacity-0 position-absolute top-0 start-0">
                 </button>
                 <button type="submit" class="order-3 big-icon rounded ms-3 dt-btn-blue">
-                    <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20" width="20">
-                        <path d="M6 40V27.75L21.1 24 6 20.15V8l38 16Z" />
+                    <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20"
+                         width="20">
+                        <path d="M6 40V27.75L21.1 24 6 20.15V8l38 16Z"/>
                     </svg>
                 </button>
             </form>
         </div>
-        <!--        <div class="dt-page__messages-container">
+<!--        <div class="dt-page__messages-container">
 
         </div>
         <div class="messages-body__name col-12 row bg-white splitted mx-0 hide-lg">
@@ -173,29 +176,29 @@
 
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import {mapGetters} from 'vuex';
 
 export default {
     data() {
         return {
-            chatId: null,
-            message: null,
-            messages: []
+            chatId:null,
+            message:null,
+            messages:[]
         }
     },
     computed: {
         ...mapGetters(['getChatMessages']),
-        user() {
-            return window.user
+        user(){
+          return window.user
         },
-        moment() {
+        moment(){
             return window.moment
         },
-        sortedChatMessages() {
-            if (this.messages.length === 0)
+        sortedChatMessages(){
+            if (this.messages.length===0)
                 return [];
 
-            return this.messages.sort((a, b) => {
+            return this.messages.sort((a,b)=>{
                 if (a.id > b.id) {
                     return 1;
                 }
@@ -214,9 +217,9 @@ export default {
         console.log('Firebase cloud messaging object', this.$messaging)
     },
     methods: {
-        sendChatMessage() {
+        sendChatMessage(){
             this.messages.push({
-                id: 9999,
+                id:9999,
                 message: this.message,
                 user_id: this.user.id,
                 profile: this.user.profile,
@@ -225,8 +228,8 @@ export default {
 
             return this.$store.dispatch("sendMessage", {
                 chat_id: this.chatId,
-                message: this.message
-            }).then((response) => {
+                message:this.message
+            }).then((response)=>{
                 this.loadChatMessagesByChatId(this.chatId)
                 this.eventBus.emit('load_chats')
                 this.message = null;
@@ -236,7 +239,7 @@ export default {
         loadChatMessagesByChatId(id) {
             return this.$store.dispatch("loadChatMessagesByChatId", {
                 chatId: id
-            }).then(() => {
+            }).then(()=>{
                 this.messages = this.getChatMessages
                 let objDiv = document.querySelector(".messages-list")
                 objDiv.scrollTop = 1000000;
@@ -248,99 +251,65 @@ export default {
 <style lang="scss">
 .dt-page__messages-content {
     height: 500px;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
 
-    @media (min-width: 992px) {
-        & {
-            border-radius: 0.375rem;
-        }
+   .messages-list {
+       width: 100%;
+       height: 410px;
+       overflow-y: scroll;
+       padding: 10px;
+       box-sizing: border-box;
 
-        &::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3rem;
-            border-top-left-radius: 0.375rem;
-            border-top-right-radius: 0.375rem;
-            background: linear-gradient(180deg, #ffffff 20%, rgba(0, 0, 0, 0) 100%);
-        }
-    }
+       .message {
+           width: 100%;
+           padding: 10px;
+           box-sizing: border-box;
+           background: #f8f9fa;
+           border-radius: 10px;
+           margin-bottom: 10px;
 
-    .messages-list {
-        width: 100%;
-        flex-grow: 3;
-        overflow-y: scroll;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
+           &.self-message {
+               border-left: 2px #0071eb solid;
+           }
 
-        .message {
-            max-width: 100%;
-            justify-content: start;
+           .message-text {
+               border-bottom: 1px #0071eb solid;
+           }
 
-            .message-text {
-                border-top-left-radius: 0 !important;
-                background-color: #0071eb;
-                color: #ffffff;
-                padding: 10px 20px !important;
-                word-wrap: break-word;
+           .message-info {
+               padding: 5px;
+               font-size: 10px;
+               box-sizing: border-box;
+               display: flex;
+               justify-content: end;
+               align-items: center;
+           }
+       }
 
-                max-width: 100%;
+       &::-webkit-scrollbar {
+           width: 3px;
+       }
 
-                @media (min-width: 992px) {
-                    max-width: 740px;
-                }
-            }
+       &::-webkit-scrollbar-thumb {
+           background-color: #0071eb;
+       }
 
-            .message-info {
-                margin-left: 1rem;
-                margin-right: 0;
-            }
-
-            &.self-message {
-                justify-content: end;
-
-                .message-text {
-                    border-top-right-radius: 0 !important;
-                    border-top-left-radius: 0.375rem !important;
-                    background-color: #f8f9fa;
-                    color: #222425;
-                    order: 2;
-                }
-
-                .message-info {
-                    margin-left: 0;
-                    margin-right: 1rem;
-                }
-            }
-        }
-
-        .messages-body__scroll {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 3px;
-            height: 20%;
-            background-color: #0071eb;
-            cursor: pointer;
-            border-radius: 0.375rem;
-        }
-
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    }
+       &::-webkit-scrollbar-track {
+           background: none;
+       }
+   }
 
     .messages-control {
+        padding: 10px;
+        box-sizing: border-box;
+
         form {
-            .attach-file:hover svg {
-                fill: #f73637 !important;
-            }
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 0px 10px;
         }
     }
 

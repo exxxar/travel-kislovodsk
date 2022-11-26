@@ -97,9 +97,10 @@ class SocialAuthController extends Controller
             "password" => "required"
         ]);
 
+
         $user = User::query()
             ->with(["role"])
-            ->where("phone", $request->phone)->first();
+            ->where("phone",$request->phone )->first();
 
         if (!is_null($user)) {
             return response()->json([
@@ -126,8 +127,8 @@ class SocialAuthController extends Controller
 
         $user = User::query()->create([
             'name' => $request->name,
-            'email' => $request->phone,
-            'phone' => $request->phone,
+            'email' => $request->username,
+            'phone' => $request->username,
             'password' => bcrypt($request->password),
             'role_id' => $userRole->id,
             'profile_id' => $profile->id,
@@ -161,7 +162,10 @@ class SocialAuthController extends Controller
 
         $user = User::query()
             ->with(["role"])
-            ->where("phone", $request->username)->first();
+            ->where("phone", $request->username)
+            ->orWhere("email", $request->username)
+
+            ->first();
 
         if (!is_null($user)) {
             Auth::login($user, true);

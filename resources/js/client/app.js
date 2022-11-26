@@ -1,5 +1,7 @@
 import './bootstrap';
-import {createApp} from 'vue/dist/vue.esm-bundler';
+/*import firebaseMessaging from './firebase'*/
+
+
 import mitt from 'mitt'
 
 import Datepicker from '@vuepic/vue-datepicker';
@@ -56,12 +58,28 @@ import TourObjectPage from '@/pages/tours/TourObject.vue'
 import ToursSearchPage from '@/pages/tours/ToursSearch.vue'
 import UserCabinetPage from '@/pages/UserCabinet.vue'
 
-
+<<<<<<< HEAD
+/*------------------------*/
+import GuideTours from '@/components/GuideCabinet/GuideTours.vue'
+import GuideTourList from '@/components/GuideCabinet/GuideTourList.vue'
+import GuideTourCard from '@/components/GuideCabinet/GuideTourCard.vue'
+import GuideTourObjects from '@/components/GuideCabinet/GuideTourObjects.vue'
+import GuideTourObjectList from '@/components/GuideCabinet/GuideTourObjectList.vue'
+import GuideTourObjectCard from '@/components/GuideCabinet/GuideTourObjectCard.vue'
+import GuideTourObjectPaginate from '@/components/GuideCabinet/GuideTourObjectPaginate.vue'
+=======
+import { createApp } from "vue";
+>>>>>>> parent of 5278463 (large update)
 
 const eventBus = mitt()
 const app = createApp({})
 
+<<<<<<< HEAD
+=======
 
+/*app.config.globalProperties.$messaging = firebaseMessaging*/
+
+>>>>>>> parent of 5278463 (large update)
 app.config.globalProperties.eventBus = eventBus
 
 app.use(VueLazyLoad,
@@ -130,6 +148,16 @@ app.component('tours-hot-page', ToursHotPage)
 app.component('tour-object-page', TourObjectPage)
 app.component('tour-search-page', ToursSearchPage)
 app.component('user-cabinet-page', UserCabinetPage)
+
+/*---------------------------*/
+app.component('guide-tours-component', GuideTours)
+app.component('guide-tour-list-component', GuideTourList)
+app.component('guide-tour-card-component', GuideTourCard)
+app.component('guide-tour-objects-component', GuideTourObjects)
+app.component('guide-tour-object-paginate-component', GuideTourObjectPaginate)
+app.component('guide-tour-object-list-component', GuideTourObjectList)
+app.component('guide-tour-object-card-component', GuideTourObjectCard)
+
 
 import store from './store'
 

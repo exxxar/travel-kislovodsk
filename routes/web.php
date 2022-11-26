@@ -49,9 +49,9 @@ Route::view('/error', 'pages.errors.500')->name("page.error");
 
 Route::middleware(["auth"])->group(function () {
 
-    Route::middleware(["is_guide"])->group(function () {
+
         Route::view('/guide-cabinet', 'pages.guide-cabinet')->name("page.guide-cabinet");
-    });
+
     Route::view('/user-cabinet', 'pages.user-cabinet')->name("page.user-cabinet");
     Route::get('/logout', \App\Http\Controllers\SocialAuthController::class . '@logout')->name("logout");
 });
@@ -146,7 +146,7 @@ Route::prefix("api")
 
                 Route::prefix("transactions")
                     ->group(function () {
-                        Route::get('/', []);
+                      //  Route::get('/', []);
                         Route::post('/search', []);
                     });
 
@@ -156,7 +156,7 @@ Route::prefix("api")
                     ->controller(\App\Http\Controllers\API\TourController::class)
                     ->group(function () {
 
-                        Route::get('/', '');
+                        Route::get('/', 'loadGuideToursByPage');
                         Route::post('/search', []);
                         Route::get('/restore/{id}', []);
                         Route::get('/add/{id}', []);
@@ -177,7 +177,7 @@ Route::prefix("api")
                         Route::get('/restore-all', 'restoreAll');
                         Route::get('/restore/{id}', 'restore');
                         Route::delete('/remove/{id}', 'destroy');
-                        Route::get('/', 'index');
+                        Route::get('/', 'loadGuideTourObjectsByPage');
                         Route::post('/', 'store');
                         Route::put('/{id}', 'update');
                     });

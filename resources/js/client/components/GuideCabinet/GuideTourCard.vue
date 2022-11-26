@@ -3,10 +3,10 @@
         <div class="col px-0">
             <div class="px-4 py-4 align-items-center row mx-0 excursion__info position-relative">
                 <p class="excursion__name mb-2 bold order-2 order-xxl-1 col-12 mt-4 mt-xxl-0">
-                    {{ data.title }}
+                    {{ data.title || 'Нет заголовка'}}
                 </p>
                 <p class="short-descrtiption opacity-80 mb-3 lh-lg order-3 order-xxl-2 col-12">
-                    {{ data.description }}
+                    {{ data.short_description || data.description || 'Нет описания' }}
                 </p>
                 <div class="col-12 col-xxl-auto order-1 order-xxl-3 row align-items-center mx-0">
                     <p class="dt-excursion-type position-static col-auto">
@@ -227,7 +227,7 @@
             </div>
         </div>
         <div class="excursion__image col-12 col-xl-4 px-0">
-            <img class="cover w-100 h-100" :src="data.preview_image" alt=""/>
+            <img class="cover w-100 h-100" v-lazy="data.preview_image" alt=""/>
         </div>
     </div>
 </template>
@@ -248,3 +248,8 @@ export default {
     }
 }
 </script>
+<style lang="scss">
+.excursion__image {
+    height: 250px;
+}
+</style>
