@@ -2,9 +2,17 @@
 
 namespace Database\Seeders;
 
+use App\Models\Dictionary;
+use App\Models\Review;
+use App\Models\Schedule;
 use App\Models\Tour;
+use App\Models\TourObject;
+use Carbon\Carbon;
+use Database\Factories\TourFactory;
+use Database\Factories\TourObjectFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Log;
 
 class TourSeeder extends Seeder
 {
@@ -15,46 +23,40 @@ class TourSeeder extends Seeder
      */
     public function run()
     {
-        Tour::query()->create([
-            'title'=>"Путешествие в Северное Приэльбрусье: ущелье Джилы-Су и водопады",
-            'short_description'=>"Дорога в Джилы-Су — одна из самых красивых в России, и мы приглашаем вас провести день в этих невероятных местах! Нас ждёт путь через ущелья и перевалы, остановки в Долине нарзанов, у водопадов и Зубов дракона. Вы попробуете нарзан из источника, а также горячие хычины и другие блюда местной кухни, и всё это — в местах с захватывающими дух видами.",
-            'description'=>"Панорамы Эльбруса и нарзан из источника
-Мы с вами выезжаем ранним утром, чтобы оказаться на плато Шаджатмаз в лучшее для обзора время. В ясную погоду отсюда открывается незабываемый вид на Эльбрус и Кавказский хребет.
+        $tmpCategories = [];
+        $tours = Tour::factory()->count(15)->create();
 
-Отсюда по серпантину отправимся в Долину нарзанов с источниками, бьющими прямо из-под земли. Вы попробуете целебную воду, насыщенную минералами, и с новыми силами мы поедем дальше.
 
-Ещё одна смотровая площадка с видом на Эльбрус — при спуске в ущелье Харбаз. От вида на крутые спуски по серпантину и горные вершины у вас захватит дух!
 
-Места силы в окрестностях Джилы-Су
-На территории Джилы-Су у вас будет время проникнуться духом величественной природы и зарядиться её энергией. Мы с вами осмотрим водопады Каракая, Султан-Су и Кызыл-Су. Они настолько мощные, что полюбоваться ими можно только на расстоянии. Кроме того, мы обойдём остроконечные скалы и минеральные источники, а ещё обязательно покормим местных жителей — забавных сусликов.
-",
-            'start_place',
-            'start_latitude',
-            'start_longitude',
-            'start_comment',
-            'tour_object_id',
-            'preview_image',
-            'is_hot',
-            'is_active',
-            'is_draft',
-            'duration'=>"9 ч.",
-            'min_group_size'=>1,
-            'max_group_size'=>7,
-            'rating',
-            'images',
-            'prices',
-            'include_services'=>["Трансфер до дома","Транспорт (комфортный внедорожник или минивэн)","Услуги профессионального водителя-гида на всём маршруте"],
-            'exclude_services'=>["Питание в кафе (от 300 руб./чел.), рекомендуем взять с собой небольшой перекус и воду",
-                "Экологический сбор в заповедник (100 руб./чел., оплачивается на въезде в Джылы-Су)",
-                "Экологический сбор (100 руб./чел., оплачивается на въезде в Долину нарзанов)",
-                "Сувениры"
-                ],
-            'duration_type_id',
-            'movement_type_id',
-            'tour_type_id',
-            'payment_type_id',
-            'creator_id',
-            'verified_at',
-        ]);
+        foreach ($tours as $tour) {
+            for ($i = 0; $i < random_int(3, 15); $i++) {
+                Schedule::factory()->create([
+                   'tour_id'=>$tour->id,
+                   'guide_id'=>1
+               ]);
+            }
+            for ($i = 0; $i < random_int(3, 15); $i++) {
+                Review::factory()->create([
+                    'tour_id'=>$tour->id,
+                    'user_id'=>1
+                ]);
+            }
+
+            for ($i = 0; $i < random_int(3, 10); $i++) {
+                $obj = TourObject::factory()->create();
+
+                $tour->tourObjects()->attach($obj->id);
+            }
+
+            $categories = Dictionary::getTourCategoryTypes()->get()->pluck("id")->toArray();
+
+            for ($i = 0; $i < 4; $i++) {
+                $cat = $categories[random_int(0, count($categories) - 1)];
+                $tour->tourCategories()->attach($cat);
+            }
+
+        }
+
+
     }
 }

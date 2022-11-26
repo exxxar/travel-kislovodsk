@@ -38,6 +38,8 @@ class Review extends Model
         'rating' => 'double',
     ];
 
+    protected $with = ["user","user.profile"];
+
     protected $appends = ['resource_url'];
 
     public function getResourceUrlAttribute()

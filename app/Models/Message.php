@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Http\Resources\ChatsResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class Message extends Model
 {
@@ -16,10 +19,12 @@ class Message extends Model
      * @var array
      */
     protected $fillable = [
+        'message',
         'content',
         'transaction_id',
         'user_id',
-        'tour_guide_id',
+        'tour_id',
+        'chat_id',
         'read_at',
     ];
 
@@ -32,12 +37,54 @@ class Message extends Model
         'id' => 'integer',
         'content' => 'array',
         'transaction_id' => 'integer',
+        'tour_id' => 'integer',
         'user_id' => 'integer',
-        'tour_guide_id' => 'integer',
+        'chat_id' => 'integer',
         'read_at' => 'timestamp',
     ];
 
     protected $appends = ['resource_url'];
+
+    public static function getUserList()
+    {
+
+       return  Message::query()
+            ->with(["sender.profile", "recipient.profile"])
+            ->where("sender_id", Auth::user()->id)
+            ->distinct()
+            ->get("recipient_id");
+
+
+
+    }
+
+    public static function getMessagesByUserId($id): \Illuminate\Database\Eloquent\Builder
+    {
+
+        return Message::query()
+            ->where(function ($q) use ($id) {
+                $q->where("sender_id", Auth::user()->id);
+                $q->where("recipient_id", $id);
+            })
+            ->orWhere(function ($q) use ($id) {
+                $q->where("recipient_id", Auth::user()->id);
+                $q->where("sender_id", $id);
+            });
+
+
+    }
+
+
+    public static function sendMessage($message)
+    {
+        Message::query()->create([
+            'content',
+            'transaction_id',
+            'user_id',
+            'tour_guide_id',
+            'read_at',
+        ]);
+    }
 
     public function getResourceUrlAttribute()
     {
@@ -49,12 +96,18 @@ class Message extends Model
         return $this->belongsTo(Transaction::class);
     }
 
-    public function user()
+
+    public function tour()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Tour::class);
     }
 
-    public function tourGuide()
+    public function chat()
+    {
+        return $this->belongsTo(Chat::class);
+    }
+
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

@@ -12,61 +12,43 @@
                         <div class="dt-preheader__actions">
 
                         </div>
-                        <p class="dt-preheader__title">Медовые водопады</p>
+                        <p class="dt-preheader__title">{{ tour.title || 'Без заголовка' }}</p>
                         <div class="dt-preheader__tags">
                             <ul class="d-flex dt-tags__list gap-1 justify-content-center w-auto">
-                                <li class="dt-tag__item">детские</li>
-                                <li class="dt-tag__item">животные</li>
-                                <li class="dt-tag__item">исторические</li>
-                                <li class="dt-tag__item">мистические</li>
+                                <li class="dt-tag__item" v-for="item in tour.tour_categories">{{ item.title }}</li>
                             </ul>
                         </div>
                         <div class="curved">
                             <img v-lazy="'/img/curved_strip.png'" alt="">
                         </div>
                         <p class="dt-preheader__description">
-                            118 увлекательных экскурсий в городе Ставропольский край – Минеральные воды и источники в
-                            Ставрополье
-                            славились лечебными свойствами уже давно: здесь лечили больных в войсках Кавказской линии. А
-                            с 1803 года
-                            начали обустраивать курорты на Кавказских минеральных водах., экскурсионные маршруты
-                            охватывают 111
-                            достопримечательностей.
+                            {{ tour.short_description || 'Нет описания' }}
                         </p>
                         <div class="dt-preheader__photos justify-content-center">
-                            <div class="dt-photos__item">
-                                <img v-lazy="'/img/travels/1.jpg'" alt="">
+                            <div class="dt-photos__item"
+                                 data-bs-toggle="modal"
+                                 :data-bs-target="'#image-modal'+index" v-for="(item, index) in tour.images.slice(0,6)">
+                                <img v-lazy="item" alt="">
+
+                                <image-modal-dialog-component :id="'image-modal'+index" :url="item"/>
+
                             </div>
-                            <div class="dt-photos__item">
-                                <img v-lazy="'/img/travels/2.jpg'" alt="">
-                            </div>
-                            <div class="dt-photos__item d-none d-lg-block">
-                                <img v-lazy="'/img/travels/3.jpg'" alt="">
-                            </div>
-                            <div class="dt-photos__item d-none d-lg-block">
-                                <img v-lazy="'/img/travels/4.jpg'" alt="">
-                            </div>
-                            <div class="dt-photos__item d-none d-lg-block">
-                                <img v-lazy="'/img/travels/1.jpg'" alt="">
-                            </div>
-                            <div class="dt-photos__item d-none d-lg-block">
-                                <img v-lazy="'/img/travels/2.jpg'" alt="">
-                            </div>
-                            <div class="dt-photos__item dt-photos__item--placeholder">
+
+                            <div class="dt-photos__item dt-photos__item--placeholder" v-if="tour.images.length>6">
                                 <div class="dt-item__placeholder">
-                                    <span>+8</span>
+                                    <span>+{{  tour.images.length-6 }}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="dt-preheader__view-reviews d-flex justify-content-center">
                             <p class="dt-btn-text text-uppercase text-white me-lg-3">Смотреть отзывы (8)</p>
                             <div class="dt-rating__star d-flex">
-                                <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                <p class="dt-rating__text fw-bold text-white">4.84</p>
+                                <img v-lazy="tour.rating>=1?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'"  alt="">
+                                <img v-lazy="tour.rating>=2?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'"  alt="">
+                                <img v-lazy="tour.rating>=3?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'"  alt="">
+                                <img v-lazy="tour.rating>=4?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'"  alt="">
+                                <img v-lazy="tour.rating>=5?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'"  alt="">
+                                <p class="dt-rating__text fw-bold text-white">{{tour.rating}}</p>
                             </div>
                         </div>
                     </div>
@@ -83,7 +65,7 @@
                         <div class="d-flex flex-wrap">
                             <label class="dt-label fw-thin">длительность</label>
                             <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
-                                   value="7 часов" disabled="">
+                                   :value="tour.duration||'Не установлено'" disabled="">
                         </div>
                         <div class="dt-input__group-item">
                             <div class="dt-input__icon">
@@ -101,7 +83,7 @@
                         <div class="d-flex flex-wrap">
                             <label class="dt-label fw-thin">город отправления</label>
                             <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
-                                   value="Ставрополь" disabled="">
+                                   :value="tour.start_city||'Начальный город'" disabled="">
                         </div>
                         <div class="dt-input__group-item">
                             <div class="dt-input__icon">
@@ -119,7 +101,7 @@
                         <div class="d-flex flex-wrap">
                             <label class="dt-label fw-thin">тип экскурсии</label>
                             <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
-                                   value="мини-группа" disabled="">
+                                   :value="tour.tour_type||'Нет типа тура'" disabled="">
                         </div>
                         <div class="dt-input__group-item">
                             <div class="dt-input__icon">
@@ -137,7 +119,7 @@
                         <div class="d-flex flex-wrap">
                             <label class="dt-label fw-thin">передвижение</label>
                             <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
-                                   value="Комбинированная" disabled="">
+                                   :value="tour.movement_type||'Нет типа'" disabled="">
                         </div>
                         <div class="dt-input__group-item">
                             <div class="dt-input__icon">
@@ -154,33 +136,18 @@
             <div class="row dt-page__content">
                 <div v-if="!isBooking" class="col-lg-8 dt-page__content">
                     <p class="dt-article__title">Описание экскурсии</p>
-                    <p class="dt-main-text-thin">Приглашаю вас совместить приятное с полезным и сделать
-                        акклиматизационный выход с красивыми видами на
-                        гору Чегет и ледниковое озеро Донгуз-Орун-Кель. Воды, стекающие по склонам, размывают почву и
-                        несут
-                        в водоем различные минералы, которые и окрашивают жидкость в различные цвета. Оттенки водной
-                        глади
-                        могут зависеть как от угла обзора, так от погоды и времени года. Палитра меняется от
-                        ярко-изумрудных
-                        цветов до болотисто-зеленых и ржавых коричневых оттенков. <br><br>
-                        Наш маршрут начнется снизу от Поляны Чегет, откуда мы пешком по горной широкой тропе поднимемся
-                        на
-                        озеро, преодолев первые 500 м вертикального набора высоты. У озера сделаем привал. А далее
-                        поднимемся еще выше до станции канатной дороги горы Чегет, где находится смотровая площадка и
-                        знаменитое кафе Ай (луна), где любил бывать Высоций и Визбор.<br><br>
-                        Далее по желанию мы можем подняться наверх горы Чегет и спуститься вниз на канатной дороге. Или
-                        спуститься сразу пешком вниз от второй станции, не используя канатную дорогу.<br><br>
-                        Наш маршрут закончится спуском на канатной дороге вниз до Поляны Чегет.<br><br>
-                        Одежду и обувь рекомендуется подбирать из синтетических материалов и удобную для активной
-                        прогулки.
-                        Также обязательно использовать все средства солнце защиты (крем, очки, головные уборы). Не
-                        лишним
-                        будет использование треккинговых палок, особенно если вы планируете идти по сложному варианту
-                        маршрута.<br><br> Если у вас не хватает снаряжения, то можно взять напрокат на месте.</p>
+                    <p class="dt-main-text-thin">
+                        {{tour.description || 'Нет описания'}}
+                    </p>
                     <div class="dt-paragraph__group">
                         <div class="d-flex justify-content-between align-items-baseline">
                             <h3 class="dt-paragraph__caption">Место начала</h3>
-                            <p class="dt-btn-text text-uppercase d-lg-flex d-none">Смотреть на карте</p>
+                            <p class="dt-btn-text text-uppercase d-lg-flex d-none"
+                               data-bs-toggle="modal" data-bs-target="#cart-main-modal-1"
+                            >Смотреть на карте</p>
+                            <map-modal-dialog-component id="cart-main-modal-1"
+
+                                                        :coords="{lat: tour.start_latitude, lon:tour.start_longitude}"/>
                         </div>
                         <div class="d-flex dt-paragraph align-items-start">
                             <div class="dt-paragraph__icon me-2" style="width: 20px; min-width: 20px;">
@@ -191,10 +158,10 @@
                                 </svg>
                             </div>
                             <div class="dt-paragraph__text">
-                                <h4 class="dt-text__title m-0">Мечеть в центре посёлка Терскол</h4>
-                                <p class="dt-main-text-thin"><span class="text-danger">Внимание!!!</span> Место встречи
-                                    может быть изменено. Мы вышлем вам точное место начала вместе с
-                                    контактами гида после бронирования билетов.</p>
+                                <h4 class="dt-text__title m-0">{{tour.start_address||'Стартовая локация'}}</h4>
+                                <p class="dt-main-text-thin">
+                                    {{tour.start_comment||'Стартовое описание'}}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -206,26 +173,49 @@
                                 Товарищи! постоянное информационно-пропагандистское обеспечение нашей деятельности в
                                 значительной степени обуславливает создание систем массового участия.</p>
                         </div>
-                        <tour-object-list />
+                        <div class="dt-tour-object-list">
+                            <div class="d-flex dt-paragraph" v-for="item in tour.tour_objects">
+                                <div class="dt-paragraph__icon dt-paragraph__icon--width-30 blue me-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"
+                                         viewBox="0 0 48 48"
+                                         fill="white">
+                                        <path
+                                            d="M9.3 42.7V7.25h18.45l.95 4.3h12.05V31.5H26.6l-.95-4.25h-12.4V42.7ZM25 19.4Zm5 8.15h6.75v-12H25.3l-.95-4.3h-11.1V23.3h15.8Z"></path>
+                                    </svg>
+                                </div>
+                                <div class="dt-paragraph__text">
+                                    <a :href="'/tour-object/'+item.id" class="dt-text__title">{{item.title}}</a>
+                                    <p class="dt-main-text-thin">{{item.description}}</p>
+                                    <div class="dt-text__links d-flex">
+                                        <p class="dt-btn-text text-uppercase me-3 d-lg-flex d-none"
+                                           data-bs-toggle="modal" :data-bs-target="'#map-main-modal-'+item.id"
+                                           v-if="item.latitude!==0&&item.longitude!==0">Смотреть на
+                                            карте</p>
+                                        <p class="dt-btn-text text-uppercase me-3 d-flex d-lg-none"
+                                           data-bs-toggle="modal" :data-bs-target="'#map-main-modal-'+item.id"
+                                           v-if="item.latitude!==0&&item.longitude!==0">на карте</p>
+                                        <p class="dt-btn-text text-uppercase" v-if="item.photos.length>0">Фото</p>
+
+                                        <map-modal-dialog-component :id="'map-main-modal-'+item.id"
+                                                                    multiple="false"
+                                                                    :coords="{lat: item.latitude, lon:item.longitude}"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="dt-paragraph__group">
                                 <h3 class="dt-paragraph__caption">Что входит в стоимость</h3>
                                 <ul class="dt-list__price">
-                                    <li class="dt-price__item">
+                                    <li class="dt-price__item" v-for="item in tour.include_services">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"
                                              viewBox="0 0 48 48" fill="#65c350">
                                             <path d="M18.9 36.4 7 24.5l2.9-2.85 9 9L38.05 11.5l2.9 2.85Z"></path>
                                         </svg>
-                                        Сопровождение гида
-                                    </li>
-                                    <li class="dt-price__item">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"
-                                             viewBox="0 0 48 48" fill="#65c350">
-                                            <path d="M18.9 36.4 7 24.5l2.9-2.85 9 9L38.05 11.5l2.9 2.85Z"></path>
-                                        </svg>
-                                        Дети от 8-ми лет
+                                        {{item}}
                                     </li>
                                 </ul>
                             </div>
@@ -234,37 +224,13 @@
                             <div class="dt-paragraph__group">
                                 <h3 class="dt-paragraph__caption">Что не входит в стоимость</h3>
                                 <ul class="dt-list__price">
-                                    <li class="dt-price__item">
+                                    <li class="dt-price__item" v-for="item in tour.exclude_services">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"
                                              viewBox="0 0 48 48">
                                             <path fill="#f73637"
                                                   d="m12.45 38.35-2.8-2.8L21.2 24 9.65 12.45l2.8-2.8L24 21.2 35.55 9.65l2.8 2.8L26.8 24l11.55 11.55-2.8 2.8L24 26.8Z"></path>
                                         </svg>
-                                        Перекус на маршруте и в кафе
-                                    </li>
-                                    <li class="dt-price__item">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"
-                                             viewBox="0 0 48 48">
-                                            <path fill="#f73637"
-                                                  d="m12.45 38.35-2.8-2.8L21.2 24 9.65 12.45l2.8-2.8L24 21.2 35.55 9.65l2.8 2.8L26.8 24l11.55 11.55-2.8 2.8L24 26.8Z"></path>
-                                        </svg>
-                                        Подьем и спуск на канатной дороге
-                                    </li>
-                                    <li class="dt-price__item">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"
-                                             viewBox="0 0 48 48">
-                                            <path fill="#f73637"
-                                                  d="m12.45 38.35-2.8-2.8L21.2 24 9.65 12.45l2.8-2.8L24 21.2 35.55 9.65l2.8 2.8L26.8 24l11.55 11.55-2.8 2.8L24 26.8Z"></path>
-                                        </svg>
-                                        Прокат снаряжения
-                                    </li>
-                                    <li class="dt-price__item">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"
-                                             viewBox="0 0 48 48">
-                                            <path fill="#f73637"
-                                                  d="m12.45 38.35-2.8-2.8L21.2 24 9.65 12.45l2.8-2.8L24 21.2 35.55 9.65l2.8 2.8L26.8 24l11.55 11.55-2.8 2.8L24 26.8Z"></path>
-                                        </svg>
-                                        Трансфер из города КМК или аэропорта
+                                        {{item}}
                                     </li>
                                 </ul>
                             </div>
@@ -273,15 +239,10 @@
                     <div class="dt-paragraph__group">
                         <h3 class="dt-paragraph__caption">Как оплатить</h3>
                         <ul class="dt-list__price">
-                            <li class="dt-price__item">
-                                Онлайн картой (МИР, Visa, MasterCard).
+                            <li class="dt-price__item" v-for="item in tour.payment_infos">
+                                {{item}}
                             </li>
-                            <li class="dt-price__item">
-                                Онлайн электронными деньгами (ЮMoney).
-                            </li>
-                            <li class="dt-price__item">
-                                Оффлайн в офисе по адресу: Ставрополь, ул. Ленина, д.100, оф. 84.
-                            </li>
+
                         </ul>
                         <p class="dt-btn-text text-uppercase me-3">подробнее про способы оплаты</p>
                     </div>
@@ -300,19 +261,21 @@
                             </div>
                         </div>
                     </div>
-                    <review-list />
+                    <review-list :tour="tour"/>
                 </div>
-                <tour-booking v-else @closeBooking="isBooking = false"/>
+                <tour-booking v-else
+                              :tour="tour"
+                              @closeBooking="isBooking = false"/>
                 <div class="col-lg-4">
                     <div class="dt-bg__guide">
                         <div class="dt-bg-light-gray">
                             <div class="dt-guide__info d-flex w-100 h-100">
                                 <div class="dt-guide__img">
-                                    <img v-lazy="'/img/avatars/7.jpg'" alt="">
+                                    <img v-lazy="tour.guide.photo" alt="">
                                 </div>
                                 <div class="dt-guide__text">
                                     <p class="dt-guide__title fw-thin">экскурсию для вас проведет</p>
-                                    <p class="dt-guide__name">Петров Николай Игоревич</p>
+                                    <p class="dt-guide__name">{{ tour.guide.fname }} {{ tour.guide.sname }} {{ tour.guide.tname }}</p>
                                     <div class="dt-rating__star d-flex">
                                         <img v-lazy="'/img/icons/star_blue.svg'" alt="">
                                         <img v-lazy="'/img/icons/star_blue.svg'" alt="">
@@ -333,9 +296,9 @@
                     <div class="dt-bg__price">
                         <div class="dt-price text-center">
                         <span style="color:#f83737;text-decoration:line-through">
-                        <p class="dt-price__non-active">25 200</p>
+                        <p class="dt-price__non-active">{{ tour.discount_price }}</p>
                         </span>
-                            <p class="dt-price__active">21 900</p>
+                            <p class="dt-price__active">{{ tour.base_price }}</p>
                             <label>за человека</label>
                         </div>
                         <div class="dt-preferences">
@@ -393,6 +356,7 @@ import TourObjectList from "@/components/TourObjects/TourObjectList.vue";
 
 export default {
     components: {TourObjectList, ReviewList, TourBooking, Breadcrumbs},
+    props: ["tour"],
     data() {
         return {
             breadcrumbs: [
@@ -405,9 +369,17 @@ export default {
                     href: "/tours-all",
                 },
                 {
-                    text: "Медовые водопады",
+                    text: this.tour.title,
                     active: true,
                 }], isBooking: false
+        }
+    },
+    mounted() {
+        console.log(this.tour)
+    },
+    methods:{
+        addToFavorites(){
+            this.$store.dispatch("addToFavorites", this.tour.id)
         }
     }
 }

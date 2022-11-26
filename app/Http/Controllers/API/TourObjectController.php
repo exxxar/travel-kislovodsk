@@ -9,6 +9,8 @@ use App\Http\Requests\API\TourObjectStoreRequest;
 use App\Http\Requests\API\TourObjectUpdateRequest;
 use App\Http\Resources\TourObjectCollection;
 use App\Http\Resources\TourObjectResource;
+use App\Http\Resources\TourResource;
+use App\Models\Tour;
 use App\Models\TourObject;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
@@ -52,9 +54,15 @@ class TourObjectController extends Controller
      * @param \App\Models\TourObject $tourObject
      * @return \App\Http\Resources\TourObjectResource
      */
-    public function show(Request $request, TourObject $tourObject)
+    public function show(Request $request, $id)
     {
-        return new TourObjectResource($tourObject);
+
+        $tourObject = TourObject::query()
+            ->with(["creator","creator.profile"])
+            ->where("id", $id)
+            ->first();
+
+        return view('pages.tour-object', ["object" => json_encode(new TourObjectResource($tourObject))]);
     }
 
     /**

@@ -14,6 +14,13 @@ const getters = {
     getTourById: (state) => (id) => {
         return state.tours.find(tourItem => tourItem.id === id)
     },
+    getToursByCategoryId: (state) => (id) => {
+
+        return state.tours.filter(tourItem => {
+            console.log(tourItem.tour_categories)
+            return tourItem.tour_categories.filter(categoryItem => categoryItem.id === id).length > 0
+        })
+    },
     getToursPaginateObject: state => state.paginate_object || [],
 }
 
@@ -27,55 +34,80 @@ const actions = {
             !localStorage.getItem('travel_store_tours_paginate_object') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_tours_paginate_object')))
     },
-    async tourPage({commit}, link, method = 'GET', data = null) {
+    async tourPage(context, payload) {
+
+        let link = payload.url || BASE_TOUR_LINK
+        let method = payload.method || 'GET'
+        let data = payload.data || null
+
         let _axios = util.makeAxiosFactory(link, method, data)
 
         return _axios.then((response) => {
             let dataObject = response.data
-            commit('setTours', dataObject.data)
+            context.commit('setTours', dataObject.data)
             delete dataObject.data
-            commit('setToursPaginateObject', dataObject)
+            context.commit('setToursPaginateObject', dataObject)
 
         }).catch(err => {
-            this.errorsTours(commit)
+             context.dispatch("errorsTours");
+
         })
     },
-    async previousToursPage({commit}) {
-        return await this.tourPage(commit, state
-            .paginate_object
-            .links
-            .prev || BASE_TOUR_LINK)
+    async previousToursPage(context,filters) {
+        return await context.dispatch("tourPage", {
+            url:state
+                .paginate_object
+                .links
+                .prev || BASE_TOUR_LINK,
+            method:'POST',
+            data:filters
+        })
     },
-    async nextToursPage({commit}) {
-        return await this.tourPage(commit, state
-            .paginate_object
-            .links
-            .next || BASE_TOUR_LINK)
+    async nextToursPage(context, filters) {
+
+        return await context.dispatch("tourPage", {
+            url:state
+                .paginate_object
+                .links
+                .next || BASE_TOUR_LINK,
+            method:'POST',
+            data:filters
+
+        })
+
     },
-    async loadToursByPage({commit}, page = 0, size = 15) {
-        return await this.tourPage(commit, `${BASE_TOUR_LINK}?page=${page}&size=${size}`)
+    async loadToursByPage(context, pageIndex = 0) {
+        let size = 12
+        return await context.dispatch("tourPage", `${BASE_TOUR_LINK}?page=${pageIndex}&size=${size}`)
     },
-    async loadToursFilteredByPage({commit}, filterObject, page = 0, size = 15) {
-        return await this.tourPage(commit, `${BASE_TOUR_LINK}/search?page=${page}&size=${size}`, 'POST', filterObject)
+    async loadToursFilteredByPage(context, payload) {
+        let page = payload.page || 0
+        let size = 12
+        return await context.dispatch("tourPage", {
+            url:`${BASE_TOUR_LINK}/search?page=${page}&size=${size}`,
+            method:'POST',
+            data:payload.filters
+        })
+
     },
-    async loadToursByTourCategoryByPage({commit}, category, page = 0, size = 15, link = '/api/tours') {
-        return await this.tourPage(commit, `${BASE_TOUR_LINK}?category=${category}&page=${page}&size=${size}`)
+    async loadToursByTourCategoryByPage(context, category, page = 0, size = 12, link = '/api/tours') {
+        return await context.dispatch("tourPage", `${BASE_TOUR_LINK}?category=${category}&page=${page}&size=${size}`)
     },
-    async loadAllTours({commit}) {
-        return await this.tourPage(commit, `${BASE_TOUR_LINK}/all`)
+    async loadAllTours(context) {
+        return await context.dispatch("tourPage", `${BASE_TOUR_LINK}/all`)
     },
-    async loadAllHotTours({commit}) {
-        return await this.tourPage(commit, `${BASE_TOUR_LINK}/hot`)
+    async loadAllHotTours(context) {
+        return await context.dispatch("tourPage", `${BASE_TOUR_LINK}/hot`)
     }
 }
 
 const mutations = {
     setTours(state, payload) {
-        state.tours = payload.data || [];
+        state.tours = payload || [];
         localStorage.setItem('travel_store_tours', JSON.stringify(payload));
     },
     setToursPaginateObject(state, payload) {
-        state.paginate_object = payload.data || [];
+        state.paginate_object = payload || [];
         localStorage.setItem('travel_store_tours_paginate_object', JSON.stringify(payload));
     }
 }

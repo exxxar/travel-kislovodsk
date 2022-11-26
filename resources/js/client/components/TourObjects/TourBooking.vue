@@ -1,9 +1,9 @@
 <template>
-    <div class="col-lg-8 dt-content-booking">
+    <form class="col-lg-8 dt-content-booking" v-on:submit.prevent="submit">
         <button @click="closeBooking" class="dt-btn-blue dt-btn--height-50">
-            <span class="dt-font--size-12">Назад к списанию</span>
+            <span class="dt-font--size-12">Назад к описанию</span>
         </button>
-        <h1 class="dt-content__title fw-bold">Забронировать экскурсию «Медовые водопады»</h1>
+        <h1 class="dt-content__title fw-bold">Забронировать экскурсию «{{ tour.title }}»</h1>
         <div class="dt-alert dt-alert-danger d-flex align-items-center">
             <div class="dt-alert__icon d-flex">
                 <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 48 48"
@@ -17,8 +17,16 @@
         <div class="dt-content__date-and-time d-flex">
             <div class="dt-input__wrapper me-3 w-100">
                 <div class="dt-input__group">
-                    <input type="date" name="name" placeholder="Выберите дату"
-                           class="dt-input" autocomplete="off">
+
+                    <div class="dropdown w-100">
+                        <button class="btn dropdown-toggle w-100" type="button" id="dropdownDateMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{bookingForm.date||'Выберите дату путешествия'}}
+                        </button>
+                        <ul class="dropdown-menu w-100" aria-labelledby="dropdownDateMenu">
+                            <li class="cursor-pointer" v-for="day in sortedScheduleDates" ><a class="dropdown-item" @click="changeDate(day.start_day)">{{day.start_day}}</a></li>
+                        </ul>
+                    </div>
+
                     <div class="dt-input__group-item">
                         <div class="dt-input__icon">
                             <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"
@@ -32,7 +40,17 @@
             </div>
             <div class="dt-input__wrapper">
                 <div class="dt-input__group">
-                    <input type="time" name="name" placeholder="Время" class="dt-input" autocomplete="off">
+
+                    <div class="dropdown w-100" >
+                        <button class="btn dropdown-toggle w-100" type="button" id="dropdownTimeMenu"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            {{bookingForm.time||'Время'}}
+                        </button>
+                        <ul class="dropdown-menu w-100" aria-labelledby="dropdownTimeMenu">
+                            <li class="cursor-pointer" v-for="time in sortedScheduleTimes" ><a class="dropdown-item " @click="bookingForm.time=time.start_time">{{time.start_time}}</a></li>
+                        </ul>
+                    </div>
+
                     <div class="dt-input__group-item">
                         <div class="dt-input__icon">
                             <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"
@@ -56,71 +74,41 @@
             <span class="dt-alert__title">Цены указаны с учетом скидки</span>
         </div>
         <div class="dt-content__tickets dt-content--bottom-60">
-            <div class="dt-ticket__item">
-                <div class="dt-ticket__name"></div>
-                <div class="dt-ticket__price"></div>
-                <div class="dt-counter"></div>
-                <div class="dt-total-price"></div>
+
+            <div class="dt-ticket__item" v-for="(item, index) in tour.prices">
+                <div class="dt-ticket__name">{{ item.title }}</div>
+                <div class="dt-ticket__price"><strong>{{ item.price }}₽</strong></div>
+                <div class="dt-counter">
+                    <button type="button" @click="increment(item.slug)">
+                        +
+                    </button>
+                    <span>{{ bookingForm.prices[item.slug] || 0 }}</span>
+                    <button type="button" @click="decrement(item.slug)"
+                            v-bind:class="{'disabled':(bookingForm.prices[item.slug]||0)===0}"
+                            :disabled="(bookingForm.prices[item.slug]||0)===0">
+                        -
+                    </button>
+                </div>
+                <div class="dt-total-price"><p>{{ (bookingForm.prices[item.slug] || 0) * item.price }}₽</p></div>
             </div>
         </div>
         <div class="dt-check__group dt-content--bottom-60">
             <label class="dt-check__group-title">дополнительные услуги </label>
             <div class="dt-checkboxes-vertical d-flex">
-                <div class="dt-check">
+                <div class="dt-check" v-for="item in serviceTypes">
                     <div class="dt-check__input">
-                        <input type="checkbox" name="type_person"/>
+                        <input type="checkbox" name="type_person"
+                               :value="item.id"
+                               v-model="bookingForm.services"/>
                         <div class="dt-check__input-check"></div>
                     </div>
                     <label class="dt-check__label dt-check__label--thin">
                         <slot name="label">
-                            <p>страховка</p>
+                            <p>{{ item.title }}</p>
                         </slot>
                     </label>
                 </div>
-                <div class="dt-check">
-                    <div class="dt-check__input">
-                        <input type="checkbox" name="type_person"/>
-                        <div class="dt-check__input-check"></div>
-                    </div>
-                    <label class="dt-check__label dt-check__label--thin">
-                        <slot name="label">
-                            <p>трансфер</p>
-                        </slot>
-                    </label>
-                </div>
-                <div class="dt-check">
-                    <div class="dt-check__input">
-                        <input type="checkbox" name="type_person"/>
-                        <div class="dt-check__input-check"></div>
-                    </div>
-                    <label class="dt-check__label dt-check__label--thin">
-                        <slot name="label">
-                            <p>отель</p>
-                        </slot>
-                    </label>
-                </div>
-                <div class="dt-check">
-                    <div class="dt-check__input">
-                        <input type="checkbox" name="type_person"/>
-                        <div class="dt-check__input-check"></div>
-                    </div>
-                    <label class="dt-check__label dt-check__label--thin">
-                        <slot name="label">
-                            <p>такси</p>
-                        </slot>
-                    </label>
-                </div>
-                <div class="dt-check">
-                    <div class="dt-check__input">
-                        <input type="checkbox" name="type_person"/>
-                        <div class="dt-check__input-check"></div>
-                    </div>
-                    <label class="dt-check__label dt-check__label--thin">
-                        <slot name="label">
-                            <p>билеты</p>
-                        </slot>
-                    </label>
-                </div>
+
             </div>
         </div>
         <div class="dt-total-price dt-content--bottom-60 d-flex justify-content-between">
@@ -130,10 +118,10 @@
             <div class="dt-total-price__price d-flex align-items-center">
                 <div class="d-flex me-2">
                             <span style='color:#f83737;text-decoration:line-through'>
-                                <p class="dt-price__non-active">25 200</p>
+                                <p class="dt-price__non-active">{{ summaryFullPrice }}</p>
                             </span>
                 </div>
-                <div class="dt-price__active me-2">21 900</div>
+                <div class="dt-price__active me-2">{{ summaryDiscountPrice }}</div>
                 <span class="text-muted-black fw-regular">за 1 человека</span>
             </div>
         </div>
@@ -145,8 +133,10 @@
                 <div class="col-lg-9">
                     <div class="dt-input__wrapper">
                         <div class="dt-input__group">
-                            <input type="text" name="user" placeholder="Иванов Иван Иванович"
-                                   class="dt-input" autocomplete="off">
+                            <input type="text" name="user"
+                                   v-model="bookingForm.full_name"
+                                   placeholder="Иванов Иван Иванович"
+                                   class="dt-input" autocomplete="off" required>
                         </div>
                     </div>
                 </div>
@@ -158,8 +148,11 @@
                 <div class="col-lg-9">
                     <div class="dt-input__wrapper">
                         <div class="dt-input__group">
-                            <input type="text" name="phone" placeholder="+7 (000) 000-00-00"
-                                   class="dt-input" autocomplete="off">
+                            <input type="text" name="phone"
+                                   v-model="bookingForm.phone"
+                                   v-mask="'+7(###)###-##-##'"
+                                   placeholder="+7(000)000-00-00"
+                                   class="dt-input" autocomplete="off" required>
                         </div>
                     </div>
                 </div>
@@ -171,8 +164,10 @@
                 <div class="col-lg-9">
                     <div class="dt-input__wrapper">
                         <div class="dt-input__group">
-                            <input type="email" name="email" placeholder="name@mail.ru"
-                                   class="dt-input" autocomplete="off">
+                            <input type="email" name="email"
+                                   v-model="bookingForm.email"
+                                   placeholder="name@mail.ru"
+                                   class="dt-input" autocomplete="off" required>
                         </div>
                     </div>
                 </div>
@@ -182,7 +177,7 @@
             <div class="col-lg-6">
                 <div class="dt-check align-items-start mb-3">
                     <div class="dt-check__input">
-                        <input type="checkbox"/>
+                        <input type="checkbox" v-model="bookingForm.booking_is_correct"/>
                         <div class="dt-check__input-check"></div>
                     </div>
                     <label class="dt-check__label dt-check__label--thin dt-font--size-12">
@@ -193,7 +188,7 @@
                 </div>
                 <div class="dt-check align-items-start">
                     <div class="dt-check__input">
-                        <input type="checkbox"/>
+                        <input type="checkbox" v-model="bookingForm.accept_rules"/>
                         <div class="dt-check__input-check"></div>
                     </div>
                     <label class="dt-check__label dt-check__label--thin dt-font--size-12">
@@ -208,19 +203,219 @@
             </div>
             <div class="col-1"></div>
             <div class="col-lg-5 align-items-center d-flex">
-                <button class="dt-btn-blue w-100">
+                <button type="submit" class="dt-btn-blue w-100"
+                        v-bind:class="{'disabled':!bookingForm.accept_rules || !bookingForm.booking_is_correct}"
+                        :disabled="!bookingForm.accept_rules || !bookingForm.booking_is_correct">
                     <span>Оформить заказ</span>
                 </button>
             </div>
         </div>
-    </div>
+    </form>
 </template>
 <script>
+import {mapGetters} from "vuex";
+import { ref } from 'vue';
 export default {
+
+    props: ["tour"],
+    data() {
+        return {
+            bookingForm: {
+
+                date:null,
+                time:null,
+                prices: [],
+                services: [],
+                full_name: null,
+                phone: null,
+                email: null,
+                accept_rules: false,
+                booking_is_correct: false
+            }
+        }
+
+    },
+    computed: {
+        ...mapGetters(['getDictionariesByTypeSlug']),
+        sortedScheduleTimes(){
+            if (this.bookingForm.date==null)
+                return [];
+
+            function compare(a, b) {
+                if (a.start_time < b.start_time)
+                    return -1;
+                if (a.start_time > b.start_time)
+                    return 1;
+                return 0;
+            }
+
+            return this.tour.schedules.filter(item=>item.start_day==this.bookingForm.date).sort(compare);
+        },
+        sortedScheduleDates(){
+
+            let tmpDates = [];
+
+            function compare(a, b) {
+                if (a.start_day < b.start_day)
+                    return -1;
+                if (a.start_day > b.start_day)
+                    return 1;
+                return 0;
+            }
+
+            let dates = this.tour.schedules.filter(item=>{
+                if (tmpDates.indexOf(item.start_day)===-1){
+                    tmpDates.push(item.start_day)
+                    return true;
+                }
+            })
+
+            return dates.sort(compare);
+        },
+        serviceTypes() {
+            return this.getDictionariesByTypeSlug("service_type")
+        },
+        summaryFullPrice() {
+            let tourBasePrice = this.tour.base_price
+            let tourDiscountPrice = this.tour.discount_price
+
+            let summary = 0;
+
+            let people = 0;
+
+            for (let key in this.bookingForm.prices.keys())
+                people += (this.bookingForm.prices[key] || 0)
+
+            this.tour.prices.forEach(item => {
+                summary += item.price * (this.bookingForm.prices[item.slug] || 0)
+            })
+
+
+            return Math.round((summary + (summary * (tourDiscountPrice / tourBasePrice))) / (people || 1))
+
+        },
+        summaryDiscountPrice() {
+            let summary = 0;
+
+            let people = 0;
+
+            for (let key in this.bookingForm.prices.keys())
+                people += (this.bookingForm.prices[key] || 0)
+
+
+            this.tour.prices.forEach(item => {
+                summary += item.price * (this.bookingForm.prices[item.slug] || 0)
+            })
+
+            return Math.round(summary / (people || 1));
+        }
+
+    },
+    mounted() {
+        this.loadDictionaries()
+
+    },
     methods: {
+        changeDate(day){
+            this.bookingForm.date = day
+            this.bookingForm.time = this.sortedScheduleTimes[0].start_time || '--:--'
+        },
+        submit() {
+            this.$store.dispatch("bookATour", this.bookingForm)
+        },
+        increment(slug) {
+            if (!this.bookingForm.prices[slug])
+                this.bookingForm.prices[slug] = 1;
+            else
+                this.bookingForm.prices[slug]++;
+        },
+        decrement(slug) {
+            if (!this.bookingForm.prices[slug])
+                this.bookingForm.prices[slug] = 0;
+
+            if (this.bookingForm.prices[slug] > 0)
+                this.bookingForm.prices[slug]--;
+        },
         closeBooking() {
             this.$emit('closeBooking');
-        }
+        },
+        loadDictionaries() {
+            this.$store.dispatch("loadAllDictionaryTypes")
+        },
     }
 }
 </script>
+<style lang="scss">
+button {
+    transition: background 1s;
+}
+
+button.disabled {
+    background: gray;
+    transition: background 1s;
+}
+
+.dt-content__tickets {
+
+    .dt-ticket__item {
+        background: white;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 25px;
+        margin-top: 10px;
+        box-sizing: border-box;
+        align-items: center;
+        border-radius: 10px;
+
+        .dt-ticket__name {
+            min-width: 150px;
+        }
+
+        .dt-ticket__price {
+            min-width: 150px;
+        }
+
+        .dt-total-price {
+            min-width: 150px;
+            text-align: right;
+
+            p {
+                font-weight: bold;
+                color: #0d6efd;
+            }
+        }
+
+        .dt-counter {
+            min-width: 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+
+            span {
+                padding: 10px;
+            }
+
+            button {
+                font-size: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: #0071eb63;
+                border-radius: 5px;
+                color: #0d6efd;
+                font-family: 'Manrope Bold';
+                font-weight: 900;
+                line-height: 0px;
+                width: 30px;
+                height: 30px;
+
+                &.disabled {
+                    background: lightgray;
+                    color: gray;
+                }
+            }
+        }
+    }
+}
+</style>

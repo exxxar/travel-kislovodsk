@@ -66,6 +66,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Company::class);
     }
 
+    public function bookings()
+    {
+        return $this->belongsTo(Booking::class);
+    }
+
+    public function favorites()
+    {
+        return $this->belongsTo(Favorite::class);
+    }
+
     public function profile()
     {
         return $this->belongsTo(Profile::class);
@@ -88,6 +98,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public static function self(): object
     {
-       return User::query()->with(["profile","role"])->find(Auth::user()->id);
+       return User::query()->with(["profile","role","bookings","favorites"])
+           ->find(Auth::user()->id);
     }
 }

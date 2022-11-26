@@ -16,23 +16,29 @@ class CreateToursTable extends Migration
         Schema::create('tours', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
+            $table->double('base_price')->default(0);
+            $table->double('discount_price')->default(0);
             $table->text('short_description')->nullable();
             $table->text('description')->nullable();
-            $table->string('start_place', 255);
+            $table->string('start_city', 255)->nullable();
+            $table->string('start_address', 255)->nullable();
             $table->boolean('comfort_loading')->default(false)->comment("Перевозчика забирает от указанного места");
             $table->double('start_latitude')->default('0');
             $table->double('start_longitude')->default('0');
             $table->text('start_comment')->nullable();
-            $table->foreignId('tour_object_id')->constrained();
+
             $table->string('preview_image', 255)->nullable();
             $table->boolean('is_hot')->default(false);
             $table->boolean('is_active')->default(true);
             $table->boolean('is_draft')->default(true);
-            $table->double('rating')->default('0');
+           // $table->double('rating')->default('0');
             $table->string('duration')->nullable();
+
             $table->integer('min_group_size')->default(0)->nullable();
             $table->integer('max_group_size')->default(0)->nullable();
+
             $table->json('images')->nullable();
+            $table->json('payment_infos')->nullable();
             $table->json('prices')->nullable();
             $table->json('include_services')->nullable();
             $table->json('exclude_services')->nullable();

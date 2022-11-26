@@ -33,6 +33,8 @@ class Favorite extends Model
 
     protected $appends = ['resource_url'];
 
+    protected $with = ['tour'];
+
     public function getResourceUrlAttribute()
     {
         return url('/admin/favorites/' . $this->getKey());

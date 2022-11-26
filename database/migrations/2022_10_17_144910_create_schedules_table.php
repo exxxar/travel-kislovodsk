@@ -16,10 +16,14 @@ class CreateSchedulesTable extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tour_id');
+            $table->unsignedBigInteger('guide_id');
             $table->timestamp('start_at');
             $table->foreign('tour_id')
                 ->references('id')
                 ->on('tours');
+            $table->foreign('guide_id')
+                ->references('id')
+                ->on('users');
             $table->softDeletes();
             $table->timestamps();
         });

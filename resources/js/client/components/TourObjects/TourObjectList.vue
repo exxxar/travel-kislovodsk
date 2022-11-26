@@ -1,87 +1,108 @@
 <template>
-    <div class="dt-tour-object-list">
-        <div class="d-flex dt-paragraph">
-            <div class="dt-paragraph__icon dt-paragraph__icon--width-30 blue me-2">
-                <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 48 48"
-                     fill="white">
-                    <path
-                        d="M9.3 42.7V7.25h18.45l.95 4.3h12.05V31.5H26.6l-.95-4.25h-12.4V42.7ZM25 19.4Zm5 8.15h6.75v-12H25.3l-.95-4.3h-11.1V23.3h15.8Z"></path>
-                </svg>
-            </div>
-            <div class="dt-paragraph__text">
-                <a href="/tour-object" class="dt-text__title">Замок Нессельбек</a>
-                <p class="dt-main-text-thin">Не аутентичная, но очень колоритная постройка, на фоне
-                    которой получаются интересные фотографии.</p>
-                <div class="dt-text__links d-flex">
-                    <p class="dt-btn-text text-uppercase me-3 d-lg-flex d-none">Смотреть на карте</p>
-                    <p class="dt-btn-text text-uppercase me-3 d-flex d-lg-none">на карте</p>
-                    <p class="dt-btn-text text-uppercase">Фото</p>
-                </div>
+    <add-tour-object v-if="activeTitle == 'Добавить объект'" @hideAddObject="activeTitle = 'Мои объекты'"/>
+    <div v-if="activeTitle == 'Мои объекты'" class="dt-tour-objects-list col">
+        <h2 class="lh-1 mb-5 bold mt-5 mt-lg-0">Мои объекты</h2>
+        <div class="row mx-0 mb-5">
+            <button @click="activeType = 'Действующие объекты'"
+                    :class="{'personal-account-nav__link_active' : activeType == 'Действующие объекты',
+                            'bg-white' : activeType != 'Действующие объекты'}"
+                    class="button col col-md-auto order-2 order-md-1 d-flex rounded mt-5 mt-md-0 px-4
+                                    justify-content-center align-items-center semibold dt-btn__menu">
+                Действующие
+            </button>
+            <button @click="activeType = 'Удаленные объекты'"
+                    :class="{'personal-account-nav__link_active' : activeType == 'Удаленные объекты',
+                            'bg-white' : activeType != 'Удаленные объекты'}"
+                    class="button col col-md-auto order-3 order-md-2 d-flex rounded mt-5 mt-md-0 ms-2 px-4
+                                justify-content-center align-items-center semibold dt-btn__menu">
+                Удаленные
+            </button>
+            <button @click="activeTitle='Добавить объект'"
+                    class="button col-12 col-md-3 order-1 order-md-3 bg-green d-flex rounded ms-md-auto px-4 justify-content-center align-items-center bold">
+                Добавить объект
+            </button>
+        </div>
+        <div v-if="activeType == 'Действующие объекты'">
+            <div class="row mx-0 row-cols-1 row-cols-xl-3 gap-3">
+                <tour-object-card v-for="item in tours.filter(t => !t.deleted_at)" :data="item" :key="item"/>
             </div>
         </div>
-        <div class="d-flex dt-paragraph">
-            <div class="dt-paragraph__icon dt-paragraph__icon--width-30 blue me-2">
-                <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 48 48"
-                     fill="white">
-                    <path
-                        d="M9.3 42.7V7.25h18.45l.95 4.3h12.05V31.5H26.6l-.95-4.25h-12.4V42.7ZM25 19.4Zm5 8.15h6.75v-12H25.3l-.95-4.3h-11.1V23.3h15.8Z"></path>
-                </svg>
-            </div>
-            <div class="dt-paragraph__text">
-                <a href="/tour-object" class="dt-text__title">Высоту Эфа</a>
-                <p class="dt-main-text-thin"><span class="text-danger">Внимание!!!</span> Место встречи
-                    может быть изменено. Мы вышлем вам точное место начала вместе с
-                    контактами гида после бронирования билетов.</p>
-                <div class="dt-text__links d-flex">
-                    <p class="dt-btn-text text-uppercase me-3 d-lg-flex d-none">Смотреть на карте</p>
-                    <p class="dt-btn-text text-uppercase me-3 d-flex d-lg-none">на карте</p>
-                </div>
+        <div v-if="activeType == 'Удаленные объекты'">
+            <div class="row mx-0 row-cols-1 row-cols-xl-3 gap-3">
+                <tour-object-card v-for="item in tours.filter(t => t.deleted_at)" :data="item" :key="item"/>
             </div>
         </div>
-        <div class="d-flex dt-paragraph">
-            <div class="dt-paragraph__icon blue dt-paragraph__icon--width-30 me-2">
-                <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 48 48"
-                     fill="white">
-                    <path
-                        d="M9.3 42.7V7.25h18.45l.95 4.3h12.05V31.5H26.6l-.95-4.25h-12.4V42.7ZM25 19.4Zm5 8.15h6.75v-12H25.3l-.95-4.3h-11.1V23.3h15.8Z"></path>
-                </svg>
-            </div>
-            <div class="dt-paragraph__text">
-                <a href="/tour-object" class="dt-text__title">Высоту Мюллера</a>
-            </div>
-        </div>
-        <div class="d-flex dt-paragraph">
-            <div class="dt-paragraph__icon blue dt-paragraph__icon--width-30 me-2">
-                <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 48 48"
-                     fill="white">
-                    <path
-                        d="M9.3 42.7V7.25h18.45l.95 4.3h12.05V31.5H26.6l-.95-4.25h-12.4V42.7ZM25 19.4Zm5 8.15h6.75v-12H25.3l-.95-4.3h-11.1V23.3h15.8Z"></path>
-                </svg>
-            </div>
-            <div class="dt-paragraph__text">
-                <a href="/tour-object" class="dt-text__title">Пляж Балтийского моря</a>
-                <p class="dt-main-text-thin">Атмосферный, безлюдный и будто созданный для
-                    инста-прогулки.</p>
-            </div>
-        </div>
-        <div class="d-flex dt-paragraph">
-            <div class="dt-paragraph__icon blue dt-paragraph__icon--width-30 me-2">
-                <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 48 48"
-                     fill="white">
-                    <path
-                        d="M9.3 42.7V7.25h18.45l.95 4.3h12.05V31.5H26.6l-.95-4.25h-12.4V42.7ZM25 19.4Zm5 8.15h6.75v-12H25.3l-.95-4.3h-11.1V23.3h15.8Z"></path>
-                </svg>
-            </div>
-            <div class="dt-paragraph__text">
-                <a href="/tour-object" class="dt-text__title">Зеленоградск</a>
-                <p class="dt-main-text-thin">Один из красивейших курортных городков побережья с
-                    довоенной архитектурой, чудесным променадом и современным «культом кошек».</p>
-                <div class="dt-text__links d-flex">
-                    <p class="dt-btn-text text-uppercase me-3 d-lg-flex d-none">Смотреть на карте</p>
-                    <p class="dt-btn-text text-uppercase me-3 d-flex d-lg-none">на карте</p>
-                    <p class="dt-btn-text text-uppercase">Фото</p>
-                </div>
-            </div>
-        </div>
+        <tour-object-paginate/>
     </div>
 </template>
+<script>
+import TourObjectCard from "@/components/TourObjects/TourObjectCard.vue";
+import TourObjectPaginate from "@/components/TourObjects/TourObjectPaginate.vue";
+import AddTourObject from "@/components/TourObjects/AddTourObject.vue";
+
+export default {
+    components: {AddTourObject, TourObjectPaginate, TourObjectCard},
+    data() {
+        return {
+            activeType: "Действующие объекты", activeTitle: "Мои объекты",
+            tours: [{
+                title: 'Медовые водопады',
+                description: 'Lorem ipsum dolor sit amet\n' +
+                    '                    consectetur adipisicing elit. Iusto, eius omnis distinctio, est quisquam\n' +
+                    '                    architecto ducimus quod labore veniam ullam sint cum eum incidunt libero\n' +
+                    '                    sapiente, dolor ea! Similique, voluptatibus!',
+                preview_image: '/img/travels/2.jpg'
+            }, {
+                title: 'Медовые водопады',
+                description: 'Lorem ipsum dolor sit amet\n' +
+                    '                    consectetur adipisicing elit. Iusto, eius omnis distinctio, est quisquam\n' +
+                    '                    architecto ducimus quod labore veniam ullam sint cum eum incidunt libero\n' +
+                    '                    sapiente, dolor ea! Similique, voluptatibus!',
+                preview_image: '/img/travels/2.jpg'
+            }, {
+                title: 'Медовые водопады',
+                description: 'Lorem ipsum dolor sit amet\n' +
+                    '                    consectetur adipisicing elit. Iusto, eius omnis distinctio, est quisquam\n' +
+                    '                    architecto ducimus quod labore veniam ullam sint cum eum incidunt libero\n' +
+                    '                    sapiente, dolor ea! Similique, voluptatibus!',
+                preview_image: '/img/travels/2.jpg'
+            }, {
+                title: 'Медовые водопады',
+                description: 'Lorem ipsum dolor sit amet\n' +
+                    '                    consectetur adipisicing elit. Iusto, eius omnis distinctio, est quisquam\n' +
+                    '                    architecto ducimus quod labore veniam ullam sint cum eum incidunt libero\n' +
+                    '                    sapiente, dolor ea! Similique, voluptatibus!',
+                preview_image: '/img/travels/2.jpg'
+            }, {
+                title: 'Медовые водопады',
+                description: 'Lorem ipsum dolor sit amet\n' +
+                    '                    consectetur adipisicing elit. Iusto, eius omnis distinctio, est quisquam\n' +
+                    '                    architecto ducimus quod labore veniam ullam sint cum eum incidunt libero\n' +
+                    '                    sapiente, dolor ea! Similique, voluptatibus!',
+                preview_image: '/img/travels/2.jpg'
+            }, {
+                title: 'Медовые водопады',
+                description: 'Lorem ipsum dolor sit amet\n' +
+                    '                    consectetur adipisicing elit. Iusto, eius omnis distinctio, est quisquam\n' +
+                    '                    architecto ducimus quod labore veniam ullam sint cum eum incidunt libero\n' +
+                    '                    sapiente, dolor ea! Similique, voluptatibus!',
+                preview_image: '/img/travels/2.jpg'
+            }, {
+                title: 'Медовые водопады',
+                description: 'Lorem ipsum dolor sit amet\n' +
+                    '                    consectetur adipisicing elit. Iusto, eius omnis distinctio, est quisquam\n' +
+                    '                    architecto ducimus quod labore veniam ullam sint cum eum incidunt libero\n' +
+                    '                    sapiente, dolor ea! Similique, voluptatibus!',
+                preview_image: '/img/travels/2.jpg', deleted_at: "12.11.2022"
+            }, {
+                title: 'Медовые водопады',
+                description: 'Lorem ipsum dolor sit amet\n' +
+                    '                    consectetur adipisicing elit. Iusto, eius omnis distinctio, est quisquam\n' +
+                    '                    architecto ducimus quod labore veniam ullam sint cum eum incidunt libero\n' +
+                    '                    sapiente, dolor ea! Similique, voluptatibus!',
+                preview_image: '/img/travels/2.jpg', deleted_at: "12.11.2022"
+            },]
+        }
+    }
+}
+</script>

@@ -31,7 +31,12 @@ class Profile extends Model
         'id' => 'integer',
     ];
 
-    protected $appends = ['resource_url'];
+    protected $appends = ['resource_url', 'user_id'];
+
+    public function getUserIdAttribute()
+    {
+        return $this->user->id ?? null;
+    }
 
     public function getResourceUrlAttribute()
     {

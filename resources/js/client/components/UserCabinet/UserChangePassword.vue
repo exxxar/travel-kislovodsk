@@ -5,19 +5,23 @@
         </h2>
         <div class="personal-account-changing-password">
             <div class="personal-account-changing-password-input__container">
-                <label class="personal-account-input__label">
-                    новый пароль
-                </label>
-                <div class="dt-input__group personal-account-input__group bg-white">
-                    <input type="text" name="name" class="dt-input" autocomplete="off">
+                <div class="dt-input__wrapper">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">новый пароль</label>
+                    </div>
+                    <div class="dt-input__group bg-white">
+                        <input type="password" class="dt-input" autocomplete="off">
+                    </div>
                 </div>
             </div>
             <div class="personal-account-changing-password-input__container">
-                <label class="personal-account-input__label">
-                    повторите новый пароль
-                </label>
-                <div class="dt-input__group personal-account-input__group bg-white">
-                    <input type="text" name="name" class="dt-input" autocomplete="off">
+                <div class="dt-input__wrapper">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">повторите новый пароль</label>
+                    </div>
+                    <div class="dt-input__group bg-white">
+                        <input type="password" class="dt-input" autocomplete="off">
+                    </div>
                 </div>
             </div>
             <button type="submit" class="personal-account-changing-password__submit dt-btn-blue personal-account__submit">

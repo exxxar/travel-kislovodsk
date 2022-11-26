@@ -1,4 +1,38 @@
 import _ from 'lodash';
+/*import firebase from "firebase";
+
+var firebaseConfig = {
+    apiKey: "AIzaSyACrIDLXDuzVHE9rTvIG6mg6qM4YMIF3MU",
+    authDomain: "allot-f0cdb.firebaseapp.com",
+    projectId: "allot-f0cdb",
+    storageBucket: "allot-f0cdb.appspot.com",
+    messagingSenderId: 'G-1MH9VQW03S',
+    appId: "1:661229456156:web:b6045f61b3625b399008d9",
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const messaging = firebase.messaging();
+messaging
+    .requestPermission()
+    .then(function () {
+        return messaging.getToken()
+    })
+    .then(function (response) {
+       alert("Test")
+    }).catch(function (error) {
+    alert(error);
+});
+messaging.onMessage(function (payload) {
+    const title = payload.notification.title;
+    const options = {
+        body: payload.notification.body,
+        icon: payload.notification.icon,
+    };
+    new Notification(title, options);
+});*/
+
+
 window._ = _;
 
 /**

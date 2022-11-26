@@ -20,7 +20,6 @@ class ProfileResource extends JsonResource
             'sname' => $this->sname,
             'tname' => $this->tname,
             'photo' => $this->photo,
-            'softdeletes' => $this->softdeletes,
         ];
     }
 }

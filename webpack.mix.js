@@ -29,6 +29,7 @@ mix
     })
    // .js(["resources/js/admin/admin.js"], "public/js")
     //.sass("resources/sass/admin/admin.scss", "public/css")
+    //.sass("resources/js/client/app.js", "public/js")
     .sass("resources/sass/client/main.scss", "public/css")
     .vue();
 

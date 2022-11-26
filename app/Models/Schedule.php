@@ -17,6 +17,7 @@ class Schedule extends Model
      */
     protected $fillable = [
         'tour_id',
+        'guide_id',
         'start_at',
     ];
 
@@ -28,7 +29,8 @@ class Schedule extends Model
     protected $casts = [
         'id' => 'integer',
         'tour_id' => 'integer',
-        'start_at' => 'timestamp',
+        'guide_id' => 'integer',
+       // 'start_at' => '',
     ];
 
     protected $appends = ['resource_url'];
@@ -41,5 +43,10 @@ class Schedule extends Model
     public function tour()
     {
         return $this->belongsTo(Tour::class);
+    }
+
+    public function guide()
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -1,7 +1,7 @@
 <template>
-    <div id="calendar" class="calendar mt-4 col ">
+    <div id="calendar" class="col ">
         <div class="row row-cols-2 align-items-start mx-0">
-            <h2 class="col-12 lh-1 mb-4 bold px-0">Календарь</h2>
+            <h2 class="col-12 lh-1 mb-4 bold px-0 title-guide-cabinet">Календарь</h2>
             <div class="col-12 col-xl row mx-0 px-0 order-2 order-xl-1">
                 <div class="overflow-x-auto d-flex align-items-center mx-0 px-0 mt-5 mt-xl-0">
                     <button
@@ -10,8 +10,7 @@
                     </button>
                     <button
                         class="button bg-white d-flex rounded ms-2 px-4 justify-content-center align-items-center semibold">
-                        Ближайшие
-                        даты
+                        Ближайшие даты
                     </button>
                     <button
                         class="button bg-white d-flex rounded ms-2 px-4 justify-content-center align-items-center semibold">

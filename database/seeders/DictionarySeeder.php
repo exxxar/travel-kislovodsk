@@ -29,9 +29,10 @@ class DictionarySeeder extends Seeder
 
                     break;
                 case "law_status_type":
-                    Dictionary::firstOrCreate(['title' => 'Физическое лицо', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Юридическое лицо', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Самозанятый', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Пользователь', 'slug' => 'person_law_status_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Физическое лицо', 'slug' => 'individual_law_status_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Юридическое лицо', 'slug' => 'entity_law_status_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Самозанятый', 'slug' => 'self_employed_law_status_type', 'dictionary_type_id' => $type->id]);
                     break;
 
                 case "service_type":
@@ -81,8 +82,10 @@ class DictionarySeeder extends Seeder
 
                     break;
 
+
                 case "tour_type":
                     Dictionary::firstOrCreate(['title' => 'Группа', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Индивидуальная', 'dictionary_type_id' => $type->id]);
 
                     break;
 

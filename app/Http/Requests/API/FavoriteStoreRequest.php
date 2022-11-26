@@ -2,10 +2,15 @@
 
 namespace App\Http\Requests\API;
 
+use App\Traits\FailedValidation;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class FavoriteStoreRequest extends FormRequest
 {
+    use FailedValidation;
+
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,7 +18,7 @@ class FavoriteStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return config("app.debug") || !is_null(Auth::user());
     }
 
     /**
@@ -25,8 +30,7 @@ class FavoriteStoreRequest extends FormRequest
     {
         return [
             'tour_id' => ['required', 'integer', 'exists:tours,id'],
-            'user_id' => ['required', 'integer', 'exists:users,id'],
-            'softdeletes' => ['required'],
+
         ];
     }
 }

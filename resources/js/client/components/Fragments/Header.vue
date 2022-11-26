@@ -32,12 +32,12 @@
                             </button>
                         </li>
                         <li class="dt-btn-entry">
-                            <a href="#">
+                            <a href="/tours-all">
                                 <img width="18" height="18" v-lazy="'/img/icons/searchWhite.svg'" alt="search">
                             </a>
                         </li>
                         <li class="dt-btn-entry" v-if="!user.is_guest">
-                            <a href="#">
+                            <a href="/favorites">
                                 <img width="18" height="18"
                                      v-lazy="'/img/icons/favorite_FILL0_wght600_GRAD0_opsz48_white.svg'"
                                      alt="favorite">

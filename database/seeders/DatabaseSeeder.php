@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             DictionarySeeder::class,
             UserSeeder::class,
             TourObjectSeeder::class,
-            TourSeeder::class
+            TourSeeder::class,
+            MessageSeeder::class
         ]);
 
     }

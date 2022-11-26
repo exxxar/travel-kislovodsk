@@ -1,5 +1,7 @@
 <?php
 
+
+use App\Http\Controllers\API\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/test', function (){
+   return response()->json(\App\Models\Chat::getChatMessagesByUserId(2)->get());
+});
 Route::view('/', 'pages.main')->name("page.main");
 Route::view('/about', 'pages.about')->name("page.about");
 Route::view('/contact-us', 'pages.contact-us')->name("page.contact-us"); // +
@@ -29,11 +34,16 @@ Route::view('/messages', 'pages.messages')->name("page.messages"); //in progress
 Route::view('/partners', 'pages.partners')->name("page.partners");
 Route::view('/privacy-policy', 'pages.privacy-policy')->name("page.privacy-policy");
 Route::view('/rules', 'pages.rules')->name("page.rules");
-Route::view('/tour', 'pages.tour')->name("page.tour");
-Route::view('/tour-object', 'pages.tour-object')->name("page.tour-object");
+
+Route::get('/tour/{id}', [\App\Http\Controllers\API\TourController::class,"show"])
+    ->name("page.tour");
+
+Route::get('/tour-object/{id}', [\App\Http\Controllers\API\TourObjectController::class,"show"])
+    ->name("page.tour-object");
+
 Route::view('/tours-all', 'pages.tours-all')->name("page.tours-all");
 Route::view('/tours-hot', 'pages.tours-hot')->name("page.tours-hot");
-Route::view('/tour-search', 'pages.tour-search')->name("page.tour-search");
+Route::view('/tour-search', 'pages.tours-search')->name("page.tour-search");
 Route::view('/not-found', 'pages.errors.404')->name("page.not-found");
 Route::view('/error', 'pages.errors.500')->name("page.error");
 
@@ -59,19 +69,41 @@ Route::prefix("api")
                 Route::post('/login', 'login');
             });
 
+
+        Route::prefix("tour-categories")
+            ->controller(\App\Http\Controllers\API\TourCategoryController::class)
+            ->group(function () {
+                Route::get('/', 'index');
+
+            });
+
         Route::prefix("tours")
             ->controller(\App\Http\Controllers\API\TourController::class)
             ->group(function () {
                 Route::get('/', 'index');
                 Route::get('/all', 'all');
+
                 Route::get('/hot', 'hot');
+                Route::get('/{id}', 'show');
                 Route::post('/search', 'search');
+            });
+
+        Route::prefix("favorites")
+            ->controller(\App\Http\Controllers\API\FavoriteController::class)
+            ->group(function () {
+                Route::get('/', 'index');
+                Route::post('/filtered', 'search');
+                Route::post('/', 'store');
+                Route::delete('/clear', []);
+                Route::delete('/remove/{id}', 'destroy');
             });
 
         Route::prefix("dictionaries")
             ->controller(\App\Http\Controllers\API\DictionaryController::class)
             ->group(function () {
-                Route::get('/all', 'getAllDictionaries');
+                Route::get('/', 'getAllDictionaries');
+                Route::get('/locations', 'getLocations');
+                Route::get('/tour-dates', 'getTourDates');
                 Route::get('/types', 'getAllTypes');
                 Route::get('/groups/{type}', 'getTypeGroups');
                 Route::get('/types/{id}', 'getByTypeId');
@@ -87,13 +119,26 @@ Route::prefix("api")
         Route::prefix("chats")
             ->controller(\App\Http\Controllers\API\MessageController::class)
             ->group(function () {
+                Route::get('/read-message/{messageId}', 'readMessage');
                 Route::get('/self-message', 'selfMessages');
-                Route::get('/messages/{userId}', 'messageByUserId');
-                Route::get('/self-chats', 'selfChats');
-                //Route::get('/users', 'userList');
+                Route::get('/messages/{chatId}', 'messageByChatId');
+                Route::get('/users', 'users');
+                Route::get('/chats', 'chats');
                 Route::post('/send-message', 'sendMessage');
                 Route::post('/send-file', 'sendFile');
                 Route::post('/send-transaction', 'sendTransaction');
+            });
+
+        Route::prefix("reviews")
+            ->controller(ReviewController::class)
+            ->group(function () {
+                Route::get('/tour/{id}', 'showByTour');
+                Route::get('/', 'index');
+                Route::post('/', 'store');
+                Route::get('/all', []);
+
+                Route::get('/guide/{id}', 'showByGuide');
+                Route::delete('/{id}', 'destroy');
             });
 
         Route::prefix("guide-cabinet")
@@ -105,10 +150,7 @@ Route::prefix("api")
                         Route::post('/search', []);
                     });
 
-                Route::prefix("reviews")
-                    ->group(function () {
 
-                    });
 
                 Route::prefix("tours")
                     ->controller(\App\Http\Controllers\API\TourController::class)
@@ -139,6 +181,8 @@ Route::prefix("api")
                         Route::post('/', 'store');
                         Route::put('/{id}', 'update');
                     });
+
+
 
                 Route::prefix("schedules")
                     ->group(function () {
@@ -217,15 +261,7 @@ Route::prefix("api")
                 Route::post('/send-transaction', []);
             });
 
-        Route::prefix("reviews")
-            ->group(function () {
-                Route::get('/', [\App\Http\Controllers\API\BookingController::class,]);
-                Route::post('/', []);
-                Route::delete('/{id}', []);
-                Route::get('/all', []);
-                Route::get('/tour/{id}', []);
-                Route::get('/guide/{id}', []);
-            });
+
 
         Route::prefix("bookings")
             ->group(function () {
@@ -235,24 +271,9 @@ Route::prefix("api")
                 Route::delete('/remove/{id}', []);
             });
 
-        Route::prefix("tour-categories")
-            ->group(function () {
-                Route::get('/', []);
-                Route::get('/all', []);
-                Route::get('/top', []);
-            });
 
 
-        Route::prefix("favorites")
-            ->group(function () {
-                Route::get('/', []);
-                Route::post('/filtered', []);
-                Route::get('/all', []);
-                Route::get('/top', []);
-                Route::post('/add', []);
-                Route::delete('/clear', []);
-                Route::delete('/remove/{id}', []);
-            });
+
 
     });
 

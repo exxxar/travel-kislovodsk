@@ -5,11 +5,16 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\MessageStoreRequest;
 use App\Http\Requests\API\MessageUpdateRequest;
+use App\Http\Resources\ChatsResource;
 use App\Http\Resources\MessageCollection;
 use App\Http\Resources\MessageResource;
+use App\Http\Resources\ChatsCollections;
+use App\Models\Chat;
 use App\Models\Message;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
@@ -25,48 +30,46 @@ class MessageController extends Controller
         return new MessageCollection($messages);
     }
 
-    public function selfMessages(Request $request)
+    public function readMessage(Request $request, $chatId)
     {
-        $userId = Auth::user()->id ?? null;
+        $chat = Chat::query()->where("id", $chatId)->first();
+        if (is_null($chat))
+            return response()->json([], 404);
 
-        if (is_null($userId))
-            return response()->json(["message" => "Error"], 400);
+        $chat->read_at = Carbon::now();
+        $chat->save();
 
-        $user = User::query()->with(["role"])->where("id", $userId)->first();
+        return response()->noContent();
+    }
 
-        if (is_null($user))
-            return response()->json(["message" => "Error"], 400);
+    public function chats(Request $request)
+    {
+        $chats = Chat::getChats()
+            ->paginate($request->size ?? config('app.results_per_page'));
 
-        $messages = Message::query()->where(
-            ($user->role->role_name === "user" ? "user_id" : "tour_guide_id"),
-            $user->id
-        )->paginate($request->size ?? config('app.results_per_page'));
 
+        return ChatsResource::collection($chats);
+    }
+
+    public function messageByChatId(Request $request, $chatId)
+    {
+        $messages = Chat::getChatMessagesByChatId($chatId)
+            ->orderBy("created_at", 'DESC')
+            ->paginate($request->size ?? config('app.results_per_page'));
 
         return new MessageCollection($messages);
+
     }
 
     public function messageByUserId(Request $request, $userId)
     {
-        $user = User::query()->with(["role"])->where("id", $userId)->first();
-
-        if (is_null($user))
-            return response()->json(["message" => "Error"], 400);
-
-        $messages = Message::query()->where(
-            ($user->role->role_name === "user" ? "user_id" : "tour_guide_id"),
-            $user->id
-        )->paginate($request->size ?? config('app.results_per_page'));
+        $messages = Chat::getChatMessagesByUserId($userId)
+            ->paginate($request->size ?? config('app.results_per_page'));
 
         return new MessageCollection($messages);
 
     }
 
-    public function selfChats(Request $request)
-    {
-
-        return null;
-    }
 
     /**
      * @param \App\Http\Requests\API\MessageStoreRequest $request
@@ -113,7 +116,30 @@ class MessageController extends Controller
         return response()->noContent();
     }
 
-    public function sendMessage(Request $request){
+    public function sendMessage(Request $request)
+    {
+        $request->validate([
+            "chat_id" => "required",
+            "message" => "required",
+        ]);
+
+
+        $message = Message::query()->create([
+            'message' => $request->message,
+            'user_id' => Auth::user()->id,
+            'chat_id' => $request->chat_id
+        ]);
+
+        $chat = Chat::query()->where("id", $request->chat_id)->first();
+        $chat->last_message_id = $message->id;
+        $chat->last_message_at = $message->created_at;
+        $chat->read_at = null;
+        $chat->save();
+
+        $messages = Chat::getChatMessagesByChatId($chat->id)
+            ->paginate($request->size ?? config('app.results_per_page'));
+
+        return MessageResource::collection($messages);
 
     }
 }

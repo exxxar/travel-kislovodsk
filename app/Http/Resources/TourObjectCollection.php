@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class TourObjectCollection extends ResourceCollection
 {
+
     /**
      * Transform the resource collection into an array.
      *
