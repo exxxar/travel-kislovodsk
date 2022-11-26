@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\TourSearchRequest;
 use App\Http\Requests\API\TourStoreRequest;
 use App\Http\Requests\API\TourUpdateRequest;
+use App\Http\Resources\FavoriteCollection;
 use App\Http\Resources\TourCollection;
 use App\Http\Resources\TourResource;
 use App\Models\Dictionary;
+use App\Models\Favorite;
 use App\Models\Tour;
 use App\Models\TourObject;
 use Illuminate\Http\Request;
@@ -29,6 +31,7 @@ class TourController extends Controller
 
         return new TourCollection($tours);
     }
+
 
     public function all(Request $request)
     {
@@ -54,10 +57,10 @@ class TourController extends Controller
     {
 
         $filterObject = (object)[
-            'from_place' => $request->from_place ?? null,
-            'from_date' => $request->from_date ?? null,
-            'to_place' => $request->to_place ?? null,
-            'tour_types' => $request->tour_types ?? [],
+            'direction' => $request->direction ?? false,
+            'location' => $request->location ?? null,
+            'date' => $request->date ?? null,
+            'tour_type' => $request->tour_type ?? null,
             'payment_types' => $request->payment_types ?? [],
             'duration_types' => $request->duration_types ?? [],
             'is_hot' => $request->is_hot ?? null,
@@ -159,13 +162,15 @@ class TourController extends Controller
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Tour $tour
-     * @return \App\Http\Resources\TourResource
+     * @return TourResource|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(Request $request, $id)
     {
+
         $tour = Tour::query()->where("id", $id)
             ->first();
-        return new TourResource($tour);
+
+        return view('pages.tour', ["tour" => json_encode(new TourResource($tour))]);
     }
 
     /**

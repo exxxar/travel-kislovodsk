@@ -7,18 +7,27 @@ use App\Http\Requests\API\FavoriteStoreRequest;
 use App\Http\Requests\API\FavoriteUpdateRequest;
 use App\Http\Resources\FavoriteCollection;
 use App\Http\Resources\FavoriteResource;
+use App\Http\Resources\TourCollection;
 use App\Models\Favorite;
+use App\Models\Tour;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\FavoriteCollection
+     * @return FavoriteCollection|TourCollection
      */
     public function index(Request $request)
     {
-        $favorites = Favorite::paginate($request->count ?? config('app.results_per_page'));
+        $size = $request->get("size") ?? config('app.results_per_page');
+
+        $user = Auth::user();
+
+
+        $favorites = Favorite::query()->with(["tour"])->where('user_id', $user->id)
+            ->paginate($size);
 
         return new FavoriteCollection($favorites);
     }
@@ -29,7 +38,17 @@ class FavoriteController extends Controller
      */
     public function store(FavoriteStoreRequest $request)
     {
-        $favorite = Favorite::create($request->validated());
+        $tmp = (object)$request->all();
+        $tmp->user_id = Auth::user()->id;
+
+        $favorite = Favorite::query()->where("user_id",Auth::user()->id)
+            ->where("tour_id", $tmp->tour_id)
+            ->first();
+
+        if (!is_null($favorite))
+            return new FavoriteResource($favorite);
+
+        $favorite = Favorite::create((array)$tmp);
 
         return new FavoriteResource($favorite);
     }
@@ -61,8 +80,15 @@ class FavoriteController extends Controller
      * @param \App\Models\Favorite $favorite
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Favorite $favorite)
+    public function destroy(Request $request, $id)
     {
+        $favorite = Favorite::query()
+            ->where("user_id", Auth::user()->id)
+            ->where("tour_id", $id)->first();
+
+        if (is_null($favorite))
+            return response()->json(["message"=>"Not Found"], 404);
+
         $favorite->delete();
 
         return response()->noContent();

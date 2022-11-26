@@ -15,10 +15,15 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->text('message')->nullable();
             $table->json('content')->nullable();
+
+            $table->unsignedBigInteger("user_id")->nullable();
+            $table->unsignedBigInteger("chat_id")->nullable();
+
             $table->unsignedBigInteger('transaction_id')->nullable();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('tour_guide_id');
+            $table->unsignedBigInteger('tour_id')->nullable();
+
             $table->timestamp('read_at')->nullable();
             $table->foreign('transaction_id')
                 ->references('id')
@@ -26,9 +31,14 @@ class CreateMessagesTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users');
-            $table->foreign('tour_guide_id')
+            $table->foreign('chat_id')
                 ->references('id')
-                ->on('users');
+                ->on('chats');
+
+            $table->foreign('tour_id')
+                ->references('id')
+                ->on('tours');
+
             $table->softDeletes();
             $table->timestamps();
         });

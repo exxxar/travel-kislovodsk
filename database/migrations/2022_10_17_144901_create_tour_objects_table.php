@@ -17,6 +17,7 @@ class CreateTourObjectsTable extends Migration
             $table->id();
             $table->string('title', 255)->nullable();
             $table->text('description')->nullable();
+            $table->string('city', 255)->nullable();
             $table->string('address', 255)->nullable();
             $table->double('latitude')->default('0');
             $table->double('longitude')->default('0');

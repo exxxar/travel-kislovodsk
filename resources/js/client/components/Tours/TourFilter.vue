@@ -85,14 +85,14 @@
                 <div class="dt-check" v-for="item in movementTypes">
                     <div class="dt-check__input">
                         <input type="checkbox" name="type_person"
-                            v-model="filters.movement_types"
+                               v-model="filters.movement_types"
                                :value="item.id"
                         />
                         <div class="dt-check__input-check"></div>
                     </div>
                     <label class="dt-check__label">
                         <slot name="label">
-                            <p>{{item.title}}</p>
+                            <p>{{ item.title }}</p>
                         </slot>
                     </label>
                 </div>
@@ -104,14 +104,14 @@
                 <div class="dt-check" v-for="item in durationTypes">
                     <div class="dt-check__input">
                         <input type="checkbox" name="type_person"
-                            v-model="filters.duration_types"
+                               v-model="filters.duration_types"
                                :value="item.id"
                         />
                         <div class="dt-check__input-check"></div>
                     </div>
                     <label class="dt-check__label">
                         <slot name="label">
-                            <p>{{item.title}}</p>
+                            <p>{{ item.title }}</p>
                         </slot>
                     </label>
                 </div>
@@ -124,13 +124,13 @@
                     <div class="dt-check__input">
                         <input type="checkbox" name="type_person"
                                v-model="filters.payment_types"
-                                :value="item.id"
+                               :value="item.id"
                         />
                         <div class="dt-check__input-check"></div>
                     </div>
                     <label class="dt-check__label">
                         <slot name="label">
-                            <p>{{item.title}}</p>
+                            <p>{{ item.title }}</p>
                         </slot>
                     </label>
                 </div>
@@ -138,7 +138,7 @@
         </div>
         <div class="dt-filters-by__item">
             <div class="text-center">
-                <h6 class="text-uppercase dt-btn-text-red">Сбросить фильтры</h6>
+                <h6 class="text-uppercase dt-btn-text-red" @click="resetFilter">Сбросить фильтры</h6>
             </div>
         </div>
     </div>
@@ -153,58 +153,72 @@ export default {
             default: false
         }
     },
-    watch:{
-      filters: {
-          handler(newValue, oldValue) {
-              this.eventBus.emit('select_filtered_types', this.filters)
-          },
-          deep: true
-      }
+    watch: {
+        filters: {
+            handler(newValue, oldValue) {
+                this.eventBus.emit('select_filtered_types', this.filters)
+            },
+            deep: true
+        }
     },
-    data(){
+    data() {
         return {
-            filters:{
+            filters: {
                 //from_place:null,
                 //from_date:null,
-                tour_types:[],
-                payment_types:[],
-                duration_types:[],
-                is_hot:true,
-                price_type:0,
-                price_range_start:null,
-                price_range_end:null,
-                movement_types:[],
+                tour_types: [],
+                payment_types: [],
+                duration_types: [],
+                is_hot: true,
+                price_type: 0,
+                price_range_start: null,
+                price_range_end: null,
+                movement_types: [],
                 //sort_type:null,
-               // tour_categories:[]
+                // tour_categories:[]
             },
         }
     },
     computed: {
-        ...mapGetters(['getToursByCategoryId', 'getTourById', 'getTours','getDictionariesByTypeSlug','getDictionaryTypes']),
-        priceTypes(){
+        ...mapGetters(['getToursByCategoryId', 'getTourById', 'getTours', 'getDictionariesByTypeSlug', 'getDictionaryTypes']),
+        priceTypes() {
             return this.getDictionariesByTypeSlug("price_type")
         },
-        transactionTypes(){
+        transactionTypes() {
             return this.getDictionariesByTypeSlug("transaction_type")
         },
-        movementTypes(){
+        movementTypes() {
             return this.getDictionariesByTypeSlug("movement_type")
         },
-        durationTypes(){
+        durationTypes() {
             return this.getDictionariesByTypeSlug("duration_type")
         },
-        paymentTypes(){
+        paymentTypes() {
             return this.getDictionariesByTypeSlug("payment_type")
         },
-        tourTypes(){
+        tourTypes() {
             return this.getDictionariesByTypeSlug("tour_type")
         },
     },
     mounted() {
         this.loadDictionaries()
+
+        this.eventBus.on('reset_filters',()=>{
+            this.filters.tour_types = []
+            this.filters.payment_types = []
+            this.filters.duration_types = []
+            this.filters.is_hot = false
+            this.filters.price_type = 0
+            this.filters.price_range_start = null
+            this.filters.price_range_end = null
+            this.filters.movement_types = []
+        })
     },
-    methods:{
-        loadDictionaries(){
+    methods: {
+        resetFilter() {
+            this.eventBus.emit('reset_filters')
+        },
+        loadDictionaries() {
             this.$store.dispatch("loadAllDictionaryTypes")
         },
     }

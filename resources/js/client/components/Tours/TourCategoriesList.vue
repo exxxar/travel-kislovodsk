@@ -39,6 +39,10 @@ export default {
         this.loadTourCategories().then(()=>{
             console.log(this.getCategories)
         })
+
+        this.eventBus.on('reset_filters', () => {
+           this.filters.tour_categories = []
+        })
     },
     methods:{
         filterTourByCategory(id){

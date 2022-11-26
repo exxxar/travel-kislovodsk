@@ -10,32 +10,21 @@
                         <div class="dt-preheader__actions">
 
                         </div>
-                        <p class="dt-preheader__title">Название объекта</p>
+                        <p class="dt-preheader__title">{{object.title}}</p>
                         <div class="curved">
                             <img :src="'/img/curved_strip.png'" alt="">
                         </div>
                         <div class="dt-preheader__photos justify-content-center">
-                            <div class="dt-photos__item">
-                                <img :src="'/img/travels/1.jpg'" alt="">
+                            <div class="dt-photos__item" data-bs-toggle="modal"
+                                 :data-bs-target="'#image-modal'+index+'-'+item.id" v-for="(item, index) in object.photos.slice(0,6)">
+                                <img v-lazy="item" alt="">
+
+                                <image-modal-dialog-component :id="'image-modal'+index+'-'+item.id" :url="item"/>
                             </div>
-                            <div class="dt-photos__item">
-                                <img :src="'/img/travels/2.jpg'" alt="">
-                            </div>
-                            <div class="dt-photos__item d-none d-lg-block">
-                                <img :src="'/img/travels/3.jpg'" alt="">
-                            </div>
-                            <div class="dt-photos__item d-none d-lg-block">
-                                <img :src="'/img/travels/4.jpg'" alt="">
-                            </div>
-                            <div class="dt-photos__item d-none d-lg-block">
-                                <img :src="'/img/travels/1.jpg'" alt="">
-                            </div>
-                            <div class="dt-photos__item d-none d-lg-block">
-                                <img :src="'/img/travels/2.jpg'" alt="">
-                            </div>
-                            <div class="dt-photos__item dt-photos__item--placeholder">
+
+                            <div class="dt-photos__item dt-photos__item--placeholder" v-if="object.photos.length>6">
                                 <div class="dt-item__placeholder">
-                                    <span>+8</span>
+                                    <span>+{{  object.photos.length-6 }}</span>
                                 </div>
                             </div>
                         </div>
@@ -52,10 +41,13 @@
                             <div class="dt-text__left">
                                 <label class="dt-label fw-thin">адрес</label>
                                 <div class="dt-group-value d-flex flex-wrap m-0">
-                                    <span class="dt-group-value__item fw-semibold">Некоторый адрес</span>
+                                    <span class="dt-group-value__item fw-semibold">{{object.city}}, {{object.address}}</span>
                                 </div>
                             </div>
-                            <button class="dt-btn-text text-uppercase text-nowrap">на карте</button>
+                            <button class="dt-btn-text text-uppercase text-nowrap"
+                                    data-bs-toggle="modal" :data-bs-target="'#map-tour-object-modal-'+object.id"
+                                    v-if="object.latitude!==0&&object.longitude!==0"
+                            >на карте</button>
                         </div>
                         <div class="dt-input__group-item">
                             <div class="dt-input__icon">
@@ -73,8 +65,8 @@
                         <div class="dt-input__text flex-wrap w-100">
                             <label class="dt-label fw-thin">координаты</label>
                             <div class="dt-group-value d-flex flex-wrap">
-                                <span class="dt-group-value__item me-2 fw-semibold">широта: 28.532062</span>
-                                <span class="dt-group-value__item fw-semibold">долгота: -120.257606</span>
+                                <span class="dt-group-value__item me-2 fw-semibold">широта: {{object.latitude}}</span>
+                                <span class="dt-group-value__item fw-semibold">долгота: {{object.longitude}}</span>
                             </div>
                         </div>
                         <div class="dt-input__group-item">
@@ -92,40 +84,20 @@
             <div class="row dt-page__content">
                 <div class="col-lg-8 dt-page__content">
                     <p class="dt-article__title">Описание</p>
-                    <p class="dt-main-text-thin">Приглашаю вас совместить приятное с полезным и сделать
-                        акклиматизационный выход с красивыми видами на
-                        гору Чегет и ледниковое озеро Донгуз-Орун-Кель. Воды, стекающие по склонам, размывают почву и
-                        несут
-                        в водоем различные минералы, которые и окрашивают жидкость в различные цвета. Оттенки водной
-                        глади
-                        могут зависеть как от угла обзора, так от погоды и времени года. Палитра меняется от
-                        ярко-изумрудных
-                        цветов до болотисто-зеленых и ржавых коричневых оттенков. <br><br>
-                        Наш маршрут начнется снизу от Поляны Чегет, откуда мы пешком по горной широкой тропе поднимемся
-                        на
-                        озеро, преодолев первые 500 м вертикального набора высоты. У озера сделаем привал. А далее
-                        поднимемся еще выше до станции канатной дороги горы Чегет, где находится смотровая площадка и
-                        знаменитое кафе Ай (луна), где любил бывать Высоций и Визбор.<br><br>
-                        Далее по желанию мы можем подняться наверх горы Чегет и спуститься вниз на канатной дороге. Или
-                        спуститься сразу пешком вниз от второй станции, не используя канатную дорогу.<br><br>
-                        Наш маршрут закончится спуском на канатной дороге вниз до Поляны Чегет.<br><br>
-                        Одежду и обувь рекомендуется подбирать из синтетических материалов и удобную для активной
-                        прогулки.
-                        Также обязательно использовать все средства солнце защиты (крем, очки, головные уборы). Не
-                        лишним
-                        будет использование треккинговых палок, особенно если вы планируете идти по сложному варианту
-                        маршрута.<br><br> Если у вас не хватает снаряжения, то можно взять напрокат на месте.</p>
+                    <p class="dt-main-text-thin">
+                        {{object.description || 'Нет описания'}}
+                    </p>
                 </div>
                 <div class="col-lg-4">
                     <div class="dt-bg__guide">
                         <div class="dt-bg-light-gray">
                             <div class="dt-guide__info d-flex w-100 h-100">
                                 <div class="dt-guide__img">
-                                    <img :src="'/img/avatars/7.jpg'" alt="">
+                                    <img v-lazy="object.guide.photo" alt="">
                                 </div>
                                 <div class="dt-guide__text">
                                     <p class="dt-guide__title fw-thin">экскурсию для вас проведет</p>
-                                    <p class="dt-guide__name">Петров Николай Игоревич</p>
+                                    <p class="dt-guide__name">{{object.guide.tname}} {{object.guide.fname}}</p>
                                     <div class="dt-rating__star d-flex">
                                         <img :src="'/img/icons/star_blue.svg'" alt="">
                                         <img :src="'/img/icons/star_blue.svg'" alt="">
@@ -145,12 +117,17 @@
             </div>
         </div>
     </main>
+
+    <map-modal-dialog-component :id="'map-tour-object-modal-'+object.id"
+                                multiple="false"
+                                :coords="{lat: object.latitude, lon:object.longitude}"/>
 </template>
 <script>
 import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
 
 export default {
     components: {Breadcrumbs},
+    props:["object"],
     data() {
         return {
             breadcrumbs: [
@@ -163,7 +140,7 @@ export default {
                     href: "#",
                 },
                 {
-                    text: "Название объекта",
+                    text: this.object.title,
                     active: true,
                 }],
         }

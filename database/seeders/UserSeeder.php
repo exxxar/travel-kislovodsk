@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
     {
 
         $lawStatusType = Dictionary::getLawStatusTypes()
-            ->where('title' , 'Юридическое лицо')
+            ->where('slug' , 'entity_law_status_type')
             ->first();
 
         $guideRole = UserRole::query()->where("role_name","guide")->first();
@@ -54,5 +54,20 @@ class UserSeeder extends Seeder
             'profile_id'=>$profile->id,
             'verified_at'=>Carbon::now(),
         ]);
+
+        for ($i=0;$i<10;$i++){
+            $lawStatusType = Dictionary::getLawStatusTypes()
+                ->where('slug' , 'person_law_status_type')
+                ->first();
+
+            $userRole = UserRole::query()->where("role_name","user")->first();
+
+            $profile = Profile::factory()->create();
+            User::factory()->create([
+                'role_id'=>$userRole->id,
+                'user_law_status_id'=>$lawStatusType->id,
+                'profile_id'=>$profile->id,
+            ]);
+        }
     }
 }

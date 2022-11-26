@@ -16,9 +16,8 @@ class FavoriteResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'tour_id' => $this->tour_id,
+            'tour' => new TourResource($this->tour),
             'user_id' => $this->user_id,
-            'softdeletes' => $this->softdeletes,
         ];
     }
 }

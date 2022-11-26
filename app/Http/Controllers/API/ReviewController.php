@@ -8,6 +8,7 @@ use App\Http\Requests\API\ReviewUpdateRequest;
 use App\Http\Resources\ReviewCollection;
 use App\Http\Resources\ReviewResource;
 use App\Models\Review;
+use App\Models\Tour;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
@@ -43,6 +44,17 @@ class ReviewController extends Controller
     {
         return new ReviewResource($review);
     }
+
+    public function showByTour(Request $request, $tourId)
+    {
+        $size = $request->get("size") ?? config('app.results_per_page');
+
+        $reviews = Review::query()->where("tour_id", $tourId)
+            ->paginate($size);
+
+        return ReviewResource::collection($reviews ?? []);
+    }
+
 
     /**
      * @param \App\Http\Requests\API\ReviewUpdateRequest $request

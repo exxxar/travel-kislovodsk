@@ -6,6 +6,7 @@ const BASE_REVIEWS_LINK = '/api/reviews'
 
 let state = {
     reviews: [],
+    paginate_object: [],
 }
 
 const getters = {
@@ -18,7 +19,8 @@ const getters = {
     },
     getReviewsByTourGuideId: (state) => (tourGuideId) => {
         return state.reviews.filter(item => item.tour_guide_id === tourGuideId)
-    }
+    },
+    getReviewsPaginateObject: state => state.paginate_object || [],
 }
 
 const actions = {
@@ -26,40 +28,103 @@ const actions = {
         commit('setReviews',
             !localStorage.getItem('travel_store_reviews') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_reviews')))
+
+        context.commit('setReviewsPaginateObject',
+            !localStorage.getItem('travel_store_reviews_paginate_object') ?
+                [] : JSON.parse(localStorage.getItem('travel_store_reviews_paginate_object')))
+
     },
-    async loadReviewData({commit}, link, method = 'GET', data = null) {
+    async loadReviewDataWithAppends(context, payload) {
+
+        let link = payload.url,
+            method = payload.method ||'GET',
+            data = payload.data || null
+
         let _axios = util.makeAxiosFactory(link, method, data)
 
         return await _axios.then((response) => {
             let dataObject = response.data
-            commit('setReviews', dataObject.data)
+            context.commit('appendReviews', dataObject.data)
+            delete dataObject.data
+            context.commit('setReviewsPaginateObject', dataObject)
 
         }).catch(err => {
-            this.errorsReviews(commit)
+            context.dispatch("errorsReviews")
         })
     },
-    async loadReviewsAll({commit}){
-        return this.loadReviewData(commit,`${BASE_REVIEWS_LINK}`)
+    async loadReviewData(context, payload) {
+
+        let link = payload.url,
+            method = payload.method ||'GET',
+            data = payload.data || null
+
+        let _axios = util.makeAxiosFactory(link, method, data)
+
+        return await _axios.then((response) => {
+            let dataObject = response.data
+            context.commit('setReviews', dataObject.data)
+            delete dataObject.data
+            context.commit('setReviewsPaginateObject', dataObject)
+
+        }).catch(err => {
+            context.dispatch("errorsReviews")
+        })
     },
-    async loadReviewsByTour({commit}){
-       return this.loadReviewData(commit,`${BASE_REVIEWS_LINK}/tour/${id}`)
+    async loadReviewsAll(context){
+        return context.dispatch("loadReviewData",{
+            url:`${BASE_REVIEWS_LINK}`
+        })
     },
-    async loadReviewByGuide({commit}){
-        return this.loadReviewData(commit,`${BASE_REVIEWS_LINK}/guide/${id}`)
+    async loadReviewsNext(context){
+        let url = state
+                .paginate_object
+                .links
+                .next || BASE_REVIEWS_LINK
+
+        return context.dispatch("loadReviewDataWithAppends",{
+            url: url
+        })
+    },
+    async loadReviewsByTour(context, id){
+        return context.dispatch("loadReviewData",{
+            url:`${BASE_REVIEWS_LINK}/tour/${id}`
+        })
+    },
+    async loadReviewByGuide(context, guideId){
+        return context.dispatch("loadReviewData",{
+            url:`${BASE_REVIEWS_LINK}/guide/${guideId}`
+        })
     },
     async addReview({commit}, review){
-        return this.loadReviewData(commit,`${BASE_REVIEWS_LINK}`,'POST', review)
+
+        return context.dispatch("loadReviewData",{
+            url:`${BASE_REVIEWS_LINK}`,
+            method: 'POST',
+            data: review
+
+        })
     },
     async removeReview({commit}, reviewId){
-        return this.loadReviewData(commit,`${BASE_REVIEWS_LINK}/${reviewId}`,'DELETE')
+        return context.dispatch("loadReviewData",{
+            url:`${BASE_REVIEWS_LINK}/${reviewId}`,
+            method: 'DELETE'
+        })
     },
 }
 
 const mutations = {
     setReviews(state, payload) {
-        state.favorites = payload.data || [];
-        localStorage.setItem('travel_store_favorites', JSON.stringify(payload));
+        state.reviews = payload || [];
+        localStorage.setItem('travel_store_reviews', JSON.stringify(payload));
     },
+    appendReviews(state, payload) {
+        state.reviews = [...state.reviews, ...payload] ;
+        localStorage.setItem('travel_store_reviews', JSON.stringify(payload));
+    },
+    setReviewsPaginateObject(state, payload) {
+        state.paginate_object = payload || [];
+        localStorage.setItem('travel_store_reviews_paginate_object', JSON.stringify(payload));
+    }
 }
 
 const reviewsModule = {

@@ -28,7 +28,7 @@
                        class="dt-link text-white text-decoration-none text-uppercase">Вход</a>
                 </li>
                 <li>
-                    <a href="/tour-search" target="_blank"
+                    <a href="/tour-all" target="_blank"
                        class="dt-link text-white text-decoration-none text-uppercase">Поиск экскурсий</a>
                 </li>
                 <li>

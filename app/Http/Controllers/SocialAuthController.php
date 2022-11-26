@@ -52,7 +52,7 @@ class SocialAuthController extends Controller
         $user->getEmail();
         $user->getAvatar();*/
 
-        $dictType = Dictionary::query()->where("title", "Физическое лицо")->first();
+        $dictType = Dictionary::query()->where("slug", "person_law_status_type")->first();
 
         $user = User::query()->create([
             'name' => $vkUser->getName(),

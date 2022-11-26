@@ -21,17 +21,34 @@
             <tour-filter/>
             <div class="col-lg-9 col-12 co dt-content">
                 <tour-sort-filter/>
-                <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1">
-                    <div class="col col-xs-12" v-for="item in tours">
-                        <tour-card-component :data="item" :key="item"/>
+                <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" v-if="tours.length>0">
+                    <div class="col col-xs-12" v-for="item in tours" >
+                        <tour-card-component :tour="item" :key="item"/>
                     </div>
+
                 </div>
-                <div class="dt-page__pagination">
+                <div class="dt-form row d-flex justify-content-center" v-else>
+                    <div class="col col-12 col-md-6">
+                        <div class="empty-list">
+                            <img v-lazy="'/img/no-tour.jpg'" alt="">
+                            <p>По данному фильтру ничего не найдено:(</p>
+                            <button class="text-uppercase dt-btn-text-red" @click="resetFilter">Сбросить фильтры</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="dt-page__pagination" v-if="tours.length>0">
                     <tour-pagination/>
                 </div>
             </div>
         </div>
     </main>
+
+    <map-modal-dialog-component
+        v-if="tours.length>0"
+        id="map-main-modal"
+        :multiply="true"
+        :coords="coords"/>
 </template>
 <script>
 import TourCard from "@/components/Tours/TourCard.vue";
@@ -63,18 +80,27 @@ export default {
                 types_filter: null,
                 sort_filter: null,
                 category_filter: null,
+                search_filter:null,
             }
         }
     },
     computed: {
         ...mapGetters(['getToursByCategoryId', 'getTourById', 'getTours', 'getDictionariesByTypeSlug',
             'getDictionaryTypes', 'getToursPaginateObject']),
+        coords() {
+            let tmp = []
+            this.tours.forEach(item => {
+                tmp.push({lat: item.start_latitude, lon: item.start_longitude})
+            })
 
+            return tmp
+        }
     },
     watch: {
         filters: {
             handler(newValue, oldValue) {
                 this.loadFilteredTours()
+                this.current_page = 0
             },
             deep: true
         }
@@ -87,11 +113,17 @@ export default {
             this.loadFilteredTours()
         })
 
+        this.eventBus.on('reset_filters', () => {
+            this.current_page = 0
+            this.loadTours()
+        })
+
         this.eventBus.on('next_tour_page', (index) => {
             let filterObject = {
                 ...this.filters.types_filter,
                 ...this.filters.sort_filter,
                 ...this.filters.category_filter,
+                ...this.filters.search_filter,
             }
 
             this.$store.dispatch("nextToursPage",filterObject).then(() => {
@@ -106,6 +138,7 @@ export default {
                 ...this.filters.types_filter,
                 ...this.filters.sort_filter,
                 ...this.filters.category_filter,
+                ...this.filters.search_filter,
             }
 
             this.$store.dispatch("previousToursPage",filterObject).then(() => {
@@ -115,22 +148,37 @@ export default {
 
         })
 
+
+
+        this.eventBus.on('select_search_filter', (searchFilter) => {
+            this.filters.search_filter = searchFilter
+            this.loadFilteredTours()
+
+        })
+
         this.eventBus.on('select_filtered_sort', (filteredSort) => {
             this.filters.sort_filter = filteredSort
+            this.loadFilteredTours()
 
         })
 
         this.eventBus.on('select_filtered_types', (filteredTypes) => {
             this.filters.types_filter = filteredTypes
+            this.loadFilteredTours()
 
         })
 
         this.eventBus.on('select_filtered_categories', (filteredCategories) => {
             this.filters.category_filter = filteredCategories
+            this.loadFilteredTours()
 
         })
     },
     methods: {
+
+        resetFilter() {
+            this.eventBus.emit('reset_filters')
+        },
         loadTours() {
             this.$store.dispatch("loadToursByPage", this.current_page).then(() => {
                 this.tours = this.getTours
@@ -144,6 +192,7 @@ export default {
                 ...this.filters.types_filter,
                 ...this.filters.sort_filter,
                 ...this.filters.category_filter,
+                ...this.filters.search_filter,
             }
             this.$store.dispatch("loadToursFilteredByPage", {
                 page: this.current_page,
@@ -157,3 +206,23 @@ export default {
     }
 }
 </script>
+<style lang="scss">
+.empty-list {
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    img {
+        width:100%;
+        object-fit: cover;
+        mix-blend-mode: darken;
+    }
+
+    p {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+}
+</style>

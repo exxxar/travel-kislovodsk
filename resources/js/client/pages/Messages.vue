@@ -6,7 +6,7 @@
             <!--HEAD-->
             <!--СКРЫТЬ/ПОКАЗАТЬ БЛОК СООБЩЕНИЙ/ЧАТА: ДОБАВИТЬ КЛАССЫ hide ИЛИ visible К БЛОКАМ messsages-head ИЛИ messages-body-->
             <div class="col-12 col-lg-3 me-lg-4 bg-white messages-head visible-lg">
-                <message-user-card :users="usersList" />
+                <message-user-card/>
             </div>
             <!--BODY-->
             <chat-form/>
@@ -16,7 +16,7 @@
 <script>
 import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
 import ChatForm from "@/components/Messages/ChatForm.vue";
-import MessageUserCard from "@/components/Messages/MessageUserCard.vue";
+import MessageUserCard from "@/components/Messages/MessageUserList.vue";
 
 export default {
     components: {MessageUserCard, ChatForm, Breadcrumbs},
@@ -46,6 +46,9 @@ export default {
                     "consectetur adipisicing elit. Iste, expedita!", unread: false, date: "позавчера"
             }]
         }
+    },
+    mounted() {
+
     }
 }
 </script>

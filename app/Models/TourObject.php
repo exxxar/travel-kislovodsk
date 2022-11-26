@@ -18,6 +18,7 @@ class TourObject extends Model
     protected $fillable = [
         'title',
         'description',
+        'city',
         'address',
         'latitude',
         'longitude',
@@ -51,10 +52,6 @@ class TourObject extends Model
         return $this->belongsToMany(Tour::class);
     }
 
-    public function tourGuide()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function creator()
     {

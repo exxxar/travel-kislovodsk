@@ -1,9 +1,9 @@
 <template>
     <div class="dt-reviews">
-        <ReviewCounter></ReviewCounter>
+        <ReviewCounter :tour="tour"></ReviewCounter>
         <div class="dt-reviews__content">
-            <ReviewCard v-for="(item, i) in review_list" :key="i" :item="item"></ReviewCard>
-            <a href="#" class="align-items-center d-flex dt-btn dt-btn--height-50 dt-btn-blue
+            <ReviewCard v-for="(item, i) in reviews" :key="i" :item="item"></ReviewCard>
+            <a v-if="canLoadMore" @click="loadNextReviews" class="align-items-center d-flex dt-btn dt-btn--height-50 dt-btn-blue
                     justify-content-center w-100">
                 <span>Показать еще</span>
                 <div class="dt-btn__icon">
@@ -22,41 +22,49 @@ import ReviewCard from "@/components/Reviews/ReviewCard.vue";
 import ReviewCounter from "@/components/Reviews/ReviewCounter.vue";
 
 
+import {mapGetters} from 'vuex';
+
 export default {
+    props: ["tour"],
     components: {
         ReviewCard,
         ReviewCounter,
     },
-    data: () => ({
-        review_list: [
-            {
-                user_avatar: '2.jpg',
-                user_name: 'Екатерина Иванова',
-                date: '2 недели назад',
-                stars: 0,
-                text: "Не следует, однако забывать, что новая модель организационной деятельности влечет за собой процесс внедрения и модернизации систем массового участия. Товарищи! постоянное информационно-пропагандистское обеспечение нашей деятельности в значительной степени обуславливает создание систем массового участия.",
-                photos: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"]
-            },
-            {
-                user_avatar: '',
-                user_name: 'Николаев Алексей',
-                date: '3 месяца назад',
-                stars: 0,
-                text: "Что новая модель организационной деятельности обеспечивает широкому кругу (специалистов) участие в формировании соответствующий условий активизации.",
-                photos: []
-            },
-            {
-                user_avatar: '2.jpg',
-                user_name: 'Имя Отчество',
-                date: 'пол года назад',
-                stars: 0,
-                text: "Равным образом дальнейшее развитие различных форм деятельности требуют от нас анализа позиций, занимаемых участниками в отношении поставленных задач. Идейные соображения высшего порядка, а также дальнейшее развитие различных форм деятельности играет важную роль в формировании соответствующий условий активизации. Товарищи! сложившаяся структура организации позволяет оценить значение систем массового участия. Значимость этих проблем настолько очевидна, что постоянное информационно-пропагандистское обеспечение нашей деятельности в значительной степени обуславливает создание соответствующий условий активизации. Задача организации, в особенности же реализация намеченных плановых заданий влечет за собой процесс внедрения и модернизации модели развития. Равным образом консультация с широким активом влечет за собой процесс внедрения и модернизации направлений прогрессивного развития.",
-                photos: []
-            },
-        ]
-    })
+    data() {
+        return {
+            reviews: []
+
+        }
+    },
+    computed: {
+        ...mapGetters(['getReviewsByTourId', 'getReviews', 'getReviewsPaginateObject']),
+        canLoadMore() {
+            if (this.getReviewsPaginateObject.length===0)
+                return false;
+
+            return this.getReviewsPaginateObject.links.next != null || false
+        }
+    },
+    mounted() {
+
+        this.loadTourCategories().then(() => {
+            this.reviews = this.getReviews;
+            console.log("obj",this.getReviewsPaginateObject)
+        })
+    },
+    methods: {
+        loadTourCategories() {
+            return this.$store.dispatch("loadReviewsByTour", this.tour.id)
+        },
+        loadNextReviews(){
+            return this.$store.dispatch("loadReviewsNext").then(()=>{
+                this.reviews = this.getReviews;
+            })
+        }
+    }
 }
 </script>
+
 
 <style scoped>
 

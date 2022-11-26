@@ -29,14 +29,21 @@
     },
     "dependencies": {
         "@vitejs/plugin-vue": "^3.1.2",
+        "@vuepic/vue-datepicker": "^3.5.3",
         "bootstrap": "^5.2.1",
+        "firebase": "^9.14.0",
         "laravel-mix-alias": "^1.0.3",
         "laravel-mix-vue3": "^0.7.0",
         "mitt": "^3.0.0",
         "scss-reset": "^1.2.2",
         "vite-plugin-ssr": "^0.4.43",
+        "vue-autosuggest": "^2.2.0",
         "vue-flatpickr-component": "^9.0.8",
+        "vue-functional-calendar": "^2.9.97",
+        "vue-moment": "^4.1.0",
         "vue-the-mask": "^0.11.1",
+        "vue-yandex-maps": "^1.0.4",
+        "vue3-autocomplete": "^1.0.4",
         "vue3-lazyload": "^0.3.6",
         "vuex": "^4.1.0"
     }

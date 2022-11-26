@@ -70,12 +70,12 @@
                         </li>
                     </ul>
                 </div>
-                <user-change-password v-if="mobileMenuActive.title === 'Смена пароля'" />
+<!--                <user-change-password v-if="mobileMenuActive.title === 'Смена пароля'" />
                 <user-orders v-if="mobileMenuActive.title === 'Мои заказы'" />
                 <user-reviews v-if="mobileMenuActive.title === 'Мои отзывы'" />
                 <user-transactions v-if="mobileMenuActive.title === 'Мои транзакции'" />
                 <user-watched-tours v-if="mobileMenuActive.title === 'Просмотренные'" />
-                <user-settings v-if="mobileMenuActive.title === 'Настройка профиля'" />
+                <user-settings v-if="mobileMenuActive.title === 'Настройка профиля'" />-->
             </div>
         </main>
     </section>

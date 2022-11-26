@@ -11,6 +11,12 @@ let state = {
 
 const getters = {
     getFavorites: state => state.favorites || [],
+    getFavoritesByCategoryId: (state) => (id) => {
+        return state.favorites.filter(favItem => {
+            return favItem.tour.tour_categories.filter(categoryItem => categoryItem.id === id).length > 0
+        })
+
+    },
     getFavoriteById: (state) => (id) => {
         return state.favorites.find(item => item.id === id)
     },
@@ -18,88 +24,126 @@ const getters = {
 }
 
 const actions = {
-    errorsFavorites({commit}){
-        commit('setFavorites',
+    errorsFavorites(context) {
+        context.commit('setFavorites',
             !localStorage.getItem('travel_store_favorites') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_favorites')))
 
-        commit('setFavoritesPaginateObject',
+        context.commit('setFavoritesPaginateObject',
             !localStorage.getItem('travel_store_favorites_paginate_object') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_favorites_paginate_object')))
     },
-    async removeFavorite({commit}, id){
+    async removeFavorite(context, id) {
+
+        let link = `${BASE_FAVORITES_LINK}/remove/${id}`
+        let method = 'DELETE'
+        let data = null
         let _axios = util.makeAxiosFactory(link, method, data)
 
-        return await axios.get( `${BASE_FAVORITES_LINK}/remove/${id}`).then((response) => {
+        return await _axios.then((response) => {
             let dataObject = response.data
-            commit('setFavorites', dataObject.data)
+            context.commit('setFavorites', dataObject.data)
             delete dataObject.data
-            commit('setFavoritesPaginateObject', dataObject)
+            context.commit('setFavoritesPaginateObject', dataObject)
 
         }).catch(err => {
-            this.errorsFavorites(commit)
+            context.dispatch("errorsFavorites")
         })
     },
-    async clearFavorites({commit}) {
+    async clearFavorites(context) {
         let _axios = util.makeAxiosFactory(`${BASE_FAVORITES_LINK}/clear`, 'DELETE')
 
         return await _axios.then((response) => {
-            commit('setFavorites', [])
-            commit('setFavoritesPaginateObject', [])
+            context.commit('setFavorites', [])
+            context.commit('setFavoritesPaginateObject', [])
 
         }).catch(err => {
-            this.errorsFavorites(commit)
+            context.dispatch("errorsFavorites")
         })
     },
-    async favoritesPage({commit}, link, method = 'GET', data = null) {
+    async favoritesPage(context, obj) {
+
+        let link = obj.url
+        let method = obj.method || 'GET'
+        let data = obj.data || null
         let _axios = util.makeAxiosFactory(link, method, data)
 
         return _axios.then((response) => {
             let dataObject = response.data
-            commit('setTours', dataObject.data)
+            context.commit('setFavorites', dataObject.data)
             delete dataObject.data
-            commit('setToursPaginateObject', dataObject)
+            context.commit('setFavoritesPaginateObject', dataObject)
 
         }).catch(err => {
-            this.errorsFavorites(commit)
+            context.dispatch("errorsFavorites")
         })
     },
-    async previousFavoritesPage({commit}) {
-        return await this.favoritesPage(commit, state
-            .paginate_object
-            .links
-            .prev || BASE_FAVORITES_LINK)
+    async previousFavoritesPage(context) {
+        return await context.dispatch("favoritesPage", {
+            url: state
+                .paginate_object
+                .links
+                .prev || BASE_FAVORITES_LINK,
+            method:'GET'
+        })
     },
-    async addToFavorites({commit}, tour) {
-        return await this.favoritesPage(commit, `${BASE_FAVORITES_LINK}/add`,'POST', tour )
+    async addToFavorites(context, id) {
+        return await context.dispatch("favoritesPage", {
+            url: `${BASE_FAVORITES_LINK}`,
+            method: 'POST',
+            data: {
+                tour_id: id
+            }
+        })
     },
     async nextFavoritesPage({commit}) {
-        return await this.favoritesPage(commit, state
-            .paginate_object
-            .links
-            .next || BASE_FAVORITES_LINK)
+        return await context.dispatch("favoritesPage", {
+            url: state
+                .paginate_object
+                .links
+                .next || BASE_FAVORITES_LINK,
+            method:'GET'
+        })
     },
-    async loadFavoritesByPage({commit}, page = 0, size = 15) {
-        return await this.favoritesPage(commit, `${BASE_FAVORITES_LINK}?page=${page}&size=${size}`)
+    async loadFavoritesByPage(context, payload) {
+        let size = payload.size || 15
+        let page = payload.page || 0
+        return await context.dispatch("favoritesPage", {
+            url: `${BASE_FAVORITES_LINK}?page=${page}&size=${size}`
+        })
     },
-    async loadFavoritesByTourCategoryByPage({commit}, category, page = 0, size = 15) {
-        return await this.favoritesPage(commit, `${BASE_FAVORITES_LINK}?category=${category}&page=${page}&size=${size}`)
+    async loadFavoritesByTourCategoryByPage(context, payload) {
+
+        let size = payload.size || 15
+        let page = payload.page || 0
+        let category = payload.category
+
+        return await context.dispatch("favoritesPage", {
+            url: `${BASE_FAVORITES_LINK}?category=${category}&page=${page}&size=${size}`
+        })
+
     },
-    async loadAllFavorites({commit}) {
-        return await this.favoritesPage(commit, `${BASE_FAVORITES_LINK}/all`)
+    async loadAllFavorites(context) {
+        return await context.dispatch("favoritesPage", {
+            url: `${BASE_FAVORITES_LINK}`
+        })
     },
     async loadFavoritesFiltered({commit}, filter) {
-        return await this.favoritesPage(commit, `${BASE_FAVORITES_LINK}/filtered`, 'POST', filter)
+        return await context.dispatch("favoritesPage", {
+            url: `${BASE_FAVORITES_LINK}/filtered`,
+            method:'POST',
+            data: filter
+        })
     }
 }
 
 const mutations = {
     setFavorites(state, payload) {
-        state.favorites = payload.data || [];
+        state.favorites = payload || [];
         localStorage.setItem('travel_store_favorites', JSON.stringify(payload));
     },
     setFavoritesPaginateObject(state, payload) {
-        state.paginate_object = payload.data || [];
+        state.paginate_object = payload || [];
         localStorage.setItem('travel_store_favorites_paginate_object', JSON.stringify(payload));
     }
 }

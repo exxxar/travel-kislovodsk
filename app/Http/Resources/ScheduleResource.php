@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ScheduleResource extends JsonResource
@@ -14,11 +15,16 @@ class ScheduleResource extends JsonResource
      */
     public function toArray($request)
     {
+        $tmpDate = Carbon::parse($this->start_at)->format('Y-m-d H:m');
+
+        $date = explode(' ', $tmpDate);
         return [
             'id' => $this->id,
+            'user_id' => $this->tour_id,
             'tour_id' => $this->tour_id,
-            'start_at' => $this->start_at,
-            'softdeletes' => $this->softdeletes,
+            'start_at' => $tmpDate,
+            'start_day' => $date[0]??'',
+            'start_time' => $date[1]??'',
         ];
     }
 }

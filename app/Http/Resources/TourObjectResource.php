@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class TourObjectResource extends JsonResource
 {
@@ -15,16 +16,18 @@ class TourObjectResource extends JsonResource
      */
     public function toArray($request)
     {
+        $guide = new ProfileResource($this->creator->profile);
+
         return [
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
+            'city' => $this->city,
             'address' => $this->address,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'comment' => $this->comment,
-            'tour_guide_id' => $this->tour_guide_id,
-            'creator_id' => $this->creator_id,
+            'guide'=>$guide,
             'photos' => $this->photos,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

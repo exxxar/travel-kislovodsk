@@ -6,22 +6,30 @@
                     <p class="dt-direction-excursion" :class="{'text-white': isLinksWhite}">Куда?</p>
                     <div class="dt-direction-excursion d-flex">
                         <label class="dt-switch d-flex">
-                            <input type="checkbox">
+                            <input type="checkbox" v-model="filters.direction">
                             <span class="dt-slider"></span>
                         </label>
                     </div>
                     <p class="dt-direction-excursion" :class="{'text-white': isLinksWhite}">Откуда?</p>
                 </div>
                 <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters--links-white': isLinksWhite}">
-                    <a href="#" class="dt-link-filter--hover-blue">Смотреть карту</a>
+                    <a data-bs-toggle="modal" data-bs-target="#map-main-modal" class="dt-link-filter--hover-blue">Смотреть
+                        карту</a>
                 </div>
             </div>
             <div class="dt-input__wrapper">
                 <div class="dt-input__group bg-white dt-border-right-gray">
                     <div class="d-flex flex-wrap">
-                        <label class="dt-label fw-thin">Куда?</label>
-                        <input type="text" name="name" class="dt-input fw-semibold h-100" autocomplete="off"
-                               value="Ставрополь">
+
+                        <label for="location-datalist"
+                               class="dt-label fw-thin">{{ filters.direction ? 'Откуда?' : 'Куда?' }}</label>
+                        <input class="dt-input fw-semibold h-100"
+                               v-model="filters.location"
+                               list="location-datalist-options" id="location-datalist" placeholder="Город"/>
+                        <datalist id="location-datalist-options">
+                            <option :value="item" :key="'location-'+index" v-for="(item, index) in filteredLocations"/>
+
+                        </datalist>
                     </div>
                     <div class="dt-input__group-item">
                         <div class="dt-input__icon">
@@ -43,8 +51,10 @@
             </div>
             <div class="dt-input__wrapper">
                 <div class="dt-input__group bg-white dt-border-right-gray">
-                    <input type="text" name="name" class="dt-input fw-semibold" value="Когда?" autocomplete="off"
-                           disabled>
+
+                    <tour-calendar-component v-model="filters.date"/>
+
+
                     <div class="dt-input__group-item">
                         <div class="dt-input__icon">
                             <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"
@@ -57,9 +67,18 @@
                 </div>
                 <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters--links-white': isLinksWhite}">
                     <div class="d-flex dt-list">
-                        <a href="#" class="dt-link-filter--hover-blue">Завтра</a>
-                        <a href="#" class="dt-link-filter--hover-blue">В ближайшие 3 дня</a>
-                        <a href="#" class="dt-link-filter--hover-blue">Эти выходные</a>
+                        <a href="#" class="dt-link-filter--hover-blue"
+                           v-bind:class="{'active':checkNearest(0)}"
+                           @click="toggleNearestFilter(0)">Завтра</a>
+                        <a href="#" class="dt-link-filter--hover-blue"
+                           v-bind:class="{'active':checkNearest(1)}"
+                           @click="toggleNearestFilter(1)">В ближайшие 3 дня</a>
+                        <a href="#" class="dt-link-filter--hover-blue"
+                           v-bind:class="{'active':checkNearest(2)}"
+                           @click="toggleNearestFilter(2)"
+                        >
+
+                            Эти выходные</a>
                     </div>
                 </div>
             </div>
@@ -67,8 +86,27 @@
                 <div class="dt-input__group bg-white">
                     <div class="d-flex flex-wrap">
                         <label class="dt-label fw-thin">Тип экскурсии?</label>
-                        <input type="text" name="name" class="dt-input fw-semibold h-100" autocomplete="off"
-                               value="Индивидуальная">
+
+                        <div class="dropdown dt-input fw-semibold h-100 w-100">
+                            <a class="btn dropdown-toggle w-100" href="#"
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span v-if="!filters.tour_type">Не выбрано</span>
+                                <span v-else>{{ filters.tour_type.title || 'Не задано значение' }}</span>
+
+                            </a>
+
+                            <ul class="dropdown-menu w-100">
+                                <li>
+                                    <a class="dropdown-item"
+                                       @click="filters.tour_type=null"
+                                    >Не выбрано</a></li>
+                                <li v-for="item in tourTypes">
+                                    <a class="dropdown-item"
+                                       @click="filters.tour_type=item"
+                                    >{{ item.title }}</a></li>
+
+                            </ul>
+                        </div>
                     </div>
                     <div class="dt-input__group-item">
                         <div class="dt-input__icon">
@@ -80,7 +118,7 @@
                     </div>
                 </div>
             </div>
-            <button class="dt-info-block__button dt-btn-blue">
+            <button class="dt-info-block__button dt-btn-blue" @click="applyFilter">
                 <span>Найти экскурсии</span>
             </button>
         </div>
@@ -89,31 +127,120 @@
 <script>
 import {mapGetters} from "vuex";
 
+
 export default {
+
     props: {
         isLinksWhite: {
             type: Boolean,
             default: false
         }
     },
-    data(){
-        return {
 
+    data() {
+        return {
+            filters: {
+                direction: true,
+                location: null,
+                nearest_selected_dates: null,
+                date: null,
+                tour_type: null,
+            }
         }
     },
     computed: {
-        ...mapGetters(['getToursByCategoryId', 'getTourById', 'getTours','getDictionariesByTypeSlug','getDictionaryTypes']),
+        ...mapGetters(['getLocations', 'getTourDates', 'getToursByCategoryId', 'getTourById', 'getTours', 'getDictionariesByTypeSlug', 'getDictionaryTypes']),
+        tourTypes() {
+            return this.getDictionariesByTypeSlug("tour_type")
+        },
+        filteredLocations() {
+            let search = this.filters.location
 
+            let locations = this.getLocations
+
+
+            if (!this.getLocations)
+                return []
+
+            if (!search)
+                return this.getLocations.slice(0, 20)
+
+
+            return locations
+                .filter(item => item.toLowerCase().indexOf(search.toLowerCase()) !== -1)
+                .slice(0, 20)
+
+        }
     },
     mounted() {
         this.loadDictionaries()
+
+        this.eventBus.on('reset_filters', () => {
+            this.filters.direction = true
+            this.filters.location = null
+            this.filters.nearest_selected_dates = null
+            this.filters.date = null
+            this.filters.tour_type = null
+        })
     },
-    methods:{
-        loadDictionaries(){
-            this.$store.dispatch("loadAllDictionaryTypes", this.filterObject).then(() => {
-                this.tours = this.getTours
+    methods: {
+
+        toggleNearestFilter(index) {
+            if (!this.checkNearest(index)) {
+                this.filters.nearest_selected_dates = index
+            } else {
+                this.filters.nearest_selected_dates = null
+            }
+        },
+        checkNearest(index) {
+            return this.filters.nearest_selected_dates === index
+        },
+        applyFilter() {
+            this.eventBus.emit('select_search_filter', this.filters)
+        },
+        loadDictionaries() {
+            this.$store.dispatch("loadLocations")
+            this.$store.dispatch("loadAllDictionaryTypes").then(() => {
+                //this.filters.tour_type = this.tourTypes[0]
             })
         },
+
     }
 }
 </script>
+<style lang="scss">
+.dt-list {
+    a.active {
+        color: #0071eb !important;
+    }
+}
+
+.blue-color {
+    color: #0071eb;
+}
+
+.selected-day {
+    position: relative;
+    background: rgba(0, 113, 235, 0.56);
+    /* padding: 9px; */
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+
+
+}
+
+.dp__range_between {
+
+    .selected-day {
+        background: #0071eb !important;
+    }
+
+}
+
+
+</style>

@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class Tour extends Model
@@ -26,7 +28,8 @@ class Tour extends Model
         'comfort_loading',
 
         'description',
-        'start_place',
+        'start_city',
+        'start_address',
         'start_latitude',
         'start_longitude',
         'start_comment',
@@ -35,8 +38,9 @@ class Tour extends Model
         'is_active',
         'is_draft',
         'duration',
-        'rating',
+        //'rating',
         'images',
+        'payment_infos',
         'prices',
         'include_services',
         'exclude_services',
@@ -61,7 +65,8 @@ class Tour extends Model
         'is_hot' => 'boolean',
         'is_active' => 'boolean',
         'is_draft' => 'boolean',
-        'rating' => 'double',
+        //'rating' => 'double',
+        'payment_infos' => 'array',
         'images' => 'array',
         'prices' => 'array',
         'include_services' => 'array',
@@ -74,9 +79,17 @@ class Tour extends Model
         'verified_at' => 'timestamp',
     ];
 
-    protected $appends = ['resource_url'];
+    protected $appends = ['resource_url', 'is_liked', 'rating', 'rating_statistic'];
 
-    protected $with = ['tourObjects','tourCategories', 'durationType', 'tourType'];
+    protected $with = ['tourObjects',
+        'tourCategories',
+        'durationType',
+        'tourType',
+        'creator',
+        'creator.profile',
+        'schedules',
+        'reviews'
+    ];
 
     public function scopeWithSort($query, $sortObject)
     {
@@ -84,20 +97,20 @@ class Tour extends Model
             return $query->orderBy('id', 'ASC');
 
         $sort = Dictionary::getSortTypes()
-            ->where("id",$sortObject->sort_type )
+            ->where("id", $sortObject->sort_type)
             ->first();
 
 
         $sortAssociation = [
-            "popularity_sort_type"=>"rating",
-            "reviews_count_sort_type"=>"id",
-            "price_sort_type"=>"base_price",
-            "nearest_date_sort_type"=>"id",
-            "discount_sort_type"=>"discount_price",
-            "duration_sort_type"=>"duration",
+            "popularity_sort_type" => "rating",
+            "reviews_count_sort_type" => "id",
+            "price_sort_type" => "base_price",
+            "nearest_date_sort_type" => "id",
+            "discount_sort_type" => "discount_price",
+            "duration_sort_type" => "duration",
         ];
 
-        $sortDirection = $sortObject->sort_direction==0?"ASC":"DESC";
+        $sortDirection = $sortObject->sort_direction == 0 ? "ASC" : "DESC";
 
         return $query->orderBy($sortAssociation[$sort->slug], $sortDirection);
     }
@@ -106,18 +119,67 @@ class Tour extends Model
     {
         //todo: сделать фильтры
         /*   $filterObject = (object)[
-               'from_place' => $request->from_place ?? null,
-               'from_date' => $request->from_date ?? null,
-               'to_place' => $request->to_place ?? null,
 
-               'price_types' => $filters->price_types ?? [],
-               'price_range_start' => $filters->price_range_start ?? null,
-               'price_range_end' => $filters->price_range_end ?? null,
+'direction' => $request->direction ?? false,
+            'location' => $request->location ?? null,
+            'date' => $request->date ?? null,
+            'tour_type' => $request->tour_type ?? null,
 
                'tour_categories' => $filters->tour_categories ?? [],
                'include_services' => $filters->include_services ?? [],
                'exclude_services' => $filters->exclude_services ?? [],
            ];*/
+
+
+        if (!is_null($filterObject->price_type)) {
+            $maxPrice = Tour::query()->max("base_price");
+            switch ($filterObject->price_type) {
+                default:
+                case 0:
+                    $query = $query->where("base_price", ">", $filterObject->price_range_start ?? 0)
+                        ->where("base_price", "<=", $filterObject->price_range_end ?? $maxPrice);
+                    break;
+                case 1:
+                    $query = $query->where("base_price", ">=", 0)
+                        ->where("base_price", "<=", 700);
+                    break;
+                case 2:
+                    $query = $query->where("base_price", ">", 700)
+                        ->where("base_price", "<=", 2500);
+                    break;
+                case 3:
+                    $query = $query->where("base_price", ">", 2500);
+                    break;
+            }
+
+        }
+
+        if (!is_null($filterObject->location) && $filterObject->direction == true) {
+            $query = $query->where("start_city", $filterObject->location);
+
+        }
+
+        if (!is_null($filterObject->location) && $filterObject->direction == false) {
+            $query = $query->whereHas('tourObjects', function ($q) use ($filterObject) {
+                $q->where('city', $filterObject->location);
+            });
+        }
+
+        if (!is_null($filterObject->date)) {
+            $date = $filterObject->date;
+
+            $query = $query->whereHas('schedules', function ($q) use ($date) {
+
+                $q->whereBetween('start_at', [
+                        Carbon::parse($date[0])->format('Y-m-d 00:00:00'),
+                        Carbon::parse($date[1])->format('Y-m-d 23:59:59')
+                    ]
+                );
+
+
+            });
+
+        }
 
 
         if (!is_null($filterObject->is_hot))
@@ -127,8 +189,8 @@ class Tour extends Model
         if (!empty($filterObject->payment_types))
             $query = $query->whereIn("payment_type_id", $filterObject->payment_types);
 
-        if (!empty($filterObject->tour_types))
-            $query = $query->whereIn("tour_type_id", $filterObject->tour_types);
+        if (!empty($filterObject->tour_type))
+            $query = $query->where("tour_type_id", $filterObject->tour_type);
 
         if (!empty($filterObject->duration_types))
             $query = $query->whereIn("duration_type_id", $filterObject->duration_types);
@@ -136,9 +198,8 @@ class Tour extends Model
         if (!empty($filterObject->movement_types))
             $query = $query->whereIn("movement_type_id", $filterObject->movement_types);
 
-        if (!empty($filterObject->tour_categories)){
-            Log::info("we are here");
-            $query = $query->whereHas('tourCategories', function($q) use($filterObject) {
+        if (!empty($filterObject->tour_categories)) {
+            $query = $query->whereHas('tourCategories', function ($q) use ($filterObject) {
                 $q->whereIn('dictionary_id', $filterObject->tour_categories);
             });
         }
@@ -146,6 +207,45 @@ class Tour extends Model
         return $query;
     }
 
+
+    public function getRatingAttribute()
+    {
+        $reviews = $this->reviews()->get() ?? [];
+
+        $sum = 0;
+
+        foreach ($reviews as $review) {
+            $sum += $review->rating;
+        }
+
+        if (count($reviews) === 0)
+            return 1;
+        return round($sum / count($reviews), 2);
+    }
+
+    public function getRatingStatisticAttribute()
+    {
+        $reviews = $this->reviews()->get() ?? [];
+
+        $tmp = [0, 0, 0, 0, 0, 0];
+
+        foreach ($reviews as $review) {
+            $tmp[$review->rating]++;
+        }
+
+        return $tmp;
+    }
+
+
+    public function getIsLikedAttribute()
+    {
+        $user = Auth::user() ?? null;
+        if (is_null($user))
+            return false;
+
+        return !is_null(Favorite::withoutTrashed()->where("tour_id", $this->id)
+            ->where("user_id", $user->id)->first());
+    }
 
     public function getResourceUrlAttribute()
     {
@@ -190,5 +290,11 @@ class Tour extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class)
+            ->where("start_at", ">", Carbon::now()->format('Y-m-d H:m'));
     }
 }

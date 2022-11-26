@@ -17,17 +17,22 @@ class TourObjectFactory extends Factory
      */
     public function definition()
     {
+        $images = [];
+        for ($i = 0; $i < random_int(0, 20); $i++)
+            array_push($images, "/img/tours/"
+                . (random_int(1, 8)) . "/img/"
+                . (random_int(1, 8)) . ".jpg");
+
         return [
             'title' => fake()->name(),
             'description' => fake()->text(1000),
+            'city' => fake()->city(),
             'address' => fake()->address(),
-            'latitude' => fake()->latitude(),
-            'longitude' => fake()->longitude(),
+            'latitude' => fake()->latitude(-30,30),
+            'longitude' => fake()->longitude(-30,30),
             'comment' => fake()->text(255),
             'creator_id' => 1,
-            'photos' => ["/img/tours/"
-                .(random_int(1,8))."/img/"
-                .(random_int(1,8)).".jpg"],
+            'photos' => $images,
 
         ];
     }

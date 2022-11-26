@@ -135,4 +135,12 @@ class DictionaryController extends Controller
 
         return response()->noContent();
     }
+
+    public function getLocations(Request $request){
+        return response()->json(Dictionary::getLocations());
+    }
+
+    public function getTourDates(Request $request){
+        return response()->json(Dictionary::getTourDates());
+    }
 }

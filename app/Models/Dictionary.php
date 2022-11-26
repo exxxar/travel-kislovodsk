@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -44,7 +45,8 @@ class Dictionary extends Model
         return $this->belongsTo(DictionaryType::class);
     }
 
-    public static function getAllDictionariesGroupedByType(){
+    public static function getAllDictionariesGroupedByType()
+    {
         return Dictionary::query()
             ->with(["dictionaryType"])
             ->get();
@@ -127,7 +129,34 @@ class Dictionary extends Model
         return Dictionary::getDictionaryByTypes("service_type");
     }
 
+    public static function getLocations()
+    {
+        $tours = Tour::query()
+            ->get()
+            ->pluck("start_city")
+            ->toArray();
 
+        $tourObjects = TourObject::query()
+            ->get()
+            ->pluck("city")
+            ->toArray();
+
+
+        return array_values([...$tours, ...$tourObjects]);
+    }
+
+    public static function getTourDates()
+    {
+        $schd = Schedule::query()
+            ->where("start_at", ">", Carbon::now()->format('Y-m-d H:m'))
+            ->where("start_at", "<", Carbon::now()->addMonth()->format('Y-m-d H:m'))
+
+            ->distinct("start_at")
+            ->pluck("start_at")
+            ->toArray();
+
+        return array_values($schd);
+    }
 
 
 }
