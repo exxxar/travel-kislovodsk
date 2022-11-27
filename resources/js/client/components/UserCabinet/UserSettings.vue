@@ -167,8 +167,8 @@
                 </slot>
             </label>
         </div>
-        <button type="submit" class="dt-btn-blue personal-account__submit">
-            <span>Сохранить</span>
+        <button type="submit" class="dt-btn dt-btn-blue personal-account__submit">
+            Сохранить
         </button>
     </form>
 </template>

@@ -24,8 +24,8 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="personal-account-changing-password__submit dt-btn-blue personal-account__submit">
-                <span>Сохранить</span>
+            <button type="submit" class="personal-account-changing-password__submit dt-btn dt-btn-blue personal-account__submit">
+                Сохранить
             </button>
         </div>
     </form>

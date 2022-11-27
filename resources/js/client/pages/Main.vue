@@ -27,8 +27,8 @@
                     <tour-categories-list-slider-component/>
                     <tour-list-component/>
                     <div class="dt-popular__action text-center d-flex justify-content-center">
-                        <a href="/tours-all" class="align-items-center btn d-flex dt-btn-blue justify-content-center">
-                            <span>Все экскурсии</span>
+                        <a href="/tours-all" class="align-items-center btn d-flex dt-btn dt-btn-blue justify-content-center">
+                            Все экскурсии
                         </a>
                     </div>
                 </div>

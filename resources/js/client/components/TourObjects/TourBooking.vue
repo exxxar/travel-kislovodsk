@@ -1,7 +1,7 @@
 <template>
     <form class="col-lg-8 dt-content-booking" v-on:submit.prevent="submit">
-        <button @click="closeBooking" class="dt-btn-blue dt-btn--height-50">
-            <span class="dt-font--size-12">Назад к описанию</span>
+        <button @click="closeBooking" class="dt-btn dt-btn-blue dt-btn--height-50 dt-font--size-12">
+            Назад к описанию
         </button>
         <h1 class="dt-content__title fw-bold">Забронировать экскурсию «{{ tour.title }}»</h1>
         <div class="dt-alert dt-alert-danger d-flex align-items-center">
@@ -203,10 +203,10 @@
             </div>
             <div class="col-1"></div>
             <div class="col-lg-5 align-items-center d-flex">
-                <button type="submit" class="dt-btn-blue w-100"
+                <button type="submit" class="dt-btn dt-btn-blue w-100"
                         v-bind:class="{'disabled':!bookingForm.accept_rules || !bookingForm.booking_is_correct}"
                         :disabled="!bookingForm.accept_rules || !bookingForm.booking_is_correct">
-                    <span>Оформить заказ</span>
+                    Оформить заказ
                 </button>
             </div>
         </div>

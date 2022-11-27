@@ -6,10 +6,17 @@
     border: none;
     height: 50px;
     width: 165px;
+    font-size: 12px;
+    font-family: $font-family-bold;
+    cursor: pointer;
+    color: white;
 
-    span {
-        font-size: 12px;
-        font-family: $font-family-bold;
+    &:disabled, &[disabled] {
+        color: #fff;
+        pointer-events: none;
+        background-color: $color-blue;
+        border-color: $color-blue;
+        opacity: var(--bs-btn-disabled-opacity);
     }
 
     &__icon {
@@ -43,21 +50,17 @@
         background: $color-white;
         border-radius: 5px;
 
-        span {
-            color: $color-blue;
-            font-family: $font-family-bold;
-            font-weight: bold;
-            letter-spacing: 1px;
-            font-size: 14px;
-        }
+        color: $color-blue;
+        font-family: $font-family-bold;
+        font-weight: bold;
+        letter-spacing: 1px;
+        font-size: 14px;
 
         &:hover {
             background: $color-blue !important;
             box-shadow: 0 15px 30px rgba(0, 113, 235, 0.3);
 
-            span {
-                color: $color-white;
-            }
+            color: $color-white;
         }
     }
 
@@ -66,12 +69,9 @@
         height: 70px;
         background: $color-blue;
         border-radius: 5px;
-
-        span {
-            font-size: 14px;
-            font-family: $font-family-bold;
-            color: $color-white !important;
-        }
+        font-size: 14px;
+        font-family: $font-family-bold;
+        color: $color-white !important;
 
         &:hover {
             background: $color-blue !important;
@@ -166,9 +166,6 @@
 @media screen and (max-width: 568px) {
     .dt-btn-white {
         height: 50px;
-
-        span {
-            font-size: 12px;
-        }
+        font-size: 12px;
     }
 }

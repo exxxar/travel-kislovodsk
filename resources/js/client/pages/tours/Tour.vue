@@ -257,7 +257,7 @@
                                         вас вопросы.
                                     </p>
                                 </div>
-                                <button class="dt-btn-blue"><span>Задать вопрос гиду</span></button>
+                                <button class="dt-btn dt-btn-blue">Задать вопрос гиду</button>
                             </div>
                         </div>
                     </div>
@@ -334,8 +334,8 @@
                             </div>
                         </div>
                         <div class="dt-set-order">
-                            <button @click="isBooking = true" class="dt-btn-blue w-100 dt-btn--height-60">
-                                <span>Оформить заказ</span>
+                            <button @click="isBooking = true" class="dt-btn dt-btn-blue w-100 dt-btn--height-60">
+                                Оформить заказ
                             </button>
                         </div>
                         <div class="dt-question-guide text-center">
