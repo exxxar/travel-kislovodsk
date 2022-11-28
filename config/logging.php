@@ -67,8 +67,7 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
-            'days' => 90,
-            'tap' => [Brackets\AdvancedLogger\LogCustomizers\HashLogCustomizer::class],
+            'days' => 14,
         ],
 
         'slack' => [

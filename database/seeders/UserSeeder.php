@@ -6,7 +6,7 @@ use App\Models\Company;
 use App\Models\Dictionary;
 use App\Models\Profile;
 use App\Models\User;
-use App\Models\UserRole;
+use App\Models\CustomUserRole;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             ->where('slug' , 'entity_law_status_type')
             ->first();
 
-        $guideRole = UserRole::query()->where("role_name","guide")->first();
+        $guideRole = CustomUserRole::query()->where("role_name","guide")->first();
 
         $company = Company::query()->create([
             'title'=>"Туризм Кисловодств",
@@ -60,7 +60,7 @@ class UserSeeder extends Seeder
                 ->where('slug' , 'person_law_status_type')
                 ->first();
 
-            $userRole = UserRole::query()->where("role_name","user")->first();
+            $userRole = CustomUserRole::query()->where("role_name","user")->first();
 
             $profile = Profile::factory()->create();
             User::factory()->create([
