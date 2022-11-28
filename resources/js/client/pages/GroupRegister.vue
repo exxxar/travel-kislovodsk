@@ -359,7 +359,8 @@
                             v-for="(item, index) in groupForm.route_info.federation_areas"
                             v-model="groupForm.route_info.federation_areas[index]"
                             class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
-                        <button @click="addAdditionalInfo()" type="button"
+                        <!-- make click -->
+                        <button @click="" type="button"
                             class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
                             Добавить
                             /
@@ -375,6 +376,7 @@
                             v-for="(item, index) in groupForm.route_info.lodging_points"
                             v-model="groupForm.route_info.lodging_points[index]"
                             class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
+                        <!-- make click -->
                         <button @click="addAdditionalInfo()" type="button"
                             class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
                             Добавить
@@ -393,6 +395,7 @@
                             v-for="(item, index) in groupForm.route_info.emergency_exit_routes"
                             v-model="groupForm.route_info.emergency_exit_routes[index]"
                             class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
+                        <!-- make click -->
                         <button @click="addAdditionalInfo()" type="button"
                             class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
                             Добавить
@@ -413,6 +416,7 @@
                             v-for="(item, index) in groupForm.route_info.dangerous_route_sections"
                             v-model="groupForm.route_info.dangerous_route_sections[index]"
                             class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
+                        <!-- make click -->
                         <button @click="addAdditionalInfo()" type="button"
                             class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
                             Добавить
