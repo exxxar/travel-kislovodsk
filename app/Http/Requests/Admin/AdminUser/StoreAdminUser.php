@@ -28,12 +28,12 @@ class StoreAdminUser extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'first_name' => ['nullable', 'string'],
-            'last_name' => ['nullable', 'string'],
             'email' => ['required', 'email', Rule::unique('admin_users', 'email'), 'string'],
-            'password' => ['required', 'confirmed', 'min:7', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9]).*$/', 'string'],
+            'first_name' => ['nullable', 'string'],
             'forbidden' => ['required', 'boolean'],
             'language' => ['required', 'string'],
+            'last_name' => ['nullable', 'string'],
+            'password' => ['required', 'confirmed', 'min:7', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9]).*$/', 'string'],
                 
             'roles' => ['array'],
                 

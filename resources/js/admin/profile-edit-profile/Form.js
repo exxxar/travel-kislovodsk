@@ -5,13 +5,13 @@ Vue.component('profile-edit-profile-form', {
     data: function() {
         return {
             form: {
-                first_name:  '' ,
-                last_name:  '' ,
-                email:  '' ,
-                password:  '' ,
                 activated:  false ,
+                email:  '' ,
+                first_name:  '' ,
                 forbidden:  false ,
                 language:  '' ,
+                last_name:  '' ,
+                password:  '' ,
                 
             },
             mediaCollections: ['avatar']

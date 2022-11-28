@@ -1,6 +1,6 @@
 @extends('brackets/admin-ui::admin.layout.default')
 
-@section('title', trans('admin.admin-user.actions.edit', ['name' => $adminUser->first_name]))
+@section('title', trans('admin.admin-user.actions.edit', ['name' => $adminUser->email]))
 
 @section('body')
 
@@ -17,7 +17,7 @@
                 <form class="form-horizontal form-edit" method="post" @submit.prevent="onSubmit" :action="action">
 
                     <div class="card-header">
-                        <i class="fa fa-pencil"></i> {{ trans('admin.admin-user.actions.edit', ['name' => $adminUser->first_name]) }}
+                        <i class="fa fa-pencil"></i> {{ trans('admin.admin-user.actions.edit', ['name' => $adminUser->email]) }}
                     </div>
 
                     <div class="card-body">
