@@ -284,10 +284,10 @@
                                         <img v-lazy="'/img/icons/star_blue.svg'" alt="">
                                         <p class="dt-guide__rating fw-bold">4.84</p>
                                     </div>
-                                    <a href="/guide" class="dt-btn-text text-uppercase me-3 d-lg-flex d-none">смотреть
+                                    <a :href="'/guide/'+tour.guide.id" class="dt-btn-text text-uppercase me-3 d-lg-flex d-none">смотреть
                                         отзывы
                                         (140)</a>
-                                    <a href="/guide" class="dt-btn-text text-uppercase text-nowrap d-flex d-lg-none">отзывы
+                                    <a :href="'/guide/'+tour.guide.id" class="dt-btn-text text-uppercase text-nowrap d-flex d-lg-none">отзывы
                                         (140)</a>
                                 </div>
                             </div>

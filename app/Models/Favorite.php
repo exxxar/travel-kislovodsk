@@ -33,7 +33,7 @@ class Favorite extends Model
 
     protected $appends = ['resource_url'];
 
-    protected $with = ['tour'];
+   /* protected $with = ['tour'];*/
 
     public function getResourceUrlAttribute()
     {

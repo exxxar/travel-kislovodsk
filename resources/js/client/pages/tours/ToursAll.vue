@@ -106,7 +106,14 @@ export default {
         }
     },
     mounted() {
-        this.loadTours();
+
+        if (localStorage.getItem("travel_store_filter")){
+            this.filters.search_filter = JSON.parse(localStorage.getItem("travel_store_filter"))
+            localStorage.removeItem("travel_store_filter")
+            this.loadFilteredTours()
+        }
+        else
+            this.loadTours();
 
         this.eventBus.on('tour_page', (index) => {
             this.current_page = index
@@ -180,7 +187,9 @@ export default {
             this.eventBus.emit('reset_filters')
         },
         loadTours() {
-            this.$store.dispatch("loadToursByPage", this.current_page).then(() => {
+            this.$store.dispatch("loadToursByPage", {
+                page: this.current_page
+            }).then(() => {
                 this.tours = this.getTours
                 this.eventBus.emit('update_tour_pagination')
             })

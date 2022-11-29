@@ -76,9 +76,12 @@ const actions = {
         })
 
     },
-    async loadToursByPage(context, pageIndex = 0) {
-        let size = 12
-        return await context.dispatch("tourPage", `${BASE_TOUR_LINK}?page=${pageIndex}&size=${size}`)
+    async loadToursByPage(context, payload = {page:0,size:12}) {
+        let size = payload.size || 12
+        let page = payload.page || 0
+        return await context.dispatch("tourPage", {
+            url:`${BASE_TOUR_LINK}?page=${page}&size=${size}`
+        })
     },
     async loadToursFilteredByPage(context, payload) {
         let page = payload.page || 0
@@ -90,14 +93,25 @@ const actions = {
         })
 
     },
-    async loadToursByTourCategoryByPage(context, category, page = 0, size = 12, link = '/api/tours') {
-        return await context.dispatch("tourPage", `${BASE_TOUR_LINK}?category=${category}&page=${page}&size=${size}`)
+    async loadToursByTourCategoryByPage(context, payload) {
+
+        let category = payload.category,
+            page = payload.page || 0,
+            size = payload.size || 12
+
+        return await context.dispatch("tourPage", {
+            url:`${BASE_TOUR_LINK}?category=${category}&page=${page}&size=${size}`
+        })
     },
     async loadAllTours(context) {
-        return await context.dispatch("tourPage", `${BASE_TOUR_LINK}/all`)
+        return await context.dispatch("tourPage",  {
+            url: `${BASE_TOUR_LINK}/all`
+        })
     },
     async loadAllHotTours(context) {
-        return await context.dispatch("tourPage", `${BASE_TOUR_LINK}/hot`)
+        return await context.dispatch("tourPage", {
+            url:`${BASE_TOUR_LINK}/hot`
+        })
     }
 }
 

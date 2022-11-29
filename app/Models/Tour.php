@@ -82,15 +82,8 @@ class Tour extends Model
 
     protected $appends = ['resource_url', 'is_liked', 'rating', 'rating_statistic'];
 
-    protected $with = ['tourObjects',
-        'tourCategories',
-        'durationType',
-        'tourType',
-        'creator',
-        'creator.profile',
-        'schedules',
-        'reviews'
-    ];
+
+
 
     public function scopeWithSort($query, $sortObject)
     {
@@ -118,19 +111,6 @@ class Tour extends Model
 
     public function scopeWithFilters($query, $filterObject)
     {
-        //todo: сделать фильтры
-        /*   $filterObject = (object)[
-
-'direction' => $request->direction ?? false,
-            'location' => $request->location ?? null,
-            'date' => $request->date ?? null,
-            'tour_type' => $request->tour_type ?? null,
-
-               'tour_categories' => $filters->tour_categories ?? [],
-               'include_services' => $filters->include_services ?? [],
-               'exclude_services' => $filters->exclude_services ?? [],
-           ];*/
-
 
         if (!is_null($filterObject->price_type)) {
             $maxPrice = Tour::query()->max("base_price");
@@ -165,6 +145,48 @@ class Tour extends Model
                 $q->where('city', $filterObject->location);
             });
         }
+
+        if (!is_null($filterObject->nearest_selected_dates)){
+            switch ($filterObject->nearest_selected_dates){
+                default:
+                case 0:
+
+                $query = $query->whereHas('schedules', function ($q) {
+                    $q->whereBetween('start_at', [
+                            Carbon::now()->addDay()->format('Y-m-d 00:00:00'),
+                            Carbon::now()->addDay()->format('Y-m-d 23:59:59')
+                        ]
+                    );
+                });
+
+                    break;
+
+                case 1:
+
+                    $query = $query->whereHas('schedules', function ($q) {
+                        $q->whereBetween('start_at', [
+                                Carbon::now()->addDay()->format('Y-m-d 00:00:00'),
+                                Carbon::now()->addDays(3)->format('Y-m-d 23:59:59')
+                            ]
+                        );
+                    });
+
+                    break;
+
+
+                case 2:
+
+                    $query = $query->whereHas('schedules', function ($q) {
+                        $q->whereBetween('start_at', [
+                                Carbon::now()->nextWeekendDay()->format('Y-m-d 00:00:00'),
+                                Carbon::now()->nextWeekendDay()->addDay()->format('Y-m-d 23:59:59')
+                            ]
+                        );
+                    });
+                    break;
+            }
+        }
+
 
         if (!is_null($filterObject->date)) {
             $date = $filterObject->date;
@@ -211,7 +233,9 @@ class Tour extends Model
 
     public function getRatingAttribute()
     {
+
         $reviews = $this->reviews()->get() ?? [];
+
 
         $sum = 0;
 
@@ -296,6 +320,7 @@ class Tour extends Model
     public function schedules()
     {
         return $this->hasMany(Schedule::class)
-            ->where("start_at", ">", Carbon::now()->format('Y-m-d H:m'));
+            ->where("start_at", ">", Carbon::now()->format('Y-m-d H:m'))
+            ->orderBy("start_at","ASC");
     }
 }

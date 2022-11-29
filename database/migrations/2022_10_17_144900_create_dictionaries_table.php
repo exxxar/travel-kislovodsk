@@ -16,7 +16,7 @@ class CreateDictionariesTable extends Migration
         Schema::create('dictionaries', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
-            $table->string('slug', 255)->nullable();
+            $table->string('slug', 255)->unique();
             $table->unsignedBigInteger('dictionary_type_id');
             $table->foreign('dictionary_type_id')
                 ->references('id')

@@ -8,6 +8,7 @@ use App\Http\Requests\API\TouristGuideUpdateRequest;
 use App\Http\Resources\TouristGuideCollection;
 use App\Http\Resources\TouristGuideResource;
 use App\Models\TouristGuide;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TouristGuideController extends Controller
@@ -39,9 +40,14 @@ class TouristGuideController extends Controller
      * @param \App\Models\TouristGuide $touristGuide
      * @return \App\Http\Resources\TouristGuideResource
      */
-    public function show(Request $request, TouristGuide $touristGuide)
+    public function show(Request $request, $id)
     {
-        return new TouristGuideResource($touristGuide);
+        $touristGuide = User::query()
+            ->with(["profile"])
+            ->where("id",$id)->first();
+
+        return view('pages.guide',["guide"=>json_encode(new TouristGuideResource($touristGuide))]);
+
     }
 
     /**

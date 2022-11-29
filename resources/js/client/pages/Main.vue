@@ -5,7 +5,7 @@
 
             <div class="container dt-search__content text-center">
                 <h1 class="dt-search__title">Экскурсии по Ставропольскому краю</h1>
-                <tour-search-filter :is-links-white="true" />
+                <tour-search-filter :is-links-white="true" :need-redirect-to-all="true" />
             </div>
         </div>
         <div class="container">

@@ -66,7 +66,10 @@ export default {
     methods: {
         loadTours() {
             this.$store.dispatch("loadToursByPage").then(() => {
+
                 this.tours = this.getTours
+
+                console.log("loadToursByPage", this.tours)
             })
         }
     }

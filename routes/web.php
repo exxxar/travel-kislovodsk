@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test', function (){
-   return response()->json(\App\Models\Chat::getChatMessagesByUserId(2)->get());
-});
 Route::view('/', 'pages.main')->name("page.main");
 Route::view('/about', 'pages.about')->name("page.about");
 Route::view('/contact-us', 'pages.contact-us')->name("page.contact-us"); // +
@@ -37,6 +34,8 @@ Route::view('/rules', 'pages.rules')->name("page.rules");
 
 Route::get('/tour/{id}', [\App\Http\Controllers\API\TourController::class,"show"])
     ->name("page.tour");
+
+Route::get('/guide/{id}', [\App\Http\Controllers\API\TouristGuideController::class,'show'])->name("page.guide");
 
 Route::get('/tour-object/{id}', [\App\Http\Controllers\API\TourObjectController::class,"show"])
     ->name("page.tour-object");
