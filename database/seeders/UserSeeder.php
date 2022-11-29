@@ -6,7 +6,7 @@ use App\Models\Company;
 use App\Models\Dictionary;
 use App\Models\Profile;
 use App\Models\User;
-use App\Models\UserRole;
+use App\Models\CustomUserRole;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,15 +21,11 @@ class UserSeeder extends Seeder
     public function run()
     {
 
-        $self = User::query()->where("phone", "+7(949)000-00-00")
+        $lawStatusType = Dictionary::getLawStatusTypes()
+            ->where('slug' , 'entity_law_status_type')
             ->first();
 
-        if (is_null($self)) {
-            $lawStatusType = Dictionary::getLawStatusTypes()
-                ->where('slug', 'entity_law_status_type')
-                ->first();
-
-            $guideRole = UserRole::query()->where("role_name", "guide")->first();
+        $guideRole = CustomUserRole::query()->where("role_name","guide")->first();
 
             $company = Company::query()->create([
                 'title' => "Туризм Кисловодств",
@@ -59,24 +55,20 @@ class UserSeeder extends Seeder
                 'verified_at' => Carbon::now(),
             ]);
 
-        }
-
-        for ($i = 0; $i < 10; $i++) {
+        for ($i=0;$i<10;$i++){
             $lawStatusType = Dictionary::getLawStatusTypes()
-                ->where('slug', 'person_law_status_type')
+                ->where('slug' , 'person_law_status_type')
                 ->first();
 
-            $userRole = UserRole::query()->where("role_name", "user")->first();
+            $userRole = UserRole::query()->where("role_name","user")->first();
 
             $profile = Profile::factory()->create();
 
             User::factory()->create([
-                'role_id' => $userRole->id,
-                'user_law_status_id' => $lawStatusType->id,
-                'profile_id' => $profile->id,
+                'role_id'=>$userRole->id,
+                'user_law_status_id'=>$lawStatusType->id,
+                'profile_id'=>$profile->id,
             ]);
-
-
         }
     }
 }

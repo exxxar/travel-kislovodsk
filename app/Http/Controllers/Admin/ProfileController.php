@@ -72,19 +72,19 @@ class ProfileController extends Controller
 
         // Validate the request
         $this->validate($request, [
-            'first_name' => ['nullable', 'string'],
-            'last_name' => ['nullable', 'string'],
             'email' => ['sometimes', 'email', Rule::unique('admin_users', 'email')->ignore($this->adminUser->getKey(), $this->adminUser->getKeyName()), 'string'],
+            'first_name' => ['nullable', 'string'],
             'language' => ['sometimes', 'string'],
+            'last_name' => ['nullable', 'string'],
             
         ]);
 
         // Sanitize input
         $sanitized = $request->only([
-            'first_name',
-            'last_name',
             'email',
+            'first_name',
             'language',
+            'last_name',
             
         ]);
 

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\UserRole;
+use App\Models\CustomUserRole;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,13 +17,13 @@ class RoleSeeder extends Seeder
     {
 
 
-        UserRole::firstOrCreate(
+        CustomUserRole::firstOrCreate(
             ['role_name' => 'admin']
         );
-        UserRole::firstOrCreate(
+        CustomUserRole::firstOrCreate(
             ['role_name' => 'user']
         );
-        UserRole::firstOrCreate(
+        CustomUserRole::firstOrCreate(
             ['role_name' => 'guide']
         );
     }

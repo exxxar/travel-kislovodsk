@@ -6,7 +6,7 @@ use App\Models\Dictionary;
 use App\Models\DictionaryType;
 use App\Models\Profile;
 use App\Models\User;
-use App\Models\UserRole;
+use App\Models\CustomUserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -37,7 +37,7 @@ class SocialAuthController extends Controller
             return redirect()->route("page.user-cabinet");
         }
 
-        $userRole = UserRole::where('role_name', 'user')->first();
+        $userRole = CustomUserRole::where('role_name', 'user')->first();
 
         $profile = Profile::create([
             'fname' => explode(" ", $vkUser->getName())[0] ?? '',
@@ -112,7 +112,7 @@ class SocialAuthController extends Controller
 
         $role = $request->law_status == 0 ? "user" : "guide";
 
-        $userRole = UserRole::where('role_name', $role)->first();
+        $userRole = CustomUserRole::where('role_name', $role)->first();
 
         $profile = Profile::create([
             'fname' => explode(" ", $request->name)[0] ?? '',

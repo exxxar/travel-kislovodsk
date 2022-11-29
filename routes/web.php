@@ -279,3 +279,7 @@ Route::prefix("api")
 require __DIR__ . '/auth.php';
 require __DIR__ . '/web_admin.php';
 
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});

@@ -20,10 +20,10 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Artisan::call('db:seed', [
+        /*Artisan::call('db:seed', [
             '--class' => 'RoleSeeder',
             '--force' => true
-        ]);
+        ]);*/
     }
 
     /**
