@@ -41,13 +41,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters--links-white': isLinksWhite}">
-                    <div class="d-flex dt-list">
-                        <a href="#" class="dt-link-filter--hover-blue">Некоторый город</a>
-                        <a href="#" class="dt-link-filter--hover-blue">Ставрополь</a>
-                        <a href="#" class="dt-link-filter--hover-blue">Направление</a>
-                    </div>
-                </div>
+
             </div>
             <div class="dt-input__wrapper">
                 <div class="dt-input__group bg-white dt-border-right-gray">

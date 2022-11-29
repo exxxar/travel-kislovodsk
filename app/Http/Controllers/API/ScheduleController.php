@@ -9,6 +9,7 @@ use App\Http\Resources\ScheduleCollection;
 use App\Http\Resources\ScheduleResource;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ScheduleController extends Controller
 {
@@ -18,7 +19,9 @@ class ScheduleController extends Controller
      */
     public function index(Request $request)
     {
-        $schedules = Schedule::paginate($request->count ?? config('app.results_per_page'));
+        $schedules = Schedule::query()
+            ->where("guide_id", Auth::user()->id)
+            ->paginate($request->count ?? config('app.results_per_page'));
 
         return new ScheduleCollection($schedules);
     }

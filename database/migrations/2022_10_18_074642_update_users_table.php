@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropUnique('users_email_unique');
-            $table->string('phone', 50)->after('name');
+            $table->string('phone', 50)->unique()->after('name');
             $table->string('old_password')->nullable()->after('password');
             $table->unsignedBigInteger('company_id')->nullable()->after('old_password');
             $table->unsignedBigInteger('user_law_status_id')->after('company_id');

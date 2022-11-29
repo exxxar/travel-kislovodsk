@@ -67,16 +67,16 @@ class TourFactory extends Factory
                 . (random_int(1, 8)) . "/img/"
                 . (random_int(1, 8)) . ".jpg");
         return [
-            'title' => fake()->name(),
-            'short_description' => fake()->text(255),
+            'title' => fake("ru_RU")->text(50),
+            'short_description' => fake("ru_RU")->text(255),
             'base_price' => random_int(500, 10000),
             'discount_price' => random_int(500, 10000),
-            'start_address' => fake()->address(),
-            'start_city' => fake()->city(),
+            'start_address' => fake("ru_RU")->address(),
+            'start_city' => fake("ru_RU")->city(),
             'comfort_loading' => true,
             'start_latitude' => fake()->latitude(-30,30),
             'start_longitude' => fake()->longitude(-30,30),
-            'start_comment' => fake()->text(255),
+            'start_comment' => fake("ru_RU")->text(255),
             'preview_image' => "/img/tours/"
                 . (random_int(1, 8)) . "/img/"
                 . (random_int(1, 8)) . ".jpg",

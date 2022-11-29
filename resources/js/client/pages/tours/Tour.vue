@@ -350,7 +350,7 @@
 </template>
 <script>
 import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
-import TourBooking from "@/components/TourObjects/TourBooking.vue";
+import TourBooking from "@/components/Tours/TourBooking.vue";
 import ReviewList from "@/components/Reviews/ReviewList.vue";
 import TourObjectList from "@/components/TourObjects/TourObjectList.vue";
 

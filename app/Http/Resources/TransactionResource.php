@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Dictionary;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TransactionResource extends JsonResource
@@ -14,14 +15,20 @@ class TransactionResource extends JsonResource
      */
     public function toArray($request)
     {
+        $this->with(["user.profile","booking","statusType","tour"]);
+
         return [
             'id' => $this->id,
-            'status_type_id' => $this->status_type_id,
+            'status_type' => new DictionaryResource($this->statusType),
             'amount' => $this->amount,
             'user_id' => $this->user_id,
+            'tour_id' => $this->tour_id,
+            'tour' => new TourResource($this->tour),
+            'user' => new ProfileResource($this->user->profile),
             'booking_id' => $this->booking_id,
+            'booking' => new BookingResource($this->booking),
             'description' => $this->description,
-            'softdeletes' => $this->softdeletes,
+            'created_at' => $this->created_at,
         ];
     }
 }

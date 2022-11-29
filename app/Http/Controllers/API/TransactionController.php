@@ -9,6 +9,7 @@ use App\Http\Resources\TransactionCollection;
 use App\Http\Resources\TransactionResource;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
@@ -18,7 +19,9 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $transactions = Transaction::paginate($request->count ?? config('app.results_per_page'));
+        $transactions = Transaction::query()
+            ->where("user_id", Auth::user()->id)
+            ->paginate($request->count ?? config('app.results_per_page'));
 
         return new TransactionCollection($transactions);
     }

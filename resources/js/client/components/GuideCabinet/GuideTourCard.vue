@@ -227,7 +227,7 @@
             </div>
         </div>
         <div class="excursion__image col-12 col-xl-4 px-0">
-            <img class="cover w-100 h-100" v-lazy="data.preview_image" alt=""/>
+            <img class="cover w-100" style="height:250px;" v-lazy="data.preview_image" alt=""/>
         </div>
     </div>
 </template>

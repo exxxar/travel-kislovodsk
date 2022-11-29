@@ -18,7 +18,7 @@ class MessageFactory extends Factory
     public function definition()
     {
         return [
-               'message'=>fake()->realText(),
+               'message'=>fake()->realText(200),
         ];
     }
 

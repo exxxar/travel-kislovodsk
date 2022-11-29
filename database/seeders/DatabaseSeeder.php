@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             TourObjectSeeder::class,
             TourSeeder::class,
+            ScheduleSeeder::class,
             MessageSeeder::class
         ]);
 

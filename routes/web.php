@@ -145,12 +145,11 @@ Route::prefix("api")
             ->group(function () {
 
                 Route::prefix("transactions")
+                    ->controller(\App\Http\Controllers\API\TransactionController::class)
                     ->group(function () {
-                      //  Route::get('/', []);
+                        Route::get('/', 'index');
                         Route::post('/search', []);
                     });
-
-
 
                 Route::prefix("tours")
                     ->controller(\App\Http\Controllers\API\TourController::class)
@@ -183,10 +182,10 @@ Route::prefix("api")
                     });
 
 
-
                 Route::prefix("schedules")
+                    ->controller(\App\Http\Controllers\API\ScheduleController::class)
                     ->group(function () {
-
+                        Route::get('/', 'index');
                     });
 
                 Route::get('/messages/{userId}', []);

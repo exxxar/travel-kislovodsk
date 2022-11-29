@@ -13,25 +13,39 @@ class CreateTransactionsTable extends Migration
      */
     public function up()
     {
+
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('status_type_id');
             $table->double('amount')->default('0');
+
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('tour_id');
+
+            $table->unsignedBigInteger('booking_id');
+
+            $table->foreign('booking_id')
+                ->references('id')
+                ->on('bookings');
+
             $table->text('description')->nullable();
+
             $table->foreign('status_type_id')
                 ->references('id')
                 ->on('dictionaries');
+
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users');
+
             $table->foreign('tour_id')
                 ->references('id')
                 ->on('tours');
+
             $table->softDeletes();
             $table->timestamps();
         });
+
     }
 
     /**

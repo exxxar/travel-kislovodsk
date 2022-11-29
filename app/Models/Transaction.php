@@ -19,6 +19,7 @@ class Transaction extends Model
         'status_type_id',
         'amount',
         'user_id',
+        'tour_id',
         'booking_id',
         'description',
     ];
@@ -33,6 +34,7 @@ class Transaction extends Model
         'status_type_id' => 'integer',
         'amount' => 'double',
         'user_id' => 'integer',
+        'tour_id' => 'integer',
         'booking_id' => 'integer',
     ];
 

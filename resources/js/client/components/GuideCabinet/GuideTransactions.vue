@@ -1,11 +1,12 @@
 <template>
     <div id="transactions" class="col">
-        <transaction-list :is-user-transactions="false" />
+        <transaction-list/>
     </div>
 </template>
 <script>
 import TransactionList from "@/components/Transactions/TransactionList.vue";
 export default {
-    components: {TransactionList}
+    components: {TransactionList},
+
 }
 </script>

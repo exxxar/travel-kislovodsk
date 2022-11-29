@@ -11,7 +11,7 @@
                 <span class="fw-bold">{{ item.amount }} ₽</span>
             </div>
         </div>
-        <div v-if="item.status === 'в ожидании'"
+        <div v-if="item.status_type.slug === 'transaction_in_progress_type'"
              class="personal-account-transactions-card-head__status personal-account-transactions-card-head__status_blue">
             в ожидании
             <div class="personal-account-transactions-card-head__icon">
@@ -22,7 +22,7 @@
                 </svg>
             </div>
         </div>
-        <div v-if="item.status === 'оплачено'"
+        <div v-if="item.status_type.slug === 'transaction_payed_type'"
              class="personal-account-transactions-card-head__status personal-account-transactions-card-head__status_green">
             оплачено
             <div class="personal-account-transactions-card-head__icon">
@@ -32,7 +32,7 @@
                 </svg>
             </div>
         </div>
-        <div v-if="item.status === 'отклонено'"
+        <div v-if="item.status_type.slug === 'transaction_discard_type'"
              class="personal-account-transactions-card-head__status personal-account-transactions-card-head__status_red">
             отклонено
             <div class="personal-account-transactions-card-head__icon">
@@ -48,12 +48,12 @@
                 <div class="personal-account-transactions-card-body__text_grey">
                     оплата за
                     <span class="personal-account-transactions-card-body__text_blue">
-                        {{ item.name_tour }}
+                        {{ item.tour.title }}
                     </span>
-                    <span v-if="!isUser">
+                    <span v-if="item.user">
                     от
                     <span class="personal-account-transactions-card-body__text_blue ms-0">
-                        {{ item.name_user }} {{ item.phone_user }}
+                        {{ item.user.tname }} {{  item.user.fname }}
                     </span>
                     </span>
                 </div>
@@ -69,6 +69,6 @@
 </template>
 <script>
 export default {
-    props: ['item', 'isUser'],
+    props: ['item'],
 }
 </script>

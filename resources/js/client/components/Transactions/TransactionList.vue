@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div :class="{'personal-account__content col pt-0': isUserTransactions}">
+        <div class="personal-account__content col pt-0">
             <h2 class="lh-1 bold mt-lg-0 title-guide-cabinet">
-                {{ isUserTransactions ? 'Мои транзакции' : 'Транзакции' }}
+                Мои транзакции
             </h2>
             <div class="personal-account-transactions__row d-lg-flex d-none">
                 <div class="personal-account-transactions-check dt-check personal-account-check">
@@ -59,8 +59,7 @@
                 </div>
             </div>
             <div class="personal-account-transactions">
-                <TransactionCard v-for="item in transactions_list" :key="item.id" :item="item"
-                                 :is-user="isUserTransactions" />
+                <transaction-card v-for="item in transaction_list" :key="item.id" :item="item"/>
             </div>
         </div>
     </div>
@@ -68,53 +67,31 @@
 
 <script>
 import TransactionCard from "@/components/Transactions/TransactionCard.vue";
+import {mapGetters} from "vuex";
 
 export default {
     components: {
         TransactionCard
     },
-    props: {
-        isUserTransactions: {
-            type: Boolean,
-            default: false,
-            required: true
-        }
+
+    computed: {
+        ...mapGetters(['getGuideTransactions']),
     },
     data: () => ({
-        transactions_list: [
-            {
-                id: 3651490,
-                amount: 600,
-                name_tour: "Некоторое название экскурсии",
-                status: "в ожидании",
-                name_user: 'Имя Фамилия',
-                phone_user: "+7(960)560-55-56"
-            },
-            {
-                id: 3651490,
-                amount: 21900,
-                name_tour: "Некоторое название экскурсии",
-                status: "оплачено",
-                name_user: 'Имя Фамилия',
-                phone_user: "+7(960)560-55-56"
-            },
-            {
-                id: 3651490,
-                amount: 1700,
-                name_tour: "Некоторое название экскурсии",
-                status: "отклонено",
-                name_user: 'Имя Фамилия',
-                phone_user: "+7(960)560-55-56"
-            },
-            {
-                id: 3651490,
-                amount: 5890,
-                name_tour: "Медовые водопады",
-                status: "оплачено",
-                name_user: 'Имя Фамилия',
-                phone_user: "+7(960)560-55-56"
-            }
-        ]
-    })
+        transaction_list: [        ]
+    }),
+    mounted(){
+        console.log("loadGuideTransactionsByPage")
+      this.loadGuideTransactionsByPage()
+    },
+    methods:{
+        loadGuideTransactionsByPage(){
+            console.log("loadGuideTransactionsByPage 1")
+            return this.$store.dispatch("loadGuideTransactionsByPage").then(()=>{
+                console.log("loadGuideTransactionsByPage 2")
+                this.transaction_list = this.getGuideTransactions
+            })
+        }
+    }
 }
 </script>

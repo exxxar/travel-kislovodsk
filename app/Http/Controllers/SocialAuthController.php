@@ -121,14 +121,14 @@ class SocialAuthController extends Controller
             'photo' => '/images/no-avatar.png',
         ]);
 
-        $law_statuses = ["Физическое лицо","Юридическое лицо", "Самозанятый"];
+        $law_statuses = ["Физическое лицо", "Юридическое лицо", "Самозанятый"];
 
         $dictType = Dictionary::query()->where("title", $law_statuses[$request->law_status])->first();
 
         $user = User::query()->create([
             'name' => $request->name,
-            'email' => $request->username,
-            'phone' => $request->username,
+            'email' => $request->email ?? null,
+            'phone' => $request->phone,
             'password' => bcrypt($request->password),
             'role_id' => $userRole->id,
             'profile_id' => $profile->id,
@@ -164,7 +164,6 @@ class SocialAuthController extends Controller
             ->with(["role"])
             ->where("phone", $request->username)
             ->orWhere("email", $request->username)
-
             ->first();
 
         if (!is_null($user)) {

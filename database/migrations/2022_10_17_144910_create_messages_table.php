@@ -25,19 +25,7 @@ class CreateMessagesTable extends Migration
             $table->unsignedBigInteger('tour_id')->nullable();
 
             $table->timestamp('read_at')->nullable();
-            $table->foreign('transaction_id')
-                ->references('id')
-                ->on('transactions');
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users');
-            $table->foreign('chat_id')
-                ->references('id')
-                ->on('chats');
 
-            $table->foreign('tour_id')
-                ->references('id')
-                ->on('tours');
 
             $table->softDeletes();
             $table->timestamps();
