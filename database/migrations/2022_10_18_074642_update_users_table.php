@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('phone', 50)->unique()->after('name');
             $table->string('old_password')->nullable()->after('password');
             $table->unsignedBigInteger('company_id')->nullable()->after('old_password');
-            $table->unsignedBigInteger('user_law_status_id')->after('company_id');
-            $table->unsignedBigInteger('profile_id')->after('user_law_status_id');
+            $table->unsignedBigInteger('user_law_status_id')->nullable()->after('company_id');
+            $table->unsignedBigInteger('profile_id')->nullable()->after('user_law_status_id');
             $table->string('sms_code')->nullable()->after('profile_id');
             $table->boolean('sms_notification')->default(true)->after('sms_code');
             $table->boolean('email_notification')->default(true)->after('sms_notification');

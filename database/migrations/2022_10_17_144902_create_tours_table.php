@@ -46,7 +46,8 @@ class CreateToursTable extends Migration
             $table->unsignedBigInteger('movement_type_id')->nullable();
             $table->unsignedBigInteger('tour_type_id')->nullable();
             $table->unsignedBigInteger('payment_type_id')->nullable();
-            $table->unsignedBigInteger('creator_id');
+            $table->unsignedBigInteger('creator_id')->nullable();
+
             $table->timestamp('verified_at')->nullable();
             $table->foreign('duration_type_id')
                 ->references('id')

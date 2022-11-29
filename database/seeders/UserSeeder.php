@@ -10,6 +10,7 @@ use App\Models\CustomUserRole;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use TCG\Voyager\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -25,7 +26,7 @@ class UserSeeder extends Seeder
             ->where('slug' , 'entity_law_status_type')
             ->first();
 
-        $guideRole = CustomUserRole::query()->where("role_name","guide")->first();
+        $guideRole = Role::query()->where("name","guide")->first();
 
             $company = Company::query()->create([
                 'title' => "Туризм Кисловодств",
@@ -55,12 +56,30 @@ class UserSeeder extends Seeder
                 'verified_at' => Carbon::now(),
             ]);
 
+
+            /*---------------Admin---------------*/
+
+
+        $adminRole = Role::query()->where("name","admin")->first();
+
+        User::query()->create([
+            'name' => "Админ Админский",
+            'email' => "admin@admin.com",
+            'password' => bcrypt("admin"),
+            'role_id' => $adminRole->id,
+            'phone' => "+7(949)123-45-67",
+            'verified_at' => Carbon::now(),
+        ]);
+
+
+        /*---------------------------------*/
+
         for ($i=0;$i<10;$i++){
             $lawStatusType = Dictionary::getLawStatusTypes()
                 ->where('slug' , 'person_law_status_type')
                 ->first();
 
-            $userRole = UserRole::query()->where("role_name","user")->first();
+            $userRole = Role::query()->where("name","user")->first();
 
             $profile = Profile::factory()->create();
 

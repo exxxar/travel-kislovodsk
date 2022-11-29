@@ -18,7 +18,15 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
+            DataTypesTableSeeder::class,
+            DataRowsTableSeeder::class,
+            MenusTableSeeder::class,
+            MenuItemsTableSeeder::class,
+            RolesTableSeeder::class,
             RoleSeeder::class,
+            PermissionsTableSeeder::class,
+            PermissionRoleTableSeeder::class,
+            SettingsTableSeeder::class,
             DictionaryTypeSeeder::class,
             DictionarySeeder::class,
             UserSeeder::class,

@@ -34,6 +34,7 @@ class TourSeeder extends Seeder
             ->skip(0)
             ->get();
 
+
         foreach ($users as $user) {
             Tour::factory()->count(15)->create([
                 'creator_id'=>$user->id,
