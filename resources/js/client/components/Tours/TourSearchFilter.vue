@@ -27,10 +27,14 @@
                         <autocomplete-locations
                         class="dt-input fw-semibold h-100"
                             id="typeahead_id"
-                            v-model="filters.location"
+
                             placeholder="Название города..."
                             :items="filteredLocations"
                             :minInputLength="1"
+                        @selectItem="selectLocationItem"
+                        @onInput="selectLocationItem"
+                        @onFocus="selectLocationItem"
+                        @onBlur="selectLocationItem"
                         >
                         </autocomplete-locations>
 
@@ -168,13 +172,7 @@ components:{
             if (!this.getLocations)
                 return []
 
-            if (!search)
-                return this.getLocations//.slice(0, 20)
-
-
-            return locations
-                .filter(item => item.toLowerCase().indexOf(search.toLowerCase()) !== -1&&search!==item)
-                //slice(0, 20)
+            return this.getLocations
 
         }
     },
@@ -195,7 +193,9 @@ components:{
         })
     },
     methods: {
-
+        selectLocationItem(data){
+            this.filters.location = data
+         },
         toggleNearestFilter(index) {
             if (!this.checkNearest(index)) {
                 this.filters.nearest_selected_dates = index

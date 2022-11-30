@@ -29,7 +29,7 @@ class ScheduleResource extends JsonResource
             'start_time' => $date[1]??'',
         ];
 
-        if ($this->whenLoaded("tour"))
+        if (is_null($this->tour))
             $schedule["tour"]= new TourResource($this->tour);
 
 
