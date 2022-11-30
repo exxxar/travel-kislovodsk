@@ -155,13 +155,14 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
             ->first();
 
         if ($validated->law_status > 0) {
+            $vc = (object)$validated->company;
             $company = Company::query()->create([
-                'title' => $validated->company->title ?? null,
-                'description' => $validated->company->description ?? null,
-                'photo' => $validated->company->logo ?? null,
-                'inn' => $validated->company->inn ?? null,
-                'ogrn' => $validated->company->ogrn ?? null,
-                'law_address' => $validated->company->law_address ?? null,
+                'title' => $vc->title ?? null,
+                'description' => $vc->description ?? null,
+                'photo' => $vc->logo ?? null,
+                'inn' => $vc->inn ?? null,
+                'ogrn' => $vc->ogrn ?? null,
+                'law_address' => $vc->law_address ?? null,
             ]);
 
             $userRole = Role::where('name', 'guide')->first();
