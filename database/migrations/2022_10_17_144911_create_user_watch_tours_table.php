@@ -18,6 +18,7 @@ class CreateUserWatchToursTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('tour_id');
             $table->timestamp('watched_at');
+            $table->timestamps();
             $table->foreign('tour_id')
                 ->references('id')
                 ->on('tours');

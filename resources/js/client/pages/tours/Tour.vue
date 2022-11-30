@@ -375,12 +375,21 @@ export default {
         }
     },
     mounted() {
-        console.log(this.tour)
+        this.addToWatch();
     },
+
     methods:{
+        addToWatch(){
+            this.$store.dispatch("watchTour", this.tour.id)
+        },
         addToFavorites(){
             this.$store.dispatch("addToFavorites", this.tour.id)
         }
     }
 }
 </script>
+<style>
+.dt-page__preheader .dt-preheader__content .dt-preheader__title {
+    line-height: 120%;
+}
+</style>

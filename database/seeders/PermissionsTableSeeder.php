@@ -34,5 +34,9 @@ class PermissionsTableSeeder extends Seeder
         Permission::generateFor('users');
 
         Permission::generateFor('settings');
+
+        Permission::generateFor('tours');
+
+        Permission::generateFor('tour_objects');
     }
 }

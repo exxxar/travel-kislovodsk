@@ -27,7 +27,7 @@ class TourSeeder extends Seeder
     public function run()
     {
         $tmpCategories = [];
-        $tours = Tour::factory()->count(15)->create();
+        //$tours = Tour::factory()->count(15)->create();
 
         $users = User::query()
             ->take(10)

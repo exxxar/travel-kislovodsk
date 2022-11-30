@@ -4,6 +4,7 @@ import util from "./utilites";
 const BASE_TOUR_LINK = '/api/tours'
 
 let state = {
+    max_tours_price: 10000,
     tours: [],
     paginate_object: [],
 
@@ -11,6 +12,7 @@ let state = {
 
 const getters = {
     getTours: state => state.tours || [],
+    getMaxToursPrice: state => state.max_tours_price || 10000,
     getTourById: (state) => (id) => {
         return state.tours.find(tourItem => tourItem.id === id)
     },
@@ -76,6 +78,29 @@ const actions = {
         })
 
     },
+    async watchTour(context, tourId) {
+
+        let _axios = util.makeAxiosFactory(`${BASE_TOUR_LINK}/watch/${tourId}`, 'GET')
+
+        return _axios.then((response) => {
+
+        }).catch(err => {
+
+        })
+    },
+    async loadMaxTourPrice(context) {
+
+        let _axios = util.makeAxiosFactory(BASE_TOUR_LINK+"/max-tours-price", 'GET')
+
+        return _axios.then((response) => {
+            let dataObject = response.data
+            context.commit('setMaxToursPrice', dataObject)
+
+        }).catch(err => {
+            context.dispatch("errorsTours");
+
+        })
+    },
     async loadToursByPage(context, payload = {page:0,size:12}) {
         let size = payload.size || 12
         let page = payload.page || 0
@@ -116,6 +141,10 @@ const actions = {
 }
 
 const mutations = {
+    setMaxToursPrice(state, payload) {
+        state.max_tours_price = payload || [];
+        localStorage.setItem('travel_store_max_tours_price', JSON.stringify(payload));
+    },
     setTours(state, payload) {
         state.tours = payload || [];
         localStorage.setItem('travel_store_tours', JSON.stringify(payload));

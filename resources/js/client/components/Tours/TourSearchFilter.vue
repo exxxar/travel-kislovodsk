@@ -259,5 +259,4 @@ components:{
 
 }
 
-
 </style>

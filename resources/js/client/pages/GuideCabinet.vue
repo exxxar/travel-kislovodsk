@@ -134,14 +134,14 @@
             </div>
 
             <guide-tours-component v-if="activeTitle == 'Мои экскурсии'"/>
-            <guide-tour-objects-component v-if="activeTitle == 'Мои объекты'" />
+            <guide-tour-objects-component v-if="activeTitle == 'Мои объекты'"/>
 
 
             <add-tour v-if="activeTitle == 'Добавить экскурсию'" @hideAddExcursion="activeTitle='Мои экскурсии'"/>
 
-            <guide-transactions v-if="activeTitle == 'Транзакции'" />
-            <guide-schedule v-if="activeTitle == 'Календарь'" />
-            <guide-settings v-if="activeTitle == 'Настройки'" />
+            <guide-transactions v-if="activeTitle == 'Транзакции'"/>
+            <guide-schedule v-if="activeTitle == 'Календарь'"/>
+            <guide-settings v-if="activeTitle == 'Настройки'"/>
 
             <!--МОИ ДОКУМЕНТЫ (добавлено)-->
             <div id="settings" class="settings col ">
@@ -199,7 +199,8 @@ import GuideTransactions from "@/components/GuideCabinet/GuideTransactions.vue";
 export default {
     components: {
         GuideSettings, GuideTransactions,
-        GuideSchedule , AddTour, Breadcrumbs},
+        GuideSchedule, AddTour, Breadcrumbs
+    },
     data() {
         return {
             visible: false,
@@ -215,6 +216,17 @@ export default {
             activeType: 'Действующие',
             activeTitle: 'Мои экскурсии',
         }
+    },
+    mounted() {
+        this.eventBus.on('open_add_tours_window', () => {
+            this.activeTitle = 'Добавить экскурсию'
+        })
+
+        this.eventBus.on('open_add_tour_objects_window', () => {
+            this.activeTitle = 'Добавить экскурсию'
+        })
+
+
     },
     methods: {
         toggle() {

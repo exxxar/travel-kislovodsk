@@ -10,6 +10,8 @@ use App\Http\Resources\TouristGuideResource;
 use App\Models\TouristGuide;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TouristGuideController extends Controller
 {
@@ -70,6 +72,117 @@ class TouristGuideController extends Controller
     public function destroy(Request $request, TouristGuide $touristGuide)
     {
         $touristGuide->delete();
+
+        return response()->noContent();
+    }
+
+    public function updateCompanyInfo(Request $request){
+        $request->validate([
+            "title"=>"required",
+            "description"=>"required",
+            "ogrn"=>"required",
+            "inn"=>"required",
+            "law_address"=>"required",
+        ]);
+
+        $userId = Auth::user()->id;
+
+        $user = User::query()
+            ->with(["profile", "company"])
+            ->where("id", $userId)
+            ->first();
+
+        $company = $user->company;
+        $company->title = $request->title;
+        $company->description = $request->description;
+        $company->ogrn = $request->ogrn;
+        $company->inn = $request->inn;
+        $company->law_address = $request->law_address;
+        $company->save();
+
+        return response()->noContent();
+    }
+
+    public function updatePassword(Request $request){
+        $request->validate([
+            "password"=>'min:6|required_with:confirm_password|same:confirm_password',
+            "confirm_password"=>"required",
+        ]);
+
+        $userId = Auth::user()->id;
+
+        $user = User::query()
+            ->with(["profile", "company"])
+            ->where("id", $userId)
+            ->first();
+
+        $user->passowrd = bcrypt($request->password);
+        $user->save();
+
+        return response()->noContent();
+    }
+
+    public function updateProfileInfo(Request $request){
+
+        $request->validate([
+            "first_name"=>"required",
+            "last_name"=>"required",
+            "patronymic"=>"required",
+        ]);
+
+        $userId = Auth::user()->id;
+
+        $user = User::query()
+            ->with(["profile", "company"])
+            ->where("id", $userId)
+            ->first();
+
+        $profile = $user->profile;
+        $profile->fname = $request->first_name;
+        $profile->tname = $request->last_name;
+        $profile->sname = $request->patronymic;
+        $profile->save();
+
+        return response()->noContent();
+    }
+
+    public function uploadImage(Request $request){
+
+
+        $userId = Auth::user()->id;
+
+        $user = User::query()
+            ->with(["profile", "company"])
+            ->where("id", $userId)
+            ->first();
+
+        $path = '/user/' . $userId;
+        if (!Storage::exists('/public' . $path)) {
+            Storage::makeDirectory('/public' . $path);
+        }
+
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+
+            foreach ($files as $key => $file) {
+                $name = $file->getClientOriginalName();
+              //  $ext = $file->getClientOriginalExtension();
+
+
+                $file->storeAs("/public", $path . '/' . $name );
+                $url = Storage::url('user/' . $userId . "/" . $name );
+
+                $profile = $user->profile;
+                $profile->photo = $url;
+                $profile->save();
+
+                $company = $user->company;
+                $company->photo = $url;
+                $company->save();
+
+            }
+
+        }
 
         return response()->noContent();
     }

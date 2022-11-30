@@ -8,7 +8,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class IsGuide
+class IsUser
 {
     /**
      * Handle an incoming request.
@@ -31,7 +31,7 @@ class IsGuide
         if (is_null($user))
             return redirect("login");
 
-        if ($user->role->name!=="guide")
+        if ($user->role->name!=="user")
             return redirect("login");
 
         return $next($request);

@@ -25,8 +25,17 @@ class FavoriteController extends Controller
 
         $user = Auth::user();
 
+        $favorites = Favorite::query()->with([
+            "tour",
+            'tour.tourObjects',
+            'tour.tourCategories',
+            'tour.durationType',
+            'tour.tourType',
+            'tour.creator.profile',
+            'tour.schedules',
+            'tour.reviews'
 
-        $favorites = Favorite::query()->with(["tour"])->where('user_id', $user->id)
+        ])->where('user_id', $user->id)
             ->paginate($size);
 
         return new FavoriteCollection($favorites);
@@ -41,7 +50,7 @@ class FavoriteController extends Controller
         $tmp = (object)$request->all();
         $tmp->user_id = Auth::user()->id;
 
-        $favorite = Favorite::query()->where("user_id",Auth::user()->id)
+        $favorite = Favorite::query()->with(["tour"])->where("user_id", Auth::user()->id)
             ->where("tour_id", $tmp->tour_id)
             ->first();
 
@@ -87,7 +96,7 @@ class FavoriteController extends Controller
             ->where("tour_id", $id)->first();
 
         if (is_null($favorite))
-            return response()->json(["message"=>"Not Found"], 404);
+            return response()->json(["message" => "Not Found"], 404);
 
         $favorite->delete();
 

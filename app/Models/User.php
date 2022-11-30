@@ -3,13 +3,21 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Http\Resources\ProfileResource;
+use App\Mail\RegistrationMail;
+use Carbon\Carbon;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\HasApiTokens;
+use TCG\Voyager\Models\Role;
 
 class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
 {
@@ -56,10 +64,10 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    /*public function role()
+    public function role()
     {
-        return $this->belongsTo(CustomUserRole::class);
-    }*/
+        return $this->belongsTo(Role::class);
+    }
 
     public function company()
     {
@@ -98,7 +106,129 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
 
     public static function self(): object
     {
-       return User::query()->with(["profile","role","bookings","favorites"])
-           ->find(Auth::user()->id);
+        return User::query()->with(["profile", "role", "bookings", "favorites", "company"])
+            ->find(Auth::user()->id);
+    }
+
+    public static function createUser(array $data)
+    {
+
+
+        $validator = Validator::make($data, [
+            'username' => 'required|max:255',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'patronymic' => 'nullable|max:255',
+            'phone' => 'required|unique:users',
+            'email' => 'required|unique:users',
+            'password' => 'required',
+            'law_status' => 'required',
+            'photo' => 'nullable',
+            'company'=>'nullable',
+            'company.title' => 'nullable|max:255',
+            'company.logo' => 'nullable|max:255',
+            'company.description' => 'nullable|max:255',
+            'company.inn' => 'nullable|max:50',
+            'company.ogrn' => 'nullable|max:50',
+            'company.law_address' => 'nullable|max:255',
+        ]);
+
+
+
+        if ($validator->fails()) {
+            return new ValidationException($validator);
+        }
+
+
+
+        $validated = (object)$validator->validated();
+        $company = null;
+
+        $law_statuses = [
+            "person_law_status_type",
+            "individual_law_status_type",
+            "entity_law_status_type",
+            "self_employed_law_status_type"];
+
+        $dictType = Dictionary::query()
+            ->where("slug", $law_statuses[$validated->law_status])
+            ->first();
+
+        if ($validated->law_status > 0) {
+            $company = Company::query()->create([
+                'title' => $validated->company->title ?? null,
+                'description' => $validated->company->description ?? null,
+                'photo' => $validated->company->logo ?? null,
+                'inn' => $validated->company->inn ?? null,
+                'ogrn' => $validated->company->ogrn ?? null,
+                'law_address' => $validated->company->law_address ?? null,
+            ]);
+
+            $userRole = Role::where('name', 'guide')->first();
+        } else
+            $userRole = Role::where('name', 'user')->first();
+
+        $profile = Profile::create([
+            'fname' => $validated->first_name ?? null,
+            'sname' => $validated->patronymic ?? null,
+            'tname' => $validated->last_name ?? null,
+            'photo' => $validated->photo ?? null,
+        ]);
+
+        if (strpos($validated->phone, "@") === -1)
+            $ph_number = preg_replace("/[^0-9]/", "", $validated->phone);
+
+        $user = User::query()->create([
+            'name' => $validated->username,
+            'email' => $validated->email,
+            'password' => bcrypt($validated->password),
+            'role_id' => $userRole->id,
+            'phone' => $ph_number ?? $validated->phone,
+            'company_id' => !is_null($company) ? $company->id : null,
+            'user_law_status_id' => $dictType->id ?? 0,
+            'profile_id' => $profile->id,
+            'verified_at' => null,
+        ]);
+
+        try {
+            if (!is_null($user->email))
+                Mail::to($user->email)
+                    ->send(new RegistrationMail(
+                        $user
+                    ));
+        }catch (\Exception $e){
+
+        }
+
+
+        return $user;
+    }
+
+    public static function loginUser(array $data)
+    {
+        $validator = Validator::make($data, [
+            'phone' => 'required|max:255',
+            'password' => 'required|max:255',
+        ]);
+
+        $validated = (object)$validator->validated();
+
+        if (strpos($validated->phone, "@") === -1)
+            $ph_number = preg_replace("/[^0-9]/", "", $validated->phone);
+
+        $user = User::query()
+            ->with(["profile","role"])
+            ->where("phone", $ph_number ?? $validated->phone)
+            ->orWhere("email", $validated->phone)
+            ->first();
+
+
+        if (!is_null($user)) {
+            Auth::login($user, true);
+            return $user;
+        }
+
+        throw new AuthenticationException();
+
     }
 }

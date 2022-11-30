@@ -10,6 +10,7 @@ use App\Models\CustomUserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use TCG\Voyager\Models\Role;
 
 class SocialAuthController extends Controller
 {
@@ -29,60 +30,34 @@ class SocialAuthController extends Controller
             return redirect()->route("page.main");
         }
 
-
-        $user = User::query()->where("email", $vkUser->getEmail())->first();
+        $user = User::query()
+            ->where("phone", $vkUser->getEmail())
+            ->orWhere("email", $vkUser->getEmail())
+            ->first();
 
         if (!is_null($user)) {
             Auth::login($user, true);
             return redirect()->route("page.user-cabinet");
         }
 
-        $userRole = CustomUserRole::where('role_name', 'user')->first();
 
-        $profile = Profile::create([
-            'fname' => explode(" ", $vkUser->getName())[0] ?? '',
-            'sname' => explode(" ", $vkUser->getName())[1] ?? '',
-            'tname' => explode(" ", $vkUser->getName())[2] ?? '',
-            'photo' => $vkUser->getAvatar(),
-        ]);
+        try {
+            $username = $vkUser->getNickname() ?? explode("@", $vkUser->getEmail())[0];
+            $user = User::createUser([
+                'username' => $username,
+                'first_name' => explode(" ", $vkUser->getName())[0] ?? '',
+                'last_name' => explode(" ", $vkUser->getName())[1] ?? '',
+                'patronymic' => explode(" ", $vkUser->getName())[2] ?? '',
+                'phone' => $vkUser->getEmail(),
+                'email' => $vkUser->getEmail(),
+                'password' => $vkUser->getEmail(),
+                'law_status' => 0,
+                'photo' => $vkUser->getAvatar(),
+            ]);
+        } catch (\Exception $e) {
 
-        /*$user->getId();
-        $user->getNickname();
-        $user->getName();
-        $user->getEmail();
-        $user->getAvatar();*/
-
-        $dictType = Dictionary::query()->where("slug", "person_law_status_type")->first();
-
-        $user = User::query()->create([
-            'name' => $vkUser->getName(),
-            'email' => $vkUser->getEmail(),
-            'phone' => $vkUser->getEmail(),
-            'password' => bcrypt($vkUser->getEmail()),
-            'role_id' => $userRole->id,
-            'profile_id' => $profile->id,
-            'user_law_status_id' => $dictType->id,
-        ]);
-
-        $user->save();
-
-
-        /*
-                if (!is_null($user->email))
-                    Mail::to($user->email)
-                        ->send(new RegistrationMail(
-                            $user
-                        ));*/
-
-        Auth::login($user, true);
-
-        /*     $user->sendEmailVerificationNotification();
-
-             event(new NotificationEvent(
-                 "Users",
-                 "Success registration for user  " . $user->id,
-                 NotificationType::Info,
-                 $user->id));*/
+            return redirect()->route("page.login");
+        }
 
         return redirect()->route("page.user-cabinet");
 
@@ -91,73 +66,53 @@ class SocialAuthController extends Controller
     public function registration(Request $request)
     {
         $request->validate([
-            "name" => "required",
-            "phone" => "required",
-            "law_status" => "required",
-            "password" => "required"
+            'username' => 'required|max:255',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'patronymic' => 'required|max:255',
+            'phone' => 'required|unique:users',
+            'email' => 'required|unique:users',
+            'password' => 'required',
+            'law_status' => 'required',
+            'photo' => 'required',
+            'company.title' => 'max:255',
+            'company.logo' => 'max:255',
+            'company.description' => 'max:255',
+            'company.inn' => 'max:50',
+            'company.ogrn' => 'max:50',
+            'company.law_address' => 'max:255',
         ]);
 
-
-        $user = User::query()
-            ->with(["role"])
-            ->where("phone",$request->phone )->first();
-
-        if (!is_null($user)) {
+        try {
+            $user = User::createUser([
+                'username' => $request->username,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'patronymic' => $request->patronymic,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'password' => $request->password,
+                'law_status' => $request->law_status,
+                'photo' => $request->photo,
+                'company' => (object)[
+                    "title" => $request->company->title ?? null,
+                    "logo" => $request->company->logo ?? null,
+                    "description" => $request->company->description ?? null,
+                    "inn" => $request->company->inn ?? null,
+                    "ogrn" => $request->company->ogrn ?? null,
+                    "law_address" => $request->company->law_address ?? null,
+                ],
+            ]);
+        } catch (\Exception $e) {
             return response()->json([
-                "message" => "Error"
+                "message" => $e->getMessage()
             ], 400);
-
         }
-        ;
-
-        $role = $request->law_status == 0 ? "user" : "guide";
-
-        $userRole = CustomUserRole::where('role_name', $role)->first();
-
-        $profile = Profile::create([
-            'fname' => explode(" ", $request->name)[0] ?? '',
-            'sname' => explode(" ", $request->name)[1] ?? '',
-            'tname' => explode(" ", $request->name)[2] ?? '',
-            'photo' => '/images/no-avatar.png',
-        ]);
-
-
-        $law_statuses = [
-            "person_law_status_type",
-            "individual_law_status_type",
-            "entity_law_status_type",
-            "self_employed_law_status_type"];
-
-        $dictType = Dictionary::query()
-            ->where("slug", $law_statuses[$request->law_status])
-            ->first();
-
-        $user = User::query()->create([
-            'name' => $request->name,
-            'email' => $request->email ?? null,
-            'phone' => $request->phone,
-            'password' => bcrypt($request->password),
-            'role_id' => $userRole->id,
-            'profile_id' => $profile->id,
-            'user_law_status_id' => $dictType->id,
-        ]);
-
-        $user->save();
-
-
-        /*
-                if (!is_null($user->email))
-                    Mail::to($user->email)
-                        ->send(new RegistrationMail(
-                            $user
-                        ));*/
-
-        Auth::login($user, true);
 
         return response()->json([
-            "role" => $user->role->role_name,
-            "message" => "Success"
-        ], 200);
+            "message" => "Success",
+            "role" => $user->role->name
+        ]);
     }
 
     public function login(Request $request)
@@ -167,24 +122,21 @@ class SocialAuthController extends Controller
             "password" => "required"
         ]);
 
-        $user = User::query()
-            ->with(["role"])
-            ->where("phone", $request->username)
-            ->orWhere("email", $request->username)
-            ->first();
-
-        if (!is_null($user)) {
-            Auth::login($user, true);
+        try {
+            $user = User::loginUser([
+                "phone" => $request->username,
+                "password" => $request->password,
+            ]);
+        } catch (\Exception $e) {
             return response()->json([
-                "role" => $user->role->role_name,
-                "message" => "Success"
-            ], 200);
+                "message" => $e->getMessage()
+            ], 400);
         }
 
         return response()->json([
-            "message" => "Error"
-        ], 400);
-
+            "message" => "Success",
+            "role" => $user->role->name
+        ]);
     }
 
     public function logout(Request $request)

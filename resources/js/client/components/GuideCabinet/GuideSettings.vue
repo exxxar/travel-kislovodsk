@@ -2,101 +2,364 @@
     <div id="settings" class="col">
         <div class="d-flex justify-content-between">
             <h2 class="lh-1 bold px-0 title-guide-cabinet">Настройка профиля гида</h2>
-            <button class="d-lg-flex d-none dt-btn-text">смотреть профиль</button>
+            <a :href="'/guide/'+user.id" target="_blank" class="d-lg-flex d-none dt-btn-text">смотреть профиль</a>
         </div>
         <div class="mb-4 mx-0 position-relative">
-            <div class="dt-input__wrapper">
-                <div class="d-flex align-items-center justify-content-between"><label
-                    class="dt-input__label">ваше имя фамилия или название организации</label>
-                </div>
-                <div class="dt-input__group bg-white">
-                    <input type="text" placeholder="Николаев Артем" class="dt-input"
-                           autocomplete="off" maxlength="255">
-                    <div class="dt-input__group-item">
-                        <div class="dt-input__icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"
-                                 viewBox="0 0 48 48" fill="#0071eb">
-                                <path
-                                    d="M24 23.8q-3.45 0-5.625-2.175T16.2 16q0-3.45 2.175-5.625T24 8.2q3.45 0 5.625 2.175T31.8 16q0 3.45-2.175 5.625T24 23.8ZM7.7 40.45v-5q0-2 1-3.425 1-1.425 2.55-2.175 3.4-1.5 6.5-2.25t6.25-.75q3.15 0 6.225.775Q33.3 28.4 36.7 29.9q1.6.7 2.6 2.125t1 3.425v5Zm3.4-3.4h25.8V35.5q0-.8-.475-1.525-.475-.725-1.175-1.075-3.15-1.5-5.775-2.075Q26.85 30.25 24 30.25q-2.85 0-5.525.575Q15.8 31.4 12.7 32.9q-.7.35-1.15 1.075-.45.725-.45 1.525ZM24 20.4q1.9 0 3.15-1.25T28.4 16q0-1.9-1.25-3.15T24 11.6q-1.9 0-3.15 1.25T19.6 16q0 1.9 1.25 3.15T24 20.4Zm0-4.4Zm0 21.05Z"/>
-                            </svg>
+            <h3 class="mb-2 mt-3">Информация об организации</h3>
+            <form v-on:submit.prevent="submitCompany">
+                <div class="dt-input__wrapper">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">Название организации</label>
+                    </div>
+                    <div class="dt-input__group bg-white"
+                         v-bind:class="{'border-success':form_company.is_success_saved}"
+                    >
+                        <input type="text" placeholder="ООО 'РосТуризм'" class="dt-input"
+                               v-model="form_company.title"
+
+                               autocomplete="off" maxlength="255" required>
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <i class="fa-regular fa-building"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="mb-4 row mx-0">
+                <div class="dt-input__wrapper mt-2">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">Юридический адрес организации</label>
+                    </div>
+                    <div class="dt-input__group bg-white"
+                         v-bind:class="{'border-success':form_company.is_success_saved}"
+                    >
+                        <input type="text" placeholder="г. Кисловодск, ул. Ленина, 23, офис 33" class="dt-input"
+                               v-model="form_company.law_address"
+
+                               autocomplete="off" maxlength="255" required>
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dt-input__wrapper mt-2">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">ОГРН</label>
+                    </div>
+                    <div class="dt-input__group bg-white"
+                         v-bind:class="{'border-success':form_company.is_success_saved}"
+                    >
+                        <input type="number" placeholder="0000000000000" class="dt-input"
+                               v-model="form_company.ogrn"
+
+                               autocomplete="off" maxlength="15" required>
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <i class="fa-solid fa-database"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dt-input__wrapper mt-2">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">ИНН</label>
+                    </div>
+                    <div class="dt-input__group bg-white"
+                         v-bind:class="{'border-success':form_company.is_success_saved}"
+                    >
+                        <input type="text" placeholder="00000000000" class="dt-input"
+                               v-model="form_company.inn"
+
+                               autocomplete="off" maxlength="15" required>
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <i class="fa-solid fa-database"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4 row mx-0 mt-2">
                     <span class="dt-label thin position-relative mb-2 col-12 px-0 d-flex align-items-center">описание
-                        <svg class="opacity-25 info-icon ms-1 " version="1.0"
-                             xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                             viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
 
-                            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000"
-                               stroke="none">
-                                <path d="M2315 5109 c-800 -83 -1501 -518 -1927 -1196 -604 -961 -490 -2237
-274 -3068 425 -462 951 -737 1583 -827 119 -17 512 -16 635 1 622 86 1148 360
-1572 820 349 378 572 861 650 1406 17 118 17 512 0 630 -71 497 -262 943 -557
-1300 -418 506 -982 825 -1630 921 -123 18 -478 26 -600 13z m627 -922 c189
--50 335 -134 458 -264 106 -112 163 -215 207 -374 25 -90 25 -347 -1 -438 -57
--207 -192 -380 -400 -511 -247 -156 -270 -174 -303 -228 -35 -60 -53 -143 -53
--250 l0 -72 -276 0 -277 0 7 128 c16 311 79 445 262 562 304 193 384 262 443
-382 108 221 31 460 -181 558 -63 30 -86 35 -169 38 -113 5 -187 -9 -269 -49
--101 -51 -173 -156 -188 -275 l-7 -59 -293 -3 -293 -2 5 32 c3 18 8 60 12 93
-7 71 46 200 81 270 125 249 372 418 698 479 58 11 129 14 260 12 154 -3 194
--7 277 -29z m-251 -2605 c70 -34 122 -84 160 -154 32 -58 34 -69 34 -153 0
--84 -2 -95 -34 -153 -38 -70 -90 -120 -160 -154 -66 -33 -216 -33 -282 0 -143
-70 -221 224 -190 374 24 112 113 215 220 252 66 23 192 17 252 -12z"/>
-                            </g>
-                        </svg>
+                        <i class="fa-regular fa-circle-question opacity-25 info-icon ms-1"></i>
                     </span>
-            <textarea name="add-obj-description" cols="30" rows="12"
-                      class="col-12 px-2rem py-4 rounded border-0 font-size-09"></textarea>
-        </div>
-        <div class="mb-4 row mx-0">
-                    <span class="dt-label thin position-relative mb-2 col-12 px-0 d-flex align-items-center">добавьте фото
-                        <svg class="opacity-25 info-icon ms-1" version="1.0"
-                             xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                             viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
-                            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#000000"
-                               stroke="none">
-                                <path d="M2315 5109 c-800 -83 -1501 -518 -1927 -1196 -604 -961 -490 -2237
-274 -3068 425 -462 951 -737 1583 -827 119 -17 512 -16 635 1 622 86 1148 360
-1572 820 349 378 572 861 650 1406 17 118 17 512 0 630 -71 497 -262 943 -557
-1300 -418 506 -982 825 -1630 921 -123 18 -478 26 -600 13z m627 -922 c189
--50 335 -134 458 -264 106 -112 163 -215 207 -374 25 -90 25 -347 -1 -438 -57
--207 -192 -380 -400 -511 -247 -156 -270 -174 -303 -228 -35 -60 -53 -143 -53
--250 l0 -72 -276 0 -277 0 7 128 c16 311 79 445 262 562 304 193 384 262 443
-382 108 221 31 460 -181 558 -63 30 -86 35 -169 38 -113 5 -187 -9 -269 -49
--101 -51 -173 -156 -188 -275 l-7 -59 -293 -3 -293 -2 5 32 c3 18 8 60 12 93
-7 71 46 200 81 270 125 249 372 418 698 479 58 11 129 14 260 12 154 -3 194
--7 277 -29z m-251 -2605 c70 -34 122 -84 160 -154 32 -58 34 -69 34 -153 0
--84 -2 -95 -34 -153 -38 -70 -90 -120 -160 -154 -66 -33 -216 -33 -282 0 -143
-70 -221 224 -190 374 24 112 113 215 220 252 66 23 192 17 252 -12z"/>
-                            </g>
-                        </svg>
-                    </span>
-            <div name="add-obj-photo" class="row mx-0 px-0 gap-2">
-                <div
-                    class="col-auto add-additional-photo px-0 rounded d-flex align-items-center justify-content-center bg-white position-relative">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20" width="20">
-                        <path d="M22 38.5V26H9.5v-4H22V9.5h4V22h12.5v4H26v12.5Z"/>
-                    </svg>
-                    <div class="add-additional-photo hide">
-                        <img class="position-relative top-0 start-0 img rounded w-100 h-100"
-                             v-lazy="'/img/travels/1.jpg'" alt="">
-                        <div class="delete rounded position-absolute justify-content-center align-items-center">
-                            <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
-                                 height="20" width="20">
-                                <path
-                                    d="m12.45 38.35-2.8-2.8L21.2 24 9.65 12.45l2.8-2.8L24 21.2 35.55 9.65l2.8 2.8L26.8 24l11.55 11.55-2.8 2.8L24 26.8Z"/>
-                            </svg>
+                    <textarea name="add-obj-description" cols="30" rows="12"
+                              v-bind:class="{'border-success':form_company.is_success_saved}"
+                              v-model="form_company.description"
+                              class="col-12 px-2rem py-4 rounded border-0 font-size-09"></textarea>
+                </div>
+
+
+                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5 mt-3">
+                    <button type="submit" class="big-button bg-blue bold px-4 px-xxl-5 font-size-09 rounded">Сохранить
+                    </button>
+                </div>
+            </form>
+
+            <h3 class="mb-2 mt-3">Информация о личности гида</h3>
+            <form v-on:submit.prevent="submitGuide">
+                <div class="dt-input__wrapper">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">Фамилия гида</label>
+                    </div>
+                    <div class="dt-input__group bg-white"
+                         v-bind:class="{'border-success':form_guide.is_success_saved}"
+                    >
+                        <input type="text" placeholder="Иванов" class="dt-input"
+                               v-model="form_guide.last_name"
+
+                               autocomplete="off" maxlength="255" required>
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <i class="fa-regular fa-user"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+                <div class="dt-input__wrapper mt-2">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">Имя гида</label>
+                    </div>
+                    <div class="dt-input__group bg-white"
+                         v-bind:class="{'border-success':form_guide.is_success_saved}"
+                    >
+                        <input type="text" placeholder="Иван" class="dt-input"
+                               v-model="form_guide.first_name"
 
-        <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5">
-            <button class="big-button bg-blue bold px-4 px-xxl-5 font-size-09 rounded">Сохранить</button>
+                               autocomplete="off" maxlength="255">
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <i class="fa-regular fa-user"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dt-input__wrapper mt-2">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">Отчество гида</label>
+                    </div>
+                    <div class="dt-input__group bg-white"
+                         v-bind:class="{'border-success':form_guide.is_success_saved}"
+                    >
+                        <input type="text" placeholder="Иванович" class="dt-input"
+                               v-model="form_guide.patronymic"
+
+                               autocomplete="off" maxlength="255">
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <i class="fa-regular fa-user"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5 mt-3">
+                    <button type="submit" class="big-button bg-blue bold px-4 px-xxl-5 font-size-09 rounded">Сохранить
+                    </button>
+                </div>
+            </form>
+            <h3 class="mb-2 mt-3">Изменение пароля</h3>
+            <form v-on:submit.prevent="submitPassword">
+                <div class="dt-input__wrapper ">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">Пароль</label>
+                    </div>
+                    <div class="dt-input__group bg-white"
+                         v-bind:class="{'border-success':form_password.is_success_saved}"
+                    >
+                        <input type="password" placeholder="Пароль" class="dt-input"
+                               v-model="form_password.password"
+
+                               autocomplete="off" maxlength="255">
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <i class="fa-solid fa-key"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dt-input__wrapper mt-2">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">Повторно пароль</label>
+                    </div>
+                    <div class="dt-input__group bg-white"
+                         v-bind:class="{'border-success':form_password.is_success_saved}"
+                    >
+                        <input type="password" placeholder="Пароль" class="dt-input"
+                               v-model="form_password.confirm_password"
+
+                               autocomplete="off" maxlength="255">
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <i class="fa-solid fa-key"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5 mt-3">
+                    <button type="submit" class="big-button bg-blue bold px-4 px-xxl-5 font-size-09 rounded">Сохранить
+                    </button>
+                </div>
+            </form>
+
+            <form v-on:submit.prevent="submitImages">
+                <div class="alert alert-success mt-3" role="alert" v-if="message">
+                    {{ message }}
+                </div>
+                <input type="file" id="files" multiple accept="image/*" @change="onChange" style="display:none;"/>
+                <div class="mb-4 row mx-0 mt-2">
+                    <span class="dt-label  thin position-relative mb-2 col-12 px-0 d-flex align-items-center">добавьте фото
+                        <i class="fa-regular fa-circle-question opacity-25 info-icon ms-1"></i>
+                    </span>
+                    <div name="add-obj-photo" class="row mx-0 px-0 gap-2">
+                        <label for="files"
+                               class="col-auto photo-btn px-0 rounded d-flex align-items-center justify-content-center bg-white position-relative">
+
+                            <i class="fa-solid fa-plus"></i>
+                        </label>
+                        <div class="add-additional-photo  mr-2" v-for="(item, index) in items">
+                            <img class="position-relative top-0 start-0 img rounded w-100 h-100"
+                                 v-if="item.imageUrl" v-lazy="item.imageUrl"
+                                 alt="">
+                            <div class="delete rounded position-absolute justify-content-center align-items-center">
+                                <i class="fa-regular fa-circle-xmark"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5 mt-3">
+
+                    <button type="submit"
+                            :disabled="photos.length===0"
+                            class="big-button bg-blue bold px-4 px-xxl-5 font-size-09 rounded">Загрузить фотографии
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </template>
+<script>
+export default {
+    data() {
+        return {
+            form_company: {
+                title: null,
+                description: null,
+                ogrn: null,
+                inn: null,
+                law_address: null,
+                is_success_saved: false,
+            },
+            form_guide: {
+                is_success_saved: false,
+                first_name: null,
+                last_name: null,
+                patronymic: null,
+            },
+            form_password: {
+                password: null,
+                confirm_password: null,
+                is_success_saved: false,
+            },
+            photos: [],
+            items: [],
+            message: null
+        }
+    },
+    mounted() {
+        this.form_company.title = this.user.company.title
+        this.form_company.inn = this.user.company.inn
+        this.form_company.description = this.user.company.description
+        this.form_company.ogrn = this.user.company.ogrn
+        this.form_company.law_address = this.user.company.law_address
+
+        this.form_guide.first_name = this.user.profile.fname
+        this.form_guide.last_name = this.user.profile.tname
+        this.form_guide.patronymic = this.user.profile.sname
+    },
+    computed: {
+        user() {
+            return window.user
+        },
+
+    },
+    methods: {
+
+        onChange(e) {
+            this.message = null;
+            const files = e.target.files
+            this.photos = files
+
+            console.log(files)
+            for (let i = 0; i < files.length; i++)
+                this.items.push({imageUrl: URL.createObjectURL(files[i])})
+
+        },
+        submitCompany() {
+            this.form_company.is_success_saved = false;
+            this.$store.dispatch("updateGuideCompany", this.form_company).then(() => {
+                this.form_company.is_success_saved = true;
+            })
+        },
+        submitGuide() {
+            this.form_guide.is_success_saved = false;
+            this.$store.dispatch("updateGuideProfile", this.form_guide).then(() => {
+                this.form_guide.is_success_saved = true;
+            })
+        },
+        submitPassword() {
+            this.form_password.is_success_saved = false;
+            this.$store.dispatch("updateGuidePassword", this.form_password).then(() => {
+                this.form_password.is_success_saved = true;
+            })
+        },
+        submitImages() {
+
+            let data = new FormData();
+            for (let i = 0; i < this.photos.length; i++)
+                data.append('files[]', this.photos[i]);
+
+
+            this.$store.dispatch("addGuideImage", data).then(() => {
+                let files = document.querySelector("#files")
+                files.value = ""
+                this.photos = [];
+                this.items = [];
+                this.message = "Изображение профиля успешно обновлено"
+            })
+        }
+    }
+}
+</script>
+<style lang="scss">
+.dt-input__icon {
+    i {
+        color: #0071eb;
+    }
+}
+
+.photo-btn {
+    padding: 20px;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+
+    i {
+        color: #0071eb;
+    }
+}
+
+.add-additional-photo {
+    padding: 0px;
+}
+
+.bg-blue[disabled] {
+    background: gray !important;
+}
+
+.border-success {
+    border: 1px green solid !important;;
+}
+</style>

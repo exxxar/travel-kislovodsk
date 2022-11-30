@@ -96,7 +96,7 @@ const actions = {
             }
         })
     },
-    async nextFavoritesPage({commit}) {
+    async nextFavoritesPage(context) {
         return await context.dispatch("favoritesPage", {
             url: state
                 .paginate_object
@@ -128,7 +128,7 @@ const actions = {
             url: `${BASE_FAVORITES_LINK}`
         })
     },
-    async loadFavoritesFiltered({commit}, filter) {
+    async loadFavoritesFiltered(context, filter) {
         return await context.dispatch("favoritesPage", {
             url: `${BASE_FAVORITES_LINK}/filtered`,
             method:'POST',

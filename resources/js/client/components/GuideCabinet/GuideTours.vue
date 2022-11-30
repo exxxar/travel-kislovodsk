@@ -30,6 +30,7 @@
                 </button>
             </div>
             <button
+                    @click="openAddTour"
                     class="dt-btn-add order-1 order-lg-2 button col-12 col-lg-3 bg-green d-flex rounded ms-auto px-4
                                     justify-content-center align-items-center bold">
                 Добавить экскурсию
@@ -41,18 +42,25 @@
         </div>
 
     </div>
+
+
+
 </template>
 
 <script>
 import {mapGetters} from "vuex";
-
+;
 export default {
+
     data(){
         return {
             activeType: null,
         }
     },
     methods:{
+        openAddTour(){
+            this.eventBus.emit('open_add_tours_window')
+        },
         changeActiveTitle(title) {
             this.activeType = title
             this.eventBus.emit('select_guide_tours_type', this.activeType)

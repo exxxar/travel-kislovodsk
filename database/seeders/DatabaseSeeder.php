@@ -31,10 +31,11 @@ class DatabaseSeeder extends Seeder
             DictionarySeeder::class,
             UserSeeder::class,
             TourObjectSeeder::class,
+            RusToursSeeder::class,
             TourSeeder::class,
             ScheduleSeeder::class,
             MessageSeeder::class,
-            RusToursSeeder::class
+
         ]);
 
     }

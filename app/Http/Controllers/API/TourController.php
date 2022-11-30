@@ -13,6 +13,8 @@ use App\Models\Dictionary;
 use App\Models\Favorite;
 use App\Models\Tour;
 use App\Models\TourObject;
+use App\Models\UserWatchTours;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,6 +41,11 @@ class TourController extends Controller
             ->paginate($size);
 
         return new TourCollection($tours);
+    }
+
+    public function getMaxTourPrice(Request $request)
+    {
+        return response()->json(Tour::query()->max("base_price"));
     }
 
     public function loadGuideToursByPage(Request $request)
@@ -235,7 +242,7 @@ class TourController extends Controller
                 'schedules',
                 'reviews'
             ])
-        ->where("id", $id)
+            ->where("id", $id)
             ->first();
 
         return view('pages.tour', ["tour" => json_encode(new TourResource($tour))]);
@@ -263,5 +270,34 @@ class TourController extends Controller
         $tour->delete();
 
         return response()->noContent();
+    }
+
+    public function watch(Request $request, $tourId)
+    {
+        $userId = Auth::user()->id ?? null;
+
+        if (is_null($userId))
+            return response()->noContent(401);
+
+        $uwt = UserWatchTours::query()->where("tour_id", $tourId)
+            ->where("user_id", $userId)
+            ->first();
+
+        $isWatched = !is_null($uwt);
+
+        if (!$isWatched) {
+            UserWatchTours::query()->create([
+                "user_id" => $userId,
+                "tour_id" => $tourId,
+                "watched_at" => Carbon::now()
+            ]);
+            return response()->noContent();
+        }
+
+        $uwt->watched_at = Carbon::now();
+        $uwt->save();
+
+        return response()->noContent();
+
     }
 }

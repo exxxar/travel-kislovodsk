@@ -22,19 +22,22 @@ class UserSeeder extends Seeder
     public function run()
     {
 
-        $lawStatusType = Dictionary::getLawStatusTypes()
-            ->where('slug' , 'entity_law_status_type')
-            ->first();
+        $user = User::query()->where("phone", "+7(949)000-00-00")->first();
 
-        $guideRole = Role::query()->where("name","guide")->first();
+        if (is_null($user)) {
+            $lawStatusType = Dictionary::getLawStatusTypes()
+                ->where('slug', 'entity_law_status_type')
+                ->first();
+
+            $guideRole = Role::query()->where("name", "guide")->first();
 
             $company = Company::query()->create([
-                'title' => "Туризм Кисловодств",
-                'description' => "Туризм Кисловодств",
-                'photo' => null,
-                'inn' => null,
-                'ogrn' => null,
-                'law_address' => null,
+                'title' => "Туризм Кисловодск",
+                'description' => "Туризм Кисловодск",
+                'photo' => "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Flag_of_Kislovodsk_%28Stavropol_krai%29_%282012%29.svg/1599px-Flag_of_Kislovodsk_%28Stavropol_krai%29_%282012%29.svg.png",
+                'inn' => "3333000999",
+                'ogrn' => "1234567890123",
+                'law_address' => "г. Кисловодск, ул. Ленина, 23, офис 5",
             ]);
 
             $profile = Profile::create([
@@ -60,33 +63,33 @@ class UserSeeder extends Seeder
             /*---------------Admin---------------*/
 
 
-        $adminRole = Role::query()->where("name","admin")->first();
+            $adminRole = Role::query()->where("name", "admin")->first();
 
-        User::query()->create([
-            'name' => "Админ Админский",
-            'email' => "admin@admin.com",
-            'password' => bcrypt("admin"),
-            'role_id' => $adminRole->id,
-            'phone' => "+7(949)123-45-67",
-            'verified_at' => Carbon::now(),
-        ]);
+            User::query()->create([
+                'name' => "Админ Админский",
+                'email' => "admin@admin.com",
+                'password' => bcrypt("admin"),
+                'role_id' => $adminRole->id,
+                'phone' => "+7(949)123-45-67",
+                'verified_at' => Carbon::now(),
+            ]);
 
-
+        }
         /*---------------------------------*/
 
-        for ($i=0;$i<10;$i++){
+        for ($i = 0; $i < 10; $i++) {
             $lawStatusType = Dictionary::getLawStatusTypes()
-                ->where('slug' , 'person_law_status_type')
+                ->where('slug', 'person_law_status_type')
                 ->first();
 
-            $userRole = Role::query()->where("name","user")->first();
+            $userRole = Role::query()->where("name", "user")->first();
 
             $profile = Profile::factory()->create();
 
             User::factory()->create([
-                'role_id'=>$userRole->id,
-                'user_law_status_id'=>$lawStatusType->id,
-                'profile_id'=>$profile->id,
+                'role_id' => $userRole->id,
+                'user_law_status_id' => $lawStatusType->id,
+                'profile_id' => $profile->id,
             ]);
         }
     }

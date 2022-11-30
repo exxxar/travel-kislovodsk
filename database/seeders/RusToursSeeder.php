@@ -28,7 +28,7 @@ class RusToursSeeder extends Seeder
                     провести день в этих невероятных местах! Нас ждёт путь через ущелья и перевалы, остановки в Долине
                     нарзанов, у водопадов и Зубов дракона. Вы попробуете нарзан из источника, а также горячие хычины и
                     другие блюда местной кухни, и всё это — в местах с захватывающими дух видами.',
-            'base_price' => 3000,
+            'base_price' => 4000,
             'discount_price' => 3000,
             'description' => 'Панорамы Эльбруса и нарзан из источника
                     Мы с вами выезжаем ранним утром, чтобы оказаться на плато Шаджатмаз в лучшее для обзора время. В ясную погоду отсюда открывается незабываемый вид на Эльбрус и Кавказский хребет.
@@ -36,15 +36,15 @@ class RusToursSeeder extends Seeder
                     Ещё одна смотровая площадка с видом на Эльбрус — при спуске в ущелье Харбаз. От вида на крутые спуски по серпантину и горные вершины у вас захватит дух!
                     Места силы в окрестностях Джилы-Су
                     На территории Джилы-Су у вас будет время проникнуться духом величественной природы и зарядиться её энергией. Мы с вами осмотрим водопады Каракая, Султан-Су и Кызыл-Су.',
-            'preview_image' => 'img/tours/1/img/1.jpg',
+            'preview_image' => '/img/tours/1/img/1.jpg',
             'images' => [
-                'img/tours/1/img/1.jpg',
-                'img/tours/1/img/2.jpg',
-                'img/tours/1/img/3.jpg',
-                'img/tours/1/img/4.jpg',
-                'img/tours/1/img/5.jpg',
-                'img/tours/1/img/6.jpg',
-                'img/tours/1/img/7.jpg'
+                '/img/tours/1/img/1.jpg',
+                '/img/tours/1/img/2.jpg',
+                '/img/tours/1/img/3.jpg',
+                '/img/tours/1/img/4.jpg',
+                '/img/tours/1/img/5.jpg',
+                '/img/tours/1/img/6.jpg',
+                '/img/tours/1/img/7.jpg'
             ],
             'comfort_loading' => true,
             'start_address' => fake("ru_RU")->address(),
@@ -111,22 +111,22 @@ class RusToursSeeder extends Seeder
                 Домбай — это открытый музей природы, здесь вы сможете познакомиться с уникальной флорой и фауной. Мы покажем вам древнейшие храмы и озеро Кара-Кель. Также у вас будет возможность попробовать вкуснейшую кристально-чистую воду из реки Улу-Муруджу и, конечно же, вместе мы обязательно поднимемся по канатной дороге на склон горы Мусса-Ачитара, высотой 3200 метров. 
                 Во время экскурсии гид расскажет вам легенды Карачаево-Черкесии, поведает о том, какие традиции соблюдаются в этих краях, о быте и культуре народов Кавказа.
                 Насладитесь великолепной круговой панорамой со множеством вершин и ледников, вдохните ароматы хвои и цветущих альпийских лугов и зарядитесь бодростью и энергией на новые свершения.',
-            'preview_image' => 'img/tours/2/img/1.jpg',
+            'preview_image' => '/img/tours/2/img/1.jpg',
             'images' => [
-                'img/tours/2/img/1.jpg',
-                'img/tours/2/img/2.jpg',
-                'img/tours/2/img/3.jpg',
-                'img/tours/2/img/4.jpg',
-                'img/tours/2/img/5.jpg',
-                'img/tours/2/img/6.jpg',
-                'img/tours/2/img/7.jpg',
-                'img/tours/2/img/8.jpg',
-                'img/tours/2/img/9.jpg',
-                'img/tours/2/img/10.jpg',
-                'img/tours/2/img/11.jpg',
-                'img/tours/2/img/12.jpg',
-                'img/tours/2/img/13.jpg',
-                'img/tours/2/img/14.jpg'
+                '/img/tours/2/img/1.jpg',
+                '/img/tours/2/img/2.jpg',
+                '/img/tours/2/img/3.jpg',
+                '/img/tours/2/img/4.jpg',
+                '/img/tours/2/img/5.jpg',
+                '/img/tours/2/img/6.jpg',
+                '/img/tours/2/img/7.jpg',
+                '/img/tours/2/img/8.jpg',
+                '/img/tours/2/img/9.jpg',
+                '/img/tours/2/img/10.jpg',
+                '/img/tours/2/img/11.jpg',
+                '/img/tours/2/img/12.jpg',
+                '/img/tours/2/img/13.jpg',
+                '/img/tours/2/img/14.jpg'
             ],
             'comfort_loading' => true,
             'start_address' => fake("ru_RU")->address(),
@@ -186,21 +186,21 @@ class RusToursSeeder extends Seeder
             'base_price' => 1600,
             'discount_price' => 1600,
             'description' => 'Вы отправитесь в горный край Приэльбрусье. Отсюда открывается великолепный вид на заснеженный горб Эльбруса, который завораживает и манит своей недоступностью. Здесь чистый воздух, яркое солнце, а вокруг простираются живописные леса с прозрачными реками и озёрами.',
-            'preview_image' => 'img/tours/3/img/1.jpg',
+            'preview_image' => '/img/tours/3/img/1.jpg',
             'images' => [
-                'img/tours/3/img/1.jpg',
-                'img/tours/3/img/2.jpg',
-                'img/tours/3/img/3.jpg',
-                'img/tours/3/img/4.jpg',
-                'img/tours/3/img/5.jpg',
-                'img/tours/3/img/6.jpg',
-                'img/tours/3/img/7.jpg',
-                'img/tours/3/img/8.jpg',
-                'img/tours/3/img/9.jpg',
-                'img/tours/3/img/10.jpg',
-                'img/tours/3/img/11.jpg',
-                'img/tours/3/img/12.jpg',
-                'img/tours/3/img/13.jpg'
+                '/img/tours/3/img/1.jpg',
+                '/img/tours/3/img/2.jpg',
+                '/img/tours/3/img/3.jpg',
+                '/img/tours/3/img/4.jpg',
+                '/img/tours/3/img/5.jpg',
+                '/img/tours/3/img/6.jpg',
+                '/img/tours/3/img/7.jpg',
+                '/img/tours/3/img/8.jpg',
+                '/img/tours/3/img/9.jpg',
+                '/img/tours/3/img/10.jpg',
+                '/img/tours/3/img/11.jpg',
+                '/img/tours/3/img/12.jpg',
+                '/img/tours/3/img/13.jpg'
             ],
             'comfort_loading' => true,
             'start_address' => fake("ru_RU")->address(),
@@ -261,15 +261,15 @@ class RusToursSeeder extends Seeder
             'discount_price' => 3500,
             'description' => 'В Приэльбрусье мы отправимся через невероятно живописные места: Кавказские горы, Баксанское ущелье, селение Азау и горнолыжный курорт «Приэльбрусье». По пути гид расскажет вам местные легенды, а также историю о том, как был покорён Эльбрус.
                     Мы также заедем на озеро Гижгит с бирюзовой водой. Летом холмы вокруг него пестрят разноцветными цветами, что делает этот пейзаж поистине сказочным!',
-            'preview_image' => 'img/tours/4/img/1.jpg',
+            'preview_image' => '/img/tours/4/img/1.jpg',
             'images' => [
-                'img/tours/4/img/1.jpg',
-                'img/tours/4/img/2.jpg',
-                'img/tours/4/img/3.jpg',
-                'img/tours/4/img/4.jpg',
-                'img/tours/4/img/5.jpg',
-                'img/tours/4/img/6.jpg',
-                'img/tours/4/img/7.jpg'
+                '/img/tours/4/img/1.jpg',
+                '/img/tours/4/img/2.jpg',
+                '/img/tours/4/img/3.jpg',
+                '/img/tours/4/img/4.jpg',
+                '/img/tours/4/img/5.jpg',
+                '/img/tours/4/img/6.jpg',
+                '/img/tours/4/img/7.jpg'
             ],
             'comfort_loading' => true,
             'start_address' => fake("ru_RU")->address(),
@@ -326,21 +326,21 @@ class RusToursSeeder extends Seeder
         Tour::firstOrCreate([
             'title' => 'Плато Бермамыт на рассвете, днем или на закате',
             'short_description' => 'А давайте встретим рассвет или закат на вершине плато Бермамыт? Плато Бермамыт — идеальное место для снимков и видов на Эльбрус. Именно здесь прочувствуем всю мощь Кавказских гор и отдохнем от городской жизни.',
-            'base_price' => 3000,
+            'base_price' => 5000,
             'discount_price' => 3000,
             'description' => 'С высоты 2592 метров открываются самые лучшие виды на Эльбрус. Он всего лишь в 30 километрах. Но кажется, что знаменитый пятитысячник находится совсем близко.
                     Мы посетим несколько смотровых площадок, чтобы прочувствовать всю мощь природы. Вы увидите горы Бештау и Машук, скалы Монахи и ущелья.
                     За дополнительную плату возможен дополнительный заезд в парк Долина нарзанов, на Медовые водопады или гору Шапка, увидеть шикарный вид на Эшкаконское водохранилище, Гришкина балка.',
-            'preview_image' => 'img/tours/5/img/1.jpg',
+            'preview_image' => '/img/tours/5/img/1.jpg',
             'images' => [
-                'img/tours/5/img/1.jpg',
-                'img/tours/5/img/2.jpg',
-                'img/tours/5/img/3.jpg',
-                'img/tours/5/img/4.jpg',
-                'img/tours/5/img/5.jpg',
-                'img/tours/5/img/6.jpg',
-                'img/tours/5/img/7.jpg',
-                'img/tours/5/img/8.jpg'
+                '/img/tours/5/img/1.jpg',
+                '/img/tours/5/img/2.jpg',
+                '/img/tours/5/img/3.jpg',
+                '/img/tours/5/img/4.jpg',
+                '/img/tours/5/img/5.jpg',
+                '/img/tours/5/img/6.jpg',
+                '/img/tours/5/img/7.jpg',
+                '/img/tours/5/img/8.jpg'
             ],
             'comfort_loading' => true,
             'start_address' => fake("ru_RU")->address(),
@@ -399,33 +399,33 @@ class RusToursSeeder extends Seeder
         Tour::firstOrCreate([
             'title' => 'Чегемское ущелье, перевал Актопрак и озеро Гижгит в мини-группе',
             'short_description' => 'Как всем известно, все главные красоты Кавказа находятся за пределами города. На один день мы уедем из Пятигорска и отправимся в путешествие к Чегемским водопадам и озеру Гижгит. Эта экскурсия проводится в мини-группе до 8 человек — со мной нет спешки и огромных толп.',
-            'base_price' => 4000,
+            'base_price' => 6000,
             'discount_price' => 4000,
             'description' => 'Наше путешествие стартует в Пятигорске, за пару часов мы доберемся до Кабардино-Балкарии. Здесь и начнется наше исследование кавказских красот.
                 Первой нашей остановкой станут Чегемские водопады. Здесь я расскажу вам местную легенду, как появились знаменитые водопады. Кстати, водопады на замерзают даже зимой, они покрываются лишь ледяным панцирем. 
                 Далее мы отправимся в аул Эль-Тюбю. Здесь археологи находят артефакты, которым более 15 тысяч лет. А еще в ауле есть удивительная стена, на которой увековечены стихи поэта Кайсына Кулиева. 
                 Наш маршрут к озеру Гижгит пройдет через перевал Актопрак. Это древнейший перевал, через который общались жители Чегемского и Баксанского ущелий. Всего ничего и мы уже на берегу озера Гижгит, которое поражает своим бирюзовым цветом.',
-            'preview_image' => 'img/tours/6/img/1.jpg',
+            'preview_image' => '/img/tours/6/img/1.jpg',
             'images' => [
-                'img/tours/6/img/1.jpg',
-                'img/tours/6/img/2.jpg',
-                'img/tours/6/img/3.jpg',
-                'img/tours/6/img/4.jpg',
-                'img/tours/6/img/5.jpg',
-                'img/tours/6/img/6.jpg',
-                'img/tours/6/img/7.jpg',
-                'img/tours/6/img/8.jpg',
-                'img/tours/6/img/9.jpg',
-                'img/tours/6/img/10.jpg',
-                'img/tours/6/img/11.jpg',
-                'img/tours/6/img/12.jpg',
-                'img/tours/6/img/13.jpg',
-                'img/tours/6/img/14.jpg',
-                'img/tours/6/img/15.jpg',
-                'img/tours/6/img/16.jpg',
-                'img/tours/6/img/17.jpg',
-                'img/tours/6/img/18.jpg',
-                'img/tours/6/img/19.jpg'
+                '/img/tours/6/img/1.jpg',
+                '/img/tours/6/img/2.jpg',
+                '/img/tours/6/img/3.jpg',
+                '/img/tours/6/img/4.jpg',
+                '/img/tours/6/img/5.jpg',
+                '/img/tours/6/img/6.jpg',
+                '/img/tours/6/img/7.jpg',
+                '/img/tours/6/img/8.jpg',
+                '/img/tours/6/img/9.jpg',
+                '/img/tours/6/img/10.jpg',
+                '/img/tours/6/img/11.jpg',
+                '/img/tours/6/img/12.jpg',
+                '/img/tours/6/img/13.jpg',
+                '/img/tours/6/img/14.jpg',
+                '/img/tours/6/img/15.jpg',
+                '/img/tours/6/img/16.jpg',
+                '/img/tours/6/img/17.jpg',
+                '/img/tours/6/img/18.jpg',
+                '/img/tours/6/img/19.jpg'
             ],
             'comfort_loading' => true,
             'start_address' => fake("ru_RU")->address(),
@@ -461,12 +461,12 @@ class RusToursSeeder extends Seeder
                 [
                     "slug" => "children",
                     "title" => "Детский",
-                    "price" => 4000
+                    "price" => 3000
                 ],
                 [
                     "slug" => "family",
                     "title" => "Семейный",
-                    "price" => 4000
+                    "price" => 5000
                 ]
 
             ],
@@ -492,17 +492,17 @@ class RusToursSeeder extends Seeder
                 Термальные источники или рыцарский замок на выбор участников тура
                 После такой насыщенной программы вам наверняка захочется отдохнуть, поэтому мы поедем на термальные источники в Аушигер. Вы искупаетесь в бассейнах с водой, температура которой составляет от +40 до +50°C.
                 Или мы заедем в необыкновенное место. Замок Шато-Эркен был построен совсем недавно, но по красоте он не уступает рыцарским средневековым цитаделям. Особенное очарование ему придаёт то, что расположен он посреди озера, окружённого лесом, а в ясную погоду отсюда хорошо виден Эльбрус.',
-            'preview_image' => 'img/tours/7/img/1.jpg',
+            'preview_image' => '/img/tours/7/img/1.jpg',
             'images' => [
-                'img/tours/7/img/1.jpg',
-                'img/tours/7/img/2.jpg',
-                'img/tours/7/img/3.jpg',
-                'img/tours/7/img/4.jpg',
-                'img/tours/7/img/5.jpg',
-                'img/tours/7/img/6.jpg',
-                'img/tours/7/img/7.jpg',
-                'img/tours/7/img/8.jpg',
-                'img/tours/7/img/9.jpg'
+                '/img/tours/7/img/1.jpg',
+                '/img/tours/7/img/2.jpg',
+                '/img/tours/7/img/3.jpg',
+                '/img/tours/7/img/4.jpg',
+                '/img/tours/7/img/5.jpg',
+                '/img/tours/7/img/6.jpg',
+                '/img/tours/7/img/7.jpg',
+                '/img/tours/7/img/8.jpg',
+                '/img/tours/7/img/9.jpg'
             ],
             'comfort_loading' => true,
             'start_address' => fake("ru_RU")->address(),
@@ -573,17 +573,17 @@ class RusToursSeeder extends Seeder
                 После посещения башни Курта и Тага отправимся на Фиагдонские качели и к арт-объекту «Æ», посвящённому первой букве осетинского алфавита.
                 Горные водопады и Город мёртвых
                 Можно будет включить в программу посещение Мидаграбинских водопадов, входящих в список «Семь чудес Кавказа», а также заехать на живописную Гизельдонскую ГЭС и в Даргавс — некрополь с сотней фамильных склепов. Мы также сможем побывать в печально знаменитом Кармадонском ущелье. ',
-            'preview_image' => 'img/tours/8/img/1.jpg',
+            'preview_image' => '/img/tours/8/img/1.jpg',
             'images' => [
-                'img/tours/8/img/1.jpg',
-                'img/tours/8/img/2.jpg',
-                'img/tours/8/img/3.jpg',
-                'img/tours/8/img/4.jpg',
-                'img/tours/8/img/5.jpg',
-                'img/tours/8/img/6.jpg',
-                'img/tours/8/img/7.jpg',
-                'img/tours/8/img/7.jpg',
-                'img/tours/8/img/8.jpg'
+                '/img/tours/8/img/1.jpg',
+                '/img/tours/8/img/2.jpg',
+                '/img/tours/8/img/3.jpg',
+                '/img/tours/8/img/4.jpg',
+                '/img/tours/8/img/5.jpg',
+                '/img/tours/8/img/6.jpg',
+                '/img/tours/8/img/7.jpg',
+                '/img/tours/8/img/7.jpg',
+                '/img/tours/8/img/8.jpg'
             ],
             'comfort_loading' => true,
             'start_address' => fake("ru_RU")->address(),

@@ -5,6 +5,7 @@
                 <div class="dt-wrapper-gradient position-absolute"></div>
                 <h5 class="dt-excursion-type">{{ tour.tour_type }}</h5>
                 <div class="dt-like d-flex align-items-center justify-content-center"
+                     v-bind:class="{'right-60':!user.is_guest}"
                      v-if="tour.is_hot"
                 >
                     <i class="fa-solid fa-fire-flame-curved" style="color:red;"></i>
@@ -170,3 +171,8 @@ export default {
     }
 }
 </script>
+<style>
+.right-60 {
+    right:60px !important;
+}
+</style>

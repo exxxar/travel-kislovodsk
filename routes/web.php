@@ -2,7 +2,10 @@
 
 
 use App\Http\Controllers\API\ReviewController;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +17,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/storage/{path}',function ($path){
+    try {
+        $file = Storage::disk('local')->get("public/" . $path);
+        return (new Response($file, 200))
+            ->header('Content-Type', 'image/jpeg');
+    } catch (FileNotFoundException $e) {
+        return null;
+    }
+});
 
 Route::view('/', 'pages.main')->name("page.main");
 Route::view('/about', 'pages.about')->name("page.about");
@@ -32,12 +45,12 @@ Route::view('/partners', 'pages.partners')->name("page.partners");
 Route::view('/privacy-policy', 'pages.privacy-policy')->name("page.privacy-policy");
 Route::view('/rules', 'pages.rules')->name("page.rules");
 
-Route::get('/tour/{id}', [\App\Http\Controllers\API\TourController::class,"show"])
+Route::get('/tour/{id}', [\App\Http\Controllers\API\TourController::class, "show"])
     ->name("page.tour");
 
-Route::get('/guide/{id}', [\App\Http\Controllers\API\TouristGuideController::class,'show'])->name("page.guide");
+Route::get('/guide/{id}', [\App\Http\Controllers\API\TouristGuideController::class, 'show'])->name("page.guide");
 
-Route::get('/tour-object/{id}', [\App\Http\Controllers\API\TourObjectController::class,"show"])
+Route::get('/tour-object/{id}', [\App\Http\Controllers\API\TourObjectController::class, "show"])
     ->name("page.tour-object");
 
 Route::view('/tours-all', 'pages.tours-all')->name("page.tours-all");
@@ -48,10 +61,14 @@ Route::view('/error', 'pages.errors.500')->name("page.error");
 
 Route::middleware(["auth"])->group(function () {
 
-
+    Route::middleware(["is_guide"])->group(function () {
         Route::view('/guide-cabinet', 'pages.guide-cabinet')->name("page.guide-cabinet");
+    });
 
-    Route::view('/user-cabinet', 'pages.user-cabinet')->name("page.user-cabinet");
+    Route::middleware(["is_user"])->group(function () {
+        Route::view('/user-cabinet', 'pages.user-cabinet')->name("page.user-cabinet");
+    });
+
     Route::get('/logout', \App\Http\Controllers\SocialAuthController::class . '@logout')->name("logout");
 });
 
@@ -81,8 +98,10 @@ Route::prefix("api")
             ->group(function () {
                 Route::get('/', 'index');
                 Route::get('/all', 'all');
+                Route::get('/max-tours-price', 'getMaxTourPrice');
 
                 Route::get('/hot', 'hot');
+                Route::get('/watch/{id}', 'watch');
                 Route::get('/{id}', 'show');
                 Route::post('/search', 'search');
             });
@@ -189,6 +208,16 @@ Route::prefix("api")
 
                 Route::get('/messages/{userId}', []);
                 Route::get('/users', []);
+
+                Route::controller(\App\Http\Controllers\API\TouristGuideController::class)
+                    ->group(function(){
+                        Route::post('/company', 'updateCompanyInfo');
+                        Route::post('/password', 'updatePassword');
+                        Route::post('/profile', 'updateProfileInfo');
+                        Route::post('/upload-image', 'uploadImage');
+                    });
+
+
                 Route::post('/send-message', []);
                 Route::post('/send-file', []);
                 Route::post('/send-transaction', []);
@@ -260,7 +289,6 @@ Route::prefix("api")
             });
 
 
-
         Route::prefix("bookings")
             ->group(function () {
                 Route::get('/', []);
@@ -268,9 +296,6 @@ Route::prefix("api")
                 Route::post('/book-tour', []);
                 Route::delete('/remove/{id}', []);
             });
-
-
-
 
 
     });

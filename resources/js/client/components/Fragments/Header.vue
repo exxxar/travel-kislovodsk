@@ -51,17 +51,45 @@
                             </a>
                         </li>
                         <li class="dt-btn-entry" v-if="user.is_guest">
-                            <a data-bs-toggle="modal" data-bs-target="#dtModalEntry"
-                               class="dt-btn__text-entry dt-text-muted--white-50 dt-none-link--white-50 text-decoration-none"
-                               href="#">ВХОД</a>
+
+                            <div class="dropdown">
+                                <button class="btn humburger-btn dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-bars"></i>
+                                </button>
+
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#dtModalEntry"
+                                           href="#">Вход</a></li>
+                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#dtModalEntry"
+                                           href="#">Регистрация</a></li>
+                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#dtModalEntry"
+                                           href="#">Восстановление пароля</a></li>
+                                </ul>
+                            </div>
+
+
                         </li>
                         <li class="dt-btn-entry" v-if="!user.is_guest">
-                            <a href="/user-cabinet" v-if="user.is_user" class="d-flex justify-content-between">
-                                <p>{{user.name}}</p>
-                                <img width="18" height="18"
-                                     v-lazy="user.profile.photo"
-                                     alt="profile photo">
-                            </a>
+                            <div class="d-flex justify-content-between dropdown">
+                                <button class="btn user-avatar dropdown-toggle" type="button" id="dropdownMenuButton2"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    <p>{{ user.name }}</p>
+
+                                    <img width="18" height="18"
+                                         v-lazy="user.profile.photo"
+                                         alt="profile photo">
+                                </button>
+
+
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                    <li><a class="dropdown-item" href="/user-cabinet">Профиль</a></li>
+                                    <li><a class="dropdown-item" href="/logout">Выход</a></li>
+
+                                </ul>
+
+
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -144,11 +172,52 @@
 </template>
 
 <script>
-    export default  {
-        computed:{
-            user(){
-                return window.user;
-            }
+export default {
+    computed: {
+        user() {
+            return window.user;
         }
     }
+}
 </script>
+
+<style lang="scss">
+.humburger-btn {
+    &:active,
+    &:focus {
+        outline: none;
+    }
+
+    i {
+        color: white;
+        font-size: 24px;
+        padding: 0;
+        margin: 0;
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.user-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+    p {
+        color: white;
+        padding: 0px 15px 0px 0px;
+    }
+
+    img {
+        height: 50px;
+        width: 50px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px white solid;
+        box-shadow: 0 0 2px 0px black;
+    }
+}
+</style>

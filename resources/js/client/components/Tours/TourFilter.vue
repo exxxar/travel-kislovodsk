@@ -75,7 +75,12 @@
                     </label>
                 </div>
                 <div class="dt-check" v-if="filters.price_type===0">
-                    Где-то делся ввод цены
+
+                    <Slider
+                        :max="max"
+                        v-model="value"
+                        class="slider-blue mt-5"
+                    ></Slider>
                 </div>
             </div>
         </div>
@@ -145,8 +150,12 @@
 </template>
 <script>
 import {mapGetters} from "vuex";
+import Slider from '@vueform/slider'
 
 export default {
+    components: {
+        Slider,
+    },
     props: {
         isLinksWhite: {
             type: Boolean,
@@ -154,6 +163,10 @@ export default {
         }
     },
     watch: {
+        value(oldVal, newVal) {
+            this.filters.price_range_start = this.value[0]
+            this.filters.price_range_end = this.value[1]
+        },
         filters: {
             handler(newValue, oldValue) {
                 this.eventBus.emit('select_filtered_types', this.filters)
@@ -163,24 +176,22 @@ export default {
     },
     data() {
         return {
+            value: [100, 200],
+            max: 10000,
             filters: {
-                //from_place:null,
-                //from_date:null,
                 tour_types: [],
                 payment_types: [],
                 duration_types: [],
                 is_hot: false,
                 price_type: 0,
-                price_range_start: null,
-                price_range_end: null,
+                price_range_start: 0,
+                price_range_end: 1000,
                 movement_types: [],
-                //sort_type:null,
-                // tour_categories:[]
             },
         }
     },
     computed: {
-        ...mapGetters(['getToursByCategoryId', 'getTourById', 'getTours', 'getDictionariesByTypeSlug', 'getDictionaryTypes']),
+        ...mapGetters(['getToursByCategoryId', 'getMaxToursPrice', 'getTourById', 'getTours', 'getDictionariesByTypeSlug', 'getDictionaryTypes']),
         priceTypes() {
             return this.getDictionariesByTypeSlug("price_type")
         },
@@ -203,7 +214,12 @@ export default {
     mounted() {
         this.loadDictionaries()
 
-        this.eventBus.on('reset_filters',()=>{
+        this.$store.dispatch("loadMaxTourPrice").then(() => {
+            this.max = this.getMaxToursPrice
+            this.value = [0, this.max]
+        })
+
+        this.eventBus.on('reset_filters', () => {
             this.filters.tour_types = []
             this.filters.payment_types = []
             this.filters.duration_types = []
@@ -226,3 +242,15 @@ export default {
 
 
 </script>
+<style src="@vueform/slider/themes/default.css"></style>
+<style>
+
+.slider-blue {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
+    --slider-connect-bg: #3B82F6;
+    --slider-tooltip-bg: #3B82F6;
+    --slider-handle-ring-color: #3B82F630;
+}
+</style>

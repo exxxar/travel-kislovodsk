@@ -17,6 +17,7 @@
                 Удаленные
             </button>
             <button
+                @click="openAddTourObject"
                 class="button col-12 col-md-3 order-1 order-md-3 bg-green d-flex rounded ms-md-auto px-4 justify-content-center align-items-center bold">
                 Добавить объект
             </button>
@@ -35,6 +36,9 @@ export default {
         }
     },
     methods: {
+        openAddTourObject(){
+            this.eventBus.emit('open_add_tour_objects_window')
+        },
         changeActiveTitle(title) {
             this.activeType = title
             this.eventBus.emit('select_guide_tour_object_type', this.activeType)
