@@ -11,13 +11,13 @@
                         <div class="dt-preheader__actions">
 
                         </div>
-                        <p class="dt-preheader__title">Имя Фамилия</p>
+                        <p class="dt-preheader__title">{{ guide.fname }} {{guide.tname}}</p>
                         <div class="curved">
                             <img v-lazy="'/img/curved_strip.png'" alt="">
                         </div>
                         <div class="dt-preheader__avatar d-flex justify-content-center">
                             <div class="dt-avatar__img">
-                                <img v-lazy="'/img/avatars/7.jpg'" alt="">
+                                <img v-lazy="guide.avatar" alt="">
                             </div>
                         </div>
                     </div>
@@ -85,14 +85,14 @@
                         поднимемся еще выше до станции канатной дороги горы Чегет, где находится смотровая площадка и
                         знаменитое кафе Ай (луна), где любил бывать Высоций и Визбор.</p>
 
-                    <review-list />
+<!--                    <review-list />-->
                 </div>
                 <div class="col-lg-1"></div>
                 <div class="col-lg-3">
                     <div class="dt-form row-cols-1">
-                        <div class="col col-xs-12" v-for="item in tours">
-                            <tour-card-component :data="item" :key="item"/>
-                        </div>
+<!--                        <div class="col col-xs-12" v-for="item in tours">
+<!                            <tour-card-component :data="item" :key="item"/>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -104,6 +104,7 @@ import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
 import ReviewList from "@/components/Reviews/ReviewList.vue";
 export default {
     components: {ReviewList, Breadcrumbs},
+    props:["guide"],
     data() {
         return {
             breadcrumbs: [
@@ -116,7 +117,7 @@ export default {
                     href: "#",
                 },
                 {
-                    text: "Имя Фамилия",
+                    text: this.guide.tname + " "+this.guide.fname,
                     active: true,
                 }],
             tours: [{

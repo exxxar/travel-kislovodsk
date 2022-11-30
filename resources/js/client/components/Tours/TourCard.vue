@@ -5,6 +5,12 @@
                 <div class="dt-wrapper-gradient position-absolute"></div>
                 <h5 class="dt-excursion-type">{{ tour.tour_type }}</h5>
                 <div class="dt-like d-flex align-items-center justify-content-center"
+                     v-if="tour.is_hot"
+                >
+                    <i class="fa-solid fa-fire-flame-curved" style="color:red;"></i>
+
+                </div>
+                <div class="dt-like d-flex align-items-center justify-content-center"
                      v-if="!user.is_guest"
                      @click="addToFavorites"
                 >
@@ -89,7 +95,8 @@
                         дата</h5>
                     <h5 class="text-muted-black d-block d-md-none">ближ. дата</h5>
                 </div>
-                <h5 class="fw-bold">{{ tour.schedules[0].start_day || 'Не указана' }}</h5>
+                <h5 class="fw-bold" v-if="tour.schedules.length">{{ tour.schedules[0].start_day || 'Не указана' }}</h5>
+                <h5 class="fw-bold" v-else>Не указан</h5>
             </div>
 
             <div v-if="tour.dateStart && !tour.finish" class="position-relative personal-account-orders-info card-body__excursion-date

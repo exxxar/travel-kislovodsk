@@ -27,16 +27,35 @@ class TourController extends Controller
         $size = $request->get("size") ?? config('app.results_per_page');
 
         $tours = Tour::query()
+            ->with([
+                'tourObjects',
+                'tourCategories',
+                'durationType',
+                'tourType',
+                'creator.profile',
+                'schedules',
+                'reviews'
+            ])
             ->paginate($size);
 
         return new TourCollection($tours);
     }
 
-    public function loadGuideToursByPage(Request $request){
+    public function loadGuideToursByPage(Request $request)
+    {
 
         $size = $request->get("size") ?? config('app.results_per_page');
 
         $tours = Tour::query()
+            ->with([
+                'tourObjects',
+                'tourCategories',
+                'durationType',
+                'tourType',
+                'creator.profile',
+                'schedules',
+                'reviews'
+            ])
             ->where("creator_id", Auth::user()->id)
             ->paginate($size);
 
@@ -47,6 +66,15 @@ class TourController extends Controller
     {
         $size = $request->get("size") ?? config('app.results_per_page');
         $tours = Tour::query()
+            ->with([
+                'tourObjects',
+                'tourCategories',
+                'durationType',
+                'tourType',
+                'creator.profile',
+                'schedules',
+                'reviews'
+            ])
             ->paginate($size);
 
         return new TourCollection($tours);
@@ -57,6 +85,15 @@ class TourController extends Controller
         $size = $request->get("size") ?? config('app.results_per_page');
 
         $tours = Tour::query()
+            ->with([
+                'tourObjects',
+                'tourCategories',
+                'durationType',
+                'tourType',
+                'creator.profile',
+                'schedules',
+                'reviews'
+            ])
             ->where("is_hot", true)
             ->paginate($size);
 
@@ -81,6 +118,7 @@ class TourController extends Controller
             'tour_categories' => $request->tour_categories ?? [],
             'include_services' => $request->include_services ?? [],
             'exclude_services' => $request->exclude_services ?? [],
+            'nearest_selected_dates' => $request->nearest_selected_dates ?? null,
         ];
 
         $sortObject = (object)[
@@ -91,7 +129,17 @@ class TourController extends Controller
 
         $size = $request->get("size") ?? config('app.results_per_page');
 
-        $tours = Tour::withFilters($filterObject)
+        $tours = Tour::query()
+            ->with([
+                'tourObjects',
+                'tourCategories',
+                'durationType',
+                'tourType',
+                'creator.profile',
+                'schedules',
+                'reviews'
+            ])
+            ->withFilters($filterObject)
             ->withSort($sortObject)
             ->paginate($size);
 
@@ -177,7 +225,17 @@ class TourController extends Controller
     public function show(Request $request, $id)
     {
 
-        $tour = Tour::query()->where("id", $id)
+        $tour = Tour::query()
+            ->with([
+                'tourObjects',
+                'tourCategories',
+                'durationType',
+                'tourType',
+                'creator.profile',
+                'schedules',
+                'reviews'
+            ])
+        ->where("id", $id)
             ->first();
 
         return view('pages.tour', ["tour" => json_encode(new TourResource($tour))]);

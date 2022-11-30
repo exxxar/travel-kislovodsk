@@ -21,15 +21,19 @@
                 <div class="dt-input__group bg-white dt-border-right-gray">
                     <div class="d-flex flex-wrap">
 
-                        <label for="location-datalist"
+                       <label for="typeahead_id"
                                class="dt-label fw-thin">{{ filters.direction ? 'Откуда?' : 'Куда?' }}</label>
-                        <input class="dt-input fw-semibold h-100"
-                               v-model="filters.location"
-                               list="location-datalist-options" id="location-datalist" placeholder="Город"/>
-                        <datalist id="location-datalist-options">
-                            <option :value="item" :key="'location-'+index" v-for="(item, index) in filteredLocations"/>
 
-                        </datalist>
+                        <autocomplete-locations
+                        class="dt-input fw-semibold h-100"
+                            id="typeahead_id"
+                            v-model="filters.location"
+                            placeholder="Название города..."
+                            :items="filteredLocations"
+                            :minInputLength="1"
+                        >
+                        </autocomplete-locations>
+
                     </div>
                     <div class="dt-input__group-item">
                         <div class="dt-input__icon">
@@ -120,12 +124,19 @@
 </template>
 <script>
 import {mapGetters} from "vuex";
-
+import AutocompleteLocations from 'vue3-simple-typeahead'
+import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 
 export default {
-
+components:{
+    AutocompleteLocations
+},
     props: {
         isLinksWhite: {
+            type: Boolean,
+            default: false
+        },
+        needRedirectToAll: {
             type: Boolean,
             default: false
         }
@@ -133,6 +144,7 @@ export default {
 
     data() {
         return {
+
             filters: {
                 direction: true,
                 location: null,
@@ -157,16 +169,21 @@ export default {
                 return []
 
             if (!search)
-                return this.getLocations.slice(0, 20)
+                return this.getLocations//.slice(0, 20)
 
 
             return locations
-                .filter(item => item.toLowerCase().indexOf(search.toLowerCase()) !== -1)
-                .slice(0, 20)
+                .filter(item => item.toLowerCase().indexOf(search.toLowerCase()) !== -1&&search!==item)
+                //slice(0, 20)
 
         }
     },
     mounted() {
+
+        if (localStorage.getItem("travel_store_filter")){
+            this.filters = JSON.parse(localStorage.getItem("travel_store_filter"))
+        }
+
         this.loadDictionaries()
 
         this.eventBus.on('reset_filters', () => {
@@ -190,6 +207,12 @@ export default {
             return this.filters.nearest_selected_dates === index
         },
         applyFilter() {
+            if (this.needRedirectToAll) {
+                window.location = '/tours-all'
+                localStorage.setItem("travel_store_filter", JSON.stringify(this.filters || null))
+            }
+
+
             this.eventBus.emit('select_search_filter', this.filters)
         },
         loadDictionaries() {

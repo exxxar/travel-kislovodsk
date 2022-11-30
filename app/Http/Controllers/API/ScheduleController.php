@@ -20,6 +20,7 @@ class ScheduleController extends Controller
     public function index(Request $request)
     {
         $schedules = Schedule::query()
+            ->with(["tour"])
             ->where("guide_id", Auth::user()->id)
             ->paginate($request->count ?? config('app.results_per_page'));
 

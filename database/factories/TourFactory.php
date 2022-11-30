@@ -69,6 +69,7 @@ class TourFactory extends Factory
         return [
             'title' => fake("ru_RU")->text(50),
             'short_description' => fake("ru_RU")->text(255),
+            'description' => fake("ru_RU")->text(255),
             'base_price' => random_int(500, 10000),
             'discount_price' => random_int(500, 10000),
             'start_address' => fake("ru_RU")->address(),

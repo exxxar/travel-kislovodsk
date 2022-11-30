@@ -17,13 +17,14 @@ class TourResource extends JsonResource
      */
     public function toArray($request)
     {
-        $tourObjects = TourObjectResource::collection($this->tourObjects)->collection;
-        $tourCategories = DictionaryResource::collection($this->tourCategories)->collection;
-        $schedules = ScheduleResource::collection($this->schedules)->collection;
-        $reviews = ReviewResource::collection($this->reviews)->collection;
 
-        $tourType = new DictionaryResource($this->tourType);
-        $movementType = new DictionaryResource($this->movementType);
+        $tourObjects = TourObjectResource::collection($this->whenLoaded("tourObjects"))->collection;
+        $tourCategories = DictionaryResource::collection($this->whenLoaded("tourCategories"))->collection;
+        $schedules = ScheduleResource::collection($this->whenLoaded("schedules"))->collection;
+        $reviews = ReviewResource::collection($this->whenLoaded("reviews"))->collection;
+
+        $tourType = new DictionaryResource($this->whenLoaded("tourType"));
+        $movementType = new DictionaryResource($this->whenLoaded("movementType"));
 
 
         return [

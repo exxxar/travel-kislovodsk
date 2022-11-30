@@ -132,17 +132,23 @@ class   Dictionary extends Model
     public static function getLocations()
     {
         $tours = Tour::query()
+            ->select('start_city')
+            ->groupBy('start_city')
             ->get()
             ->pluck("start_city")
             ->toArray();
 
         $tourObjects = TourObject::query()
+            ->select('city')
+            ->groupBy('city')
             ->get()
             ->pluck("city")
             ->toArray();
 
 
-        return array_values([...$tours, ...$tourObjects]);
+
+
+        return [...array_intersect($tours, $tourObjects),...array_diff($tours, $tourObjects)];
     }
 
     public static function getTourDates()

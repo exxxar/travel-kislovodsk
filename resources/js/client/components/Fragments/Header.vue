@@ -57,7 +57,7 @@
                         </li>
                         <li class="dt-btn-entry" v-if="!user.is_guest">
                             <a href="/user-cabinet" v-if="user.is_user" class="d-flex justify-content-between">
-                                <p>{{user.profile.fname}}</p>
+                                <p>{{user.name}}</p>
                                 <img width="18" height="18"
                                      v-lazy="user.profile.photo"
                                      alt="profile photo">

@@ -121,9 +121,16 @@ class SocialAuthController extends Controller
             'photo' => '/images/no-avatar.png',
         ]);
 
-        $law_statuses = ["Физическое лицо", "Юридическое лицо", "Самозанятый"];
 
-        $dictType = Dictionary::query()->where("title", $law_statuses[$request->law_status])->first();
+        $law_statuses = [
+            "person_law_status_type",
+            "individual_law_status_type",
+            "entity_law_status_type",
+            "self_employed_law_status_type"];
+
+        $dictType = Dictionary::query()
+            ->where("slug", $law_statuses[$request->law_status])
+            ->first();
 
         $user = User::query()->create([
             'name' => $request->name,

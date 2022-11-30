@@ -88,6 +88,7 @@ const actions = {
     },
 
     async loadTourDates(context){
+
         let _axios = util.makeAxiosFactory(`${BASE_DICTIONARIES_LINK}/tour-dates`, 'GET', null)
 
         return _axios.then((response) => {
@@ -98,10 +99,14 @@ const actions = {
         })
     },
     async loadAllDictionaryTypes(context) {
-        return await  context.dispatch("dictionaryTypesPage", `${BASE_DICTIONARIES_LINK}/types`)
+        return await  context.dispatch("dictionaryTypesPage", {
+            url:`${BASE_DICTIONARIES_LINK}/types`
+        })
     },
     async loadAllDictionaries(context) {
-        return await  context.dispatch("dictionariesPage", `${BASE_DICTIONARIES_LINK}`)
+        return await  context.dispatch("dictionariesPage", {
+            url:`${BASE_DICTIONARIES_LINK}`
+        })
     },
 }
 

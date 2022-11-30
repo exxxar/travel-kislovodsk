@@ -15,19 +15,24 @@ class ScheduleResource extends JsonResource
      */
     public function toArray($request)
     {
-        $this->with(["tour"]);
 
         $tmpDate = Carbon::parse($this->start_at)->format('Y-m-d H:m');
 
         $date = explode(' ', $tmpDate);
-        return [
+
+        $schedule = [
             'id' => $this->id,
             'user_id' => $this->tour_id,
             'tour_id' => $this->tour_id,
-            'tour' =>$this->tour,
             'start_at' => $tmpDate,
             'start_day' => $date[0]??'',
             'start_time' => $date[1]??'',
         ];
+
+        if ($this->whenLoaded("tour"))
+            $schedule["tour"]= new TourResource($this->tour);
+
+
+        return $schedule;
     }
 }

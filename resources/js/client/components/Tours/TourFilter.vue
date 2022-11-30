@@ -169,7 +169,7 @@ export default {
                 tour_types: [],
                 payment_types: [],
                 duration_types: [],
-                is_hot: true,
+                is_hot: false,
                 price_type: 0,
                 price_range_start: null,
                 price_range_end: null,
