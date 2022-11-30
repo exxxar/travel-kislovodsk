@@ -33,7 +33,8 @@ class DatabaseSeeder extends Seeder
             TourObjectSeeder::class,
             TourSeeder::class,
             ScheduleSeeder::class,
-            MessageSeeder::class
+            MessageSeeder::class,
+            RusToursSeeder::class
         ]);
 
     }

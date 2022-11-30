@@ -36,26 +36,26 @@ class DictionarySeeder extends Seeder
                     break;
 
                 case "service_type":
-                    Dictionary::firstOrCreate(['title' => 'Страховка', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Трансфер', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Отель', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Такси', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Билеты', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Страховка', 'slug' => 'insurance_service_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Трансфер', 'slug' => 'transfer_service_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Отель', 'slug' => 'hotel_service_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Такси', 'slug' => 'taxi_service_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Билеты', 'slug' => 'tickets_service_type', 'dictionary_type_id' => $type->id]);
 
                     break;
 
                 case "movement_type":
-                    Dictionary::firstOrCreate(['title' => 'Пешая', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Автобусная', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Комбинированная', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Пешая', 'slug' => 'on_foot_movement_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Автобусная', 'slug' => 'bus_movement_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Комбинированная', 'slug' => 'combined_movement_type', 'dictionary_type_id' => $type->id]);
 
                     break;
 
                 case "duration_type":
-                    Dictionary::firstOrCreate(['title' => 'Один-два часа', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Несколько часов', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Несколько дней', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'День', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Один-два часа', 'slug' => 'one_two_hours_duration_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Несколько часов', 'slug' => 'couple_of_hours_duration_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Несколько дней', 'slug' => 'couple_of_days_duration_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'День', 'slug' => 'one_day_duration_type', 'dictionary_type_id' => $type->id]);
                     break;
 
                 case "sort_type":
@@ -69,35 +69,35 @@ class DictionarySeeder extends Seeder
 
 
                 case "payment_type":
-                    Dictionary::firstOrCreate(['title' => 'предоплата на сайте', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'полная оплата онлайн', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'без предоплаты', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'предоплата на сайте', 'slug' => 'site_pre_order_ticket_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'полная оплата онлайн', 'slug' => 'full_site_order_ticket_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'без предоплаты', 'slug' => 'no_pre_order_ticket_type', 'dictionary_type_id' => $type->id]);
                     break;
 
 
                 case "ticket_type":
-                    Dictionary::firstOrCreate(['title' => 'Обычный билет', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Детский билет', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Семейный билет', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Обычный билет', 'slug' => 'standard_ticket_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Детский билет', 'slug' => 'children_ticket_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Семейный билет', 'slug' => 'family_ticket_type', 'dictionary_type_id' => $type->id]);
 
                     break;
 
 
                 case "tour_type":
-                    Dictionary::firstOrCreate(['title' => 'Группа', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Индивидуальная', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Группа', 'slug' => 'group_tour_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Индивидуальная', 'slug' => 'individual_tour_type', 'dictionary_type_id' => $type->id]);
 
                     break;
 
                 case "tour_category_type":
-                    Dictionary::firstOrCreate(['title' => 'Активные', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Альпинизм', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Гастрономические', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Детские', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Животные', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Исторические', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Мистические', 'dictionary_type_id' => $type->id]);
-                    Dictionary::firstOrCreate(['title' => 'Обзорные', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Активные', 'slug' => 'active_tour_category_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Альпинизм', 'slug' => 'mountaineer_tour_category_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Гастрономические', 'slug' => 'food_tour_category_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Детские', 'slug' => 'children_tour_category_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Животные', 'slug' => 'animal_tour_category_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Исторические', 'slug' => 'historic_tour_category_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Мистические', 'slug' => 'mystic_tour_category_type', 'dictionary_type_id' => $type->id]);
+                    Dictionary::firstOrCreate(['title' => 'Обзорные', 'slug' => 'survey_tour_category_type', 'dictionary_type_id' => $type->id]);
 
                     break;
 
