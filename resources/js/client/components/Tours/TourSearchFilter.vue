@@ -21,20 +21,20 @@
                 <div class="dt-input__group bg-white dt-border-right-gray">
                     <div class="d-flex flex-wrap">
 
-                       <label for="typeahead_id"
+                        <label for="typeahead_id"
                                class="dt-label fw-thin">{{ filters.direction ? 'Откуда?' : 'Куда?' }}</label>
 
                         <autocomplete-locations
-                        class="dt-input fw-semibold h-100"
+                            class="dt-input fw-semibold h-100"
                             id="typeahead_id"
 
                             placeholder="Название города..."
                             :items="filteredLocations"
                             :minInputLength="1"
-                        @selectItem="selectLocationItem"
-                        @onInput="selectLocationItem"
-                        @onFocus="selectLocationItem"
-                        @onBlur="selectLocationItem"
+                            @selectItem="selectLocationItem"
+                            @onInput="selectLocationItem"
+                            @onFocus="selectLocationItem"
+                            @onBlur="selectLocationItem"
                         >
                         </autocomplete-locations>
 
@@ -132,9 +132,9 @@ import AutocompleteLocations from 'vue3-simple-typeahead'
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 
 export default {
-components:{
-    AutocompleteLocations
-},
+    components: {
+        AutocompleteLocations
+    },
     props: {
         isLinksWhite: {
             type: Boolean,
@@ -178,7 +178,7 @@ components:{
     },
     mounted() {
 
-        if (localStorage.getItem("travel_store_filter")){
+        if (localStorage.getItem("travel_store_filter")) {
             this.filters = JSON.parse(localStorage.getItem("travel_store_filter"))
         }
 
@@ -193,9 +193,12 @@ components:{
         })
     },
     methods: {
-        selectLocationItem(data){
-            this.filters.location = data
-         },
+        selectLocationItem(data) {
+            if (typeof data == 'object')
+                this.filters.location = data.input
+            else
+                this.filters.location = data
+        },
         toggleNearestFilter(index) {
             if (!this.checkNearest(index)) {
                 this.filters.nearest_selected_dates = index
