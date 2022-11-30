@@ -54,6 +54,7 @@ class SocialAuthController extends Controller
                 'law_status' => 0,
                 'photo' => $vkUser->getAvatar(),
             ]);
+            Auth::login($user, true);
         } catch (\Exception $e) {
 
             return redirect()->route("page.login");
@@ -69,18 +70,19 @@ class SocialAuthController extends Controller
             'username' => 'required|max:255',
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
-            'patronymic' => 'required|max:255',
+            'patronymic' => 'nullable|max:255',
             'phone' => 'required|unique:users',
             'email' => 'required|unique:users',
             'password' => 'required',
             'law_status' => 'required',
-            'photo' => 'required',
-            'company.title' => 'max:255',
-            'company.logo' => 'max:255',
-            'company.description' => 'max:255',
-            'company.inn' => 'max:50',
-            'company.ogrn' => 'max:50',
-            'company.law_address' => 'max:255',
+            'photo' => 'nullable',
+            'company'=>'nullable',
+            'company.title' => 'nullable|max:255',
+            'company.logo' => 'nullable|max:255',
+            'company.description' => 'nullable|max:255',
+            'company.inn' => 'nullable|max:50',
+            'company.ogrn' => 'nullable|max:50',
+            'company.law_address' => 'nullable|max:255',
         ]);
 
         try {
@@ -103,6 +105,8 @@ class SocialAuthController extends Controller
                     "law_address" => $request->company->law_address ?? null,
                 ],
             ]);
+
+            Auth::login($user, true);
         } catch (\Exception $e) {
             return response()->json([
                 "message" => $e->getMessage()

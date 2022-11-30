@@ -83,7 +83,9 @@
 
 
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                    <li><a class="dropdown-item" href="/user-cabinet">Профиль</a></li>
+                                    <li><a class="dropdown-item" v-if="user.is_user" href="/user-cabinet">Профиль пользователя</a></li>
+                                    <li><a class="dropdown-item" v-if="user.is_guide" href="/guide-cabinet">Кабинет гида</a></li>
+                                    <li><a class="dropdown-item" v-if="user.is_admin" href="/admin">Кабинет администратора</a></li>
                                     <li><a class="dropdown-item" href="/logout">Выход</a></li>
 
                                 </ul>
