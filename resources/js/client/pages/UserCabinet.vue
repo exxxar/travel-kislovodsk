@@ -15,7 +15,7 @@
                             <span class="text-white">{{ mobileMenuActive.title }}</span>
                         </div>
                     </div>
-                    <ul class="personal-account-nav-mobile__list">
+                    <ul class="personal-account-nav-mobile__list ">
                         <li class="personal-account-nav-mobile__item personal-account-nav__item"
                             v-for="item in mobileMenu"
                             @click="mobileMenuItem(item)"
@@ -70,13 +70,18 @@
                         </li>
                     </ul>
                 </div>
-<!--                <user-change-password v-if="mobileMenuActive.title === 'Смена пароля'" />
-                <user-orders v-if="mobileMenuActive.title === 'Мои заказы'" />
                 <user-reviews v-if="mobileMenuActive.title === 'Мои отзывы'" />
-                <user-transactions v-if="mobileMenuActive.title === 'Мои транзакции'" />
                 <user-watched-tours v-if="mobileMenuActive.title === 'Просмотренные'" />
-                <user-settings v-if="mobileMenuActive.title === 'Настройка профиля'" />-->
-            </div>
+               <user-change-password v-if="mobileMenuActive.title === 'Смена пароля'" />
+                <user-settings v-if="mobileMenuActive.title === 'Настройка профиля'" />
+                <user-orders v-if="mobileMenuActive.title === 'Мои заказы'" />
+
+<!--                <user-orders v-if="mobileMenuActive.title === 'Мои заказы'" />
+
+                <user-transactions v-if="mobileMenuActive.title === 'Мои транзакции'" />
+
+
+          -->  </div>
         </main>
     </section>
 </template>

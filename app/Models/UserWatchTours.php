@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class UserWatchTours extends Model
 {
@@ -17,6 +18,7 @@ class UserWatchTours extends Model
     protected $fillable = [
         'user_id',
         'tour_id',
+        'count',
         'watched_at',
     ];
 
@@ -40,5 +42,9 @@ class UserWatchTours extends Model
     public function tour()
     {
         return $this->belongsTo(Tour::class);
+    }
+
+    public static function watchedToursCount(){
+        return UserWatchTours::query()->where("user_id", Auth::user()->id)->count() ?? 0;
     }
 }

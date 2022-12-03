@@ -4,6 +4,14 @@
             <h2 class="lh-1 bold px-0 title-guide-cabinet">Настройка профиля гида</h2>
             <a :href="'/guide/'+user.id" target="_blank" class="d-lg-flex d-none dt-btn-text">смотреть профиль</a>
         </div>
+
+<!--
+        <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" v-for="error in getGuideErrors">
+            {{ error[0] }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+-->
+
         <div class="mb-4 mx-0 position-relative">
             <h3 class="mb-2 mt-3">Информация об организации</h3>
             <form v-on:submit.prevent="submitCompany">
@@ -154,6 +162,30 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="dt-input__wrapper d-flex mt-3 mb-3">
+                    <label class="dt-check__input">
+                        <input type="checkbox" id="check-1"
+                               :checked="form_guide.email_notification"
+                               v-model="form_guide.email_notification"/>
+                        <div class="dt-check__input-check"></div>
+                    </label>
+                    <label class="dt-check__label" for="check-1">
+                        Оповещать по Email
+                    </label>
+                </div>
+
+                <div class="dt-input__wrapper d-flex mt-3 mb-3">
+                    <label class="dt-check__input">
+                        <input type="checkbox" id="check-2"
+                               :checked="form_guide.sms_notification"
+                               v-model="form_guide.sms_notification"/>
+                        <div class="dt-check__input-check"></div>
+                    </label>
+                    <label class="dt-check__label" for="check-2">
+                        Оповещать по SMS
+                    </label>
+                </div>
                 <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5 mt-3">
                     <button type="submit" class="big-button bg-blue bold px-4 px-xxl-5 font-size-09 rounded">Сохранить
                     </button>
@@ -203,10 +235,75 @@
                 </div>
             </form>
 
-            <form v-on:submit.prevent="submitImages">
-                <div class="alert alert-success mt-3" role="alert" v-if="message">
-                    {{ message }}
+            <h3 class="mb-2 mt-3">Данные авторизации</h3>
+
+
+            <form v-on:submit.prevent="submitAccounting">
+                <div class="dt-input__wrapper ">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">Почта</label>
+                    </div>
+                    <div class="dt-input__group bg-white"
+                         v-bind:class="{'border-success':form_accounting.is_success_saved}"
+                    >
+                        <input type="email" placeholder="Почта" class="dt-input"
+                               v-model="form_accounting.email"
+
+                               autocomplete="off" maxlength="255">
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <i class="fa-solid fa-at"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div class="dt-input__wrapper mt-2">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">Имя аккаунта</label>
+                    </div>
+                    <div class="dt-input__group bg-white"
+                         v-bind:class="{'border-success':form_accounting.is_success_saved}"
+                    >
+                        <input type="text" placeholder="Пароль" class="dt-input"
+                               v-model="form_accounting.name"
+
+                               autocomplete="off" maxlength="255">
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <i class="fa-solid fa-heading"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dt-input__wrapper mt-2">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">Номер телефона</label>
+                    </div>
+                    <div class="dt-input__group bg-white"
+                         v-bind:class="{'border-success':form_accounting.is_success_saved}"
+                    >
+                        <input type="text" class="dt-input"
+                               v-model="form_accounting.phone"
+                               v-mask="'+7(###)###-##-##'"
+                               placeholder="+7(000)000-00-00"
+                               autocomplete="off" maxlength="255">
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5 mt-3">
+                    <button type="submit" class="big-button bg-blue bold px-4 px-xxl-5 font-size-09 rounded">Сохранить
+                    </button>
+                </div>
+            </form>
+
+            <form v-on:submit.prevent="submitImages">
+
                 <input type="file" id="files" multiple accept="image/*" @change="onChange" style="display:none;"/>
                 <div class="mb-4 row mx-0 mt-2">
                     <span class="dt-label  thin position-relative mb-2 col-12 px-0 d-flex align-items-center">добавьте фото
@@ -237,11 +334,16 @@
                     </button>
                 </div>
             </form>
+
+
         </div>
     </div>
 </template>
 <script>
+import {mapGetters} from "vuex";
+
 export default {
+
     data() {
         return {
             form_company: {
@@ -251,12 +353,22 @@ export default {
                 inn: null,
                 law_address: null,
                 is_success_saved: false,
+
+            },
+            form_accounting: {
+                email: null,
+                phone: null,
+                name: null,
+                is_success_saved: false,
             },
             form_guide: {
                 is_success_saved: false,
                 first_name: null,
                 last_name: null,
                 patronymic: null,
+                sms_notification: false,
+                email_notification: false,
+                verified_at: null
             },
             form_password: {
                 password: null,
@@ -265,10 +377,13 @@ export default {
             },
             photos: [],
             items: [],
-            message: null
+
+            errors: []
         }
     },
     mounted() {
+
+
         this.form_company.title = this.user.company.title
         this.form_company.inn = this.user.company.inn
         this.form_company.description = this.user.company.description
@@ -278,41 +393,76 @@ export default {
         this.form_guide.first_name = this.user.profile.fname
         this.form_guide.last_name = this.user.profile.tname
         this.form_guide.patronymic = this.user.profile.sname
+        this.form_guide.sms_notification = this.user.sms_notification
+        this.form_guide.email_notification = this.user.email_notification
+        this.form_guide.verified_at = this.user.verified_at
+
+
+        this.form_accounting.email = this.user.email
+        this.form_accounting.phone = this.user.phone
+        this.form_accounting.name = this.user.name
     },
     computed: {
         user() {
             return window.user
         },
-
     },
     methods: {
 
         onChange(e) {
-            this.message = null;
             const files = e.target.files
             this.photos = files
 
-            console.log(files)
             for (let i = 0; i < files.length; i++)
                 this.items.push({imageUrl: URL.createObjectURL(files[i])})
 
+        },
+        submitAccounting() {
+            this.form_accounting.is_success_saved = false;
+            this.$store.dispatch("updateGuideAccounting", this.form_accounting).then(() => {
+                this.form_accounting.is_success_saved = true;
+
+                this.$notify({
+                    title: "Кабинет гида",
+                    text: "Информация об аккаунте успешно обновлена",
+                    type: 'success'
+                });
+            })
         },
         submitCompany() {
             this.form_company.is_success_saved = false;
             this.$store.dispatch("updateGuideCompany", this.form_company).then(() => {
                 this.form_company.is_success_saved = true;
+
+                this.$notify({
+                    title: "Кабинет гида",
+                    text: "Информация о компании успешно обновлена",
+                    type: 'success'
+                });
             })
         },
         submitGuide() {
             this.form_guide.is_success_saved = false;
             this.$store.dispatch("updateGuideProfile", this.form_guide).then(() => {
                 this.form_guide.is_success_saved = true;
+
+                this.$notify({
+                    title: "Кабинет гида",
+                    text: "Информация о гиде успешно обновлена",
+                    type: 'success'
+                });
             })
         },
         submitPassword() {
             this.form_password.is_success_saved = false;
             this.$store.dispatch("updateGuidePassword", this.form_password).then(() => {
                 this.form_password.is_success_saved = true;
+
+                this.$notify({
+                    title: "Кабинет гида",
+                    text: "Пароль успешно обновлен",
+                    type: 'success'
+                });
             })
         },
         submitImages() {
@@ -327,7 +477,11 @@ export default {
                 files.value = ""
                 this.photos = [];
                 this.items = [];
-                this.message = "Изображение профиля успешно обновлено"
+                this.$notify({
+                    title: "Кабинет гида",
+                    text: "Изображение профиля успешно обновлено",
+                    type: 'success'
+                });
             })
         }
     }

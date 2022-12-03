@@ -104,16 +104,28 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
         return $permissions;
     }
 
-    public static function self(): object
+    public static function self(): string
     {
-        return User::query()->with(["profile", "role", "bookings", "favorites", "company"])
-            ->find(Auth::user()->id);
+        return User::query()
+            ->with(["profile", "role", "bookings", "favorites", "company"])
+            ->find(Auth::user()->id)
+            ->toJson();
     }
+
+    public static function selfStatistic(): string
+    {
+        return json_encode((object)[
+            "unread_chats_count"=>Chat::unreadChatsCount(),
+            "favorites_count"=>Favorite::favoriteToursCount(),
+            "watched_count"=>UserWatchTours::watchedToursCount(),
+            "booked_count"=>Booking::bookedToursCount(),
+        ]);
+    }
+
+
 
     public static function createUser(array $data)
     {
-
-
         $validator = Validator::make($data, [
             'username' => 'required|max:255',
             'first_name' => 'required|max:255',
@@ -124,7 +136,7 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
             'password' => 'required',
             'law_status' => 'required',
             'photo' => 'nullable',
-            'company'=>'nullable',
+            'company' => 'nullable',
             'company.title' => 'nullable|max:255',
             'company.logo' => 'nullable|max:255',
             'company.description' => 'nullable|max:255',
@@ -133,13 +145,9 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
             'company.law_address' => 'nullable|max:255',
         ]);
 
-
-
         if ($validator->fails()) {
             return new ValidationException($validator);
         }
-
-
 
         $validated = (object)$validator->validated();
         $company = null;
@@ -197,10 +205,9 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
                     ->send(new RegistrationMail(
                         $user
                     ));
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
         }
-
 
         return $user;
     }
@@ -218,18 +225,20 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
             $ph_number = preg_replace("/[^0-9]/", "", $validated->phone);
 
         $user = User::query()
-            ->with(["profile","role"])
+            ->with(["profile", "role"])
             ->where("phone", $ph_number ?? $validated->phone)
             ->orWhere("email", $validated->phone)
             ->first();
 
-
         if (!is_null($user)) {
+            if (bcrypt($validated->password) !== $user->password)
+                throw new AuthenticationException("Ошибка пароля");
+
             Auth::login($user, true);
             return $user;
         }
 
-        throw new AuthenticationException();
+        throw new AuthenticationException("Пользователь не найден!");
 
     }
 }

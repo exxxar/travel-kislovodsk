@@ -47,6 +47,8 @@ const actions = {
 
         }).catch(err => {
             context.dispatch("errorsGuideTourObjects")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
 

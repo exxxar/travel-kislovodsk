@@ -19,11 +19,14 @@
                 <div class="dt-input__group">
 
                     <div class="dropdown w-100">
-                        <button class="btn dropdown-toggle w-100" type="button" id="dropdownDateMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{bookingForm.date||'Выберите дату путешествия'}}
+                        <button class="btn dropdown-toggle w-100" type="button" id="dropdownDateMenu"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ bookingForm.date || 'Выберите дату путешествия' }}
                         </button>
                         <ul class="dropdown-menu w-100" aria-labelledby="dropdownDateMenu">
-                            <li class="cursor-pointer" v-for="day in sortedScheduleDates" ><a class="dropdown-item" @click="changeDate(day.start_day)">{{day.start_day}}</a></li>
+                            <li class="cursor-pointer" v-for="day in sortedScheduleDates">
+                                <a class="dropdown-item" @click="changeDate(day.start_day)">{{ day.start_day }}</a>
+                            </li>
                         </ul>
                     </div>
 
@@ -41,13 +44,17 @@
             <div class="dt-input__wrapper">
                 <div class="dt-input__group">
 
-                    <div class="dropdown w-100" >
+                    <div class="dropdown w-100">
                         <button class="btn dropdown-toggle w-100" type="button" id="dropdownTimeMenu"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                            {{bookingForm.time||'Время'}}
+                            {{ bookingForm.time || 'Время' }}
                         </button>
                         <ul class="dropdown-menu w-100" aria-labelledby="dropdownTimeMenu">
-                            <li class="cursor-pointer" v-for="time in sortedScheduleTimes" ><a class="dropdown-item " @click="bookingForm.time=time.start_time">{{time.start_time}}</a></li>
+                            <li class="cursor-pointer" v-for="time in sortedScheduleTimes"><a class="dropdown-item "
+                                                                                              @click="bookingForm.time=time.start_time">{{
+                                    time.start_time
+                                }}</a>
+                            </li>
                         </ul>
                     </div>
 
@@ -82,14 +89,14 @@
                     <button type="button" @click="increment(item.slug)">
                         +
                     </button>
-                    <span>{{ bookingForm.prices[item.slug] || 0 }}</span>
+                    <span>{{ getCountBySlug(item.slug) }}</span>
                     <button type="button" @click="decrement(item.slug)"
-                            v-bind:class="{'disabled':(bookingForm.prices[item.slug]||0)===0}"
-                            :disabled="(bookingForm.prices[item.slug]||0)===0">
+                            v-bind:class="{'disabled':getCountBySlug(item.slug)===0}"
+                            :disabled="getCountBySlug(item.slug)===0">
                         -
                     </button>
                 </div>
-                <div class="dt-total-price"><p>{{ (bookingForm.prices[item.slug] || 0) * item.price }}₽</p></div>
+                <div class="dt-total-price"><p>{{ getCountBySlug(item.slug) * item.price }}₽</p></div>
             </div>
         </div>
         <div class="dt-check__group dt-content--bottom-60">
@@ -214,7 +221,8 @@
 </template>
 <script>
 import {mapGetters} from "vuex";
-import { ref } from 'vue';
+import {ref} from 'vue';
+
 export default {
 
     props: ["tour"],
@@ -222,9 +230,10 @@ export default {
         return {
             bookingForm: {
 
-                date:null,
-                time:null,
-                prices: [],
+                tour_id: null,
+                date: null,
+                time: null,
+                counts: [],
                 services: [],
                 full_name: null,
                 phone: null,
@@ -237,8 +246,8 @@ export default {
     },
     computed: {
         ...mapGetters(['getDictionariesByTypeSlug']),
-        sortedScheduleTimes(){
-            if (this.bookingForm.date==null)
+        sortedScheduleTimes() {
+            if (this.bookingForm.date == null)
                 return [];
 
             function compare(a, b) {
@@ -249,9 +258,9 @@ export default {
                 return 0;
             }
 
-            return this.tour.schedules.filter(item=>item.start_day==this.bookingForm.date).sort(compare);
+            return this.tour.schedules.filter(item => item.start_day == this.bookingForm.date).sort(compare);
         },
-        sortedScheduleDates(){
+        sortedScheduleDates() {
 
             let tmpDates = [];
 
@@ -263,8 +272,8 @@ export default {
                 return 0;
             }
 
-            let dates = this.tour.schedules.filter(item=>{
-                if (tmpDates.indexOf(item.start_day)===-1){
+            let dates = this.tour.schedules.filter(item => {
+                if (tmpDates.indexOf(item.start_day) === -1) {
                     tmpDates.push(item.start_day)
                     return true;
                 }
@@ -283,11 +292,14 @@ export default {
 
             let people = 0;
 
-            for (let key in this.bookingForm.prices.keys())
-                people += (this.bookingForm.prices[key] || 0)
+            this.bookingForm.counts.forEach(item => {
+                people += item.count
+            })
 
             this.tour.prices.forEach(item => {
-                summary += item.price * (this.bookingForm.prices[item.slug] || 0)
+                this.bookingForm.counts.forEach(price => {
+                    summary += item.price * price.count
+                })
             })
 
 
@@ -299,12 +311,14 @@ export default {
 
             let people = 0;
 
-            for (let key in this.bookingForm.prices.keys())
-                people += (this.bookingForm.prices[key] || 0)
-
+            this.bookingForm.counts.forEach(item => {
+                people += item.count
+            })
 
             this.tour.prices.forEach(item => {
-                summary += item.price * (this.bookingForm.prices[item.slug] || 0)
+                this.bookingForm.counts.forEach(price => {
+                    summary += item.price * price.count
+                })
             })
 
             return Math.round(summary / (people || 1));
@@ -316,25 +330,61 @@ export default {
 
     },
     methods: {
-        changeDate(day){
+        changeDate(day) {
             this.bookingForm.date = day
             this.bookingForm.time = this.sortedScheduleTimes[0].start_time || '--:--'
         },
         submit() {
-            this.$store.dispatch("bookATour", this.bookingForm)
+            this.bookingForm.tour_id = this.tour.id
+
+            this.$store.dispatch("bookATour", this.bookingForm).then((resp) => {
+
+                this.bookingForm.tour_id = null
+                this.bookingForm.date = null
+                this.bookingForm.time = null
+                this.bookingForm.counts = []
+                this.bookingForm.services = []
+                this.bookingForm.full_name = null
+                this.bookingForm.phone = null
+                this.bookingForm.email = null
+                this.bookingForm.accept_rules = false
+                this.bookingForm.booking_is_correct = false
+
+                this.$notify({
+                    title: "Кисловодск-Туризм",
+                    text: "Тур успешно забронирован",
+                    type: 'success'
+                });
+            })
+        },
+        getCountBySlug(slug) {
+            let items = this.bookingForm.counts.filter(item => item.slug === slug) || []
+            return items.length > 0 ? items[0].count : 0
         },
         increment(slug) {
-            if (!this.bookingForm.prices[slug])
-                this.bookingForm.prices[slug] = 1;
-            else
-                this.bookingForm.prices[slug]++;
+
+            let findItems = this.bookingForm.counts.filter(item => item.slug === slug) || []
+
+            if (findItems.length === 0) {
+                this.bookingForm.counts.push({
+                    slug: slug,
+                    count: 1
+                })
+            } else
+                findItems[0].count++;
+
+
         },
         decrement(slug) {
-            if (!this.bookingForm.prices[slug])
-                this.bookingForm.prices[slug] = 0;
+            let findItems = this.bookingForm.counts.filter(item => item.slug === slug) || []
 
-            if (this.bookingForm.prices[slug] > 0)
-                this.bookingForm.prices[slug]--;
+            if (findItems.length === 0) {
+                this.bookingForm.counts.push({
+                    slug: slug,
+                    count: 0
+                })
+            } else if (findItems.count > 0)
+                findItems.count--;
         },
         closeBooking() {
             this.$emit('closeBooking');

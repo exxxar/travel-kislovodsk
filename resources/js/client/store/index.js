@@ -12,6 +12,17 @@ import userCabinet from'./modules/user_cabinet';
 
 
 export default createStore({
+    state: {
+        errors: [],
+    },
+    getters:{
+        getErrors: state => state.errors || [],
+    },
+    mutations:{
+        setErrors(state, payload) {
+            state.errors = payload || [];
+        },
+    },
     modules: {
         auth,
         tours,

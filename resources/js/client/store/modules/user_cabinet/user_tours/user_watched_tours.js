@@ -3,12 +3,12 @@ import util from '../../utilites';
 const BASE_USER_WATCHED_TOURS_LINK = '/api/user-cabinet/tours/watched'
 
 let state = {
-    user_watched_tours:[],
-    user_watched_tours_paginate_object:[],
+    user_watched_tours: [],
+    user_watched_tours_paginate_object: [],
 }
 
 const getters = {
-    getUserWatchedTours:state => state.user_watched_tours || [],
+    getUserWatchedTours: state => state.user_watched_tours || [],
     getUserWatchedTourById: (state) => (id) => {
         return state.user_watched_tours.find(item => item.id === id)
     },
@@ -16,47 +16,63 @@ const getters = {
 }
 
 const actions = {
-    errorsUserWatchedTours({commit}){
-        commit('setUserWatchedTours',
+    errorsUserWatchedTours(context) {
+        context.commit('setUserWatchedTours',
             !localStorage.getItem('travel_store_user_watched_tours') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_user_watched_tours')))
 
-        commit('setUserWatchedToursPaginateObject',
+        context.commit('setUserWatchedToursPaginateObject',
             !localStorage.getItem('travel_store_user_watched_tours_paginate_object') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_user_watched_tours_paginate_object')))
     },
-    async userWatchedToursPage({commit}, link, method = 'GET', data = null) {
+    async userWatchedToursPage(context, payload = {}) {
+
+        let link = payload.url || BASE_USER_WATCHED_TOURS_LINK,
+            method = payload.method || 'GET',
+            data = payload.data || null
+
         let _axios = util.makeAxiosFactory(link, method, data)
 
         return _axios.then((response) => {
             let dataObject = response.data
-            commit('setUserWatchedTours', dataObject.data)
+            context.commit('setUserWatchedTours', dataObject.data)
             delete dataObject.data
-            commit('setUserWatchedToursPaginateObject', dataObject)
+            context.commit('setUserWatchedToursPaginateObject', dataObject)
 
         }).catch(err => {
-            this.errorsUserTransactions(commit)
+            context.dispatch("errorsUserTransactions")
         })
     },
-    async loadUserWatchedToursFilteredByPage({commit}, filterObject, page = 0, size = 15){
-        return await this.userWatchedToursPage(commit,
-            `${BASE_USER_WATCHED_TOURS_LINK}/search?page=${page}&size=${size}`,
-            'POST',
-            filterObject)
+    async loadUserWatchedToursFilteredByPage(context, payload = {filterObject: null, page: 0, size: 12}) {
+        let filterObject = payload.filterObject,
+            page = payload.page || 0,
+            size = payload.size || 15
+
+        return await context.dispatch("userWatchedToursPage", {
+            url:`${BASE_USER_WATCHED_TOURS_LINK}/search?page=${page}&size=${size}`,
+            method: 'POST',
+            data: filterObject
+            })
     },
-    async loadUserWatchedToursByPage({commit}, page = 0, size = 15){
-        return await this.userWatchedToursPage(commit,
-            `${BASE_USER_WATCHED_TOURS_LINK}?page=${page}&size=${size}`)
+    async loadUserWatchedToursByPage(context, payload = {page:0, size: 12} ) {
+
+        let page = payload.page || 0,
+            size = payload.size || 15
+
+        return await context.dispatch("userWatchedToursPage", {
+            url: `${BASE_USER_WATCHED_TOURS_LINK}?page=${page}&size=${size}`
+        });
+
     },
 }
 
 const mutations = {
     setUserWatchedTours(state, payload) {
-        state.user_watched_tours = payload.data || [];
+        state.user_watched_tours = payload || [];
         localStorage.setItem('travel_store_user_watched_tours', JSON.stringify(payload));
     },
     setUserWatchedToursPaginateObject(state, payload) {
-        state.user_watched_tours_paginate_object = payload.data || [];
+        state.user_watched_tours_paginate_object = payload || [];
         localStorage.setItem('travel_store_user_watched_tours_paginate_object', JSON.stringify(payload));
     }
 }

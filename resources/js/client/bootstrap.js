@@ -38,6 +38,13 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.user = document.head.querySelector('meta[name="user"]') != null ?
     document.head.querySelector('meta[name="user"]').content : null;
 
+window.statistic = document.head.querySelector('meta[name="statistic"]') != null ?
+    document.head.querySelector('meta[name="statistic"]').content : null;
+
+if (window.statistic) {
+    window.statistic = JSON.parse(window.statistic)
+}
+
 if (window.user) {
     window.user = JSON.parse(window.user)
     console.log(window.user)

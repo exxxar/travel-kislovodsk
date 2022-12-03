@@ -35,21 +35,21 @@ const getters = {
 }
 
 const actions = {
-    errorsChatMessages({commit}) {
-        commit('setChatMessages',
+    errorsChatMessages(context) {
+        context.commit('setChatMessages',
             !localStorage.getItem('travel_store_chat_messages') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_chat_messages')))
 
-        commit('setChatMessagesPaginateObject',
+        context.commit('setChatMessagesPaginateObject',
             !localStorage.getItem('travel_store_chat_messages_paginate_object') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_chat_messages_paginate_object')))
     },
-    errorsChatUsers({commit}) {
-        commit('setChatUsers',
+    errorsChatUsers(context) {
+        context.commit('setChatUsers',
             !localStorage.getItem('travel_store_chat_users') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_chat_users')))
 
-        commit('setChatUsersPaginateObject',
+        context.commit('setChatUsersPaginateObject',
             !localStorage.getItem('travel_store_chat_users_paginate_object') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_chat_users_paginate_object')))
     },
@@ -68,6 +68,8 @@ const actions = {
 
         }).catch(err => {
             context.dispatch("errorsChatMessages")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
     async chatUsersPage(context, payload) {
@@ -86,6 +88,8 @@ const actions = {
 
         }).catch(err => {
             context.dispatch("errorsChatMessages")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
     async chatsPage(context, payload) {
@@ -104,9 +108,23 @@ const actions = {
 
         }).catch(err => {
             context.dispatch("errorsChatMessages")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
-    async sendMessage(context , messageObject) {
+    async startChat(context, chatObject = {recipient_id: null, message: null}) {
+
+        let _axios = util.makeAxiosFactory(BASE_CHATS_LINK+"/start-chat", 'POST', chatObject)
+
+        return _axios.then((response) => {
+
+        }).catch(err => {
+            context.dispatch("errorsChatMessages")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
+        });
+    },
+    async sendMessage(context, messageObject) {
 
         return await context.dispatch("chatMessagesPage", {
             url: `${BASE_CHATS_LINK}/send-message`,
@@ -114,7 +132,7 @@ const actions = {
             data: messageObject
         })
     },
-    async sendTransaction({commit}, transactionObject) {
+    async sendTransaction(context, transactionObject) {
 
         return await context.dispatch("chatMessagesPage", {
             url: `${BASE_CHATS_LINK}/send-transaction`,
@@ -123,21 +141,21 @@ const actions = {
         })
 
     },
-    async sendFile({commit}, formData) {
+    async sendFile(context, formData) {
         return axios.post(`${BASE_CHATS_LINK}/send-file`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         }).then((response) => {
             let dataObject = response.data
-            commit('setChatMessages', dataObject.data)
+            context.commit('setChatMessages', dataObject.data)
             delete dataObject.data
-            commit('setChatMessagesPaginateObject', dataObject)
+            context.commit('setChatMessagesPaginateObject', dataObject)
         }).catch(err => {
             context.dispatch("errorsChatMessages")
         })
     },
-    async nextChatMessagesPage({commit}, userId) {
+    async nextChatMessagesPage(context, userId) {
 
         return await context.dispatch("chatMessagesPage", {
             url: state
@@ -158,7 +176,7 @@ const actions = {
         console.log("nextChatsPage", state
             .chats_paginate_object
             .links
-            .next )
+            .next)
         return await context.dispatch("chatsPage", {
             url: state
                 .chats_paginate_object
@@ -174,12 +192,14 @@ const actions = {
 
         }).catch(err => {
             context.dispatch("errorsChatMessages")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
     async loadChatUsers(context, payload = {page: 0, size: 15}) {
         let page = payload.page || 0
         let size = payload.size || 15
-        console.log("loadChatUsers ")
+
         return await context.dispatch("chatUsersPage", {
             url: `${BASE_CHATS_LINK}/users?page=${page}&size=${size}`
         })
@@ -222,12 +242,11 @@ const mutations = {
     },
     appendChats(state, payload) {
         if (state.chats.length === 0)
-            state.chats= payload;
-        else{
-            state.chats= [...state.chats, ...payload];
+            state.chats = payload;
+        else {
+            state.chats = [...state.chats, ...payload];
 
         }
-
 
 
         localStorage.setItem('travel_store_chats', JSON.stringify(payload));

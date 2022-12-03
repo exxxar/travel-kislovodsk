@@ -257,7 +257,7 @@
                                         вас вопросы.
                                     </p>
                                 </div>
-                                <button class="dt-btn-blue"><span>Задать вопрос гиду</span></button>
+                                <button class="dt-btn-blue" @click="startChatWithGide"><span>Задать вопрос гиду</span></button>
                             </div>
                         </div>
                     </div>
@@ -338,7 +338,9 @@
                                 <span>Оформить заказ</span>
                             </button>
                         </div>
-                        <div class="dt-question-guide text-center">
+                        <div
+                            @click="startChatWithGide"
+                            class="dt-question-guide text-center">
                             <p class="dt-btn-text text-uppercase me-lg-3">задать вопрос гиду</p>
                         </div>
                     </div>
@@ -357,6 +359,11 @@ import TourObjectList from "@/components/TourObjects/TourObjectList.vue";
 export default {
     components: {TourObjectList, ReviewList, TourBooking, Breadcrumbs},
     props: ["tour"],
+    computed:{
+        user(){
+            return window.user
+        }
+    },
     data() {
         return {
             breadcrumbs: [
@@ -379,6 +386,23 @@ export default {
     },
 
     methods:{
+        startChatWithGide(){
+            if (user.is_guest)
+                window.location = "/login"
+
+            this.$store.dispatch("startChat", {
+                recipient_id: this.tour.guide.id,
+                message: `Добрый день, заинтересовал  <a href='/tour/${this.tour.id}'>тур</a>!`
+            }).then(()=>{
+                this.$notify({
+                    title: "Тур",
+                    text: "Чат успешно создан!",
+                    type: 'success'
+                });
+
+                window.location = "/messages"
+            })
+        },
         addToWatch(){
             this.$store.dispatch("watchTour", this.tour.id)
         },

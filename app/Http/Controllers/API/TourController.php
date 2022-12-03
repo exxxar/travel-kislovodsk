@@ -38,6 +38,8 @@ class TourController extends Controller
                 'schedules',
                 'reviews'
             ])
+            ->where("is_active", true)
+            ->where("is_draft", false)
             ->paginate($size);
 
         return new TourCollection($tours);
@@ -82,6 +84,7 @@ class TourController extends Controller
                 'schedules',
                 'reviews'
             ])
+
             ->paginate($size);
 
         return new TourCollection($tours);
@@ -102,6 +105,8 @@ class TourController extends Controller
                 'reviews'
             ])
             ->where("is_hot", true)
+            ->where("is_active", true)
+            ->where("is_draft", false)
             ->paginate($size);
 
         return new TourCollection($tours);
@@ -148,6 +153,8 @@ class TourController extends Controller
             ])
             ->withFilters($filterObject)
             ->withSort($sortObject)
+            ->where("is_active", true)
+            ->where("is_draft", false)
             ->paginate($size);
 
         return new TourCollection($tours);
@@ -289,12 +296,14 @@ class TourController extends Controller
             UserWatchTours::query()->create([
                 "user_id" => $userId,
                 "tour_id" => $tourId,
+                "count" => 1,
                 "watched_at" => Carbon::now()
             ]);
             return response()->noContent();
         }
 
         $uwt->watched_at = Carbon::now();
+        $uwt->count++;
         $uwt->save();
 
         return response()->noContent();

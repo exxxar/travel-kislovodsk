@@ -3,10 +3,8 @@
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
              aria-labelledby="pills-home-tab">
             <div class="dt-form row-cols-lg-4 row-cols-sm-1 row-cols-md-2" v-if="tours.length>0">
-                <div class="col col-xs-12" v-for="item in tours">
+                <div class="col col-12" v-for="item in tours">
                     <tour-card-component :tour="item" :key="item"/>
-
-
                 </div>
 
             </div>

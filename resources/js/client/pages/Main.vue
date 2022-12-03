@@ -11,7 +11,7 @@
         <div class="container">
             <div
                 class="align-items-center d-flex dt-online-register justify-content-center text-center position-relative">
-                <div class="dt-wrapper position-absolute w-100 h-100"></div>
+                <div class="dt-wrapper bg-img-1 position-absolute w-100 h-100"></div>
                 <div class="dt-online-register__info d-flex align-items-center">
                     <h3 class="fw-bold dt-online-register-title text-white">Онлайн заявка на регистрацию туристических
                         групп</h3>
@@ -44,3 +44,20 @@ export default {
     components: {TourSearchFilter}
 }
 </script>
+<style>
+.dt-page-main .dt-online-register .dt-wrapper.bg-img-1 {
+    background: url('img/3.png') no-repeat;
+    background-size: cover;
+    background-position-y: -470px;
+    background-color: #030202b3;
+    background-blend-mode: darken;
+}
+
+.dt-btn-white {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+</style>

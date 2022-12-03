@@ -9,6 +9,7 @@ use App\Http\Resources\UserWatchTourCollection;
 use App\Http\Resources\UserWatchTourResource;
 use App\Models\UserWatchTours;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserWatchToursController extends Controller
 {
@@ -18,7 +19,11 @@ class UserWatchToursController extends Controller
      */
     public function index(Request $request)
     {
-        $userWatchTours = UserWatchTours::paginate($request->count ?? config('app.results_per_page'));
+        $userId = Auth::user()->id;
+        $userWatchTours = UserWatchTours::query()
+            ->with(["tour"])
+            ->where("user_id", $userId)
+            ->paginate($request->count ?? config('app.results_per_page'));
 
         return new UserWatchTourCollection($userWatchTours);
     }

@@ -17,71 +17,105 @@ const getters = {
 }
 
 const actions = {
-    errorsBookings({commit}){
-        commit('setBookings',
-            !localStorage.getItem('travel_store_bookings') ?
-                [] : JSON.parse(localStorage.getItem('travel_store_bookings')))
+    errorsBookings(context) {
+        try {
+            context.commit('setBookings',
+                !localStorage.getItem('travel_store_bookings') ?
+                    [] : JSON.parse(localStorage.getItem('travel_store_bookings')||'[]'))
 
-        commit('setBookingsPaginateObject',
-            !localStorage.getItem('travel_store_bookings_paginate_object') ?
-                [] : JSON.parse(localStorage.getItem('travel_store_bookings_paginate_object')))
+            context.commit('setBookingsPaginateObject',
+                !localStorage.getItem('travel_store_bookings_paginate_object') ?
+                    [] : JSON.parse(localStorage.getItem('travel_store_bookings_paginate_object')||'[]'))
+        }catch (e){
+            localStorage.removeItem('travel_store_bookings')
+            localStorage.removeItem('travel_store_bookings_paginate_object')
+        }
+
     },
-    async removeBookings({commit}, id){
+    async removeBookings(context, id) {
         let _axios = util.makeAxiosFactory(`${BASE_BOOKINGS_LINK}/remove/${id}`, 'DELETE')
+
         return await _axios.then((response) => {
-            let dataObject = response.data
-            commit('setBookings', dataObject.data)
-            delete dataObject.data
-            commit('setBookingsPaginateObject', dataObject)
 
         }).catch(err => {
-            this.errorsBookings(commit)
+            context.dispatch("errorsBookings")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
-    async bookingsPage({commit}, link, method = 'GET', data = null) {
+    async bookingsPage(context, payload = {url: null, method: 'GET', data: null}) {
+
+        let link = payload.url || BASE_BOOKINGS_LINK,
+            method = payload.method || 'GET',
+            data = payload.data || null
+
         let _axios = util.makeAxiosFactory(link, method, data)
 
         return _axios.then((response) => {
             let dataObject = response.data
-            commit('setBookings', dataObject.data)
+            context.commit('setBookings', dataObject.data)
             delete dataObject.data
-            commit('setBookingsPaginateObject', dataObject)
+            context.commit('setBookingsPaginateObject', dataObject)
 
         }).catch(err => {
-            this.errorsBookings(commit)
+            context.dispatch("errorsBookings")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
-    async bookATour({commit}, tour) {
-        return await this.bookingsPage(commit, `${BASE_BOOKINGS_LINK}/book-tour`,'POST', tour )
+    async bookATour(context, bookTourObject) {
+        return await context.dispatch("bookingsPage", {
+            url: `${BASE_BOOKINGS_LINK}/book-tour`,
+            method: 'POST',
+            data: bookTourObject
+        })
     },
-    async previousBookingsPage({commit}) {
-        return await this.bookingsPage(commit, state
-            .paginate_object
-            .links
-            .prev || BASE_BOOKINGS_LINK)
+    async previousBookingsPage(context) {
+        return await context.dispatch("bookingsPage", {
+            url: state
+                .paginate_object
+                .links
+                .prev || BASE_BOOKINGS_LINK
+
+        })
     },
-    async nextBookingsPage({commit}) {
-        return await this.bookingsPage(commit, state
-            .paginate_object
-            .links
-            .next || BASE_BOOKINGS_LINK)
+    async nextBookingsPage(context) {
+
+        return await context.dispatch("bookingsPage", {
+            url: state
+                .paginate_object
+                .links
+                .next || BASE_BOOKINGS_LINK
+
+        })
+
     },
-    async loadBookingsByPage({commit}, page = 0, size = 15) {
-        return await this.bookingsPage(commit, `${BASE_BOOKINGS_LINK}?page=${page}&size=${size}`)
+    async loadBookingsByPage(context, payload = {page: 0, size: 15}) {
+
+        let page = payload.page || 0
+        let size = payload.size || 15
+
+        return await context.dispatch("bookingsPage", {
+            url: `${BASE_BOOKINGS_LINK}?page=${page}&size=${size}`
+        })
+
     },
-    async loadAllBookings({commit}) {
-        return await this.bookingsPage(commit, `${BASE_BOOKINGS_LINK}/all`)
+    async loadAllBookings(context) {
+        return await context.dispatch("bookingsPage", {
+            url: `${BASE_BOOKINGS_LINK}/all`
+
+        })
     },
 }
 
 const mutations = {
     setBookings(state, payload) {
-        state.bookings = payload.data || [];
-        localStorage.setItem('travel_store_bookings', JSON.stringify(payload));
+        state.bookings = payload || [];
+        localStorage.setItem('travel_store_bookings', JSON.stringify(payload || []));
     },
     setBookingsPaginateObject(state, payload) {
-        state.paginate_object = payload.data || [];
-        localStorage.setItem('travel_store_bookings_paginate_object', JSON.stringify(payload));
+        state.paginate_object = payload || [];
+        localStorage.setItem('travel_store_bookings_paginate_object', JSON.stringify(payload || []));
     }
 }
 

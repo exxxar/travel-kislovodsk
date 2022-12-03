@@ -10,6 +10,7 @@ use App\Http\Resources\MessageCollection;
 use App\Http\Resources\MessageResource;
 use App\Http\Resources\ChatsCollections;
 use App\Models\Chat;
+use App\Models\ChatUsers;
 use App\Models\Message;
 use App\Models\User;
 use Carbon\Carbon;
@@ -140,6 +141,30 @@ class MessageController extends Controller
             ->paginate($request->size ?? config('app.results_per_page'));
 
         return MessageResource::collection($messages);
+
+    }
+
+    public function startChat(Request $request)
+    {
+        $request->validate([
+            "recipient_id" => "required",
+            "message" => "required|max:255"
+        ]);
+
+        $message = $request->message;
+        $senderId = Auth::user()->id;
+        $recipientId = $request->recipient_id;
+
+        if ($senderId==$recipientId)
+            return response()->json([
+                "errors"=>[
+                    "message"=>["Вы не можете задать себе вопрос!"]
+                ]
+            ]);
+
+        $chat = Chat::startNewChat($message, $senderId, $recipientId);
+
+        return response()->json($chat);
 
     }
 }

@@ -9,7 +9,7 @@ class BookingResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -17,6 +17,7 @@ class BookingResource extends JsonResource
         return [
             'id' => $this->id,
             'tour_id' => $this->tour_id,
+            'tour' => is_null($this->tour) ? null : new TourResource($this->tour),
             'user_id' => $this->user_id,
             'selected_prices' => $this->selected_prices,
             'additional_services' => $this->additional_services,

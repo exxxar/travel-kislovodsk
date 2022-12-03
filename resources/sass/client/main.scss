@@ -106,3 +106,46 @@ h6 {
         padding-left: 20px !important;
     }
 }
+
+
+.dt-preheader__photos {
+    flex-wrap: wrap;
+
+    .dt-photos__item {
+        margin-bottom: 10px;
+    }
+}
+
+
+.dt-input__wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.empty-list {
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    img {
+        width:100%;
+        object-fit: cover;
+        mix-blend-mode: darken;
+    }
+
+    p {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+}
+
+.side-menu {
+    position: sticky;
+    top: 20px;
+}
+
+.bg-primary {
+    background-color: #0a53be !important;
+}

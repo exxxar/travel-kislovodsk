@@ -45,6 +45,8 @@ const actions = {
 
         }).catch(err => {
             context.dispatch("errorsGuideSchedules")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
     async loadGuideSchedulesFilteredByPage(context, payload = {filterObject: null, page: 0, size: 15}) {

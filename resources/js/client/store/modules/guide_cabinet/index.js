@@ -13,7 +13,8 @@ let state = {
     ...schedules.state,
     ...tours.state,
     ...tourObjects.state,
-    documents: []
+    documents: [],
+
 }
 
 const getters = {
@@ -47,7 +48,9 @@ const actions = {
         }).then((response) => {
 
         }).catch(err => {
+            context.commit("setErrors", err.response.data.errors || [])
             context.dispatch("errorGuideCabinet")
+            return Promise.reject(err);
         })
     },
     async requestGuideProfileVerified(context) {
@@ -56,9 +59,10 @@ const actions = {
 
         return _axios.then((response) => {
 
-
         }).catch(err => {
+            context.commit("setErrors", err.response.data.errors || [])
             context.dispatch("errorGuideCabinet")
+            return Promise.reject(err);
         })
     },
     async removeGuideDocument(context, documentId) {
@@ -69,14 +73,16 @@ const actions = {
             context.commit('setGuideDocuments', dataObject.data)
 
         }).catch(err => {
+            context.commit("setErrors", err.response.data.errors || [])
             context.dispatch("errorGuideCabinet")
+            return Promise.reject(err);
         })
     },
     async addGuideDocument(context, payload = {formData: null, title: null, description: null}) {
 
         let formData = payload.formData || null,
             title = payload.title || null,
-        description = payload.description || null
+            description = payload.description || null
 
         if (title)
             formData.append("title", title)
@@ -90,7 +96,9 @@ const actions = {
         }).then((response) => {
 
         }).catch(err => {
+            context.commit("setErrors", err.response.data.errors || [])
             context.dispatch("errorGuideCabinet")
+            return Promise.reject(err);
         })
     },
     async loadGuideDocuments(context) {
@@ -101,17 +109,30 @@ const actions = {
             context.commit('setGuideDocuments', dataObject.data)
 
         }).catch(err => {
+            context.commit("setErrors", err.response.data.errors || [])
             context.dispatch("errorGuideCabinet")
+            return Promise.reject(err);
         })
     },
 
+    async updateGuideAccounting(context, accountingObject) {
+        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_CABINET_LINK}/account`, 'POST', accountingObject)
+
+        return _axios.then((response) => {
+
+        }).catch(err => {
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
+        })
+    },
     async updateGuideCompany(context, profileObject) {
         let _axios = util.makeAxiosFactory(`${BASE_GUIDE_CABINET_LINK}/company`, 'POST', profileObject)
 
         return _axios.then((response) => {
 
         }).catch(err => {
-
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
     async updateGuideProfile(context, profileObject) {
@@ -120,7 +141,8 @@ const actions = {
         return _axios.then((response) => {
 
         }).catch(err => {
-
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
     async updateGuidePassword(context, profileObject) {
@@ -129,7 +151,8 @@ const actions = {
         return _axios.then((response) => {
 
         }).catch(err => {
-
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
     async addGuideImage(context, formData) {
@@ -141,7 +164,10 @@ const actions = {
         }).then((response) => {
 
         }).catch(err => {
+            context.commit("setErrors", err.response.data.errors || [])
             context.dispatch("errorGuideCabinet")
+            return Promise.reject(err);
+
         })
     },
 
@@ -152,8 +178,9 @@ const mutations = {
     ...schedules.mutations,
     ...tours.mutations,
     ...tourObjects.mutations,
+
     setGuideDocuments(state, payload) {
-        state.documents = payload.data || [];
+        state.documents = payload || [];
         localStorage.setItem('travel_store_guide_documents', JSON.stringify(payload));
     },
 }

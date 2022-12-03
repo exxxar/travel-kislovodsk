@@ -1,7 +1,7 @@
 import './bootstrap';
 import {createApp} from 'vue/dist/vue.esm-bundler';
 import mitt from 'mitt'
-
+import NotificationsVue from '@kyvg/vue3-notification'
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 
@@ -65,9 +65,12 @@ import GuideTourObjectList from '@/components/GuideCabinet/GuideTourObjectList.v
 import GuideTourObjectCard from '@/components/GuideCabinet/GuideTourObjectCard.vue'
 import GuideTourObjectPaginate from '@/components/GuideCabinet/GuideTourObjectPaginate.vue'
 
+import PersonalReviewCard from '@/components/Reviews/PersonalReviewCard.vue'
+
 const eventBus = mitt()
 const app = createApp({})
 
+app.use(NotificationsVue)
 app.config.globalProperties.eventBus = eventBus
 
 app.use(VueLazyLoad,
@@ -146,6 +149,8 @@ app.component('guide-tour-object-paginate-component', GuideTourObjectPaginate)
 app.component('guide-tour-object-list-component', GuideTourObjectList)
 app.component('guide-tour-object-card-component', GuideTourObjectCard)
 
+app.component('personal-review-card-component', PersonalReviewCard)
+
 
 import store from './store'
 
@@ -153,3 +158,6 @@ import store from './store'
 app.use(store)
 
 app.mount('#app')
+
+
+window.app = app;

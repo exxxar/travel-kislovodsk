@@ -24,8 +24,8 @@ const getters = {
 }
 
 const actions = {
-    errorsReviews({commit}){
-        commit('setReviews',
+    errorsReviews(context){
+        context.commit('setReviews',
             !localStorage.getItem('travel_store_reviews') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_reviews')))
 
@@ -95,7 +95,7 @@ const actions = {
             url:`${BASE_REVIEWS_LINK}/guide/${guideId}`
         })
     },
-    async addReview({commit}, review){
+    async addReview(context, review){
 
         return context.dispatch("loadReviewData",{
             url:`${BASE_REVIEWS_LINK}`,
@@ -104,7 +104,7 @@ const actions = {
 
         })
     },
-    async removeReview({commit}, reviewId){
+    async removeReview(context, reviewId){
         return context.dispatch("loadReviewData",{
             url:`${BASE_REVIEWS_LINK}/${reviewId}`,
             method: 'DELETE'

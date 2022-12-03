@@ -35,18 +35,18 @@ class TourSeeder extends Seeder
             ->get();
 
 
-        foreach ($users as $user) {
+        /*foreach ($users as $user) {
             Tour::factory()->count(15)->create([
                 'creator_id'=>$user->id,
             ]);
 
-        }
+        }*/
 
 
         $tours = Tour::query()
-            ->take(10)
-            ->skip(0)
             ->get();
+
+        $max = Tour::query()->count();
 
         foreach ($tours as $tour) {
 

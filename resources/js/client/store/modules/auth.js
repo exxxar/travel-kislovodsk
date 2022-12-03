@@ -11,25 +11,27 @@ const getters = {
 }
 
 const actions = {
-    async registration({commit}, regForm) {
+    async registration(context, regForm) {
         let _axios = util.makeAxiosFactory('/api/registration', 'POST', regForm)
 
         return _axios.then((response) => {
             let role = response.data.role
             window.location.href = `/${role}-cabinet`
         }).catch(err => {
-
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
 
-    async login({commit}, authForm) {
+    async login(context, authForm) {
         let _axios = util.makeAxiosFactory('/api/login', 'POST', authForm)
 
         return _axios.then((response) => {
             let role = response.data.role
             window.location.href = `/${role}-cabinet`
         }).catch(err => {
-
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
 

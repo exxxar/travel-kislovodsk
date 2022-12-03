@@ -73,7 +73,8 @@ class SocialAuthController extends Controller
             'patronymic' => 'nullable|max:255',
             'phone' => 'required|unique:users',
             'email' => 'required|unique:users',
-            'password' => 'required',
+            "password"=>'min:6|required_with:confirm_password|same:confirm_password',
+            "confirm_password"=>"required",
             'law_status' => 'required',
             'photo' => 'nullable',
             'company'=>'nullable',
@@ -86,6 +87,7 @@ class SocialAuthController extends Controller
         ]);
 
         try {
+            $company = (object)$request->company;
             $user = User::createUser([
                 'username' => $request->username,
                 'first_name' => $request->first_name,
@@ -97,19 +99,21 @@ class SocialAuthController extends Controller
                 'law_status' => $request->law_status,
                 'photo' => $request->photo,
                 'company' => (object)[
-                    "title" => $request->company->title ?? null,
-                    "logo" => $request->company->logo ?? null,
-                    "description" => $request->company->description ?? null,
-                    "inn" => $request->company->inn ?? null,
-                    "ogrn" => $request->company->ogrn ?? null,
-                    "law_address" => $request->company->law_address ?? null,
+                    "title" => $company->title ?? null,
+                    "logo" => $company->logo ?? null,
+                    "description" => $company->description ?? null,
+                    "inn" => $company->inn ?? null,
+                    "ogrn" => $company->ogrn ?? null,
+                    "law_address" => $company->law_address ?? null,
                 ],
             ]);
 
             Auth::login($user, true);
         } catch (\Exception $e) {
             return response()->json([
-                "message" => $e->getMessage()
+                "errors" => [
+                    "message"=>[$e->getMessage()]
+                ]
             ], 400);
         }
 
@@ -133,7 +137,9 @@ class SocialAuthController extends Controller
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                "message" => $e->getMessage()
+                "errors" => [
+                    "message"=>[$e->getMessage()]
+                ]
             ], 400);
         }
 

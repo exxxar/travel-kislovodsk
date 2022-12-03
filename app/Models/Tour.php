@@ -83,8 +83,6 @@ class Tour extends Model
     protected $appends = ['resource_url', 'is_liked', 'rating', 'rating_statistic'];
 
 
-
-
     public function scopeWithSort($query, $sortObject)
     {
         if (is_null($sortObject->sort_type))
@@ -146,18 +144,18 @@ class Tour extends Model
             });
         }
 
-        if (!is_null($filterObject->nearest_selected_dates)){
-            switch ($filterObject->nearest_selected_dates){
+        if (!is_null($filterObject->nearest_selected_dates)) {
+            switch ($filterObject->nearest_selected_dates) {
                 default:
                 case 0:
 
-                $query = $query->whereHas('schedules', function ($q) {
-                    $q->whereBetween('start_at', [
-                            Carbon::now()->addDay()->format('Y-m-d 00:00:00'),
-                            Carbon::now()->addDay()->format('Y-m-d 23:59:59')
-                        ]
-                    );
-                });
+                    $query = $query->whereHas('schedules', function ($q) {
+                        $q->whereBetween('start_at', [
+                                Carbon::now()->addDay()->format('Y-m-d 00:00:00'),
+                                Carbon::now()->addDay()->format('Y-m-d 23:59:59')
+                            ]
+                        );
+                    });
 
                     break;
 
@@ -205,9 +203,8 @@ class Tour extends Model
         }
 
 
-        if (!is_null($filterObject->is_hot))
+        if ($filterObject->is_hot === true)
             $query = $query->where("is_hot", $filterObject->is_hot);
-
 
         if (!empty($filterObject->payment_types))
             $query = $query->whereIn("payment_type_id", $filterObject->payment_types);
@@ -321,6 +318,6 @@ class Tour extends Model
     {
         return $this->hasMany(Schedule::class)
             ->where("start_at", ">", Carbon::now()->format('Y-m-d H:m'))
-            ->orderBy("start_at","ASC");
+            ->orderBy("start_at", "ASC");
     }
 }

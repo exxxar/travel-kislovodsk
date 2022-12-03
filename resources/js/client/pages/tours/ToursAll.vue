@@ -215,23 +215,3 @@ export default {
     }
 }
 </script>
-<style lang="scss">
-.empty-list {
-    width:100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    img {
-        width:100%;
-        object-fit: cover;
-        mix-blend-mode: darken;
-    }
-
-    p {
-        width: 100%;
-        text-align: center;
-        margin-bottom: 10px;
-    }
-}
-</style>

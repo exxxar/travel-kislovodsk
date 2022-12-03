@@ -10,6 +10,7 @@ use App\Http\Resources\ReviewResource;
 use App\Models\Review;
 use App\Models\Tour;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
@@ -20,6 +21,15 @@ class ReviewController extends Controller
     public function index(Request $request)
     {
         $reviews = Review::paginate($request->count ?? config('app.results_per_page'));
+
+        return new ReviewCollection($reviews);
+    }
+
+    public function selfReviews(Request $request)
+    {
+        $reviews = Review::query()
+            ->where("user_id", Auth::user()->id)
+            ->paginate($request->count ?? config('app.results_per_page'));
 
         return new ReviewCollection($reviews);
     }

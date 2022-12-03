@@ -96,8 +96,10 @@
                         дата</h5>
                     <h5 class="text-muted-black d-block d-md-none">ближ. дата</h5>
                 </div>
-                <h5 class="fw-bold" v-if="tour.schedules.length">{{ tour.schedules[0].start_day || 'Не указана' }}</h5>
+                <h5 class="fw-bold" v-if="tour.schedules">{{ tour.schedules[0].start_day || 'Не указана' }}</h5>
                 <h5 class="fw-bold" v-else>Не указан</h5>
+
+                <slot name="dates"></slot>
             </div>
 
             <div v-if="tour.dateStart && !tour.finish" class="position-relative personal-account-orders-info card-body__excursion-date
@@ -127,19 +129,23 @@
             </div>
         </div>
         <div class="card-footer bg-white text-center">
+
             <div class="card-footer__actions d-flex justify-content-around">
-                <a :href="'/tour/'+tour.id" target="_blank" class="text-uppercase dt-travel-card__action">
+                <a :href="'/tour/'+tour.id" class="text-uppercase dt-travel-card__action">
                     <h6 class="dt-btn-text">Подробнее</h6>
                 </a>
             </div>
-            <a v-if="tour.complete && tour.finish" href="#" class="mt-4 personal-account-orders-completed-footer__link
+
+            <slot name="footer"></slot>
+
+<!--            <a v-if="tour.complete && tour.finish" href="#" class="mt-4 personal-account-orders-completed-footer__link
                 personal-account-orders-completed-footer__link_blue">
                 Поставить оценку
             </a>
             <a v-if="tour.review && tour.finish" href="#" class="mt-4 personal-account-orders-completed-footer__link
                 personal-account-orders-completed-footer__link_grey">
                 Смотреть мой отзыв
-            </a>
+            </a>-->
         </div>
     </div>
 </template>

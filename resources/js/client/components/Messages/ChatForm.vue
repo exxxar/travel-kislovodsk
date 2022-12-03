@@ -1,20 +1,29 @@
 <template>
     <div class="dt-page__messages-content bg-white col-12 col-lg-8">
 
-        <div class="messages-list px-2rem">
+        <div class="messages-list px-2rem" v-if="sortedChatMessages.length>0">
             <div v-for="item in sortedChatMessages" v-bind:class="{ 'self-message': item.user_id === user.id }"
                  class="message mt-2 d-flex align-items-center">
 
-                <div class="message-text rounded-3">
-                    {{ item.message }}
-                </div>
+                <div class="message-text rounded-3" v-html="item.message"></div>
                 <div class="message-info">
                     <span class="thin opacity-40">{{ moment(item.created_at).format('HH:mm') }}</span>
                 </div>
             </div>
             <div class="messages-body__scroll"></div>
         </div>
-        <div class="messages-control">
+
+        <div class="messages-list px-2rem" v-else>
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-md-10 col-12">
+                    <div class="empty-list">
+                        <img v-lazy="'/img/no-tour.jpg'" alt="">
+                        <p>Выберите чат!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="messages-control" v-if="chatId!==null">
             <form v-on:submit.prevent="sendChatMessage" class="d-flex rounded bg-light align-items-center m-2rem pe-2">
                 <input v-model="message"
                        class="d-flex rounded order-2 order-lg-1 flex-grow-1 px-3 px-lg-4 border-0 bg-light" type="text">

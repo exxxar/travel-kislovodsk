@@ -61,9 +61,11 @@
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#dtModalEntry"
                                            href="#">Вход</a></li>
-                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#dtModalEntry"
+                                    <li><a class="dropdown-item" data-bs-toggle="modal"
+                                           data-bs-target="#dtModalRegistry"
                                            href="#">Регистрация</a></li>
-                                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#dtModalEntry"
+                                    <li><a class="dropdown-item" data-bs-toggle="modal"
+                                           data-bs-target="#dtModalRecovery-1"
                                            href="#">Восстановление пароля</a></li>
                                 </ul>
                             </div>
@@ -83,9 +85,18 @@
 
 
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                    <li><a class="dropdown-item" v-if="user.is_user" href="/user-cabinet">Профиль пользователя</a></li>
-                                    <li><a class="dropdown-item" v-if="user.is_guide" href="/guide-cabinet">Кабинет гида</a></li>
-                                    <li><a class="dropdown-item" v-if="user.is_admin" href="/admin">Кабинет администратора</a></li>
+                                    <li><a class="dropdown-item" v-if="user.is_user" href="/user-cabinet">Профиль
+                                        пользователя</a></li>
+                                    <li><a class="dropdown-item" v-if="user.is_guide" href="/guide-cabinet">Кабинет
+                                        гида</a></li>
+                                    <li><a class="dropdown-item" v-if="user.is_admin" href="/admin">Кабинет
+                                        администратора</a></li>
+                                    <li><hr class="dropdown-divider bg-primary"></li>
+                                    <li><a class="dropdown-item" href="/favorites">Избранные туры <span class="badge bg-primary text-white p-2">{{statistic.favorites_count || 0}}</span></a></li>
+                                    <li><a class="dropdown-item" href="/messages">Чаты <span class="badge bg-primary text-white p-2">{{statistic.unread_chats_count || 0}}</span></a></li>
+                                    <li><a class="dropdown-item" href="/watched">Просмотренные туры <span class="badge bg-primary text-white p-2">{{statistic.watched_count || 0}}</span></a></li>
+                                    <li><a class="dropdown-item" href="/booked">Забронированные туры <span class="badge bg-primary text-white p-2">{{statistic.booked_count || 0}}</span></a></li>
+                                    <li><hr class="dropdown-divider bg-primary"></li>
                                     <li><a class="dropdown-item" href="/logout">Выход</a></li>
 
                                 </ul>
@@ -171,15 +182,35 @@
             </div>
         </div>
     </header>
+
+    <notifications/>
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
     computed: {
+        ...mapGetters(['getErrors']),
         user() {
             return window.user;
+        },
+        statistic() {
+            return window.statistic;
         }
-    }
+    },
+    watch:{
+        getErrors:function (newVal, oldVal){
+            Object.keys(newVal).forEach(key=> {
+                this.$notify({
+                    title: "Кисловодск-Туризм",
+                    text: newVal[key],
+                    type: 'warn'
+                });
+            })
+
+        }
+    },
 }
 </script>
 

@@ -16,26 +16,28 @@ const getters = {
 }
 
 const actions = {
-    errorsUserTransactions({commit}){
-        commit('setUserTransactions',
+    errorsUserTransactions(context){
+        context.commit('setUserTransactions',
             !localStorage.getItem('travel_store_user_transactions') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_user_transactions')))
 
-        commit('setUserTransactionsPaginateObject',
+        context.commit('setUserTransactionsPaginateObject',
             !localStorage.getItem('travel_store_user_transactions_object') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_user_transactions_object')))
     },
-    async userTransactionsPage({commit}, link, method = 'GET', data = null) {
+    async userTransactionsPage(context, link, method = 'GET', data = null) {
         let _axios = util.makeAxiosFactory(link, method, data)
 
         return _axios.then((response) => {
             let dataObject = response.data
-            commit('setUserTransactions', dataObject.data)
+            context.commit('setUserTransactions', dataObject.data)
             delete dataObject.data
-            commit('setUserTransactionsPaginateObject', dataObject)
+            context.commit('setUserTransactionsPaginateObject', dataObject)
 
         }).catch(err => {
-            this.errorsUserTransactions(commit)
+            context.dispatch("errorsUserTransactions")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
     async loadUserTransactionsFilteredByPage({commit}, filterObject, page = 0, size = 15){

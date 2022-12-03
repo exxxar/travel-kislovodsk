@@ -41,6 +41,8 @@ const actions = {
 
         }).catch(err => {
             context.dispatch("errorsGuideTransactions")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
     async loadGuideTransactionsFilteredByPage(context, payload) {

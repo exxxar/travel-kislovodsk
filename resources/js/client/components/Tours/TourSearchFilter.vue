@@ -27,7 +27,7 @@
                         <autocomplete-locations
                             class="dt-input fw-semibold h-100"
                             id="typeahead_id"
-
+                            :value="filters.location"
                             placeholder="Название города..."
                             :items="filteredLocations"
                             :minInputLength="1"
@@ -49,7 +49,12 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters--links-white': isLinksWhite}">
+                    <div class="d-flex dt-list">
+                        <a href="#reset-filter" class="dt-link-filter--hover-blue"
+                           @click="resetFilter">Сбросить фильтры</a>
+                    </div>
+                </div>
             </div>
             <div class="dt-input__wrapper">
                 <div class="dt-input__group bg-white dt-border-right-gray">
@@ -180,6 +185,7 @@ export default {
 
         if (localStorage.getItem("travel_store_filter")) {
             this.filters = JSON.parse(localStorage.getItem("travel_store_filter"))
+            localStorage.removeItem("travel_store_filter")
         }
 
         this.loadDictionaries()
@@ -193,6 +199,9 @@ export default {
         })
     },
     methods: {
+        resetFilter() {
+            this.eventBus.emit('reset_filters')
+        },
         selectLocationItem(data) {
             if (typeof data == 'object')
                 this.filters.location = data.input
@@ -210,11 +219,12 @@ export default {
             return this.filters.nearest_selected_dates === index
         },
         applyFilter() {
+
+            localStorage.setItem("travel_store_filter", JSON.stringify(this.filters || null))
+
             if (this.needRedirectToAll) {
                 window.location = '/tours-all'
-                localStorage.setItem("travel_store_filter", JSON.stringify(this.filters || null))
             }
-
 
             this.eventBus.emit('select_search_filter', this.filters)
         },

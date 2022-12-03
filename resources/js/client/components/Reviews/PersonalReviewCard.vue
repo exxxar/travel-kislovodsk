@@ -1,0 +1,54 @@
+<template>
+    <div class="dt-review__item d-flex">
+        <div class="dt-review__block flex-grow-1">
+            <div class="dt-review__header d-flex justify-content-between">
+                <div class="dt-header__user">
+                    <p class="dt-user__date-ago fw-thin text-muted">2 недели назад</p>
+                    <div class="dt-user__name fw-semibold">
+                        <div class="personal-account-transactions-card-body__text">
+                                                <span class="personal-account-transactions-card-body__text_grey">
+                                                   отзыв к
+                                                </span>
+                            <div class="personal-account-transactions-card-body__text_blue">
+                                Некоторое название экскурсии
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dt-rating__star w-auto d-flex">
+                    <img :src="'/img/icons/star_blue.svg'" alt="">
+                    <img :src="'/img/icons/star_blue.svg'" alt="">
+                    <img :src="'/img/icons/star_blue.svg'" alt="">
+                    <img :src="'/img/icons/star_blue.svg'" alt="">
+                    <img :src="'/img/icons/star_blue.svg'" alt="">
+                </div>
+            </div>
+            <p class="dt-review__description dt-main-text-thin">
+                Не следует, однако забывать, что новая модель организационной деятельности
+                влечет за собой процесс внедрения и модернизации систем массового участия.
+                Товарищи! постоянное информационно-пропагандистское обеспечение нашей
+                деятельности в значительной степени обуславливает создание систем массового
+                участия.
+            </p>
+            <div class="dt-review__photos">
+                <div class="dt-photos__item">
+                    <img :src="'/img/travels/1.jpg'">
+                </div>
+                <div class="dt-photos__item">
+                    <img :src="'/img/travels/2.jpg'">
+                </div>
+                <div class="dt-photos__item">
+                    <img :src="'/img/travels/3.jpg'">
+                </div>
+                <div class="dt-photos__item">
+                    <img :src="'/img/travels/4.jpg'">
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+export default {
+    props:["review"]
+}
+</script>

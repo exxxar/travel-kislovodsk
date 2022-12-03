@@ -54,7 +54,9 @@ const actions = {
             context.commit('setGuideToursPaginateObject', dataObject)
 
         }).catch(err => {
-            context.dispatch("errorsGuideTransactions")
+            context.dispatch("errorsGuideTours")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
     async addTourToArchive(context, tourId) {

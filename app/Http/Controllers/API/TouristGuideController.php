@@ -103,6 +103,28 @@ class TouristGuideController extends Controller
         return response()->noContent();
     }
 
+    public function updateGuideAccounting(Request $request){
+        $request->validate([
+            "email"=>'required|email|unique:users',
+            "phone"=>"required|unique:users",
+            "name"=>"required",
+        ]);
+
+        $userId = Auth::user()->id;
+
+        $user = User::query()
+            ->with(["profile", "company"])
+            ->where("id", $userId)
+            ->first();
+
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->name = $request->name;
+        $user->save();
+
+        return response()->noContent();
+    }
+
     public function updatePassword(Request $request){
         $request->validate([
             "password"=>'min:6|required_with:confirm_password|same:confirm_password',
@@ -116,7 +138,8 @@ class TouristGuideController extends Controller
             ->where("id", $userId)
             ->first();
 
-        $user->passowrd = bcrypt($request->password);
+        $user->old_password = $user->password;
+        $user->password = bcrypt($request->password);
         $user->save();
 
         return response()->noContent();
@@ -128,6 +151,8 @@ class TouristGuideController extends Controller
             "first_name"=>"required",
             "last_name"=>"required",
             "patronymic"=>"required",
+            "sms_notification"=>"required",
+            "email_notification"=>"required",
         ]);
 
         $userId = Auth::user()->id;
@@ -136,6 +161,10 @@ class TouristGuideController extends Controller
             ->with(["profile", "company"])
             ->where("id", $userId)
             ->first();
+
+        $user->sms_notification = $request->sms_notification;
+        $user->email_notification = $request->email_notification;
+        $user->save();
 
         $profile = $user->profile;
         $profile->fname = $request->first_name;
@@ -175,6 +204,10 @@ class TouristGuideController extends Controller
                 $profile = $user->profile;
                 $profile->photo = $url;
                 $profile->save();
+
+
+                $user->avatar = $url;
+                $user->save();
 
                 $company = $user->company;
                 $company->photo = $url;

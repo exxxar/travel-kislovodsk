@@ -2,8 +2,11 @@
 
 
 use App\Http\Controllers\API\ReviewController;
+use App\Models\Chat;
+use App\Models\ChatUsers;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,15 +21,27 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::get('/storage/{path}',function ($path){
+Route::get("/test",function (){
+
+    $recipientId = 7;
+    $senderId =2;
+
+    $chat = Chat::hasChat($recipientId,$senderId);
+
+    dd($chat);
+});
+Route::get('/storage/user/{id}/{path}',function ($id, $path){
     try {
-        $file = Storage::disk('local')->get("public/" . $path);
+
+        $file = Storage::disk('local')->get("public/user/".$id."/" . $path);
+
         return (new Response($file, 200))
             ->header('Content-Type', 'image/jpeg');
     } catch (FileNotFoundException $e) {
         return null;
     }
 });
+
 
 Route::view('/', 'pages.main')->name("page.main");
 Route::view('/about', 'pages.about')->name("page.about");
@@ -142,6 +157,7 @@ Route::prefix("api")
                 Route::get('/messages/{chatId}', 'messageByChatId');
                 Route::get('/users', 'users');
                 Route::get('/chats', 'chats');
+                Route::post('/start-chat', 'startChat');
                 Route::post('/send-message', 'sendMessage');
                 Route::post('/send-file', 'sendFile');
                 Route::post('/send-transaction', 'sendTransaction');
@@ -211,6 +227,7 @@ Route::prefix("api")
 
                 Route::controller(\App\Http\Controllers\API\TouristGuideController::class)
                     ->group(function(){
+                        Route::post('/account', 'updateGuideAccounting');
                         Route::post('/company', 'updateCompanyInfo');
                         Route::post('/password', 'updatePassword');
                         Route::post('/profile', 'updateProfileInfo');
@@ -235,8 +252,9 @@ Route::prefix("api")
                 Route::prefix("tours")
                     ->group(function () {
                         Route::prefix("watched")
+                            ->controller(\App\Http\Controllers\API\UserWatchToursController::class)
                             ->group(function () {
-                                Route::get('/', []);
+                                Route::get('/', 'index');
                                 Route::post('/search', []);
                                 Route::get('/restore/{id}', []);
                                 Route::get('/add/{id}', []);
@@ -244,8 +262,9 @@ Route::prefix("api")
                             });
 
                         Route::prefix("booked")
+                            ->controller(\App\Http\Controllers\API\BookingController::class)
                             ->group(function () {
-                                Route::get('/', []);
+                                Route::get('/', 'selfBookedTours');
                                 Route::post('/search', []);
                                 Route::delete('/clear', []);
                             });
@@ -281,6 +300,13 @@ Route::prefix("api")
 
                     });
 
+                Route::prefix("reviews")
+                    ->controller(ReviewController::class)
+                    ->group(function () {
+                        Route::get('/', 'selfReviews');
+                    });
+
+
                 Route::get('/messages/{userId}', []);
                 Route::get('/users', []);
                 Route::post('/send-message', []);
@@ -290,10 +316,11 @@ Route::prefix("api")
 
 
         Route::prefix("bookings")
+            ->controller(\App\Http\Controllers\API\BookingController::class)
             ->group(function () {
                 Route::get('/', []);
                 Route::get('/all', []);
-                Route::post('/book-tour', []);
+                Route::post('/book-tour', 'bookATour');
                 Route::delete('/remove/{id}', []);
             });
 
