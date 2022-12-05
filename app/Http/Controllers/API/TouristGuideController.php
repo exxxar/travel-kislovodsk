@@ -5,11 +5,15 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\TouristGuideStoreRequest;
 use App\Http\Requests\API\TouristGuideUpdateRequest;
+use App\Http\Resources\DocumentResource;
 use App\Http\Resources\TouristGuideCollection;
 use App\Http\Resources\TouristGuideResource;
+use App\Models\Document;
 use App\Models\TouristGuide;
 use App\Models\User;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -45,8 +49,15 @@ class TouristGuideController extends Controller
     public function show(Request $request, $id)
     {
         $touristGuide = User::query()
-            ->with(["profile"])
-            ->where("id",$id)->first();
+            ->with(["profile", "company"])
+            ->where("id",$id)
+            ->first();
+
+        if (is_null($touristGuide))
+            return redirect()->route("page.main");
+
+        if (is_null($touristGuide->company))
+            return redirect()->route("page.main");
 
         return view('pages.guide',["guide"=>json_encode(new TouristGuideResource($touristGuide))]);
 
@@ -105,8 +116,8 @@ class TouristGuideController extends Controller
 
     public function updateGuideAccounting(Request $request){
         $request->validate([
-            "email"=>'required|email|unique:users',
-            "phone"=>"required|unique:users",
+            "email"=>'required|email',
+            "phone"=>"required",
             "name"=>"required",
         ]);
 
@@ -117,8 +128,10 @@ class TouristGuideController extends Controller
             ->where("id", $userId)
             ->first();
 
+        $ph_number = preg_replace("/[^0-9]/", "", $request->phone);
+
         $user->email = $request->email;
-        $user->phone = $request->phone;
+        $user->phone = $ph_number;
         $user->name = $request->name;
         $user->save();
 
@@ -218,5 +231,100 @@ class TouristGuideController extends Controller
         }
 
         return response()->noContent();
+    }
+
+    public function uploadDocument(Request $request){
+
+
+        $userId = Auth::user()->id;
+
+        $user = User::query()
+            ->with(["profile", "company"])
+            ->where("id", $userId)
+            ->first();
+
+        $path = '/user/' . $userId."/documents";
+        if (!Storage::exists('/public' . $path)) {
+            Storage::makeDirectory('/public' . $path);
+        }
+
+
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+
+            foreach ($files as $key => $file) {
+                $name = $file->getClientOriginalName();
+                //  $ext = $file->getClientOriginalExtension();
+
+
+                $file->storeAs("/public", $path . '/' . $name );
+                $url = Storage::url('user/' . $userId . "/documents/" . $name );
+
+                Document::query()->create([
+                    'title'=>$name,
+                    'path'=>$url,
+                    'size'=>$file->getFileInfo()->getSize(),
+                    'user_id'=>$user->id
+                ]);
+
+
+
+            }
+
+        }
+
+        return response()->noContent();
+    }
+
+    public function getDocuments(Request $request){
+        $userId = Auth::user()->id;
+
+        $documents = Document::query()->where("user_id",$userId)
+            ->get();
+
+        return  DocumentResource::collection($documents);
+    }
+
+    public function removeDocument(Request $request, $documentId){
+        $userId = Auth::user()->id;
+
+        $document = Document::query()->where("user_id",$userId)
+            ->where("id", $documentId)
+            ->first();
+
+        if (is_null($document))
+            return response()->json([
+                "errors"=>[
+                    "message"=>"Документ не найден!"
+                ]
+            ]);
+
+        $document->delete();
+
+        return response()->noContent();
+    }
+
+    public function downloadImage($request, $userId, $path){
+        try {
+
+            $file = Storage::disk('local')->get("public/user/".$userId."/" . $path);
+
+            return (new Response($file, 200))
+                ->header('Content-Type', 'image/jpeg');
+        } catch (FileNotFoundException $e) {
+            return null;
+        }
+    }
+
+    public function downloadDocument($request, $userId, $path){
+        try {
+
+            $file = Storage::disk('local')->get("public/user/".$userId."/documents/" . $path);
+
+            return (new Response($file, 200))
+                ->header('Content-Type', 'image/jpeg');
+        } catch (FileNotFoundException $e) {
+            return null;
+        }
     }
 }

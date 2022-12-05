@@ -17,13 +17,13 @@ class CreateDocumentsTable extends Migration
             $table->id();
             $table->string('title', 255)->nullable();
             $table->string('path', 255);
-            $table->text('description')->nullable();
-            $table->unsignedBigInteger('company_id')->nullable();
+            $table->string('size')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamp('valid_to')->nullable();
             $table->timestamp('approved_at')->nullable();
-            $table->foreign('company_id')
+            $table->foreign('user_id')
                 ->references('id')
-                ->on('companies');
+                ->on('users');
             $table->softDeletes();
             $table->timestamps();
         });

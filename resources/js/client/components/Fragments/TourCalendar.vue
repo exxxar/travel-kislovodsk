@@ -3,6 +3,8 @@
     <Datepicker @input="$emit('input', $event.target.value)" :range="true"
                 :multiCalendars="true"
                 ref="dp"
+                :inline="inline||false"
+                :auto-apply="autoApply||false"
                 :enableTimePicker="false">
         <template #calendar-header="{ index, day }">
             <div :class="index === 5 || index === 6 ? 'blue-color' : ''">
@@ -47,6 +49,7 @@ import { ref } from 'vue';
 
 
 export default {
+    props:["inline","autoApply","onlySelfTour"],
     setup() {
         const date = ref();
         const dp = ref(null);
@@ -106,7 +109,7 @@ export default {
         },
 
         loadDictionaries() {
-            this.$store.dispatch("loadTourDates")
+            this.$store.dispatch("loadTourDates", this.onlySelfTour)
         },
 
     }

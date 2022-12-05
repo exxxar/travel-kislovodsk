@@ -20,7 +20,9 @@ class DictionaryController extends Controller
      */
     public function index(Request $request)
     {
-        $dictionaries = Dictionary::paginate($request->count ?? config('app.results_per_page'));
+        $dictionaries = Dictionary::query()
+            ->with(["dictionaryType"])
+            ->paginate($request->count ?? config('app.results_per_page'));
 
         return new DictionaryCollection($dictionaries);
     }
@@ -142,5 +144,9 @@ class DictionaryController extends Controller
 
     public function getTourDates(Request $request){
         return response()->json(Dictionary::getTourDates());
+    }
+
+    public function getSelfTourDates(Request $request){
+        return response()->json(Dictionary::getTourDates(true));
     }
 }

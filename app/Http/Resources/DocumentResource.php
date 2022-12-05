@@ -18,11 +18,10 @@ class DocumentResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'path' => $this->path,
-            'description' => $this->description,
-            'company_id' => $this->company_id,
+            'size' => $this->size,
+            'user_id' => $this->user_id,
             'valid_to' => $this->valid_to,
             'approved_at' => $this->approved_at,
-            'softdeletes' => $this->softdeletes,
         ];
     }
 }

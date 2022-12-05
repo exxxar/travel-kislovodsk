@@ -4,7 +4,7 @@
                                           :data="item"
                                           :key="item"/>
     </div>
-    <div class="row mx-0 row-cols-1 row-cols-xl-3 gap-3 d-flex justify-content-center" v-else>
+    <div class="row gap-3 d-flex justify-content-center" v-else>
 
         <div class="col col-12 col-md-6">
             <div class="empty-list">
@@ -43,8 +43,6 @@ export default {
 
         })
 
-
-
         this.eventBus.on('select_guide_tour_object_type', (type) => {
             this.changeActiveTitle(type)
         })
@@ -54,7 +52,6 @@ export default {
             switch (title) {
                 default:
                 case "Действующие объекты":
-
                     this.loadTourObjects()
                     break;
                 case "Удаленные объекты":

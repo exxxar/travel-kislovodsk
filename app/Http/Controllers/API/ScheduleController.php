@@ -8,6 +8,7 @@ use App\Http\Requests\API\ScheduleUpdateRequest;
 use App\Http\Resources\ScheduleCollection;
 use App\Http\Resources\ScheduleResource;
 use App\Models\Schedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,16 +16,18 @@ class ScheduleController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \App\Http\Resources\ScheduleCollection
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)
     {
         $schedules = Schedule::query()
             ->with(["tour"])
             ->where("guide_id", Auth::user()->id)
+            ->where("start_at", ">", Carbon::now()->format('Y-m-d H:m'))
+            ->orderBy("start_at","ASC")
             ->paginate($request->count ?? config('app.results_per_page'));
 
-        return new ScheduleCollection($schedules);
+        return ScheduleResource::collection($schedules);
     }
 
     /**

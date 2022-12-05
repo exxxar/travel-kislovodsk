@@ -6,32 +6,47 @@
         <div class="personal-account-orders">
             <div class="personal-account-orders__links">
                 <div class="personal-account-orders__link"
-                     :class="{ 'personal-account-orders__link_active': OrdersCompleted === false }"
-                     @click="OrdersUpcomingToggle()">
+                     :class="{ 'personal-account-orders__link_active': part === 'Предстоящие' }"
+                     @click="part = 'Предстоящие'">
                     Предстоящие
                 </div>
                 <div class="personal-account-orders__link"
-                     :class="{ 'personal-account-orders__link_active': OrdersCompleted === true }"
-                     @click="OrdersCompletedToggle()">
+                     :class="{ 'personal-account-orders__link_active': part === 'Завершенные' }"
+                     @click="part = 'Завершенные'">
                     Завершенные
                 </div>
             </div>
-            <template v-if="OrdersCompleted === true">
-                <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1">
+            <template v-if="part === 'Завершенные'">
+                <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" v-if="completed.length">
                     <div class="col col-xs-12" v-for="item in completed">
-                        <tour-card-component :tour="item.tour" :key="item">
-                            <template v-slot:footer>
-                                <h1>Здесь мог быть заголовок страницы</h1>
-                            </template>
-                        </tour-card-component>
+                        <tour-card-component :tour="item.tour" :key="item"/>
+                    </div>
+                </div>
+
+                <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1 d-flex justify-content-center" v-else>
+                    <div class="col col-12 col-md-8">
+                        <div class="empty-list">
+                            <img v-lazy="'/img/no-tour.jpg'" alt="">
+                            <p>По данному фильтру ничего не найдено:(</p>
+                        </div>
                     </div>
                 </div>
             </template>
-            <template v-if="OrdersCompleted === false">
-                <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1">
+            <template v-if="part === 'Предстоящие' ">
+                <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" v-if="upcoming.length>0">
                     <div class="col col-xs-12" v-for="item in upcoming">
                         <tour-card-component :tour="item.tour" :key="item"/>
                     </div>
+                </div>
+                <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1 d-flex justify-content-center" v-else>
+
+                        <div class="col col-12 col-md-8">
+                            <div class="empty-list">
+                                <img v-lazy="'/img/no-tour.jpg'" alt="">
+                                <p>По данному фильтру ничего не найдено:(</p>
+                            </div>
+                        </div>
+
                 </div>
             </template>
         </div>
@@ -46,7 +61,7 @@ export default {
     name: "Orders",
     components: {},
     data: () => ({
-        OrdersCompleted: true,
+        part: 'Предстоящие',
         upcoming: [],
         completed: []
     }),

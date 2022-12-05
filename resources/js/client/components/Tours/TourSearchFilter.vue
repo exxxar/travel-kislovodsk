@@ -74,13 +74,13 @@
                 </div>
                 <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters--links-white': isLinksWhite}">
                     <div class="d-flex dt-list">
-                        <a href="#" class="dt-link-filter--hover-blue"
+                        <a class="dt-link-filter--hover-blue"
                            v-bind:class="{'active':checkNearest(0)}"
                            @click="toggleNearestFilter(0)">Завтра</a>
-                        <a href="#" class="dt-link-filter--hover-blue"
+                        <a  class="dt-link-filter--hover-blue"
                            v-bind:class="{'active':checkNearest(1)}"
                            @click="toggleNearestFilter(1)">В ближайшие 3 дня</a>
-                        <a href="#" class="dt-link-filter--hover-blue"
+                        <a  class="dt-link-filter--hover-blue"
                            v-bind:class="{'active':checkNearest(2)}"
                            @click="toggleNearestFilter(2)"
                         >
@@ -169,11 +169,6 @@ export default {
             return this.getDictionariesByTypeSlug("tour_type")
         },
         filteredLocations() {
-            let search = this.filters.location
-
-            let locations = this.getLocations
-
-
             if (!this.getLocations)
                 return []
 
@@ -197,6 +192,8 @@ export default {
             this.filters.date = null
             this.filters.tour_type = null
         })
+
+
     },
     methods: {
         resetFilter() {
@@ -230,8 +227,9 @@ export default {
         },
         loadDictionaries() {
             this.$store.dispatch("loadLocations")
-            this.$store.dispatch("loadAllDictionaryTypes").then(() => {
+            this.$store.dispatch("loadAllDictionaries").then(() => {
                 //this.filters.tour_type = this.tourTypes[0]
+                this.eventBus.emit('select_search_filter', this.filters)
             })
         },
 

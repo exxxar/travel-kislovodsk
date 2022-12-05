@@ -69,31 +69,19 @@
             <div class="row dt-page__content">
                 <div class="col-lg-8 dt-page__content">
                     <p class="dt-article__title">Описание</p>
-                    <p class="dt-main-text-thin dt-content--bottom-60">Приглашаю вас совместить приятное с полезным и
-                        сделать
-                        акклиматизационный выход с красивыми видами на
-                        гору Чегет и ледниковое озеро Донгуз-Орун-Кель. Воды, стекающие по склонам, размывают почву и
-                        несут
-                        в водоем различные минералы, которые и окрашивают жидкость в различные цвета. Оттенки водной
-                        глади
-                        могут зависеть как от угла обзора, так от погоды и времени года. Палитра меняется от
-                        ярко-изумрудных
-                        цветов до болотисто-зеленых и ржавых коричневых оттенков. <br><br>
-                        Наш маршрут начнется снизу от Поляны Чегет, откуда мы пешком по горной широкой тропе поднимемся
-                        на
-                        озеро, преодолев первые 500 м вертикального набора высоты. У озера сделаем привал. А далее
-                        поднимемся еще выше до станции канатной дороги горы Чегет, где находится смотровая площадка и
-                        знаменитое кафе Ай (луна), где любил бывать Высоций и Визбор.</p>
+                    <p class="dt-main-text-thin dt-content--bottom-60">
+                        {{guide.company.description || 'Нет описания'}}
+                    </p>
 
 <!--                    <review-list />-->
                 </div>
                 <div class="col-lg-1"></div>
-                <div class="col-lg-3">
-                    <div class="dt-form row-cols-1">
-<!--                        <div class="col col-xs-12" v-for="item in tours">
-<!                            <tour-card-component :data="item" :key="item"/>
-                        </div>-->
-                    </div>
+
+            </div>
+
+            <div class="row dt-page__content" v-if="tours.length>0">
+                <div class="col-12 col-md-3 mb-2" v-for="item in tours">
+                    <tour-card-component :tour="item" :key="item"/>
                 </div>
             </div>
         </div>
@@ -102,6 +90,7 @@
 <script>
 import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
 import ReviewList from "@/components/Reviews/ReviewList.vue";
+import {mapGetters} from "vuex";
 export default {
     components: {ReviewList, Breadcrumbs},
     props:["guide"],
@@ -120,26 +109,26 @@ export default {
                     text: this.guide.tname + " "+this.guide.fname,
                     active: true,
                 }],
-            tours: [{
-                id: 0, tag: "мини-группа", price: 1700, time: '4 часа', rating: 4.67,
-                image: "/img/travels/1.jpg",
-                title: "Бермамыт", description: "Это путешествие, пожалуй одно из самх впечатляющих " +
-                    "из всех экскурский по Северному Кавказу.", date: "15 августа в 10:00",
-                links: [{text: "все даты и запись", link: "/tour"}]
-            }, {
-                id: 1,
-                tag: "групповая экскурсия",
-                price: 2500,
-                time: '2 дня',
-                rating: 4.74,
-                image: "/img/travels/2.jpg",
-                title: "Медовые водопады",
-                description: "Медовые водопады - группа водопадов в ущелье реки Аликоновки " +
-                    "прорезавшей скалы глубоким каньономю",
-                date: "завтра в 18:00",
-                links: [{text: "все даты и запись", link: "/tour"}]
-            }]
+            tours: []
+        }
+    },
+    mounted(){
+        this.loadTourByGuideId()
+    },
+    computed: {
+        ...mapGetters(['getTours']),
+    },
+    methods:{
+        loadTourByGuideId(){
+            this.$store.dispatch("loadTourByGuideId", {
+                guideId: this.guide.id
+            }).then(()=>{
+                this.tours = this.getTours
+            })
         }
     }
 }
 </script>
+<style lang="scss">
+
+</style>

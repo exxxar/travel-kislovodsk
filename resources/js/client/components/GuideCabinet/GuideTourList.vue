@@ -1,6 +1,6 @@
 <template>
     <div class="dt-excursions__item" v-for="item in tours" v-if="tours.length>0">
-        <guide-tour-card-component :data="item" :key="item"/>
+        <guide-tour-card-component :tour="item" :key="item"/>
     </div>
     <div class="dt-excursions__item" v-else>
         <div class="row d-flex justify-content-center">
@@ -28,7 +28,13 @@ export default {
         ...mapGetters(['getGuideTours','getGuideArchiveTours','getGuideIsDraftTours','getGuideIsModerateTours']),
     },
     mounted() {
+
         this.loadTours()
+
+        this.eventBus.on('load_guide_tours', ()=>{
+
+            this.loadTours()
+        })
 
         this.eventBus.on('select_guide_tours_type', (type)=>{
 

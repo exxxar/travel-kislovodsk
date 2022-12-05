@@ -129,7 +129,7 @@
                             </span>
                 </div>
                 <div class="dt-price__active me-2">{{ summaryDiscountPrice }}</div>
-                <span class="text-muted-black fw-regular">за 1 человека</span>
+                <span class="text-muted-black fw-regular">за {{summaryPeopleCount}} человек</span>
             </div>
         </div>
         <div class="dt-personal-data dt-content--bottom-60">
@@ -213,7 +213,7 @@
                 <button type="submit" class="dt-btn-blue w-100"
                         v-bind:class="{'disabled':!bookingForm.accept_rules || !bookingForm.booking_is_correct}"
                         :disabled="!bookingForm.accept_rules || !bookingForm.booking_is_correct">
-                    <span>Оформить заказ</span>
+                    <span>Оформить заказ </span>
                 </button>
             </div>
         </div>
@@ -284,44 +284,33 @@ export default {
         serviceTypes() {
             return this.getDictionariesByTypeSlug("service_type")
         },
-        summaryFullPrice() {
+        summaryPeopleCount(){
+
+            let people = 0;
+
+            this.bookingForm.counts.forEach(item => {
+                people += item.count
+            })
+
+            return people
+        },
+        summaryPrice() {
+            let summary = 0;
+            this.tour.prices.forEach(item => {
+                summary += item.price * this.getCountBySlug(item.slug)
+            })
+
+            return summary;
+        },
+        summaryFullPrice(){
             let tourBasePrice = this.tour.base_price
             let tourDiscountPrice = this.tour.discount_price
 
-            let summary = 0;
-
-            let people = 0;
-
-            this.bookingForm.counts.forEach(item => {
-                people += item.count
-            })
-
-            this.tour.prices.forEach(item => {
-                this.bookingForm.counts.forEach(price => {
-                    summary += item.price * price.count
-                })
-            })
-
-
-            return Math.round((summary + (summary * (tourDiscountPrice / tourBasePrice))) / (people || 1))
-
+            return this.summaryPrice+Math.round(this.summaryPrice*(tourDiscountPrice/tourBasePrice));
         },
         summaryDiscountPrice() {
-            let summary = 0;
 
-            let people = 0;
-
-            this.bookingForm.counts.forEach(item => {
-                people += item.count
-            })
-
-            this.tour.prices.forEach(item => {
-                this.bookingForm.counts.forEach(price => {
-                    summary += item.price * price.count
-                })
-            })
-
-            return Math.round(summary / (people || 1));
+           return this.summaryPrice
         }
 
     },
@@ -363,28 +352,30 @@ export default {
         },
         increment(slug) {
 
-            let findItems = this.bookingForm.counts.filter(item => item.slug === slug) || []
+            let findItem = this.bookingForm.counts.find(item => item.slug === slug)
 
-            if (findItems.length === 0) {
+            if (!findItem) {
                 this.bookingForm.counts.push({
                     slug: slug,
                     count: 1
                 })
             } else
-                findItems[0].count++;
+                findItem.count++;
 
 
         },
         decrement(slug) {
-            let findItems = this.bookingForm.counts.filter(item => item.slug === slug) || []
+            let findItem = this.bookingForm.counts.find(item => item.slug === slug)
 
-            if (findItems.length === 0) {
+
+            if (!findItem) {
                 this.bookingForm.counts.push({
                     slug: slug,
                     count: 0
                 })
-            } else if (findItems.count > 0)
-                findItems.count--;
+            } else
+                findItem.count--;
+
         },
         closeBooking() {
             this.$emit('closeBooking');

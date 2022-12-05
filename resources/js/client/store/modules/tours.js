@@ -101,6 +101,16 @@ const actions = {
 
         })
     },
+
+    async loadTourByGuideId(context, payload = {guideId:0, page:0,size:12}) {
+        let size = payload.size || 12
+        let page = payload.page || 0
+        let guideId = payload.guideId || 0
+
+        return await context.dispatch("tourPage", {
+            url:`${BASE_TOUR_LINK}/by-guide/${guideId}?page=${page}&size=${size}`
+        })
+    },
     async loadToursByPage(context, payload = {page:0,size:12}) {
         let size = payload.size || 12
         let page = payload.page || 0

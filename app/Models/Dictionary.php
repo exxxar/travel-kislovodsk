@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class   Dictionary extends Model
 {
@@ -146,18 +147,26 @@ class   Dictionary extends Model
             ->toArray();
 
 
-
-
-        return [...array_intersect($tours, $tourObjects),...array_diff($tours, $tourObjects)];
+        return [...array_intersect($tours, $tourObjects), ...array_diff($tours, $tourObjects)];
     }
 
-    public static function getTourDates()
+    public static function getTourDates($self = false)
     {
-        $schd = Schedule::query()
-            ->where("start_at", ">", Carbon::now()->format('Y-m-d H:m'))
-            ->where("start_at", "<", Carbon::now()->addMonth()->format('Y-m-d H:m'))
 
-            ->distinct("start_at")
+        $schd = Schedule::query()
+            ->where("start_at", ">", Carbon::now()
+                ->format('Y-m-d H:m'));
+
+        if (!$self)
+            $schd = $schd
+                ->where("start_at", "<", Carbon::now()
+                    ->addMonth()
+                    ->format('Y-m-d H:m'));
+
+        if ($self)
+            $schd = $schd->where("guide_id", Auth::user()->id);
+
+        $schd = $schd->distinct("start_at")
             ->pluck("start_at")
             ->toArray();
 

@@ -76,7 +76,7 @@
                     saepe! At dolores voluptatem nam rem et ea dolore exercitationem temporibus soluta quisquam, ducimus
                     repudiandae! Optio dolor temporibus, consectetur eos exercitationem hic reiciendis!
                 </p>
-                <div class="slider rounded col-12 px-0 mb-5">
+<!--                <div class="slider rounded col-12 px-0 mb-5">
                     <div class="slider__list">
                         <div class="slider__track">
                             <div class="slider__slide">
@@ -94,7 +94,7 @@
                         <button type="button" class="slider__prev rounded big-icon bg-blue fs-4">&lt;</button>
                         <button type="button" class="slider__next rounded big-icon bg-blue fs-4">&gt;</button>
                     </div>
-                </div>
+                </div>-->
                 <p class="col-12 px-0 mb-5 thin font-size-09">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ad exercitationem laborum
                     consequuntur blanditiis quae excepturi nisi voluptas ea quibusdam sunt ipsam amet dignissimos, quam

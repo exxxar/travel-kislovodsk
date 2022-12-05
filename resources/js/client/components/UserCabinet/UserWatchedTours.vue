@@ -4,9 +4,18 @@
             Просмотренные
         </h2>
         <div class="personal-account-viewed">
-            <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1">
+            <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" v-if="watches.length>0">
                 <div class="col col-xs-12" v-for="item in watches">
                     <tour-card-component :tour="item.tour" :key="item"/>
+                </div>
+            </div>
+
+            <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1 d-flex justify-content-center" v-else>
+                <div class="col col-12 col-md-6">
+                    <div class="empty-list">
+                        <img v-lazy="'/img/no-tour.jpg'" alt="">
+                        <p>По данному фильтру ничего не найдено:(</p>
+                    </div>
                 </div>
             </div>
         </div>

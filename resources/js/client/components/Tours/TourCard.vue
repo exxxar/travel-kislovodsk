@@ -1,4 +1,5 @@
 <template>
+
     <div class="card dt-travel-card" v-if="tour">
         <div class="card-header bg-white p-0 position-relative">
             <div class="card-img">
@@ -99,7 +100,6 @@
                 <h5 class="fw-bold" v-if="tour.schedules">{{ tour.schedules[0].start_day || 'Не указана' }}</h5>
                 <h5 class="fw-bold" v-else>Не указан</h5>
 
-                <slot name="dates"></slot>
             </div>
 
             <div v-if="tour.dateStart && !tour.finish" class="position-relative personal-account-orders-info card-body__excursion-date
@@ -136,7 +136,6 @@
                 </a>
             </div>
 
-            <slot name="footer"></slot>
 
 <!--            <a v-if="tour.complete && tour.finish" href="#" class="mt-4 personal-account-orders-completed-footer__link
                 personal-account-orders-completed-footer__link_blue">

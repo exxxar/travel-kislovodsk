@@ -39,20 +39,6 @@ const actions = {
                 [] : JSON.parse(localStorage.getItem('travel_store_guide_documents')))
 
     },
-    async uploadGuideProfilePhoto(context, payload) {
-        let formData = payload.data
-        return axios.post(`${BASE_GUIDE_CABINET_LINK}/upload-profile-photo`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }).then((response) => {
-
-        }).catch(err => {
-            context.commit("setErrors", err.response.data.errors || [])
-            context.dispatch("errorGuideCabinet")
-            return Promise.reject(err);
-        })
-    },
     async requestGuideProfileVerified(context) {
 
         let _axios = util.makeAxiosFactory(`${BASE_GUIDE_CABINET_LINK}/request-profile-verified`)
@@ -66,11 +52,9 @@ const actions = {
         })
     },
     async removeGuideDocument(context, documentId) {
-        let _axios = util.makeAxiosFactory(link, method, data)
+        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_CABINET_LINK}/remove-document/${documentId}`, 'DELETE')
 
         return _axios.then((response) => {
-            let dataObject = response.data
-            context.commit('setGuideDocuments', dataObject.data)
 
         }).catch(err => {
             context.commit("setErrors", err.response.data.errors || [])
@@ -78,16 +62,7 @@ const actions = {
             return Promise.reject(err);
         })
     },
-    async addGuideDocument(context, payload = {formData: null, title: null, description: null}) {
-
-        let formData = payload.formData || null,
-            title = payload.title || null,
-            description = payload.description || null
-
-        if (title)
-            formData.append("title", title)
-        if (description)
-            formData.append("description", description)
+    async addGuideDocuments(context, formData) {
 
         return axios.post(`${BASE_GUIDE_CABINET_LINK}/upload-document`, formData, {
             headers: {

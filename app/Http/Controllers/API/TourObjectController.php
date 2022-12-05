@@ -12,9 +12,13 @@ use App\Http\Resources\TourObjectResource;
 use App\Http\Resources\TourResource;
 use App\Models\Tour;
 use App\Models\TourObject;
+use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
@@ -29,11 +33,14 @@ class TourObjectController extends Controller
     {
         $removed = (boolean)($request->removed ?? 0);
         if ($removed)
-            $tourObjects = TourObject::query()
+            $tourObjects = TourObject::withTrashed()
+
                 ->whereNotNull("deleted_at")
+                ->orderBy("created_at","DESC")
                 ->paginate($request->size ?? config('app.results_per_page'));
         else
             $tourObjects = TourObject::query()
+                ->orderBy("created_at","DESC")
                 ->paginate($request->size ?? config('app.results_per_page'));
 
         return new TourObjectCollection($tourObjects);
@@ -44,13 +51,15 @@ class TourObjectController extends Controller
 
         $removed = (boolean)($request->removed ?? 0);
         if ($removed)
-            $tourObjects = TourObject::query()
+            $tourObjects = TourObject::withTrashed()
                 ->whereNotNull("deleted_at")
                 ->where("creator_id", Auth::user()->id)
+                ->orderBy("created_at","DESC")
                 ->paginate($request->size ?? config('app.results_per_page'));
         else
             $tourObjects = TourObject::query()
                 ->where("creator_id", Auth::user()->id)
+                ->orderBy("created_at","DESC")
                 ->paginate($request->size ?? config('app.results_per_page'));
 
         return new TourObjectCollection($tourObjects);
@@ -63,11 +72,44 @@ class TourObjectController extends Controller
      */
     public function store(TourObjectStoreRequest $request)
     {
+        $userId = Auth::user()->id;
+
+        $user = User::query()
+            ->with(["profile", "company"])
+            ->where("id", $userId)
+            ->first();
+
+        $path = '/user/' . $userId."/tour-objects";
+        if (!Storage::exists('/public' . $path)) {
+            Storage::makeDirectory('/public' . $path);
+        }
+
+        $photos = [];
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+
+            foreach ($files as $key => $file) {
+                $name = $file->getClientOriginalName();
+                //  $ext = $file->getClientOriginalExtension();
+
+
+                $file->storeAs("/public", $path . '/' . $name );
+                $url = Storage::url('user/' . $userId . "/tour-objects/" . $name );
+
+                array_push($photos, $url);
+
+            }
+
+        }
+
         $tmp = (object)$request->validated();
 
-        $tmp->creator_id = Auth::user()->id ?? config("app.default_guide_id");
+        $tmp->creator_id = $user->id;
+        $tmp->photos = $photos;
+        $tmp->latitude = 0;//todo:load from yandex
+        $tmp->longitude = 0;//todo:load from yandex
 
-        $tourObject = TourObject::query()->create((array)$tmp);
+        $tourObject = TourObject::query()->with(["creator","creator.profile"])->create((array)$tmp);
 
         return new TourObjectResource($tourObject);
     }
@@ -105,8 +147,11 @@ class TourObjectController extends Controller
      * @param \App\Models\TourObject $tourObject
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, TourObject $tourObject)
+    public function destroy(Request $request, $id)
     {
+
+        $tourObject = TourObject::query()->where("id", $id)->first();
+
         if (!is_null($tourObject))
             $tourObject->delete();
 
@@ -194,12 +239,35 @@ class TourObjectController extends Controller
     }
 
 
-    public function restore(Request $request, TourObject $tourObject)
+    public function restore(Request $request, $id)
     {
+
+        $tourObject = TourObject::withTrashed()->where("id", $id)->first();
+
+        if (is_null($tourObject))
+            return response()->json([
+                "errors"=>[
+                    "message"=>"Объект не найден!"
+                ]
+            ]);
+
+
         $tourObject->deleted_at = null;
         $tourObject->save();
 
         return new TourObjectResource($tourObject);
+    }
+
+    public function downloadImage($request, $userId, $path){
+        try {
+
+            $file = Storage::disk('local')->get("public/user/".$userId."/tour-objects/" . $path);
+
+            return (new Response($file, 200))
+                ->header('Content-Type', 'image/jpeg');
+        } catch (FileNotFoundException $e) {
+            return null;
+        }
     }
 }
 

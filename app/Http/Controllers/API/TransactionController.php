@@ -70,4 +70,19 @@ class TransactionController extends Controller
 
         return response()->noContent();
     }
+
+    public function getFilteredTransactions(Request $request)
+    {
+
+        $request->validate([
+            "transaction_type" => "required"
+        ]);
+
+        $transactions = Transaction::query()
+            ->withFilters($request->transaction_type)
+            ->where("user_id", Auth::user()->id)
+            ->paginate($request->count ?? config('app.results_per_page'));
+
+        return new TransactionCollection($transactions);
+    }
 }

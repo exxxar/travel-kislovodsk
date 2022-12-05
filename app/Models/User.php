@@ -221,8 +221,9 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
 
         $validated = (object)$validator->validated();
 
-        if (strpos($validated->phone, "@") === -1)
+        if (!strpos($validated->phone, "@") )
             $ph_number = preg_replace("/[^0-9]/", "", $validated->phone);
+
 
         $user = User::query()
             ->with(["profile", "role"])
@@ -231,7 +232,8 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
             ->first();
 
         if (!is_null($user)) {
-            if (bcrypt($validated->password) !== $user->password)
+            $hasher = app('hash');
+            if (!$hasher->check($validated->password, $user->password))
                 throw new AuthenticationException("Ошибка пароля");
 
             Auth::login($user, true);

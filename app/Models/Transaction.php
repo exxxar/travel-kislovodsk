@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -39,6 +40,13 @@ class Transaction extends Model
     ];
 
     protected $appends = ['resource_url'];
+
+    public function scopeWithFilters($query, $transactionTypeId)
+    {
+        $query = $query->where("status_type_id",$transactionTypeId);
+
+        return $query;
+    }
 
     public function getResourceUrlAttribute()
     {

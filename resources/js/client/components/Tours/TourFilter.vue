@@ -235,7 +235,7 @@ export default {
             this.eventBus.emit('reset_filters')
         },
         loadDictionaries() {
-            this.$store.dispatch("loadAllDictionaryTypes")
+            this.$store.dispatch("loadAllDictionaries")
         },
     }
 }

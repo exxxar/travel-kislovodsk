@@ -18,8 +18,8 @@ class Document extends Model
     protected $fillable = [
         'title',
         'path',
-        'description',
-        'company_id',
+        'size',
+        'user_id',
         'valid_to',
         'approved_at',
     ];
@@ -31,7 +31,7 @@ class Document extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'company_id' => 'integer',
+        'user_id' => 'integer',
         'valid_to' => 'timestamp',
         'approved_at' => 'timestamp',
     ];
@@ -43,8 +43,8 @@ class Document extends Model
         return url('/admin/documents/' . $this->getKey());
     }
 
-    public function company()
+    public function user()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(User::class);
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="object object__info row col bg-white rounded mx-0 px-0">
+    <div class="object object__info row col-4 bg-white rounded mx-0 px-0">
         <div class="col-12 px-0">
             <img class="cover w-100 rounded-top" :class="{'archived': data.deleted_at}"
                  v-lazy="data.photos[0]"
@@ -9,13 +9,15 @@
             <div class="object__body">
                 <h2 class="object__name mb-2 bold">{{ data.title }}</h2>
                 <p class="short-descrtiption opacity-80 lh-lg">
-                    {{data.description}}
+                    {{ data.description }}
                 </p>
             </div>
             <div v-if="!data.deleted_at" class="object__body splitted">
                 <div class="align-items-baseline mx-0 d-flex justify-content-between position-relative">
                     <button class="dt-btn-text">редактировать</button>
-                    <button class="dt-btn-text-red fw-bold text-uppercase d-lg-block d-none">
+                    <button
+                        @click="removedGuideTourObjectsById"
+                        class="dt-btn-text-red fw-bold text-uppercase d-lg-block d-none">
                         удалить
                     </button>
                     <div class="dropdown position-absolute d-lg-none d-block" style="top: -10px; right: 0;">
@@ -40,7 +42,9 @@
             </div>
             <div v-else class="object__body splitted">
                 <div class="align-items-baseline mx-0 d-flex justify-content-center position-relative">
-                    <button class="letter-spacing-3 text-uppercase bold position-relative black-underline">
+                    <button
+                        @click="restoreRemovedGuideTourObjectsById"
+                        class="letter-spacing-3 text-uppercase bold position-relative black-underline">
                         восстановить
                     </button>
                 </div>
@@ -58,13 +62,35 @@ export default {
             default: {}
         }
     },
+    methods: {
+        restoreRemovedGuideTourObjectsById(){
+            this.$store.dispatch("restoreRemovedGuideTourObjectsById", this.data.id).then(() => {
+                this.eventBus.emit("tour_object_page", 0)
+                this.$notify({
+                    title: "Восстановление туристического объекта",
+                    text: "Туристический объект успешно восстановлен",
+                    type: 'success'
+                });
+            })
+        },
+        removedGuideTourObjectsById() {
+            this.$store.dispatch("removedGuideTourObjectsById", this.data.id).then(() => {
+                this.eventBus.emit("tour_object_page", 0)
+                this.$notify({
+                    title: "Удаление туристического объекта",
+                    text: "Туристический объект успешно удален",
+                    type: 'success'
+                });
+            })
+        }
+    }
 }
 </script>
 
 <style lang="scss">
-    .object__info {
-        img {
-            height: 350px;
-        }
+.object__info {
+    img {
+        height: 350px;
     }
+}
 </style>

@@ -45,16 +45,19 @@ class Chat extends Model
             return "UNKNOWN";
 
 
-        return ($users[0]->profile->tname ?? '') . " " . ($users[0]->profile->fname ?? '');
+       // return ($users[0]->profile->tname ?? '') . " " . ($users[0]->profile->fname ?? '');
 
-        /* $title = '';
+        $title = '';
 
          foreach ($users as $user){
-             $profile = $user->profile;
-             $title .= ($profile->tname??'-')." ".($profile->fname??'-').",";
+             if (Auth::user()->id!==$user->id) {
+                 $profile = $user->profile;
+                 $title .= ($profile->tname??'-')." ".($profile->fname??'-').",";
+             }
+
          }
 
-         return $title;*/
+         return $title;
     }
 
     public static function unreadChatsCount()

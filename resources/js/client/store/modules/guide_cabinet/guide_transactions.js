@@ -9,6 +9,9 @@ let state = {
 
 const getters = {
     getGuideTransactions: state => state.guide_transactions || [],
+    getGuideTransactionsByTransactionType: (state) => (typeId) => {
+        return state.guide_transactions.find(item => item.status_type_id === typeId)
+    },
     getGuideTransactionById: (state) => (id) => {
         return state.guide_transactions.find(item => item.id === id)
     },

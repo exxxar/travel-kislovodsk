@@ -61,7 +61,7 @@
 
                 </div>
             </div>
-            <a href="#" class="personal-account-input__link text-uppercase dt-travel-card__action">
+            <a :href="'/tour/'+item.id" class="personal-account-input__link text-uppercase dt-travel-card__action">
                 <button class="dt-btn-text">подробнее о заказе</button>
             </a>
         </div>

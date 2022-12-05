@@ -14,7 +14,15 @@
         <div class="col align-items-center ps-3 mx-0 float-none overflow-hidden" @click="selectChat(chat)">
             <span class="messages-head__name semibold font-size-09 lh-1">{{ chat.title }}</span>
             <p class="messages-head__text opacity-40 thin d-none">{{ chat.message }}...</p>
-            <p class="messages-head__date opacity-40 thin">{{ moment(chat.last_message_at).format('YYYY-MM-DD HH:mm:ss') }}
+            <p
+                v-if="chat.last_message_at"
+                class="messages-head__date opacity-40 thin">{{ moment(chat.last_message_at)
+                .format('YYYY-MM-DD HH:mm:ss') }}
+            </p>
+            <p
+                v-else
+                class="messages-head__date opacity-40 thin">
+                Нет новых сообщений
             </p>
         </div>
         <div class="messages-head__unread col-auto mx-0 px-0 float-end d-none"></div>

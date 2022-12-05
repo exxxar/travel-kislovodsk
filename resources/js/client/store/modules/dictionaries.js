@@ -4,10 +4,10 @@ import util from "./utilites";
 const BASE_DICTIONARIES_LINK = '/api/dictionaries'
 
 let state = {
-    types:[],
+    types: [],
     dictionaries: [],
-    locations:[],
-    tour_dates:[],
+    locations: [],
+    tour_dates: [],
 }
 
 const getters = {
@@ -18,18 +18,14 @@ const getters = {
     getDictionaryById: (state) => (id) => {
         return state.dictionaries.find(item => item.id === id)
     },
-
     getDictionariesByTypeSlug: (state) => (slug) => {
-        let tmp =  state.types.find(item => item.slug === slug)
-        if (tmp)
-            return tmp.dictionaries
-        return  []
+        return state.dictionaries.filter(item => item.dictionary_type_slug === slug)
     },
 
 }
 
 const actions = {
-    errorsDictionaries({commit}){
+    errorsDictionaries({commit}) {
         commit('setDictionaries',
             !localStorage.getItem('travel_store_dictionaries') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_dictionaries')))
@@ -45,11 +41,18 @@ const actions = {
         commit('setTourDates',
             !localStorage.getItem('travel_store_tour_dates') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_tour_dates')))
- },
-    async dictionariesPage(context, link, method = 'GET', data = null) {
+    },
+    async dictionariesPage(context, payload = {url: null, method: 'GET', data: null}) {
+
+        let link = payload.url || BASE_DICTIONARIES_LINK,
+            method = payload.method || 'GET',
+            data = payload.data || null
+
+        console.log("dictionariesPage")
         let _axios = util.makeAxiosFactory(link, method, data)
 
         return _axios.then((response) => {
+
             let dataObject = response.data
             context.commit('setDictionaries', dataObject.data)
 
@@ -76,7 +79,7 @@ const actions = {
         })
     },
 
-    async loadLocations(context){
+    async loadLocations(context) {
         let _axios = util.makeAxiosFactory(`${BASE_DICTIONARIES_LINK}/locations`, 'GET', null)
 
         return _axios.then((response) => {
@@ -87,9 +90,13 @@ const actions = {
         })
     },
 
-    async loadTourDates(context){
+    async loadTourDates(context, self = false) {
 
-        let _axios = util.makeAxiosFactory(`${BASE_DICTIONARIES_LINK}/tour-dates`, 'GET', null)
+        let url = !self ?
+            `${BASE_DICTIONARIES_LINK}/tour-dates` :
+            `${BASE_DICTIONARIES_LINK}/self-tour-dates`
+
+        let _axios = util.makeAxiosFactory(url, 'GET', null)
 
         return _axios.then((response) => {
             let dataObject = response.data
@@ -99,13 +106,13 @@ const actions = {
         })
     },
     async loadAllDictionaryTypes(context) {
-        return await  context.dispatch("dictionaryTypesPage", {
-            url:`${BASE_DICTIONARIES_LINK}/types`
+        return await context.dispatch("dictionaryTypesPage", {
+            url: `${BASE_DICTIONARIES_LINK}/types`
         })
     },
     async loadAllDictionaries(context) {
-        return await  context.dispatch("dictionariesPage", {
-            url:`${BASE_DICTIONARIES_LINK}`
+        return await context.dispatch("dictionariesPage", {
+            url: `${BASE_DICTIONARIES_LINK}`
         })
     },
 }

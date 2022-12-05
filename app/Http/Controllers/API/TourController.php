@@ -231,6 +231,23 @@ class TourController extends Controller
         return new TourResource($tour);
     }
 
+    public function getTourByGuide(Request $request, $guideId) {
+        $tours = Tour::query()
+            ->with([
+                'tourObjects',
+                'tourCategories',
+                'durationType',
+                'tourType',
+                'creator.profile',
+                'schedules',
+                'reviews'
+            ])
+            ->where("creator_id", $guideId)
+            ->get();
+
+        return new TourCollection($tours);
+    }
+
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Tour $tour
@@ -308,5 +325,26 @@ class TourController extends Controller
 
         return response()->noContent();
 
+    }
+
+    public function addGuideTourToArchive(Request $request, $tourId){
+        $userId = Auth::user()->id;
+        $tour = Tour::query()
+            ->where("creator_id",$userId)
+            ->where("id", $tourId)
+            ->first();
+
+        if (is_null($tour))
+            return response()->json([
+                "errors"=>[
+                    "message"=>["Тур не найден!"]
+                ]
+            ]);
+
+        $tour->archived_at = Carbon::now();
+        $tour->is_active = false;
+        $tour->save();
+
+        return response()->noContent();
     }
 }

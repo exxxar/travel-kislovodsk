@@ -20,6 +20,7 @@ class DictionaryResource extends JsonResource
             'title' => $this->title,
             'dictionary_type_id' => $this->dictionary_type_id??null,
             'slug' => $this->slug,
+            'dictionary_type_slug'=>$this->dictionaryType->slug
         ];
     }
 }

@@ -51,11 +51,33 @@ const actions = {
             return Promise.reject(err);
         })
     },
-
+    async addTourObject(context, tourObject) {
+        let link = `${BASE_GUIDE_TOUR_OBJECTS_LINK}`
+        let _axios = util.makeAxiosFactory(link, 'POST', tourObject)
+        return _axios.then((response) => {
+            return response.data
+        }).catch(err => {
+            context.dispatch("errorsGuideTourObjects")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
+        })
+    },
     async clearGuideTourObjects(context) {
         return await context.dispatch("guideTourObjectsPage", {
             url: `${BASE_GUIDE_TOUR_OBJECTS_LINK}/clear`
         })
+    },
+    async removedGuideTourObjectsById(context, tourObjectId) {
+        let link = `${BASE_GUIDE_TOUR_OBJECTS_LINK}/remove/${tourObjectId}`
+        let _axios = util.makeAxiosFactory(link, 'DELETE')
+        return _axios.then((response) => {
+
+        }).catch(err => {
+            context.dispatch("errorsGuideTourObjects")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
+        })
+
     },
     async restoreRemovedGuideTourObjectsById(context, tourObjectId) {
         return await context.dispatch("guideTourObjectsPage", {
@@ -63,7 +85,6 @@ const actions = {
         })
 
     },
-
     async loadGuideTourObjectsFilteredByPage(context, payload = {filterObject: null, page: 0, size: 12}) {
         let filterObject = payload.filterObject,
             page = payload.page || 0,
@@ -75,7 +96,6 @@ const actions = {
             data: filterObject
         })
     },
-
     async loadGuideTourObjectsByPage(context, payload = {page: 0, size: 12}) {
         let page = payload.page || 0,
             size = payload.size || 15
@@ -84,7 +104,6 @@ const actions = {
             url: `${BASE_GUIDE_TOUR_OBJECTS_LINK}?page=${page}&size=${size}`
         })
     },
-
     async loadRemovedGuideTourObjectsByPage(context, payload = {page: 0, size: 12}) {
         let page = payload.page || 0,
             size = payload.size || 15

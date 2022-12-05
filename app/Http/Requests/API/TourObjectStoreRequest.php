@@ -35,10 +35,10 @@ class TourObjectStoreRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'address' => ['required', 'string', 'max:255'],
-            'latitude' => ['required', 'numeric'],
-            'longitude' => ['required', 'numeric'],
-            'comment' => ['string'],
-            'photos' => ['array']
+            'latitude' => [ ''],
+            'longitude' => [ ''],
+            'comment' => [''],
+            'files' => ['required'],
         ];
     }
 }

@@ -75,11 +75,11 @@ const actions = {
 
 const mutations = {
     setGuideSchedules(state, payload) {
-        state.guide_transactions = payload || [];
+        state.guide_schedules = payload || [];
         localStorage.setItem('travel_store_guide_schedules', JSON.stringify(payload));
     },
     setGuideSchedulesPaginateObject(state, payload) {
-        state.guide_transactions_paginate_object = payload || [];
+        state.guide_schedules_paginate_object = payload || [];
         localStorage.setItem('travel_store_guide_schedules_paginate_object', JSON.stringify(payload));
     }
 }

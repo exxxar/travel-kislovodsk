@@ -94,8 +94,8 @@
                                     <li><hr class="dropdown-divider bg-primary"></li>
                                     <li><a class="dropdown-item" href="/favorites">Избранные туры <span class="badge bg-primary text-white p-2">{{statistic.favorites_count || 0}}</span></a></li>
                                     <li><a class="dropdown-item" href="/messages">Чаты <span class="badge bg-primary text-white p-2">{{statistic.unread_chats_count || 0}}</span></a></li>
-                                    <li><a class="dropdown-item" href="/watched">Просмотренные туры <span class="badge bg-primary text-white p-2">{{statistic.watched_count || 0}}</span></a></li>
-                                    <li><a class="dropdown-item" href="/booked">Забронированные туры <span class="badge bg-primary text-white p-2">{{statistic.booked_count || 0}}</span></a></li>
+                                    <li><a class="dropdown-item disabled" href="#watched">Просмотренные туры <span class="badge bg-primary text-white p-2">{{statistic.watched_count || 0}}</span></a></li>
+                                    <li><a class="dropdown-item disabled" href="#booked">Забронированные туры <span class="badge bg-primary text-white p-2">{{statistic.booked_count || 0}}</span></a></li>
                                     <li><hr class="dropdown-divider bg-primary"></li>
                                     <li><a class="dropdown-item" href="/logout">Выход</a></li>
 

@@ -21,26 +21,9 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::get("/test",function (){
-
-    $recipientId = 7;
-    $senderId =2;
-
-    $chat = Chat::hasChat($recipientId,$senderId);
-
-    dd($chat);
-});
-Route::get('/storage/user/{id}/{path}',function ($id, $path){
-    try {
-
-        $file = Storage::disk('local')->get("public/user/".$id."/" . $path);
-
-        return (new Response($file, 200))
-            ->header('Content-Type', 'image/jpeg');
-    } catch (FileNotFoundException $e) {
-        return null;
-    }
-});
+Route::get('/storage/user/{id}/{path}',[\App\Http\Controllers\API\TouristGuideController::class,"downloadImage"]);
+Route::get('/storage/user/{id}/documents/{path}',[\App\Http\Controllers\API\TouristGuideController::class,"downloadDocument"]);
+Route::get('/storage/user/{id}/tour-objects/{path}',[\App\Http\Controllers\API\TouristGuideController::class,"downloadImage"]);
 
 
 Route::view('/', 'pages.main')->name("page.main");
@@ -115,6 +98,7 @@ Route::prefix("api")
                 Route::get('/all', 'all');
                 Route::get('/max-tours-price', 'getMaxTourPrice');
 
+                Route::get('/by-guide/{id}', 'getTourByGuide');
                 Route::get('/hot', 'hot');
                 Route::get('/watch/{id}', 'watch');
                 Route::get('/{id}', 'show');
@@ -137,6 +121,7 @@ Route::prefix("api")
                 Route::get('/', 'getAllDictionaries');
                 Route::get('/locations', 'getLocations');
                 Route::get('/tour-dates', 'getTourDates');
+                Route::get('/self-tour-dates', 'getSelfTourDates');
                 Route::get('/types', 'getAllTypes');
                 Route::get('/groups/{type}', 'getTypeGroups');
                 Route::get('/types/{id}', 'getByTypeId');
@@ -182,7 +167,7 @@ Route::prefix("api")
                     ->controller(\App\Http\Controllers\API\TransactionController::class)
                     ->group(function () {
                         Route::get('/', 'index');
-                        Route::post('/search', []);
+                        Route::post('/search', 'getFilteredTransactions');
                     });
 
                 Route::prefix("tours")
@@ -194,6 +179,7 @@ Route::prefix("api")
                         Route::get('/restore/{id}', []);
                         Route::get('/add/{id}', []);
                         Route::delete('/clear', []);
+                        Route::get('/archive-add/{id}', 'addGuideTourToArchive');
 
                         Route::delete('/remove/{id}', []);
                         Route::post('/', []);
@@ -227,11 +213,14 @@ Route::prefix("api")
 
                 Route::controller(\App\Http\Controllers\API\TouristGuideController::class)
                     ->group(function(){
+                        Route::get('/documents', 'getDocuments');
                         Route::post('/account', 'updateGuideAccounting');
                         Route::post('/company', 'updateCompanyInfo');
                         Route::post('/password', 'updatePassword');
                         Route::post('/profile', 'updateProfileInfo');
                         Route::post('/upload-image', 'uploadImage');
+                        Route::post('/upload-document', 'uploadDocument');
+                        Route::delete('/remove-document/{id}', 'removeDocument');
                     });
 
 
@@ -306,6 +295,15 @@ Route::prefix("api")
                         Route::get('/', 'selfReviews');
                     });
 
+
+                Route::controller(\App\Http\Controllers\API\TouristController::class)
+                    ->group(function(){
+                        Route::get('/documents', 'getDocuments');
+                        Route::post('/account', 'updateAccounting');
+                        Route::post('/password', 'updatePassword');
+                        Route::post('/profile', 'updateProfileInfo');
+                        Route::post('/upload-image', 'uploadImage');
+                    });
 
                 Route::get('/messages/{userId}', []);
                 Route::get('/users', []);

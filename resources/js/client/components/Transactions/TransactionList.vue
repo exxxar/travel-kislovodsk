@@ -7,7 +7,10 @@
             <div class="personal-account-transactions__row d-lg-flex d-none">
                 <div class="personal-account-transactions-check dt-check personal-account-check">
                     <div class="personal-account-transactions-check__input dt-check__input bg-white">
-                        <input type="radio" name="transactions_status">
+                        <input type="radio" name="transactions_status"
+                               checked
+                        @click="transaction_type=0"
+                        >
                         <div class="dt-check__input-check"></div>
                     </div>
                     <label class="personal-account-transactions-check__label dt-check__label">
@@ -18,48 +21,37 @@
                         </slot>
                     </label>
                 </div>
-                <div class="personal-account-transactions-check dt-check personal-account-check">
+                <div class="personal-account-transactions-check dt-check personal-account-check"
+                     v-for="type in status_types">
                     <div class="personal-account-transactions-check__input dt-check__input bg-white">
-                        <input type="radio" name="transactions_status">
+                        <input type="radio" name="transactions_status"
+                               @click="transaction_type=type.id"
+                        >
                         <div class="dt-check__input-check"></div>
                     </div>
                     <label class="personal-account-transactions-check__label dt-check__label">
                         <slot name="label">
                             <h5>
-                                в ожидании
+                                {{ type.title }}
                             </h5>
                         </slot>
                     </label>
                 </div>
-                <div class="personal-account-transactions-check dt-check personal-account-check">
-                    <div class="personal-account-transactions-check__input dt-check__input bg-white">
-                        <input type="radio" name="transactions_status">
-                        <div class="dt-check__input-check"></div>
-                    </div>
-                    <label class="personal-account-transactions-check__label dt-check__label">
-                        <slot name="label">
-                            <h5>
-                                отклоненные
-                            </h5>
-                        </slot>
-                    </label>
-                </div>
-                <div class="personal-account-transactions-check dt-check personal-account-check">
-                    <div class="personal-account-transactions-check__input dt-check__input bg-white">
-                        <input type="radio" name="transactions_status">
-                        <div class="dt-check__input-check"></div>
-                    </div>
-                    <label class="personal-account-transactions-check__label dt-check__label">
-                        <slot name="label">
-                            <h5>
-                                оплаченные
-                            </h5>
-                        </slot>
-                    </label>
-                </div>
+
             </div>
-            <div class="personal-account-transactions">
+            <div class="personal-account-transactions" v-if="transaction_list.length>0">
                 <transaction-card v-for="item in transaction_list" :key="item.id" :item="item"/>
+            </div>
+            <div class="personal-account-transactions" v-else>
+                <div class="row d-flex justify-content-center">
+                    <div class="col col-12 col-md-6">
+                        <div class="empty-list">
+                            <img v-lazy="'/img/no-tour.jpg'" alt="">
+                            <p>По данному фильтру ничего не найдено:(</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -75,22 +67,46 @@ export default {
     },
 
     computed: {
-        ...mapGetters(['getGuideTransactions']),
+        ...mapGetters(['getGuideTransactions', 'getGuideTransactionsByTransactionType', 'getDictionariesByTypeSlug']),
     },
     data: () => ({
-        transaction_list: [        ]
+        status_types: [],
+        transaction_type: 0,
+        transaction_list: []
     }),
-    mounted(){
-        console.log("loadGuideTransactionsByPage")
-      this.loadGuideTransactionsByPage()
+    watch: {
+        transaction_type: function (oldVal, newVal) {
+            this.loadGuideTransactionsByPage()
+        }
     },
-    methods:{
-        loadGuideTransactionsByPage(){
-            console.log("loadGuideTransactionsByPage 1")
-            return this.$store.dispatch("loadGuideTransactionsByPage").then(()=>{
-                console.log("loadGuideTransactionsByPage 2")
-                this.transaction_list = this.getGuideTransactions
+    mounted() {
+
+        this.loadDictionaries()
+        this.loadGuideTransactionsByPage()
+
+    },
+    methods: {
+        loadDictionaries() {
+            this.$store.dispatch("loadAllDictionaries").then(() => {
+                this.status_types = this.getDictionariesByTypeSlug("transaction_type")
             })
+        },
+        loadGuideTransactionsByPage() {
+
+            if (this.transaction_type === 0) {
+                return this.$store.dispatch("loadGuideTransactionsByPage").then(() => {
+                    this.transaction_list = this.getGuideTransactions
+                })
+            }
+            else
+                return this.$store.dispatch("loadGuideTransactionsFilteredByPage",{
+                    filterObject:{
+                        transaction_type: this.transaction_type
+                    }
+                }).then(() => {
+                    this.transaction_list = this.getGuideTransactions
+                })
+
         }
     }
 }

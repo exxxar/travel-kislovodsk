@@ -5,13 +5,6 @@
             <a :href="'/guide/'+user.id" target="_blank" class="d-lg-flex d-none dt-btn-text">смотреть профиль</a>
         </div>
 
-<!--
-        <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" v-for="error in getGuideErrors">
-            {{ error[0] }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
--->
-
         <div class="mb-4 mx-0 position-relative">
             <h3 class="mb-2 mt-3">Информация об организации</h3>
             <form v-on:submit.prevent="submitCompany">
@@ -376,9 +369,7 @@ export default {
                 is_success_saved: false,
             },
             photos: [],
-            items: [],
-
-            errors: []
+            items: []
         }
     },
     mounted() {

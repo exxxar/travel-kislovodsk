@@ -1,5 +1,5 @@
 <template>
-    <transaction-list :is-user-transactions="true" />
+    <transaction-list/>
 </template>
 
 <script>

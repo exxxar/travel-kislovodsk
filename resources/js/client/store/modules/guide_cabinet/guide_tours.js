@@ -59,6 +59,16 @@ const actions = {
             return Promise.reject(err);
         })
     },
+    async addTour(context, tour) {
+        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_TOURS_LINK}`, 'POST', tour)
+        return _axios.then((response) => {
+
+        }).catch(err => {
+            context.dispatch("errorsGuideTours")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
+        })
+    },
     async addTourToArchive(context, tourId) {
         return await context.dispatch("guideToursPage", {
             url: `${BASE_GUIDE_TOURS_LINK}/archive-add/${tourId}`
