@@ -125,8 +125,8 @@
                     </div>
                 </div>
             </div>
-            <button class="dt-info-block__button dt-btn-blue" @click="applyFilter">
-                <span>Найти экскурсии</span>
+            <button class="dt-info-block__button dt-btn dt-btn-blue" @click="applyFilter">
+                Найти экскурсии
             </button>
         </div>
     </div>

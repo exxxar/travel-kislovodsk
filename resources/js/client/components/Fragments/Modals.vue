@@ -87,9 +87,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="btn dt-btn-blue dt_btn__recovery d-flex align-items-center justify-content-center w-100">
-                            <span>Выслать код для восстановления</span>
-                        </div>
+                        <button class="btn dt-btn dt-btn-blue dt_btn__recovery d-flex align-items-center justify-content-center w-100">
+                            Выслать код для восстановления
+                        </button>
 
                         <div class="dt-input__wrapper">
                             <div class="d-flex align-items-center justify-content-between"><label
@@ -99,9 +99,9 @@
                                 <input type="text" name="phone" class="dt-input" autocomplete="off">
                             </div>
                         </div>
-                        <div class="btn dt-btn-blue d-flex align-items-center justify-content-center w-100">
-                            <span>Сменить пароль</span>
-                        </div>
+                        <button class="btn dt-btn dt-btn-blue d-flex align-items-center justify-content-center w-100">
+                            Сменить пароль
+                        </button>
                     </div>
                     <div class="dt-modal-body" style="display:none">
                         <div class="dt-input__wrapper">
@@ -120,9 +120,9 @@
                                 <input type="password" name="confirm_password" class="dt-input">
                             </div>
                         </div>
-                        <div class="btn dt-btn-blue d-flex align-items-center justify-content-center w-100">
-                            <span>Готово</span>
-                        </div>
+                        <button class="btn dt-btn dt-btn-blue d-flex align-items-center justify-content-center w-100">
+                            Готово
+                        </button>
                     </div>
                     <div class="dt-modal-body" style="display:none;">
                         <div class="dt-success-notification text-center">

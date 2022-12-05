@@ -26,9 +26,9 @@
                 <div class="dt-actions__entry">
                     <ul class="dt-buttons d-flex align-items-center">
                         <li class="dt-btn-entry dt-btn--weather">
-                            <button class="dt-btn-blue">
-                                <span class="me-3">Погода в горах</span>
-                                <img v-lazy="'/img/icons/mountains.png'" alt="">
+                            <button class="dt-btn dt-btn-blue">
+                                Погода в горах
+                                <img class="ms-3" v-lazy="'/img/icons/mountains.png'" alt="">
                             </button>
                         </li>
                         <li class="dt-btn-entry">
