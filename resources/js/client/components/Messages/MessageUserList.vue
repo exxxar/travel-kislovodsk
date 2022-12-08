@@ -55,11 +55,14 @@ export default {
             this.loadChats()
         })
         this.loadChats()
+
+
+
     },
     methods: {
-        selectChat(chats) {
-            this.eventBus.emit('select_chat', chats.id)
-            this.readMessage(chats)
+        selectChat(chat) {
+            this.eventBus.emit('select_chat', chat.id)
+            this.readMessage(chat)
         },
         readMessage(chat) {
             if (!chat.read_at) {
@@ -75,11 +78,17 @@ export default {
             console.log("loadMoreChats")
             return this.$store.dispatch("nextChatsPage").then(() => {
                 this.chats = this.getChats
+
             })
         },
         loadChats() {
             return this.$store.dispatch("loadChats").then(() => {
                 this.chats = this.getChats
+
+                if (window.location.hash.indexOf("#chat")!==-1){
+                    let chatId = window.location.hash.split('-')[1]
+                    this.eventBus.emit('select_chat', chatId)
+                }
             })
         }
     }

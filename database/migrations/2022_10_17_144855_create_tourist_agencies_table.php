@@ -16,6 +16,7 @@ class CreateTouristAgenciesTable extends Migration
         Schema::create('tourist_agencies', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
+            $table->string('address', 255);
             $table->string('phone', 50);
             $table->softDeletes();
             $table->timestamps();

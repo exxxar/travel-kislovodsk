@@ -65,19 +65,15 @@
                     </div>
                     <div class="col-auto align-items-center d-flex gap-1 dt-rating">
                         <div class="dt-rating__star d-flex">
-                            <img v-lazy="tour.rating>=1?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'" alt="">
-                            <img v-lazy="tour.rating>=2?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'" alt="">
-                            <img v-lazy="tour.rating>=3?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'" alt="">
-                            <img v-lazy="tour.rating>=4?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'" alt="">
-                            <img v-lazy="tour.rating>=5?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'" alt="">
+                            <rating-component :rating="tour.rating"/>
                         </div>
                     </div>
                 </div>
             </div>
             <div v-if="tour.is_active" class="splitted">
                 <div class="row align-items-center p-4 mx-0">
-                    <a :href="'/tour/'+tour.id" target="_blank" class="dt-btn-text col-auto d-none d-lg-block">
-                        Страница экскурсии
+                    <a  @click="openGuideTourGroup(tour)" class="dt-btn-text col-auto d-none d-lg-block">
+                        Страница брони экскурсии
                     </a>
                     <button class="col-auto dt-btn-text">Редактировать</button>
                     <button
@@ -138,6 +134,9 @@ export default {
         return {}
     },
     methods:{
+        openGuideTourGroup(tour){
+            this.eventBus.emit('open_gide_tour_group', tour);
+        },
         addToArchive(){
             this.$store.dispatch("addTourToArchive", this.tour.id).then(()=>{
                 this.eventBus.emit('load_guide_tours');

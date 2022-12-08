@@ -56,8 +56,8 @@ class SocialAuthController extends Controller
             ]);
             Auth::login($user, true);
         } catch (\Exception $e) {
-
-            return redirect()->route("page.login");
+            dd($e->getMessage());
+            return redirect()->route("login");
         }
 
         return redirect()->route("page.user-cabinet");

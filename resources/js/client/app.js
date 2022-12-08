@@ -66,6 +66,9 @@ import GuideTourObjectCard from '@/components/GuideCabinet/GuideTourObjectCard.v
 import GuideTourObjectPaginate from '@/components/GuideCabinet/GuideTourObjectPaginate.vue'
 import GuideDocuments from "@/components/GuideCabinet/GuideDocuments.vue";
 import GuideTourGroup from "@/components/GuideCabinet/GuideTourGroup.vue";
+import ReviewList from "@/components/Reviews/ReviewList.vue";
+
+import Rating from "@/components/Fragments/Rating.vue";
 
 import PersonalReviewCard from '@/components/Reviews/PersonalReviewCard.vue'
 
@@ -74,6 +77,8 @@ const app = createApp({})
 
 app.use(NotificationsVue)
 app.config.globalProperties.eventBus = eventBus
+
+window.eventBus = eventBus;
 
 app.use(VueLazyLoad,
     {
@@ -154,10 +159,18 @@ app.component('guide-documents-component', GuideDocuments)
 app.component('guide-tour-group-component', GuideTourGroup)
 
 app.component('personal-review-card-component', PersonalReviewCard)
+app.component('review-list-component', ReviewList)
+app.component('rating-component', Rating)
 
 
 import store from './store'
 
+app.config.globalProperties.$filters = {
+    phoneFilter(value) {
+        let v = ""+value
+        return `+${v[0]}(${v[1]}${v[2]}${v[3]}) ${v[4]}${v[5]}${v[6]}-${v[7]}${v[8]}-${v[9]}${v[10]}`
+    }
+}
 
 app.use(store)
 

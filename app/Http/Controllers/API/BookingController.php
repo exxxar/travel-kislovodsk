@@ -11,6 +11,7 @@ use App\Models\Booking;
 use App\Models\Chat;
 use App\Models\Dictionary;
 use App\Models\Tour;
+use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -78,17 +79,29 @@ class BookingController extends Controller
     {
         $request->validate([
             "tour_id" => "required",
+            "schedule_id" => "required",
             "date" => "required",
             "time" => "required",
             "counts" => "required",
-            "full_name" => "required",
-            "phone" => "required",
-            "email" => "required",
+            "persons.*" => "required",
+            "persons.*.full_name" => "required",
+            "persons.*.phone" => "required",
+            "persons.*.email" => "required",
+            'persons.*.age'=> "required",
+            'persons.*.document_info'=> "required",
+            'persons.*.document_type_title'=> "required"
         ]);
 
-        $name = explode(' ', $request->full_name);
 
-        $ph_number = preg_replace("/[^0-9]/", "", $request->phone);
+        $userId = Auth::user()->id ?? null;
+
+        if (is_null($userId))
+            return response()->json([
+               "errors"=>[
+                   "message"=>["Вы не авторизовались!"]
+               ]
+            ], 400);
+
 
         $tour = Tour::withTrashed()
             ->where("id", $request->tour_id)
@@ -129,19 +142,38 @@ class BookingController extends Controller
             }
         }
 
-        Booking::query()->create([
-            'tour_id' => $request->tour_id,
-            'user_id' => Auth::user()->id,
-            'selected_prices' => $prices,
-            'additional_services' => $services,
-            'fname' => $name[2] ?? '',
-            'sname' => $name[1] ?? '',
-            'tname' => $name[0] ?? '',
-            'phone' => $ph_number,
-            'email' => $request->email,
-            'start_at' => Carbon::parse("$request->data $request->time"),
-            'payed_at' => null,
+        $transaction = Transaction::query()->create([
+            'status_type_id'=>(Dictionary::query()->where("slug","transaction_in_progress_type")->first())->id,
+            'amount'=>env("base_tax"),
+            'user_id'=>$userId,
+            'tour_id'=>$request->tour_id,
+            'description'=>'Бронирование тура'
         ]);
+
+        foreach ($request->persons  as $person) {
+            $person = (object)$person;
+            $name = explode(' ', $person->full_name);
+
+            $ph_number = preg_replace("/[^0-9]/", "", $person->phone);
+
+            Booking::query()->create([
+                'tour_id' => $request->tour_id,
+                'user_id' => $userId,
+                'schedule_id' => $request->schedule_id,
+                'transaction_id' => $transaction->id,
+                'selected_prices' => $prices,
+                'additional_services' => $services,
+                'fname' => $name[2] ?? '',
+                'sname' => $name[1] ?? '',
+                'tname' => $name[0] ?? '',
+                'phone' => $ph_number,
+                'email' => $person->email,
+                'start_at' => Carbon::parse("$request->data $request->time"),
+                'payed_at' => null,
+            ]);
+
+        }
+
 
         $chat = Chat::startNewChat("Вы забронировали  <a class='btn btn-primary' href='/tour/$tour->id'>тур</a> $tour->title", Auth::user()->id, $tour->creator_id);
 
@@ -158,5 +190,9 @@ class BookingController extends Controller
             ->get();
 
         return new BookingCollection($bookings);
+    }
+
+    public function getBookedTourInfo(Request $request, $id){
+        return "excel document info";
     }
 }

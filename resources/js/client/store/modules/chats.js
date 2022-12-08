@@ -53,6 +53,19 @@ const actions = {
             !localStorage.getItem('travel_store_chat_users_paginate_object') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_chat_users_paginate_object')))
     },
+    async startGroupChat(context, chatObject = {schedule_id: null, tour_id: null}){
+        let link =  `${BASE_CHATS_LINK}/start-group-chat`
+
+        let _axios = util.makeAxiosFactory(link, 'POST', chatObject)
+
+        return _axios.then((response) => {
+            return response;
+        }).catch(err => {
+            context.dispatch("errorsChatMessages")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
+        })
+    },
     async chatMessagesPage(context, payload) {
 
         let link = payload.url || BASE_CHATS_LINK,
@@ -82,7 +95,7 @@ const actions = {
 
         return _axios.then((response) => {
             let dataObject = response.data
-            context.commit('appendChatUsers', dataObject.data)
+            context.commit('setChatUsers', dataObject.data)
             delete dataObject.data
             context.commit('setChatUsersPaginateObject', dataObject)
 
@@ -117,7 +130,7 @@ const actions = {
         let _axios = util.makeAxiosFactory(BASE_CHATS_LINK+"/start-chat", 'POST', chatObject)
 
         return _axios.then((response) => {
-
+            return response;
         }).catch(err => {
             context.dispatch("errorsChatMessages")
             context.commit("setErrors", err.response.data.errors || [])
@@ -196,17 +209,15 @@ const actions = {
             return Promise.reject(err);
         })
     },
-    async loadChatUsers(context, payload = {page: 0, size: 15}) {
-        let page = payload.page || 0
-        let size = payload.size || 15
+    async loadChatUsersByChatId(context, payload = {chatId:null}) {
 
         return await context.dispatch("chatUsersPage", {
-            url: `${BASE_CHATS_LINK}/users?page=${page}&size=${size}`
+            url: `${BASE_CHATS_LINK}/users/${payload.chatId}`
         })
     },
-    async loadChats(context, payload = {page: 0, size: 15}) {
+    async loadChats(context, payload = {page: 0, size: 50}) {
         let page = payload.page || 0
-        let size = payload.size || 15
+        let size = payload.size || 50
         return await context.dispatch("chatsPage", {
             url: `${BASE_CHATS_LINK}/chats?page=${page}&size=${size}`
         })

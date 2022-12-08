@@ -5,7 +5,7 @@
             <div class="d-lg-block d-none col-3 pe-5">
 
                 <div class="side-menu">
-                    <button @click="activeTitle = 'Мои экскурсии'; activeType = 'Действующие'" class="personal-account-nav__link
+                    <button @click="openMenu('Мои экскурсии','Действующие')" class="personal-account-nav__link
                         menu-item d-flex rounded p-4 mb-2
                         justify-content-between align-items-center dt-btn--hover-blue"
                             :class="{'personal-account-nav__link_active active': activeTitle=='Мои экскурсии'}"
@@ -15,7 +15,7 @@
                             <i class="fa-solid fa-globe"></i>
                         </div>
                     </button>
-                    <button @click="activeTitle = 'Мои объекты'; activeType = 'Действующие объекты'"
+                    <button @click="openMenu('Мои объекты','Действующие объекты')"
                             class="personal-account-nav__link menu-item d-flex rounded p-4 mb-2
                     justify-content-between align-items-center dt-btn--hover-blue"
                             :class="{'personal-account-nav__link_active active': activeTitle=='Мои объекты'}">
@@ -24,7 +24,7 @@
                             <i class="fa-solid fa-map-location-dot"></i>
                         </div>
                     </button>
-                    <button @click="activeTitle = 'Транзакции'"
+                    <button @click="openMenu( 'Транзакции')"
                             class="personal-account-nav__link menu-item d-flex rounded p-4 mb-2
                     justify-content-between align-items-center dt-btn--hover-blue"
                             :class="{'personal-account-nav__link_active active': activeTitle=='Транзакции'}">
@@ -33,7 +33,7 @@
                             <i class="fa-solid fa-arrow-right-arrow-left"></i>
                         </div>
                     </button>
-                    <button @click="activeTitle = 'Календарь'"
+                    <button @click="openMenu('Календарь')"
                             class="personal-account-nav__link menu-item d-flex rounded p-4 mb-2
                     justify-content-between align-items-center dt-btn--hover-blue"
                             :class="{'personal-account-nav__link_active active': activeTitle=='Календарь'}">
@@ -42,16 +42,8 @@
                             <i class="fa-regular fa-calendar-days"></i>
                         </div>
                     </button>
-                    <button @click="activeTitle = 'Группы'"
-                            class="personal-account-nav__link menu-item d-flex rounded p-4 mb-2
-                    justify-content-between align-items-center dt-btn--hover-blue"
-                            :class="{'personal-account-nav__link_active active': activeTitle=='Группы'}">
-                        <span class="menu-item__name font-size-09 semibold">Группы</span>
-                        <div>
-                            <i class="fa-regular fa-calendar-days"></i>
-                        </div>
-                    </button>
-                    <button @click="activeTitle = 'Документы'"
+
+                    <button @click="openMenu('Документы')"
                             class="personal-account-nav__link menu-item d-flex rounded p-4 mb-2
                     justify-content-between align-items-center dt-btn--hover-blue"
                             :class="{'personal-account-nav__link_active active': activeTitle=='Документы'}">
@@ -60,7 +52,7 @@
                             <i class="fa-regular fa-folder-open"></i>
                         </div>
                     </button>
-                    <button @click="activeTitle = 'Настройки'"
+                    <button @click="openMenu('Настройки')"
                             class="personal-account-nav__link menu-item d-flex rounded p-4 mb-2
                     justify-content-between align-items-center dt-btn--hover-blue"
                             :class="{'personal-account-nav__link_active active': activeTitle=='Настройки'}">
@@ -161,7 +153,9 @@
             <guide-schedule v-if="activeTitle == 'Календарь'"/>
             <guide-settings v-if="activeTitle == 'Настройки'"/>
             <guide-documents-component v-if="activeTitle == 'Документы'"/>
-            <guide-tour-group-component v-if="activeTitle == 'Группы'"/>
+            <guide-tour-group-component v-if="selectedTour"
+                                        @hideTourGroup="hideTourGroup"
+                                        :tour="selectedTour"/>
         </div>
     </main>
 </template>
@@ -175,6 +169,7 @@ import GuideSettings from "@/components/GuideCabinet/GuideSettings.vue";
 import GuideTransactions from "@/components/GuideCabinet/GuideTransactions.vue";
 
 import {mapGetters} from "vuex";
+
 export default {
     components: {
         AddTourObject,
@@ -190,6 +185,7 @@ export default {
     data() {
         return {
             visible: false,
+            selectedTour: null,
             breadcrumbs: [
                 {
                     text: "Главная",
@@ -213,8 +209,22 @@ export default {
         })
 
 
+        this.eventBus.on('open_gide_tour_group', (tour) => {
+            this.selectedTour = tour
+            this.activeTitle = 'Бронирование групп'
+        });
+
     },
     methods: {
+        openMenu(menu, tab = null){
+            this.selectedTour = null
+            this.activeTitle = menu
+            this.activeType = tab
+        },
+        hideTourGroup() {
+            this.selectedTour = null
+            this.activeTitle = 'Мои экскурсии'
+        },
         toggle() {
             this.visible = !this.visible;
         },
@@ -235,6 +245,7 @@ export default {
             }
         }
     }
+
     div {
         i {
             color: #0071eb;

@@ -22,11 +22,6 @@ class CreateTransactionsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('tour_id');
 
-            $table->unsignedBigInteger('booking_id');
-
-            $table->foreign('booking_id')
-                ->references('id')
-                ->on('bookings');
 
             $table->text('description')->nullable();
 

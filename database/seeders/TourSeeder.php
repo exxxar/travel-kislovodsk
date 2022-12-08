@@ -79,21 +79,24 @@ class TourSeeder extends Seeder
 
             foreach ($users as $user) {
                 $payedAt = Carbon::now();
+                $transaction = Transaction::factory()->create([
+                    'user_id' => $user->id,
+                    'tour_id' => $tour->id
+                ]);
+
                 $booking = Booking::factory()->create([
                     'tour_id' => $tour->id,
                     'user_id' => $user->id,
                     'selected_prices' => $tour->prices,
+                    'transaction_id' => $transaction->id,
+                    'schedule_id' => $schedule->id,
 
                     'start_at' => $schedule->start_at,
                     'payed_at' => $payedAt
                 ]);
 
 
-                Transaction::factory()->create([
-                    'user_id' => $user->id,
-                    'tour_id' => $tour->id,
-                    'booking_id' => $booking->id,
-                ]);
+
             }
 
         }

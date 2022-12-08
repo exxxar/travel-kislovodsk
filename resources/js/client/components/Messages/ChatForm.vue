@@ -27,10 +27,28 @@
             </div>
         </div>
         <div class="messages-control" v-if="chatId!==null">
+
+
             <form v-on:submit.prevent="sendChatMessage" class="d-flex rounded bg-light align-items-center m-2rem pe-2">
                 <input v-model="message"
                        class="d-flex rounded order-2 order-lg-1 flex-grow-1 px-3 px-lg-4 border-0 bg-light" type="text">
-                <button class="attach-file big-icon order-1 order-lg-2 ps-4 ps-xl-0 position-relative">
+                <div class="dropup order-3">
+                    <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        <i class="fa-solid fa-users"></i>
+                    </button>
+                    <ul class="dropdown-menu chat-user-list" v-if="users.length>0">
+                        <li v-for="user in users" class="chat-user-item"><a class="dropdown-item" href="#">
+                        <span class="row d-flex align-items-center">
+                            <span class="col-4"><img class="chat-user-avatar" v-lazy="user.photo" alt=""></span>
+                            <span class="col-8">{{ user.tname || '-' }} {{ user.fname || '-' }}</span>
+                        </span>
+                        </a></li>
+
+                    </ul>
+                </div>
+
+               <button class="attach-file big-icon order-1 order-lg-2 ps-4 ps-xl-0 position-relative">
                     <svg class="black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="24" width="24">
                         <path
                             d="M23 45.4q-5.15 0-8.775-3.55T10.6 33.2V11.15q0-3.7 2.575-6.3 2.575-2.6 6.275-2.6 3.75 0 6.325 2.6t2.575 6.35v19.95q0 2.25-1.55 3.825-1.55 1.575-3.8 1.575-2.3 0-3.825-1.65-1.525-1.65-1.525-4V11.05h3.15v20q0 1 .65 1.7t1.55.7q.95 0 1.575-.675t.625-1.625v-20q0-2.4-1.675-4.05T19.45 5.45q-2.4 0-4.075 1.65Q13.7 8.75 13.7 11.15V33.3q0 3.8 2.725 6.4Q19.15 42.3 23 42.3q3.9 0 6.6-2.625 2.7-2.625 2.7-6.475V11.05h3.15v22.1q0 5.1-3.65 8.675Q28.15 45.4 23 45.4Z"/>
@@ -43,6 +61,8 @@
                     </svg>
                 </button>
             </form>
+
+
         </div>
         <!--        <div class="dt-page__messages-container">
         </div>
@@ -188,11 +208,12 @@ export default {
         return {
             chatId: null,
             message: null,
-            messages: []
+            messages: [],
+            users: []
         }
     },
     computed: {
-        ...mapGetters(['getChatMessages']),
+        ...mapGetters(['getChatMessages', 'getChatUsers']),
         user() {
             return window.user
         },
@@ -213,15 +234,18 @@ export default {
         },
     },
     mounted() {
+        window.eventBus.on("fcm_message_notification", (chatId) => {
+
+            if (this.chatId != null && chatId == this.chatId)
+                this.loadChatMessagesByChatId(this.chatId)
+        })
+
         this.eventBus.on('select_chat', (id) => {
             this.loadChatMessagesByChatId(id)
             this.chatId = id;
         })
 
-        if (this.chatId != null)
-            setInterval(() => {
-                this.loadChatMessagesByChatId(this.chatId)
-            }, 5000)
+
     },
     methods: {
         sendChatMessage() {
@@ -241,14 +265,27 @@ export default {
                 this.message = null;
             })
         },
+        loadChatUsersByChatId(id) {
+            return this.$store.dispatch("loadChatUsersByChatId", {
+                chatId: id
+            }).then(() => {
+                this.users = this.getChatUsers
+            })
+        },
         loadChatMessagesByChatId(id) {
-            return this.$store.dispatch("loadChatMessagesByChatId", {
+
+            this.$store.dispatch("loadChatMessagesByChatId", {
                 chatId: id
             }).then(() => {
                 this.messages = this.getChatMessages
-                let objDiv = document.querySelector(".messages-list")
-                objDiv.scrollTop = 1000000;
+
+                setTimeout(() => {
+                    let objDiv = document.querySelector(".messages-list")
+                    objDiv.scrollTop = 1000000;
+                }, 500)
             })
+
+            this.loadChatUsersByChatId(id)
         }
     }
 }
@@ -264,17 +301,7 @@ export default {
         & {
             border-radius: 0.375rem;
         }
-        &::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3rem;
-            border-top-left-radius: 0.375rem;
-            border-top-right-radius: 0.375rem;
-            background: linear-gradient(180deg, #ffffff 20%, rgba(0, 0, 0, 0) 100%);
-        }
+
     }
 
     .messages-list {
@@ -347,5 +374,19 @@ export default {
             }
         }
     }
+}
+
+.chat-user-avatar {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.chat-user-list {
+    max-height: 200px;
+    width: 300px;
+    overflow-y: auto;
+
 }
 </style>

@@ -30,18 +30,20 @@ class CreateTouristGroupsTable extends Migration
             $table->string('final_destination_point', 255);
             $table->double('route_distance')->default('0');
             $table->json('areas_of_rf');
-            $table->json('loding_points');
-            $table->json('emergency_exit_routest');
-            $table->json('dangerous_route_section')->nullable();
-            $table->json('difficulty_category');
-            $table->json('mobile_devices');
-            $table->string('satelite_phone', 255)->nullable();
-            $table->json('radio_station');
+            $table->json('lodging_points');
+            $table->json('emergency_exit_routes');
+            $table->json('dangerous_route_sections');
+            $table->string('difficulty_category');
+            $table->string('travel_type');
+            $table->string('type_of_transport');
+            $table->json('mobile_phones');
+            $table->json('satellite_phones');
+            $table->json('radio_stations');
             $table->json('charge_batteries');
-            $table->json('first_aid_equipment');
+            $table->json('first_aid_equipments');
             $table->json('medical_professionals')->nullable();
-            $table->json('insurance')->nullable();
-            $table->text('additional_info')->nullable();
+            $table->string('insurance')->nullable();
+            $table->json('additional_info')->nullable();
             $table->unsignedBigInteger('tourist_guide_id');
             $table->foreign('tourist_agency_id')
                 ->references('id')

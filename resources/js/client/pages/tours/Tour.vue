@@ -36,19 +36,15 @@
 
                             <div class="dt-photos__item dt-photos__item--placeholder" v-if="tour.images.length>6">
                                 <div class="dt-item__placeholder">
-                                    <span>+{{  tour.images.length-6 }}</span>
+                                    <span>+{{ tour.images.length - 6 }}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="dt-preheader__view-reviews d-flex justify-content-center">
                             <p class="dt-btn-text text-uppercase text-white me-lg-3">Смотреть отзывы (8)</p>
                             <div class="dt-rating__star d-flex">
-                                <img v-lazy="tour.rating>=1?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'"  alt="">
-                                <img v-lazy="tour.rating>=2?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'"  alt="">
-                                <img v-lazy="tour.rating>=3?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'"  alt="">
-                                <img v-lazy="tour.rating>=4?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'"  alt="">
-                                <img v-lazy="tour.rating>=5?'/img/icons/star_blue.svg':'/img/icons/star_grey.svg'"  alt="">
-                                <p class="dt-rating__text fw-bold text-white">{{tour.rating}}</p>
+                                <rating-component :rating="tour.rating"/>
+                                <p class="dt-rating__text fw-bold text-white">{{ tour.rating }}</p>
                             </div>
                         </div>
                     </div>
@@ -137,7 +133,7 @@
                 <div v-if="!isBooking" class="col-lg-8 dt-page__content">
                     <p class="dt-article__title">Описание экскурсии</p>
                     <p class="dt-main-text-thin">
-                        {{tour.description || 'Нет описания'}}
+                        {{ tour.description || 'Нет описания' }}
                     </p>
                     <div class="dt-paragraph__group">
                         <div class="d-flex justify-content-between align-items-baseline">
@@ -158,9 +154,9 @@
                                 </svg>
                             </div>
                             <div class="dt-paragraph__text">
-                                <h4 class="dt-text__title m-0">{{tour.start_address||'Стартовая локация'}}</h4>
+                                <h4 class="dt-text__title m-0">{{ tour.start_address || 'Стартовая локация' }}</h4>
                                 <p class="dt-main-text-thin">
-                                    {{tour.start_comment||'Стартовое описание'}}
+                                    {{ tour.start_comment || 'Стартовое описание' }}
                                 </p>
                             </div>
                         </div>
@@ -184,8 +180,8 @@
                                     </svg>
                                 </div>
                                 <div class="dt-paragraph__text">
-                                    <a :href="'/tour-object/'+item.id" class="dt-text__title">{{item.title}}</a>
-                                    <p class="dt-main-text-thin">{{item.description}}</p>
+                                    <a :href="'/tour-object/'+item.id" class="dt-text__title">{{ item.title }}</a>
+                                    <p class="dt-main-text-thin">{{ item.description }}</p>
                                     <div class="dt-text__links d-flex">
                                         <p class="dt-btn-text text-uppercase me-3 d-lg-flex d-none"
                                            data-bs-toggle="modal" :data-bs-target="'#map-main-modal-'+item.id"
@@ -215,7 +211,7 @@
                                              viewBox="0 0 48 48" fill="#65c350">
                                             <path d="M18.9 36.4 7 24.5l2.9-2.85 9 9L38.05 11.5l2.9 2.85Z"></path>
                                         </svg>
-                                        {{item}}
+                                        {{ item }}
                                     </li>
                                 </ul>
                             </div>
@@ -230,7 +226,7 @@
                                             <path fill="#f73637"
                                                   d="m12.45 38.35-2.8-2.8L21.2 24 9.65 12.45l2.8-2.8L24 21.2 35.55 9.65l2.8 2.8L26.8 24l11.55 11.55-2.8 2.8L24 26.8Z"></path>
                                         </svg>
-                                        {{item}}
+                                        {{ item }}
                                     </li>
                                 </ul>
                             </div>
@@ -240,7 +236,7 @@
                         <h3 class="dt-paragraph__caption">Как оплатить</h3>
                         <ul class="dt-list__price">
                             <li class="dt-price__item" v-for="item in tour.payment_infos">
-                                {{item}}
+                                {{ item }}
                             </li>
 
                         </ul>
@@ -257,7 +253,8 @@
                                         вас вопросы.
                                     </p>
                                 </div>
-                                <button class="dt-btn-blue" @click="startChatWithGide"><span>Задать вопрос гиду</span></button>
+                                <button class="dt-btn-blue" @click="startChatWithGide"><span>Задать вопрос гиду</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -275,7 +272,8 @@
                                 </div>
                                 <div class="dt-guide__text">
                                     <p class="dt-guide__title fw-thin">экскурсию для вас проведет</p>
-                                    <p class="dt-guide__name">{{ tour.guide.fname }} {{ tour.guide.sname }} {{ tour.guide.tname }}</p>
+                                    <p class="dt-guide__name">{{ tour.guide.fname }} {{ tour.guide.sname }}
+                                        {{ tour.guide.tname }}</p>
                                     <div class="dt-rating__star d-flex">
                                         <img v-lazy="'/img/icons/star_blue.svg'" alt="">
                                         <img v-lazy="'/img/icons/star_blue.svg'" alt="">
@@ -284,10 +282,12 @@
                                         <img v-lazy="'/img/icons/star_blue.svg'" alt="">
                                         <p class="dt-guide__rating fw-bold">4.84</p>
                                     </div>
-                                    <a :href="'/guide/'+tour.guide.id" class="dt-btn-text text-uppercase me-3 d-lg-flex d-none">смотреть
+                                    <a :href="'/guide/'+tour.guide.id"
+                                       class="dt-btn-text text-uppercase me-3 d-lg-flex d-none">смотреть
                                         отзывы
                                         (140)</a>
-                                    <a :href="'/guide/'+tour.guide.id" class="dt-btn-text text-uppercase text-nowrap d-flex d-lg-none">отзывы
+                                    <a :href="'/guide/'+tour.guide.id"
+                                       class="dt-btn-text text-uppercase text-nowrap d-flex d-lg-none">отзывы
                                         (140)</a>
                                 </div>
                             </div>
@@ -359,8 +359,8 @@ import TourObjectList from "@/components/TourObjects/TourObjectList.vue";
 export default {
     components: {TourObjectList, ReviewList, TourBooking, Breadcrumbs},
     props: ["tour"],
-    computed:{
-        user(){
+    computed: {
+        user() {
             return window.user
         }
     },
@@ -385,28 +385,29 @@ export default {
         this.addToWatch();
     },
 
-    methods:{
-        startChatWithGide(){
+    methods: {
+        startChatWithGide() {
             if (user.is_guest)
                 window.location = "/login"
 
             this.$store.dispatch("startChat", {
                 recipient_id: this.tour.guide.id,
                 message: `Добрый день, заинтересовал  <a href='/tour/${this.tour.id}'>тур</a>!`
-            }).then(()=>{
+            }).then((resp) => {
                 this.$notify({
                     title: "Тур",
                     text: "Чат успешно создан!",
                     type: 'success'
                 });
 
-                window.location = "/messages"
+                let chatId = resp.data.chat_id
+                window.location = `/messages#chat-${chatId}`
             })
         },
-        addToWatch(){
+        addToWatch() {
             this.$store.dispatch("watchTour", this.tour.id)
         },
-        addToFavorites(){
+        addToFavorites() {
             this.$store.dispatch("addToFavorites", this.tour.id)
         }
     }

@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "travelkislovodsk",
+  "private_key_id": "6041f30b6b3ff50b352217c6852c363cabdf0538",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCqa9RTmQjt/Nyv\n94MZz+K4YrVkNejXd9cuMh2WY0/xXE2GZRQauo277Mrz71/9daDBm1IpMc2cJnjJ\nuO3J/l/TSjdj5pPyFCFPuPhe/yLs8c8xRAq0ZZ3i79DMQcyfsPGIaMGhqGA2wyjj\n52Ci7IVfqny4LbhnW2UyMqqw5iP5DTncmOWMqeiXZKsa2vQn4hZmhDqNn3Zf0hEd\nJu7V1rQZBEM/S3S8cwunp2N+PNyz/bTZyfmkMWokUl/DUXOt1a9iOI1cu2ENg1lt\n3us2LLHETbnU60SgUFG0W7GS6tuCGxOOlqDtwjs0X+Y00dYP395bdRwJUoHgrnZ0\n3Lfl5Oc1AgMBAAECggEABd2Xku0F0/3LsWQefLPyr2VOWE2hXvvT9IDAaJ2wcbPl\n7dtAGY9piMSkqPKzO2u3WxKNKGJ7cNrDdjCe6+s3wcj10RgYPXvDOGrluYykghfs\niVs4gcRW7n78kRsuqiG9SR756Ht9cZppUjbI1QgOVcruEf9uL7iDP3q49JpnNeTX\n6jdcTFgicL7N445vujnVCp4GVNeOpy/OyOetaYMC//7phzr56poDIwjXzP+czgEd\nPHub60c64jfR8ur/QvhY/FNpWRSsoxnnhk8SBxikrpSUOWi5pttAWELF8ADAed73\nLPpkQap7abrv1Efa08679a2/BVx7u5JiIro3EgKdnQKBgQDbLJdBx196BEd58dyx\ndqBHS3RDwfi42ZsugxkUw2Swsy5PS5qV0+XrW93+sQdy7+gxyHKEYRsV0cV2ff+S\n6/k3//1+mqhFELpkJqC4GSTgbEnj1zAo7RS14sZosOSltxMali+dl6gtaEJSBR1k\n1l3IcQgaoSciG0MdoQwTRWYwywKBgQDHDjYXHKsTapuDItPlU60arZxcAfNxSWf0\nai8H+hwnwJBI+qHfhhYQoPvNiOpNxuSIJRtWXgF3YOJQWefk2MFYxyfWwC46ZBOt\npAMIO3vU6Y7Fr/6hBmVGc9NN8JYjo6zLniZVdcuymfNCLsHScyyKAkrg5e/bF8Nz\nLsu10HZH/wKBgFszr/FQTFuSwkdtLH+wNDvWmxfC9IO/EUMGjH5GXHTm6sNWW4oz\nNb59aOAdvFLIn99vYK/TVJj8xGVtQtdZWEhEPrDbHGA4+MbKCCDzXZQBm7GyjrjJ\nBtA1AIj56vtGNi3fBwtV20ah1s8Yj8WxKi9JUaz7GDSqEYCXzlWKkF6HAoGAXJeS\nt5uBRI3hetV3hYQv0GoTgoTxza+cqIfACtDfyen788aKB6SinOeVWZ0niDhNU7sX\nBUzDF9m8TC4V/VCKV5aERJOurUCiGrJhKrIovvhJjlF4e0SzVVtJXkbcQAXBuhF9\nuWEK+LA+BHoldJRYknXQiN7MfLiIFQsefRtT+dcCgYAqLlG+hnjNdkozffr3R5Mj\nZrE5IfnEoxPzpj7wzRQY4cBt+i1CNNyWdZ6DUxMEAuUOICviWzdd272cYBMm5kNe\nm3SWR7KnZFZqWc4oz1ULjmuDfeXj1mNYUeSkAVn4oUHNtjViVhqUS+C+JQq8305j\nTj6RZOJ3hc//DU+JzWYx6Q==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-qrzga@travelkislovodsk.iam.gserviceaccount.com",
+  "client_id": "113933958247425116707",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-qrzga%40travelkislovodsk.iam.gserviceaccount.com"
+}

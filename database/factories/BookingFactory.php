@@ -25,7 +25,7 @@ class BookingFactory extends Factory
             'fname' => fake()->firstName(),
             'sname' => fake()->title(),
             'tname' => fake()->lastName(),
-            'phone' => fake()->phoneNumber(),
+            'phone' => "7".random_int(10000, 99999).random_int(10000, 99999),
             'email' => fake()->email(),
         ];
     }

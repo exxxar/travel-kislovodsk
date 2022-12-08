@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\API\ReviewController;
+use App\Http\Controllers\WebNotificationController;
 use App\Models\Chat;
 use App\Models\ChatUsers;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -20,6 +21,10 @@ use Illuminate\Support\Facades\Storage;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/push-notificaiton', [WebNotificationController::class, 'index'])->name('push-notificaiton');
+Route::post('/store-token', [WebNotificationController::class, 'storeToken'])->name('store.token');
+Route::post('/send-web-notification', [WebNotificationController::class, 'sendWebNotification'])->name('send.web-notification');
 
 Route::get('/storage/user/{id}/{path}',[\App\Http\Controllers\API\TouristGuideController::class,"downloadImage"]);
 Route::get('/storage/user/{id}/documents/{path}',[\App\Http\Controllers\API\TouristGuideController::class,"downloadDocument"]);
@@ -76,6 +81,8 @@ Route::get('/dashboard', function () {
 
 Route::prefix("api")
     ->group(function () {
+
+         Route::post('/send-mchs-form', [\App\Http\Controllers\TourGroupController::class,"sendMCHSForm"]);
 
         Route::controller(\App\Http\Controllers\SocialAuthController::class)
             ->group(function () {
@@ -140,9 +147,10 @@ Route::prefix("api")
                 Route::get('/read-message/{messageId}', 'readMessage');
                 Route::get('/self-message', 'selfMessages');
                 Route::get('/messages/{chatId}', 'messageByChatId');
-                Route::get('/users', 'users');
+                Route::get('/users/{chatId}', 'getChatUsers');
                 Route::get('/chats', 'chats');
                 Route::post('/start-chat', 'startChat');
+                Route::post('/start-group-chat', 'startGroupChat');
                 Route::post('/send-message', 'sendMessage');
                 Route::post('/send-file', 'sendFile');
                 Route::post('/send-transaction', 'sendTransaction');
@@ -175,6 +183,7 @@ Route::prefix("api")
                     ->group(function () {
 
                         Route::get('/', 'loadGuideToursByPage');
+                        Route::get('/actual-booked-tours', 'loadActualGuideBookedTours');
                         Route::post('/search', []);
                         Route::get('/restore/{id}', []);
                         Route::get('/add/{id}', []);
@@ -224,6 +233,7 @@ Route::prefix("api")
                     });
 
 
+                Route::get('/booked-tour-info/{id}', [\App\Http\Controllers\API\BookingController::class,'getBookedTourInfo']);
                 Route::post('/send-message', []);
                 Route::post('/send-file', []);
                 Route::post('/send-transaction', []);

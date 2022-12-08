@@ -199,6 +199,9 @@ export default {
             return window.statistic;
         }
     },
+    mounted() {
+
+    },
     watch:{
         getErrors:function (newVal, oldVal){
             Object.keys(newVal).forEach(key=> {

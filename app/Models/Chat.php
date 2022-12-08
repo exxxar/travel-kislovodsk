@@ -19,7 +19,9 @@ class Chat extends Model
         "settings",
         "last_message_id",
         "last_message_at",
-        "read_at"
+        "is_multiply",
+        "read_at",
+
 
     ];
 
@@ -37,7 +39,7 @@ class Chat extends Model
 
     public function getTitleAttribute()
     {
-        $users = $this->chatUsers()->with(["profile"])
+      /*  $users = $this->chatUsers()->with(["profile"])
             ->whereNot("user_id", Auth::user()->id)
             ->get();
 
@@ -45,19 +47,28 @@ class Chat extends Model
             return "UNKNOWN";
 
 
-       // return ($users[0]->profile->tname ?? '') . " " . ($users[0]->profile->fname ?? '');
+        // return ($users[0]->profile->tname ?? '') . " " . ($users[0]->profile->fname ?? '');
 
         $title = '';
 
-         foreach ($users as $user){
-             if (Auth::user()->id!==$user->id) {
-                 $profile = $user->profile;
-                 $title .= ($profile->tname??'-')." ".($profile->fname??'-').",";
-             }
+        foreach ($users as $user) {
+            if (Auth::user()->id !== $user->id) {
+                $profile = $user->profile;
+                $title .= ($profile->tname ?? '-') . " " . ($profile->fname ?? '-') . ",";
+            }
 
-         }
+        }
 
-         return $title;
+        return $title;*/
+
+        $message = Message::query()
+            ->with(["user.profile"])
+            ->where("id", $this->last_message_id)->first();
+
+        if (is_null($message))
+            return "Чат #".$this->id;
+
+        return "Чат #$this->id:".$message->user->profile->fname." ".$message->user->profile->tname;
     }
 
     public static function unreadChatsCount()
@@ -65,6 +76,25 @@ class Chat extends Model
         return Chat::getChats()
             ->whereNull("read_at")
             ->count() ?? 0;
+    }
+
+    public static function addUsersToChat($chatId, $userIds = [])
+    {
+        if (empty($userIds))
+            return false;
+
+        $chatUserIds = ChatUsers::query()->where("chat_id", $chatId)
+            ->get()
+            ->pluck("user_id");
+
+        foreach ($userIds as $userId)
+            if (!in_array($userId, $chatUserIds->toArray())) {
+                $chat = Chat::query()->find($chatId);
+                $chat->chatUsers()->attach($userId);
+            }
+
+
+        return true;
     }
 
     public static function hasChat($userId1, $userId2)
@@ -75,12 +105,32 @@ class Chat extends Model
 *
 FROM `chat_users` as t1
 LEFT JOIN  `chat_users` AS t2
+
 ON t1.`chat_id`=t2.`chat_id`
-WHERE t1.user_id=$userId1 and t2.user_id=$userId2;
+   LEFT JOIN `chats` AS c1
+ON t1.`chat_id`=t1.`id`
+WHERE t1.user_id=$userId1 and t2.user_id=$userId2 and c1.is_multiply=0;
             ")
         );
 
+
         return count($chats) > 0 ? $chats[0]->chat_id : null;
+    }
+
+    public static function removeChat($chatId){
+        $chat = Chat::with(["messages", "chatUsers"])->where("id", $chatId)->first();
+
+        if (is_null($chat))
+            return false;
+
+        foreach ($chat->messages as $message)
+            $message->delete();
+
+
+        $chat->chatUsers()->detach();
+        $chat->delete();
+
+        return true;
     }
 
     public static function getChats(): \Illuminate\Database\Eloquent\Builder
@@ -118,6 +168,7 @@ WHERE t1.user_id=$userId1 and t2.user_id=$userId2;
         if (is_null($chatTmpId)) {
             $chat = Chat::query()->create([
                 "description" => "Диалог общения пользователей",
+                "is_multiply" => false,
                 "last_message_at" => Carbon::now(),
             ]);
 

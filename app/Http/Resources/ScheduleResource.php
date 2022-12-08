@@ -16,7 +16,7 @@ class ScheduleResource extends JsonResource
     public function toArray($request)
     {
 
-        $tmpDate = Carbon::parse($this->start_at)->format('Y-m-d H:m');
+        $tmpDate = Carbon::parse($this->start_at)->format('Y-m-d H:m:s');
 
         $date = explode(' ', $tmpDate);
 

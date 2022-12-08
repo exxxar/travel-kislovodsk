@@ -17,6 +17,7 @@ class TouristAgency extends Model
      */
     protected $fillable = [
         'title',
+        'address',
         'phone',
     ];
 

@@ -42,7 +42,8 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
         'sms_notification',
         'email_notification',
         'verified_at',
-        'blocked_at'
+        'blocked_at',
+        'device_key'
     ];
 
     /**

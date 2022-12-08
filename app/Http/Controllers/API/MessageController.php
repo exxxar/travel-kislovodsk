@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\ChatNotificationEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\MessageStoreRequest;
 use App\Http\Requests\API\MessageUpdateRequest;
 use App\Http\Resources\ChatsResource;
+use App\Http\Resources\ChatUserResource;
 use App\Http\Resources\MessageCollection;
 use App\Http\Resources\MessageResource;
 use App\Http\Resources\ChatsCollections;
+use App\Models\Booking;
 use App\Models\Chat;
 use App\Models\ChatUsers;
 use App\Models\Message;
@@ -140,7 +143,75 @@ class MessageController extends Controller
         $messages = Chat::getChatMessagesByChatId($chat->id)
             ->paginate($request->size ?? config('app.results_per_page'));
 
+        event(new ChatNotificationEvent($chat->id));
+
         return MessageResource::collection($messages);
+
+    }
+
+    public function startGroupChat(Request $request)
+    {
+        $request->validate([
+            "schedule_id" => "required",
+            "tour_id" => "required"
+        ]);
+
+        $bookeds = Booking::query()
+            ->where("schedule_id", $request->schedule_id)
+            ->where("tour_id", $request->tour_id)
+            //->whereNull("group_chat_id")
+            ->get();
+
+
+        if (!empty($bookeds)) {
+
+            $userIds = [];
+
+            $groupChatId = null;
+
+            foreach ($bookeds as $booked) {
+                if (!is_null($booked->group_chat_id))
+                    $groupChatId = $booked->group_chat_id;
+
+                if (is_null($booked->group_chat_id))
+                    array_push($userIds, $booked->user_id);
+            }
+
+
+
+            if (is_null($groupChatId)) {
+                $chat = Chat::query()->create([
+                    "title" => "Групповой чат",
+                    "description" => "test",
+                    "is_multiply" => true,
+                ]);
+
+                $guideUserId = Auth::user()->id;
+                $groupChatId = $chat->id;
+
+                $message = Message::query()->create([
+                    'message' => "Групповой чат запущен",
+                    'user_id' => $guideUserId,
+                    'chat_id' => $chat->id
+                ]);
+
+                $chat->last_message_id = $message->id;
+                $chat->last_message_at = $message->created_at;
+                $chat->read_at = null;
+                $chat->save();
+            }
+
+            Chat::addUsersToChat($groupChatId, $userIds);
+
+            foreach ($bookeds as $booked) {
+                $booked->group_chat_id = $groupChatId;
+                $booked->save();
+            }
+        }
+
+        return response()->json([
+            "chat_id"=>$groupChatId
+        ]);
 
     }
 
@@ -155,16 +226,38 @@ class MessageController extends Controller
         $senderId = Auth::user()->id;
         $recipientId = $request->recipient_id;
 
-        if ($senderId==$recipientId)
+        if ($senderId == $recipientId)
             return response()->json([
-                "errors"=>[
-                    "message"=>["Вы не можете задать себе вопрос!"]
+                "errors" => [
+                    "message" => ["Вы не можете задать себе вопрос!"]
                 ]
-            ]);
+            ], 400);
 
         $chat = Chat::startNewChat($message, $senderId, $recipientId);
 
-        return response()->json($chat);
+        return response()->json([
+            "chat_id"=>$chat->id
+        ]);
+
+    }
+
+    public function getChatUsers(Request $request, $chatId){
+
+        $chat = Chat::query()->with(["chatUsers"])->where("id", $chatId)
+            ->first();
+
+        $userIds = [];
+
+        foreach ($chat->chatUsers as $user)
+            array_push($userIds, $user->id);
+
+
+        $users = User::query()
+            ->with(["profile"])
+            ->whereIn("id", $userIds)
+                ->get();
+
+        return ChatUserResource::collection($users);
 
     }
 }

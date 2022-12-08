@@ -21,7 +21,6 @@ class Transaction extends Model
         'amount',
         'user_id',
         'tour_id',
-        'booking_id',
         'description',
     ];
 
@@ -36,7 +35,6 @@ class Transaction extends Model
         'amount' => 'double',
         'user_id' => 'integer',
         'tour_id' => 'integer',
-        'booking_id' => 'integer',
     ];
 
     protected $appends = ['resource_url'];

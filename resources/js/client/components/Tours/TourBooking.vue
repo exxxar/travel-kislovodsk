@@ -51,7 +51,7 @@
                         </button>
                         <ul class="dropdown-menu w-100" aria-labelledby="dropdownTimeMenu">
                             <li class="cursor-pointer" v-for="time in sortedScheduleTimes"><a class="dropdown-item "
-                                                                                              @click="bookingForm.time=time.start_time">{{
+                                                                                              @click="changeTime(time)">{{
                                     time.start_time
                                 }}</a>
                             </li>
@@ -102,7 +102,7 @@
         <div class="dt-check__group dt-content--bottom-60">
             <label class="dt-check__group-title">дополнительные услуги </label>
             <div class="dt-checkboxes-vertical d-flex">
-                <div class="dt-check" v-for="item in serviceTypes">
+                <div class="dt-check" v-for="item in service">
                     <div class="dt-check__input">
                         <input type="checkbox" name="type_person"
                                :value="item.id"
@@ -129,56 +129,135 @@
                             </span>
                 </div>
                 <div class="dt-price__active me-2">{{ summaryDiscountPrice }}</div>
-                <span class="text-muted-black fw-regular">за {{summaryPeopleCount}} человек</span>
+                <span class="text-muted-black fw-regular">за {{ summaryPeopleCount }} человек</span>
             </div>
         </div>
         <div class="dt-personal-data dt-content--bottom-60">
-            <div class="row dt-personal-data__item">
-                <div class="col-lg-3">
-                    <label class="dt-personal-data__label">ваша Фамилия Имя Отчество</label>
-                </div>
-                <div class="col-lg-9">
-                    <div class="dt-input__wrapper">
-                        <div class="dt-input__group">
-                            <input type="text" name="user"
-                                   v-model="bookingForm.full_name"
-                                   placeholder="Иванов Иван Иванович"
-                                   class="dt-input" autocomplete="off" required>
+            <ul class="d-flex w-100 flex-wrap">
+                <li
+                    style="padding: 10px; margin-left:5px;"
+                    @click="active_person_index=index"
+                    v-for="(person, index) in bookingForm.persons">
+                    <button
+                        type="button"
+                        class="btn "
+                            v-bind:class="{'btn-outline-primary':active_person_index!==index&&checkFormVerified(index),
+                            'btn-primary':active_person_index===index&&checkFormVerified(index),
+                            'btn-outline-danger':active_person_index!==index&&!checkFormVerified(index),
+                            'btn-danger':active_person_index===index&&!checkFormVerified(index)
+                            }"
+                    >Участник #{{ index + 1 }}
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="dt-personal-data dt-content--bottom-60"
+
+             v-for="(person, index) in bookingForm.persons">
+
+
+            <div v-if="active_person_index===index">
+                <h2 class="mb-2 mt-2">Регистрационные данные на участника #{{ index + 1 }}</h2>
+                <div class="row dt-personal-data__item">
+                    <div class="col-lg-3">
+                        <label class="dt-personal-data__label">Фамилия Имя Отчество</label>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="dt-input__wrapper">
+                            <div class="dt-input__group">
+                                <input type="text" name="user"
+                                       v-model="bookingForm.persons[index].full_name"
+                                       placeholder="Иванов Иван Иванович"
+                                       class="dt-input" autocomplete="off" required>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row dt-personal-data__item">
-                <div class="col-lg-3">
-                    <label class="dt-personal-data__label">телефон</label>
-                </div>
-                <div class="col-lg-9">
-                    <div class="dt-input__wrapper">
-                        <div class="dt-input__group">
-                            <input type="text" name="phone"
-                                   v-model="bookingForm.phone"
-                                   v-mask="'+7(###)###-##-##'"
-                                   placeholder="+7(000)000-00-00"
-                                   class="dt-input" autocomplete="off" required>
+                <div class="row dt-personal-data__item">
+                    <div class="col-lg-3">
+                        <label class="dt-personal-data__label">телефон</label>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="dt-input__wrapper">
+                            <div class="dt-input__group">
+                                <input type="text" name="phone"
+                                       v-model="bookingForm.persons[index].phone"
+                                       v-mask="'+7(###)###-##-##'"
+                                       placeholder="+7(000)000-00-00"
+                                       class="dt-input" autocomplete="off" required>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row dt-personal-data__item">
-                <div class="col-lg-3">
-                    <label class="dt-personal-data__label">почта</label>
-                </div>
-                <div class="col-lg-9">
-                    <div class="dt-input__wrapper">
-                        <div class="dt-input__group">
-                            <input type="email" name="email"
-                                   v-model="bookingForm.email"
-                                   placeholder="name@mail.ru"
-                                   class="dt-input" autocomplete="off" required>
+                <div class="row dt-personal-data__item">
+                    <div class="col-lg-3">
+                        <label class="dt-personal-data__label">почта</label>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="dt-input__wrapper">
+                            <div class="dt-input__group">
+                                <input type="email" name="email"
+                                       v-model="bookingForm.persons[index].email"
+                                       placeholder="name@mail.ru"
+                                       class="dt-input" autocomplete="off" required>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="row dt-personal-data__item">
+                    <div class="col-lg-3">
+                        <label class="dt-personal-data__label">Возраст</label>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="dt-input__wrapper">
+                            <div class="dt-input__group">
+                                <input type="number" name="age"
+                                       v-model="bookingForm.persons[index].age"
+                                       placeholder="18"
+                                       class="dt-input" autocomplete="off" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Документ, удостоверяющий личность</h3>
+                <div class="row dt-personal-data__item">
+                    <div class="col-lg-3">
+                        <label class="dt-personal-data__label">Тип документа</label>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="dt-input__wrapper">
+                            <div class="dt-input__group">
+                                <input type="text" name="document_type_title"
+                                       placeholder="Паспорт"
+                                       v-model="bookingForm.persons[index].document_type_title"
+                                       class="dt-input" autocomplete="off" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row dt-personal-data__item">
+                    <div class="col-lg-3">
+                        <label class="dt-personal-data__label">Информация о документе</label>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="dt-input__wrapper">
+                            <div class="dt-input__group">
+                            <textarea type="number" name="document_info"
+                                      placeholder="1234 55555, РО МВД России по городу Ростову, 24 августа 2022"
+                                      v-model="bookingForm.persons[index].document_info"
+                                      class="dt-input" autocomplete="off" required>
+                            </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
+
         </div>
         <div class="row dt-content--bottom-60">
             <div class="col-lg-6">
@@ -212,7 +291,7 @@
             <div class="col-lg-5 align-items-center d-flex">
                 <button type="submit" class="dt-btn-blue w-100"
                         v-bind:class="{'disabled':!bookingForm.accept_rules || !bookingForm.booking_is_correct}"
-                        :disabled="!bookingForm.accept_rules || !bookingForm.booking_is_correct">
+                        :disabled="!bookingForm.accept_rules || !bookingForm.booking_is_correct || bookingForm.persons.length===0">
                     <span>Оформить заказ </span>
                 </button>
             </div>
@@ -228,16 +307,17 @@ export default {
     props: ["tour"],
     data() {
         return {
+            active_person_index: 0,
+            service: [],
             bookingForm: {
 
                 tour_id: null,
                 date: null,
                 time: null,
+                schedule_id: null,
                 counts: [],
                 services: [],
-                full_name: null,
-                phone: null,
-                email: null,
+                persons: [],
                 accept_rules: false,
                 booking_is_correct: false
             }
@@ -281,10 +361,8 @@ export default {
 
             return dates.sort(compare);
         },
-        serviceTypes() {
-            return this.getDictionariesByTypeSlug("service_type")
-        },
-        summaryPeopleCount(){
+
+        summaryPeopleCount() {
 
             let people = 0;
 
@@ -302,15 +380,15 @@ export default {
 
             return summary;
         },
-        summaryFullPrice(){
+        summaryFullPrice() {
             let tourBasePrice = this.tour.base_price
             let tourDiscountPrice = this.tour.discount_price
 
-            return this.summaryPrice+Math.round(this.summaryPrice*(tourDiscountPrice/tourBasePrice));
+            return this.summaryPrice + Math.round(this.summaryPrice * (tourDiscountPrice / tourBasePrice));
         },
         summaryDiscountPrice() {
 
-           return this.summaryPrice
+            return this.summaryPrice
         }
 
     },
@@ -319,25 +397,40 @@ export default {
 
     },
     methods: {
+        checkFormVerified(index) {
+            let isVerified = true
+            Object.keys(this.bookingForm.persons[index]).forEach(key => {
+                isVerified = isVerified && (this.bookingForm.persons[index][key] != null)
+            })
+
+            return isVerified
+        },
+        changeTime(time){
+            this.bookingForm.time= time.start_time
+            this.bookingForm.schedule_id = time.id
+        },
         changeDate(day) {
             this.bookingForm.date = day
+
             this.bookingForm.time = this.sortedScheduleTimes[0].start_time || '--:--'
+
+            this.bookingForm.schedule_id = this.sortedScheduleTimes[0].id
         },
         submit() {
             this.bookingForm.tour_id = this.tour.id
 
             this.$store.dispatch("bookATour", this.bookingForm).then((resp) => {
 
-                this.bookingForm.tour_id = null
-                this.bookingForm.date = null
-                this.bookingForm.time = null
-                this.bookingForm.counts = []
-                this.bookingForm.services = []
-                this.bookingForm.full_name = null
-                this.bookingForm.phone = null
-                this.bookingForm.email = null
-                this.bookingForm.accept_rules = false
-                this.bookingForm.booking_is_correct = false
+                /*  this.bookingForm.tour_id = null
+                  this.bookingForm.date = null
+                  this.bookingForm.time = null
+                  this.bookingForm.counts = []
+                  this.bookingForm.services = []
+                  this.bookingForm.full_name = null
+                  this.bookingForm.phone = null
+                  this.bookingForm.email = null
+                  this.bookingForm.accept_rules = false
+                  this.bookingForm.booking_is_correct = false*/
 
                 this.$notify({
                     title: "Кисловодск-Туризм",
@@ -362,6 +455,14 @@ export default {
             } else
                 findItem.count++;
 
+            this.bookingForm.persons.push({
+                full_name: null,
+                phone: null,
+                age: null,
+                document_info: null,
+                document_type_title: null,
+                email: null,
+            })
 
         },
         decrement(slug) {
@@ -376,12 +477,19 @@ export default {
             } else
                 findItem.count--;
 
+            this.bookingForm.persons.splice(this.summaryPeopleCount, 1);
+
+            if (this.active_person_index > 0)
+                this.active_person_index--;
+
         },
         closeBooking() {
             this.$emit('closeBooking');
         },
         loadDictionaries() {
-            this.$store.dispatch("loadAllDictionaryTypes")
+            this.$store.dispatch("loadAllDictionaries").then(()=>{
+                this.service = this.getDictionariesByTypeSlug("service_type")
+            })
         },
     }
 }
@@ -458,5 +566,10 @@ button.disabled {
             }
         }
     }
+}
+
+
+.not-verified {
+    border-bottom: 1px red solid;
 }
 </style>

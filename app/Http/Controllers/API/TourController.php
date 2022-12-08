@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\TourSearchRequest;
 use App\Http\Requests\API\TourStoreRequest;
 use App\Http\Requests\API\TourUpdateRequest;
+use App\Http\Resources\BookingResource;
 use App\Http\Resources\FavoriteCollection;
 use App\Http\Resources\TourCollection;
 use App\Http\Resources\TourResource;
+use App\Models\Booking;
 use App\Models\Dictionary;
 use App\Models\Favorite;
 use App\Models\Tour;
@@ -84,7 +86,6 @@ class TourController extends Controller
                 'schedules',
                 'reviews'
             ])
-
             ->paginate($size);
 
         return new TourCollection($tours);
@@ -231,7 +232,8 @@ class TourController extends Controller
         return new TourResource($tour);
     }
 
-    public function getTourByGuide(Request $request, $guideId) {
+    public function getTourByGuide(Request $request, $guideId)
+    {
         $tours = Tour::query()
             ->with([
                 'tourObjects',
@@ -327,17 +329,18 @@ class TourController extends Controller
 
     }
 
-    public function addGuideTourToArchive(Request $request, $tourId){
+    public function addGuideTourToArchive(Request $request, $tourId)
+    {
         $userId = Auth::user()->id;
         $tour = Tour::query()
-            ->where("creator_id",$userId)
+            ->where("creator_id", $userId)
             ->where("id", $tourId)
             ->first();
 
         if (is_null($tour))
             return response()->json([
-                "errors"=>[
-                    "message"=>["Тур не найден!"]
+                "errors" => [
+                    "message" => ["Тур не найден!"]
                 ]
             ]);
 
@@ -346,5 +349,21 @@ class TourController extends Controller
         $tour->save();
 
         return response()->noContent();
+    }
+
+    public function loadActualGuideBookedTours(Request $request)
+    {
+        $userId = Auth::user()->id;
+
+        $bookedTours = Booking::query()
+            ->with(["tour","user.profile"])
+            ->where("start_at", ">", Carbon::now()->format('Y-m-d H:m'))
+            ->orderBy("start_at", "ASC")
+            ->whereHas("tour", function ($q) use ($userId) {
+                $q->where("creator_id", $userId);
+            })
+            ->get();
+
+       return BookingResource::collection($bookedTours);
     }
 }

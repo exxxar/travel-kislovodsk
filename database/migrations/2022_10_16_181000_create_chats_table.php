@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("description")->nullable();
             $table->string("avatar")->nullable();
             $table->json("settings")->nullable();
+            $table->boolean("is_multiply")->default(false);
             $table->unsignedBigInteger("last_message_id")->nullable();
             $table->timestamp("last_message_at")->nullable();
             $table->timestamp("read_at")->nullable();
