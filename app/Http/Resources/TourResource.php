@@ -62,6 +62,7 @@ class TourResource extends JsonResource
             'duration_type_id' => $this->duration_type_id,
             'movement_type' => $movementType->title ?? "Не установлен",
             'tour_type' => $tourType->title ?? "Не установлен",
+            'tour_type_id' => $this->tour_type_id ?? null,
             'payment_type_id' => $this->payment_type_id,
             'creator_id' => $this->creator_id,
             'guide' => new ProfileResource($this->creator->profile) ?? null,

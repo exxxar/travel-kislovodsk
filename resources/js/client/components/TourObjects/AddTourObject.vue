@@ -83,10 +83,20 @@
                                name="add-obj-city" class="col-12 px-2rem py-4 rounded border-0 font-size-09" required>
 
                     </div>
-                    <div class="col-12">
-                        <button class="map-point col-12 col-lg-auto py-4 mt-3 mt-lg-0 ms-lg-4 px-0 rounded ">
+                    <div class="col-12 col-md-4">
+                        <button data-bs-toggle="modal" data-bs-target="#map-select-object-coords"
+                                class="map-point col-12 col-lg-auto py-4 mt-3 mt-lg-0 ms-lg-4 px-0 rounded ">
                             <span class="position-relative black-underline">Укажите точку на карте</span>
                         </button>
+
+
+
+                        <selected-map-modal-dialog-component id="map-select-object-coords"
+                                                             v-on:coords="selectCoords"/>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <p class="pt-3" v-if="tourObject.latitude===null||tourObject.longitude===null">Координаты не указаны</p>
+                        <p class="pt-3" v-else>Координаты: {{ tourObject.longitude }} {{ tourObject.latitude }}</p>
                     </div>
                 </div>
             </div>
@@ -159,6 +169,10 @@ export default {
 
     },
     methods: {
+        selectCoords(e) {
+            this.tourObject.longitude = e[0]
+            this.tourObject.latitude = e[1]
+        },
         resetImages() {
             let files = document.querySelector("#files")
             files.value = ""

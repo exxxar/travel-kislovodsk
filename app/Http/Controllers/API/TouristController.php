@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TouristController extends Controller
 {
@@ -181,8 +182,9 @@ class TouristController extends Controller
             $files = $request->file('files');
 
             foreach ($files as $key => $file) {
-                $name = $file->getClientOriginalName();
-              //  $ext = $file->getClientOriginalExtension();
+                $ext = $file->getClientOriginalExtension();
+
+                $name = Str::uuid().".".$ext;
 
 
                 $file->storeAs("/public", $path . '/' . $name );

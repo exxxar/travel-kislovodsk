@@ -23,6 +23,7 @@ import UserRegistrationForm from '@/components/Accounting/UserRegistrationForm.v
 import GuideRegistrationForm from '@/components/Accounting/GuideRegistrationForm.vue'
 import Benefits from '@/components/Fragments/Benefits.vue'
 import TourCalendar from '@/components/Fragments/TourCalendar.vue'
+import DateTimeCalendar from '@/components/Fragments/DateTimeCalendar.vue'
 
 import TourCard from '@/components/Tours/TourCard.vue'
 import TourCategoriesListSlider from '@/components/Tours/TourCategoriesListSlider.vue'
@@ -30,6 +31,7 @@ import TourList from '@/components/Tours/TourList.vue'
 import TourFavoriteList from '@/components/Tours/TourFavoriteList.vue'
 import ImageModalDialog from '@/components/Fragments/ImageModalDialog.vue'
 import MapModalDialog from '@/components/Fragments/MapModalDialog.vue'
+import SelectedMapModalDialog from '@/components/Fragments/SelectedMapModalDialog.vue'
 
 /* Pages */
 import MainPage from '@/pages/Main.vue'
@@ -90,8 +92,7 @@ app.use(VueLazyLoad,
 const settings = {
     apiKey: 'c3ddaef1-2a3e-4aea-bd55-698a8735fc7d',
     lang: 'ru_RU',
-    debug:true,
-    coordorder: 'latlong',
+    coordorder: 'latlon',
     version: '2.1'
 }
 app.use(YmapPlugin, settings)
@@ -115,6 +116,7 @@ app.component('registration-form-component', RegistrationForm)
 app.component('guide-registration-form-component', GuideRegistrationForm)
 app.component('user-registration-form-component', UserRegistrationForm)
 app.component('tour-calendar-component', TourCalendar)
+app.component('date-time-calendar-component', DateTimeCalendar)
 
 app.component('tour-card-component', TourCard)
 app.component('tour-categories-list-slider-component', TourCategoriesListSlider)
@@ -122,6 +124,7 @@ app.component('tour-list-component', TourList)
 app.component('tour-favorite-list-component', TourFavoriteList)
 app.component('image-modal-dialog-component', ImageModalDialog)
 app.component('map-modal-dialog-component', MapModalDialog)
+app.component('selected-map-modal-dialog-component', SelectedMapModalDialog)
 
 app.component('main-page', MainPage)
 app.component('login-page', LoginPage)
@@ -164,6 +167,7 @@ app.component('rating-component', Rating)
 
 
 import store from './store'
+
 
 app.config.globalProperties.$filters = {
     phoneFilter(value) {

@@ -26,9 +26,10 @@ Route::get('/push-notificaiton', [WebNotificationController::class, 'index'])->n
 Route::post('/store-token', [WebNotificationController::class, 'storeToken'])->name('store.token');
 Route::post('/send-web-notification', [WebNotificationController::class, 'sendWebNotification'])->name('send.web-notification');
 
+Route::get('/storage/user/{id}/{folder}/{path}',[\App\Http\Controllers\API\TouristGuideController::class,"downloadDocument"]);
 Route::get('/storage/user/{id}/{path}',[\App\Http\Controllers\API\TouristGuideController::class,"downloadImage"]);
-Route::get('/storage/user/{id}/documents/{path}',[\App\Http\Controllers\API\TouristGuideController::class,"downloadDocument"]);
-Route::get('/storage/user/{id}/tour-objects/{path}',[\App\Http\Controllers\API\TouristGuideController::class,"downloadImage"]);
+
+//Route::get('/storage/user/{id}/tour-objects/{path}',[\App\Http\Controllers\API\TouristGuideController::class,"downloadImage"]);
 
 
 Route::view('/', 'pages.main')->name("page.main");
@@ -182,17 +183,20 @@ Route::prefix("api")
                     ->controller(\App\Http\Controllers\API\TourController::class)
                     ->group(function () {
 
-                        Route::get('/', 'loadGuideToursByPage');
+
                         Route::get('/actual-booked-tours', 'loadActualGuideBookedTours');
                         Route::post('/search', []);
+
                         Route::get('/restore/{id}', []);
                         Route::get('/add/{id}', []);
                         Route::delete('/clear', []);
                         Route::get('/archive-add/{id}', 'addGuideTourToArchive');
 
                         Route::delete('/remove/{id}', []);
-                        Route::post('/', []);
+                        Route::get('/', 'loadGuideToursByPage');
+                        Route::post('/', 'store');
                         Route::put('/{id}', []);
+
                     });
 
                 Route::prefix("tour-objects")

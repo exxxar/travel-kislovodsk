@@ -62,7 +62,7 @@ class Tour extends Model
         'id' => 'integer',
         'start_latitude' => 'double',
         'start_longitude' => 'double',
-        'tour_object_id' => 'integer',
+
         'is_hot' => 'boolean',
         'is_active' => 'boolean',
         'is_draft' => 'boolean',

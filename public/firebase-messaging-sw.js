@@ -22,14 +22,13 @@ const messaging = firebase.messaging();
 
 
 messaging.setBackgroundMessageHandler(function (payload) {
-    console.log("Message received.", payload);
     const title = "Hello world is awesome";
-    const options = {
-        body: "Your notificaiton message .",
-        icon: "/firebase-logo.png",
+    const notificationOptions = {
+        body: payload.data.body || 'У вас новое уведомление!',
+        icon: payload.data.image || '/logo.png',
     };
     return self.registration.showNotification(
         title,
-        options,
+        notificationOptions,
     );
 });

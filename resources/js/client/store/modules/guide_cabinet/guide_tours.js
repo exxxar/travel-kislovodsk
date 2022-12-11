@@ -18,7 +18,7 @@ const getters = {
         return state.guide_tours.find(item => item.id === id)
     },
     getGuideArchiveTours: (state) => {
-        return state.guide_tours.filter(item => item.is_active === false && item.archived_at !== null)
+        return state.guide_tours.filter(item => item.is_active === false &&  item.is_draft === false)
     },
     getGuideIsDraftTours: (state) => {
         return state.guide_tours.filter(item => item.is_draft === true)
@@ -49,6 +49,7 @@ const actions = {
 
         return _axios.then((response) => {
             let dataObject = response.data
+
             context.commit('setGuideTours', dataObject.data)
             delete dataObject.data
             context.commit('setGuideToursPaginateObject', dataObject)
@@ -91,7 +92,7 @@ const actions = {
             data: data
         })
     },
-    async loadGuideToursByPage(context, page = 0, size = 15) {
+    async loadGuideToursByPage(context, page = 0, size = 100) {
         return await context.dispatch("guideToursPage", {
                 url: `${BASE_GUIDE_TOURS_LINK}?page=${page}&size=${size}`
             }
@@ -101,7 +102,8 @@ const actions = {
 
 const mutations = {
     setGuideTours(state, payload) {
-        state.guide_tours = payload || [];
+        state.guide_tours = payload || []
+
         localStorage.setItem('travel_store_guide_tours', JSON.stringify(payload));
     },
     setGuideToursPaginateObject(state, payload) {

@@ -39,7 +39,10 @@ class ChatNotificationListener
         FcmTopicHelper::subscribeToTopic([$token], "general");
         $notif = new FcmNotification;
          $notif->setTitle("Chat Message")
-            ->setBody("$event->chatId")
+            ->setBody(json_encode((object)[
+                "chat_id"=>$event->chatId,
+                "user_ids"=>$event->userListIds
+            ]))
             ->setTopic("general")->send();
 
     }

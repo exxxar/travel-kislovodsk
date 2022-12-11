@@ -6,4 +6,5 @@
     <header-component></header-component>
     <guide-cabinet-page></guide-cabinet-page>
     <footer-component></footer-component>
+
 @endsection

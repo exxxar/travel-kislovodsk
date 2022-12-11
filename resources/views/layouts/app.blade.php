@@ -32,6 +32,7 @@
 @vite(['resources/js/client/app.js'])
 
 @auth()
+
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
     <script>
@@ -103,6 +104,7 @@
         }
 
         messaging.onMessage(function (payload) {
+            console.log("messaging.onMessage", payload)
             if (Notification.permission !== 'granted')
                 Notification.requestPermission();
             else {
@@ -113,7 +115,7 @@
                 };
                 new Notification(title, options);
 
-                window.eventBus.emit("fcm_message_notification",payload.notification.body)
+                window.eventBus.emit("fcm_message_notification",JSON.parse(payload.notification.body))
             }
         });
 

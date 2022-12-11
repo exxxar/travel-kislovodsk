@@ -15,14 +15,16 @@ class ChatNotificationEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $chatId;
+    public $userListIds;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($chatId)
+    public function __construct($chatId, $userListIds)
     {
        $this->chatId = $chatId;
+       $this->userListIds = $userListIds;
     }
 
     /**

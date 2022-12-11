@@ -48,6 +48,7 @@
                                 <img width="18" height="18"
                                      v-lazy="'/img/icons/sms_FILL0_wght600_GRAD0_opsz48_white.svg'"
                                      alt="sms">
+                                <span class="badge-danger bg-danger" v-if="hasMessages">TEST</span>
                             </a>
                         </li>
                         <li class="dt-btn-entry" v-if="user.is_guest">
@@ -190,6 +191,11 @@
 import {mapGetters} from "vuex";
 
 export default {
+    data(){
+        return {
+            hasMessages: false,
+        }
+    },
     computed: {
         ...mapGetters(['getErrors']),
         user() {
@@ -200,7 +206,18 @@ export default {
         }
     },
     mounted() {
+        window.eventBus.on("fcm_message_notification", (data) => {
+            console.log("fcm_message_notification from header", data)
+            if (data.user_ids.indexOf(this.user.id)!==-1) {
+                this.$notify({
+                    title: "Кисловодск-Туризм",
+                    text: "Вам пришло новое сообщение!",
+                    type: 'success'
+                });
+                this.hasMessages = true
+            }
 
+        })
     },
     watch:{
         getErrors:function (newVal, oldVal){

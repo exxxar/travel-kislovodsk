@@ -31,6 +31,7 @@
 
             <form v-on:submit.prevent="sendChatMessage" class="d-flex rounded bg-light align-items-center m-2rem pe-2">
                 <input v-model="message"
+                       :disabled="loading"
                        class="d-flex rounded order-2 order-lg-1 flex-grow-1 px-3 px-lg-4 border-0 bg-light" type="text">
                 <div class="dropup order-3">
                     <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -55,7 +56,9 @@
                     </svg>
                     <input type="file" class="w-100 h-100 opacity-0 position-absolute top-0 start-0">
                 </button>
-                <button type="submit" class="order-3 big-icon rounded ms-3 dt-btn dt-btn-blue">
+                <button
+                    :disabled="loading"
+                    type="submit" class="order-3 big-icon rounded ms-3 dt-btn dt-btn-blue">
                     <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20" width="20">
                         <path d="M6 40V27.75L21.1 24 6 20.15V8l38 16Z"/>
                     </svg>
@@ -206,6 +209,7 @@ import {mapGetters} from 'vuex';
 export default {
     data() {
         return {
+            loading:false,
             chatId: null,
             message: null,
             messages: [],
@@ -234,9 +238,9 @@ export default {
         },
     },
     mounted() {
-        window.eventBus.on("fcm_message_notification", (chatId) => {
+        window.eventBus.on("fcm_message_notification", (data) => {
 
-            if (this.chatId != null && chatId == this.chatId)
+            if (this.chatId != null && data.chatId == this.chatId)
                 this.loadChatMessagesByChatId(this.chatId)
         })
 
@@ -249,21 +253,32 @@ export default {
     },
     methods: {
         sendChatMessage() {
+            this.loading = true
+            const message = this.message
+            this.message = null
             this.messages.push({
                 id: 9999,
-                message: this.message,
+                message: message,
                 user_id: this.user.id,
                 profile: this.user.profile,
                 chat_id: this.chatId,
             });
+
+            setTimeout(() => {
+                let objDiv = document.querySelector(".messages-list")
+                objDiv.scrollTop = 1000000;
+            }, 500)
+
             return this.$store.dispatch("sendMessage", {
                 chat_id: this.chatId,
-                message: this.message
+                message: message
             }).then((response) => {
+                this.loading = false
                 this.loadChatMessagesByChatId(this.chatId)
                 this.eventBus.emit('load_chats')
-                this.message = null;
             })
+
+
         },
         loadChatUsersByChatId(id) {
             return this.$store.dispatch("loadChatUsersByChatId", {

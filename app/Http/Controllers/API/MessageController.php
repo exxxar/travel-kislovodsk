@@ -134,16 +134,18 @@ class MessageController extends Controller
             'chat_id' => $request->chat_id
         ]);
 
-        $chat = Chat::query()->where("id", $request->chat_id)->first();
+        $chat = Chat::query()->with(["chatUsers"])->where("id", $request->chat_id)->first();
         $chat->last_message_id = $message->id;
         $chat->last_message_at = $message->created_at;
         $chat->read_at = null;
         $chat->save();
 
+        $userListIds = $chat->chatUsers()->pluck("user_id");
+
         $messages = Chat::getChatMessagesByChatId($chat->id)
             ->paginate($request->size ?? config('app.results_per_page'));
 
-        event(new ChatNotificationEvent($chat->id));
+        event(new ChatNotificationEvent($chat->id, $userListIds));
 
         return MessageResource::collection($messages);
 

@@ -20,6 +20,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
 
@@ -89,8 +90,9 @@ class TourObjectController extends Controller
             $files = $request->file('files');
 
             foreach ($files as $key => $file) {
-                $name = $file->getClientOriginalName();
-                //  $ext = $file->getClientOriginalExtension();
+                $ext = $file->getClientOriginalExtension();
+
+                $name = Str::uuid().".".$ext;
 
 
                 $file->storeAs("/public", $path . '/' . $name );

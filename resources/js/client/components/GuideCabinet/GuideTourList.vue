@@ -53,6 +53,7 @@ export default {
         },
         loadTours(){
             this.$store.dispatch("loadGuideToursByPage").then(()=>{
+
                 this.tours = this.getGuideTours
             })
         }

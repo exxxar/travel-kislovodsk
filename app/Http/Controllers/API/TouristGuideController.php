@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TouristGuideController extends Controller
 {
@@ -207,8 +208,9 @@ class TouristGuideController extends Controller
             $files = $request->file('files');
 
             foreach ($files as $key => $file) {
-                $name = $file->getClientOriginalName();
-              //  $ext = $file->getClientOriginalExtension();
+                $ext = $file->getClientOriginalExtension();
+
+                $name = Str::uuid().".".$ext;
 
 
                 $file->storeAs("/public", $path . '/' . $name );
@@ -253,8 +255,9 @@ class TouristGuideController extends Controller
             $files = $request->file('files');
 
             foreach ($files as $key => $file) {
-                $name = $file->getClientOriginalName();
-                //  $ext = $file->getClientOriginalExtension();
+                $ext = $file->getClientOriginalExtension();
+
+                $name = Str::uuid().".".$ext;
 
 
                 $file->storeAs("/public", $path . '/' . $name );
@@ -316,10 +319,10 @@ class TouristGuideController extends Controller
         }
     }
 
-    public function downloadDocument($request, $userId, $path){
+    public function downloadDocument($request, $userId, $folder, $path){
         try {
 
-            $file = Storage::disk('local')->get("public/user/".$userId."/documents/" . $path);
+            $file = Storage::disk('local')->get("public/user/$userId/$folder/$path");
 
             return (new Response($file, 200))
                 ->header('Content-Type', 'image/jpeg');
