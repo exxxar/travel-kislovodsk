@@ -3,7 +3,7 @@
     "scripts": {
         "vite-dev": "vite",
         "vite-build": "vite build",
-        "vite-build-2": "vite build --base=https://localhost:1234",
+        "vite-build-2": "vite build --base=https://rustravel.shop",
         "mix-dev": "mix",
         "mix-watch": "mix watch",
         "mix-prod": "mix --production"
