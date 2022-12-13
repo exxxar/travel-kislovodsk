@@ -64,6 +64,17 @@ class Booking extends Model
         return $this->belongsTo(Tour::class);
     }
 
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class);
+    }
+
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class);
+    }
+
+
     public function user()
     {
         return $this->belongsTo(User::class);

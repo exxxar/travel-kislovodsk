@@ -5,6 +5,8 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Http\Resources\ProfileResource;
 use App\Mail\RegistrationMail;
+use App\Mail\VerificationEmail;
+use App\Notifications\EmailNotification;
 use Carbon\Carbon;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -244,4 +246,10 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
         throw new AuthenticationException("Пользователь не найден!");
 
     }
+
+   /* public function sendEmailVerificationNotification()
+    {
+        $this->notify(new EmailNotification());
+    }*/
+
 }

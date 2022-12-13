@@ -4,6 +4,7 @@ import util from "../utilites";
 const BASE_GUIDE_SCHEDULE_LINK = '/api/guide-cabinet/schedules'
 
 let state = {
+    can_load_more_guide_schedule: true,
     guide_schedules: [],
     guide_schedules_paginate_object: [],
 }
@@ -11,6 +12,7 @@ let state = {
 
 const getters = {
     //todo: need add filter by date (day)
+    getGuideSchedulesCanLoadMore: state => state.can_load_more_guide_schedule,
     getGuideSchedules: state => state.guide_schedules || [],
     getGuideScheduleById: (state) => (id) => {
         return state.guide_schedules.find(item => item.id === id)
@@ -55,6 +57,8 @@ const actions = {
             page = payload.page || 0,
             size = payload.size || 15
 
+        context.commit("resetGuideSchedules")
+
         return await context.dispatch("guideSchedulesPage", {
             url: `${BASE_GUIDE_SCHEDULE_LINK}/search?page=${page}&size=${size}`,
             method: 'POST',
@@ -74,8 +78,21 @@ const actions = {
 }
 
 const mutations = {
+    resetGuideSchedules(state) {
+        state.guide_schedules = [];
+
+        localStorage.setItem('travel_store_guide_schedules', JSON.stringify([]));
+    },
     setGuideSchedules(state, payload) {
-        state.guide_schedules = payload || [];
+
+        state.can_load_more_guide_schedule = payload.length > 0
+
+
+        if (state.guide_schedules.length === 0)
+            state.guide_schedules = payload || [];
+        else
+            state.guide_schedules = [...state.guide_schedules, ...payload]
+
         localStorage.setItem('travel_store_guide_schedules', JSON.stringify(payload));
     },
     setGuideSchedulesPaginateObject(state, payload) {

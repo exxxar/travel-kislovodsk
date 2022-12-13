@@ -334,7 +334,9 @@
                             </div>
                         </div>
                         <div class="dt-set-order">
-                            <button @click="isBooking = true" class="dt-btn-blue w-100 dt-btn--height-60">
+                            <button
+                                :disabled="tour.is_draft||!tour.is_active"
+                                @click="isBooking = true" class="dt-btn-blue w-100 dt-btn--height-60">
                                 <span>Оформить заказ</span>
                             </button>
                         </div>

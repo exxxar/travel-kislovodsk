@@ -18,6 +18,9 @@ import Footer from '@/components/Fragments/Footer.vue'
 import Modals from '@/components/Fragments/Modals.vue'
 import Notifications from '@/components/Fragments/Notifications.vue'
 import LoginForm from '@/components/Accounting/LoginForm.vue'
+import PasswordRecoveryForm from '@/components/Accounting/PasswordRecoveryForm.vue'
+import ChangePasswordForm from '@/components/Accounting/ChangePasswordForm.vue'
+import SuccessChangePasswordForm from '@/components/Accounting/SuccessChangePasswordForm.vue'
 import RegistrationForm from '@/components/Accounting/RegistrationForm.vue'
 import UserRegistrationForm from '@/components/Accounting/UserRegistrationForm.vue'
 import GuideRegistrationForm from '@/components/Accounting/GuideRegistrationForm.vue'
@@ -36,6 +39,7 @@ import SelectedMapModalDialog from '@/components/Fragments/SelectedMapModalDialo
 /* Pages */
 import MainPage from '@/pages/Main.vue'
 import LoginPage from '@/pages/Login.vue'
+import ForgotPasswordPage from '@/pages/ForgotPassword.vue'
 import RegistrationPage from '@/pages/Registration.vue'
 import AboutPage from '@/pages/About.vue'
 import ContactPage from '@/pages/Contacts.vue'
@@ -112,6 +116,9 @@ app.component('notifications-component', Notifications)
 //app.component('advantages-component', Benefits)
 app.component('benefits-component', Benefits)
 app.component('login-form-component', LoginForm)
+app.component('password-recovery-form-component', PasswordRecoveryForm)
+app.component('change-password-form-component', ChangePasswordForm)
+app.component('success-change-password-form-component', SuccessChangePasswordForm)
 app.component('registration-form-component', RegistrationForm)
 app.component('guide-registration-form-component', GuideRegistrationForm)
 app.component('user-registration-form-component', UserRegistrationForm)
@@ -129,6 +136,7 @@ app.component('selected-map-modal-dialog-component', SelectedMapModalDialog)
 app.component('main-page', MainPage)
 app.component('login-page', LoginPage)
 app.component('registration-page', RegistrationPage)
+app.component('forgot-password-page', ForgotPasswordPage)
 app.component('about-page', AboutPage)
 app.component('contact-page', ContactPage)
 app.component('faq-page', FAQPage)

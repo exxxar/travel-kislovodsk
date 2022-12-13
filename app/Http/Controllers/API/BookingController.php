@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Exports\TourGroupExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\BookingStoreRequest;
 use App\Http\Requests\API\BookingUpdateRequest;
@@ -16,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookingController extends Controller
 {
@@ -192,7 +194,20 @@ class BookingController extends Controller
         return new BookingCollection($bookings);
     }
 
-    public function getBookedTourInfo(Request $request, $id){
-        return "excel document info";
+    public function getBookedTourInfo(Request $request){
+
+        $request->validate([
+            "tour_id"=>"required",
+            "schedule_id"=>"required"
+        ]);
+
+        $bookings = Booking::query()
+            ->with(["tour","transaction.statusType","schedule"])
+            ->where("tour_id", $request->tour_id)
+            ->where("schedule_id", $request->schedule_id)
+            ->orderBy("id", "DESC")
+            ->get();
+
+        return Excel::download(new TourGroupExport($bookings,"Туристическая группа"), "туристическая группа".Carbon::now()->format('-d-m-Y').'.xlsx');
     }
 }

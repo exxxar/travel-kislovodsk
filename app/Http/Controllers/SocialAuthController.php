@@ -36,6 +36,7 @@ class SocialAuthController extends Controller
             ->first();
 
         if (!is_null($user)) {
+
             Auth::login($user, true);
             return redirect()->route("page.user-cabinet");
         }
@@ -55,8 +56,8 @@ class SocialAuthController extends Controller
                 'photo' => $vkUser->getAvatar(),
             ]);
             Auth::login($user, true);
+            $user->sendEmailVerificationNotification();
         } catch (\Exception $e) {
-            dd($e->getMessage());
             return redirect()->route("login");
         }
 
@@ -109,6 +110,9 @@ class SocialAuthController extends Controller
             ]);
 
             Auth::login($user, true);
+
+            $user->sendEmailVerificationNotification();
+
         } catch (\Exception $e) {
             return response()->json([
                 "errors" => [

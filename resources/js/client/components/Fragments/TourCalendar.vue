@@ -5,6 +5,7 @@
                 ref="dp"
                 :inline="inline||false"
                 :auto-apply="autoApply||false"
+                @update:modelValue="update"
                 :enableTimePicker="false">
         <template #calendar-header="{ index, day }">
             <div :class="index === 5 || index === 6 ? 'blue-color' : ''">
@@ -102,6 +103,12 @@ export default {
         this.loadDictionaries()
     },
     methods: {
+        update(data){
+            this.$emit("select-date", {
+                start_date:moment(data[0]).format('YYYY-MM-DD'),
+                end_date:moment(data[1] || data[0]).format('YYYY-MM-DD')
+            })
+        },
         checkDate(date) {
             let preparedDate = moment(date).format('YYYY-MM-DD')
 

@@ -24,7 +24,7 @@ class ScheduleController extends Controller
             ->with(["tour"])
             ->where("guide_id", Auth::user()->id)
             ->where("start_at", ">", Carbon::now()->format('Y-m-d H:m'))
-            ->orderBy("start_at","ASC")
+            ->orderBy("start_at", "ASC")
             ->paginate($request->count ?? config('app.results_per_page'));
 
         return ScheduleResource::collection($schedules);
@@ -73,5 +73,25 @@ class ScheduleController extends Controller
         $schedule->delete();
 
         return response()->noContent();
+    }
+
+    public function search(Request $request)
+    {
+        $request->validate([
+            "filter_type" => "required"
+        ]);
+
+        $schedules = Schedule::query()
+            ->with(["tour"])
+            ->withFilters((object)[
+                "filter_type" => $request->filter_type ?? 1,
+                "date" => $request->date ?? null,
+            ])
+            ->where("guide_id", Auth::user()->id)
+            ->where("start_at", ">", Carbon::now()->format('Y-m-d H:m'))
+            ->orderBy("start_at", "ASC")
+            ->paginate($request->count ?? config('app.results_per_page'));
+
+        return ScheduleResource::collection($schedules);
     }
 }

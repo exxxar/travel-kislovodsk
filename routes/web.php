@@ -1,15 +1,21 @@
 <?php
 
 
+use App\Exports\TourGroupExport;
 use App\Http\Controllers\API\ReviewController;
+use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WebNotificationController;
+use App\Models\Booking;
 use App\Models\Chat;
 use App\Models\ChatUsers;
+use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +27,12 @@ use Illuminate\Support\Facades\Storage;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get("/test", function (){
 
+    $user = \App\Models\User::query()->find(1);
+    Mail::to("exxxar@gmail.com")
+        ->send(new \App\Mail\NotifyMail("Test"));
+});
 Route::get('/push-notificaiton', [WebNotificationController::class, 'index'])->name('push-notificaiton');
 Route::post('/store-token', [WebNotificationController::class, 'storeToken'])->name('store.token');
 Route::post('/send-web-notification', [WebNotificationController::class, 'sendWebNotification'])->name('send.web-notification');
@@ -63,7 +74,7 @@ Route::view('/tour-search', 'pages.tours-search')->name("page.tour-search");
 Route::view('/not-found', 'pages.errors.404')->name("page.not-found");
 Route::view('/error', 'pages.errors.500')->name("page.error");
 
-Route::middleware(["auth"])->group(function () {
+Route::middleware(["auth","verified"])->group(function () {
 
     Route::middleware(["is_guide"])->group(function () {
         Route::view('/guide-cabinet', 'pages.guide-cabinet')->name("page.guide-cabinet");
@@ -76,9 +87,6 @@ Route::middleware(["auth"])->group(function () {
     Route::get('/logout', \App\Http\Controllers\SocialAuthController::class . '@logout')->name("logout");
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix("api")
     ->group(function () {
@@ -219,6 +227,7 @@ Route::prefix("api")
                     ->controller(\App\Http\Controllers\API\ScheduleController::class)
                     ->group(function () {
                         Route::get('/', 'index');
+                        Route::post('/search', 'search');
                     });
 
                 Route::get('/messages/{userId}', []);
@@ -237,7 +246,7 @@ Route::prefix("api")
                     });
 
 
-                Route::get('/booked-tour-info/{id}', [\App\Http\Controllers\API\BookingController::class,'getBookedTourInfo']);
+                Route::post('/booked-tour-info', [\App\Http\Controllers\API\BookingController::class,'getBookedTourInfo']);
                 Route::post('/send-message', []);
                 Route::post('/send-file', []);
                 Route::post('/send-transaction', []);

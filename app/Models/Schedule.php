@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -48,5 +49,34 @@ class Schedule extends Model
     public function guide()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function scopeWithFilters($query, $filterObject)
+    {
+
+        if ($filterObject->filter_type == 1)
+            $query->whereBetween("start_at", [
+                Carbon::now()->format("Y-m-d")." 00:00:00",
+                Carbon::now()->addDay()->format("Y-m-d")." 23:59:59",
+            ]);
+
+        if ($filterObject->filter_type == 2)
+            $query->whereBetween("start_at", [
+                Carbon::now()->format("Y-m-d")." 00:00:00",
+                Carbon::now()->addWeek()->format("Y-m-d")." 23:59:59",
+            ]);
+
+        if ($filterObject->filter_type == 0) {
+            $date  = (object)$filterObject->date;
+
+            $query->whereBetween("start_at", [
+                Carbon::parse($date->start_date)->format("Y-m-d")." 00:00:00",
+                Carbon::parse($date->end_date)->format("Y-m-d")." 23:59:59",
+            ]);
+        }
+
+
+
+        return $query;
     }
 }

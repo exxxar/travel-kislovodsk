@@ -242,9 +242,9 @@ files[]:
             foreach ($files as $key => $file) {
                 $ext = $file->getClientOriginalExtension();
 
-                $name = Str::uuid().".".$ext;
+                $name = Str::uuid() . "." . $ext;
 
-                $file->storeAs("/public", $path . '/' . $name );
+                $file->storeAs("/public", $path . '/' . $name);
                 $url = Storage::url('user/' . $userId . "/tours/" . $name);
                 array_push($photos, $url);
             }
@@ -256,7 +256,7 @@ files[]:
             $file = $request->file('preview');
 
             $ext = $file->getClientOriginalExtension();
-            $name = Str::uuid().".".$ext;
+            $name = Str::uuid() . "." . $ext;
 
             $file->storeAs("/public", $path . '/' . $name);
             $preview_photo = Storage::url('user/' . $userId . "/tours/" . $name);
@@ -351,6 +351,14 @@ files[]:
             ])
             ->where("id", $id)
             ->first();
+
+        if (is_null($tour))
+            return view("pages.errors.404");
+
+        $userId = Auth::user()->id ?? null;
+
+        if (($tour->is_draft || !$tour->is_active) && $tour->creator_id != $userId)
+            return view("pages.errors.404");
 
         return view('pages.tour', ["tour" => json_encode(new TourResource($tour))]);
     }

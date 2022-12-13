@@ -14,7 +14,7 @@ let state = {
     ...tours.state,
     ...tourObjects.state,
     documents: [],
-    guide_booked_tours:[]
+    guide_booked_tours: []
 
 }
 
@@ -77,6 +77,19 @@ const actions = {
             }
         }).then((response) => {
 
+        }).catch(err => {
+            context.commit("setErrors", err.response.data.errors || [])
+            context.dispatch("errorGuideCabinet")
+            return Promise.reject(err);
+        })
+    },
+    async downloadGroupDocument(context, payload = {schedule_id: null, tour_id: null}) {
+        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_CABINET_LINK}/booked-tour-info`, 'POST', payload, {
+            responseType: 'blob'
+        })
+
+        return _axios.then((response) => {
+            return response
         }).catch(err => {
             context.commit("setErrors", err.response.data.errors || [])
             context.dispatch("errorGuideCabinet")

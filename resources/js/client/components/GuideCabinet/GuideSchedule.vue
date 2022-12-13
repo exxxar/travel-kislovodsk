@@ -5,15 +5,25 @@
             <div class="col-12 col-xl row mx-0 px-0 order-2 order-xl-1">
                 <div class="overflow-x-auto d-flex align-items-center mx-0 px-0 mt-5 mt-xl-0">
                     <button
-                        class="button bg-white d-flex rounded px-4 justify-content-center align-items-center semibold">
+                        type="button"
+                        @click="filterObject.filter_type =1"
+                        v-bind:class="{'btn-primary':filterObject.filter_type ===1
+                  }"
+                        class="btn">
                         Сегодня
                     </button>
                     <button
-                        class="button bg-white d-flex rounded ms-2 px-4 justify-content-center align-items-center semibold">
+                        type="button"
+                        @click="filterObject.filter_type =2"
+                        v-bind:class="{'btn-primary':filterObject.filter_type ===2 }"
+                        class="btn ms-2 px-4">
                         Ближайшие даты
                     </button>
                     <button
-                        class="button bg-white d-flex rounded ms-2 px-4 justify-content-center align-items-center semibold">
+                        type="button"
+                        @click="filterObject.filter_type =0"
+                        v-bind:class="{'btn-primary':filterObject.filter_type ===0}"
+                        class="btn ">
                         Выбранная
                         дата
                     </button>
@@ -39,16 +49,35 @@
 
                     </div>
 
-                    <button class="button col-12 px-4 mt-5 active rounded shadow-none">
+                    <button
+                        v-if="canLoadMore"
+                        @click="loadMoreSchedule"
+                        class="btn btn-primary col-12 px-4 mt-5 active rounded shadow-none">
                         <span class="bold">Показать ещё</span>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20" width="20">
                             <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
                         </svg>
                     </button>
                 </div>
+                <div class="col-12 col-xl mx-0 mt-3 mt-xl-0 px-0" v-else>
+
+                    <div class="empty-list">
+                        <img v-lazy="'/img/no-tour.jpg'" alt="">
+                        <p>По данному фильтру ничего не найдено:(</p>
+                    </div>
+
+                </div>
             </div>
-            <div class="col-12 col-xl row d-flex mx-0 px-0 ps-xl-5 order-1 order-xl-2">
-                <tour-calendar-component :inline="true" :only-self-tour="true"/>
+            <div class="col-12 col-xl row d-flex mx-0 px-0 ps-xl-5 order-1 order-xl-2 sticky-calendar">
+                <tour-calendar-component
+
+
+                    v-on:select-date="updateDate"
+                    :inline="true"
+
+                    :only-self-tour="true"/>
+
+                <p class="mt-5" v-if="filterObject.data!=null">{{ filterObject.data }}</p>
             </div>
         </div>
     </div>
@@ -59,12 +88,31 @@ import {mapGetters} from "vuex";
 export default {
     data() {
         return {
+            canLoadMore: false,
+            page: 0,
             activeType: null,
+            filterObject: {
+                date: null,
+                filter_type: null
+            },
             schedule: []
         }
     },
+    watch: {
+        'filterObject.date': function (oldVal, newVal) {
+            this.page = 0
+            this.loadGuideSchedulesFilteredByPage();
+        },
+        'filterObject.filter_type': function (oldVal, newVal) {
+            if ( this.filterObject.filter_type==null)
+                return;
+
+            this.page = 0
+            this.loadGuideSchedulesFilteredByPage();
+        }
+    },
     computed: {
-        ...mapGetters(['getGuideSchedules']),
+        ...mapGetters(['getGuideSchedules', 'getGuideSchedulesCanLoadMore']),
         groupByDate() {
             if (this.schedule.length === 0)
                 return [];
@@ -94,13 +142,40 @@ export default {
 
     },
     methods: {
-
-        loadGuideSchedulesByPage() {
-            this.$store.dispatch("loadGuideSchedulesByPage").then(() => {
+        updateDate(date) {
+            this.filterObject.filter_type = 0
+            this.filterObject.date = date
+        },
+        loadGuideSchedulesFilteredByPage() {
+            this.$store.dispatch("loadGuideSchedulesFilteredByPage", {
+                page: this.page,
+                filterObject: this.filterObject
+            }).then(() => {
                 this.schedule = this.getGuideSchedules
+                this.canLoadMore = this.getGuideSchedulesCanLoadMore
+                console.log("loadGuideSchedulesByPage", this.schedule)
+            })
+        },
+        loadMoreSchedule() {
+            this.page++;
+            this.filterObject.filter_type = null
+            this.loadGuideSchedulesByPage();
+        },
+        loadGuideSchedulesByPage() {
+            this.$store.dispatch("loadGuideSchedulesByPage", {
+                page: this.page
+            }).then(() => {
+                this.schedule = this.getGuideSchedules
+                this.canLoadMore = this.getGuideSchedulesCanLoadMore
                 console.log("loadGuideSchedulesByPage", this.schedule)
             })
         }
     }
 }
 </script>
+<style lang="scss">
+.sticky-calendar {
+    position: sticky;
+    top: 20px;
+}
+</style>

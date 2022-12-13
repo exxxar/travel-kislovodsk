@@ -77,7 +77,7 @@
                             <div class="col-auto">
                                         <span class="excursion__rating font-size-07 opacity-40 me-1">рейтинг
                                             экскурсии</span>
-                                <span class="excursion_number letter-spacing-3 text-uppercase bold">4.20</span>
+                                <span class="excursion_number letter-spacing-3 text-uppercase bold">{{tour.rating}}</span>
                             </div>
                             <div class="col-auto me-auto align-items-center rating">
                                 <rating-component :rating="tour.rating"/>
@@ -92,7 +92,7 @@
         </div>
         <div class="accordion row mx-0 mb-6 gap-2">
             <div
-                v-for="date in groupedByDate"
+                v-for="(date, index) in groupedByDate"
                 class="accordion__item visible bg-white rounded bg-white rounded">
                 <div class="accordion__head p-4 row align-items-center justify-content-between">
                     <div class="col-1 pb-4 pb-xl-0">
@@ -106,7 +106,7 @@
 
                         <ul class="group-list-controls d-flex justify-content-between align-items-center">
                             <li><a @click="startGroupChat(date)">Групповой чат<i class="fa-solid fa-comments"></i></a></li>
-                            <li><a :href="'/api/guide-cabinet/booked-tour-info/'+date.tour_id"
+                            <li><a @click="downloadGroupDocument(date.items[0])"
                                    target="_blank">Эксель <i class="fa-solid fa-file-csv"></i></a></li>
                             <li>{{date.items.length}}
                                 участников</li>
@@ -166,7 +166,7 @@
 </template>
 <script>
 import {mapGetters} from "vuex";
-
+import {saveAs} from 'file-saver';
 export default {
     props:["tour"],
     data() {
@@ -203,13 +203,28 @@ export default {
     },
     mounted() {
         this.loadActualGuideBookedTours()
-
-        console.log("тур группы=>", this.tour)
-
     },
     methods: {
-        startChatWithUser(userId){
+        downloadGroupDocument(item){
+            this.$notify({
+                title: "Кисловодск-Туризм",
+                text: "Внимание! Начал формироваться документ по группе",
+                type: 'success'
+            });
+            this.$store.dispatch("downloadGroupDocument",{
+                schedule_id: item.schedule_id,
+                tour_id: item.tour_id
+            }).then((resp) => {
+                saveAs(resp.data, 'result.xlsx');
 
+                this.$notify({
+                    title: "Кисловодск-Туризм",
+                    text: "Документ успешно сформирован",
+                    type: 'success'
+                });
+            })
+        },
+        startChatWithUser(userId){
             this.$store.dispatch("startChat", {
                 recipient_id: userId,
                 message: `Добрый день!`
@@ -219,7 +234,6 @@ export default {
             })
         },
         startGroupChat(item){
-
             this.$store.dispatch("startGroupChat",{
                 schedule_id: item.schedule_id, tour_id: item.tour_id
             }).then((resp) => {
@@ -228,10 +242,8 @@ export default {
             })
         },
         loadActualGuideBookedTours() {
-
             this.$store.dispatch("loadActualGuideBookedTours").then(() => {
                 this.bookeds = this.getGuideBookedToursByTourId(this.tour.id)
-
             })
         }
     }

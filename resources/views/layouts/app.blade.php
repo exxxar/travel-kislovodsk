@@ -16,7 +16,8 @@
           integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-    @vite(['resources/css/app.css'])
+    @vite('resources/css/app.css')
+    @vite('resources/js/client/app.css')
 
     <link rel="stylesheet" href="/css/main.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -28,8 +29,8 @@
     @yield("content")
 </div>
 
-
-@vite(['resources/js/client/app.js'])
+<!--@customVite(resources/js/client/app.js)-->
+@vite('resources/js/client/app.js')
 
 @auth()
 
