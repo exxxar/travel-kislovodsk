@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import userTours from './user_tours'
-import userTransactions from './user_transactions'
+
 import userReviews from './user_reviews'
 import util from "../utilites";
 
@@ -9,19 +9,17 @@ const BASE_USER_CABINET_LINK = '/api/user-cabinet'
 
 let state = {
 ...userTours.state,
-...userTransactions.state,
+
 ...userReviews.state,
 }
 
 const getters = {
     ...userTours.getters,
-    ...userTransactions.getters,
     ...userReviews.getters,
 }
 
 const actions = {
     ...userTours.actions,
-    ...userTransactions.actions,
     ...userReviews.actions,
     async updateUserAccounting(context, accountingObject) {
         let _axios = util.makeAxiosFactory(`${BASE_USER_CABINET_LINK}/account`, 'POST', accountingObject)
@@ -73,7 +71,6 @@ const actions = {
 
 const mutations = {
     ...userTours.mutations,
-    ...userTransactions.mutations,
     ...userReviews.mutations,
 }
 

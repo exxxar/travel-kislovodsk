@@ -75,7 +75,7 @@ export default {
             this.$store.dispatch("loadAllHotTours").then(() => {
 
                 this.tours = this.getTours
-                console.log("loadAllHotTours",   this.tours)
+
             })
         }
     }

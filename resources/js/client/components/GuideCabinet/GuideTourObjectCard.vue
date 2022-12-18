@@ -1,20 +1,22 @@
 <template>
     <div class="object object__info row col-4 bg-white rounded mx-0 px-0">
         <div class="col-12 px-0">
-            <img class="cover w-100 rounded-top" :class="{'archived': data.deleted_at}"
-                 v-lazy="data.photos[0]"
+            <img class="cover w-100 rounded-top" :class="{'archived': tourObject.deleted_at}"
+                 v-lazy="tourObject.photos[0]"
                  alt="travel"/>
         </div>
         <div class="col-12 px-0">
             <div class="object__body">
-                <h2 class="object__name mb-2 bold">{{ data.title }}</h2>
+                <h2 class="object__name mb-2 bold">{{ tourObject.title }}</h2>
                 <p class="short-descrtiption opacity-80 lh-lg">
-                    {{ data.description }}
+                    {{ tourObject.description }}
                 </p>
             </div>
-            <div v-if="!data.deleted_at" class="object__body splitted">
+            <div v-if="!tourObject.deleted_at" class="object__body splitted">
                 <div class="align-items-baseline mx-0 d-flex justify-content-between position-relative">
-                    <button class="dt-btn-text">редактировать</button>
+                    <button
+                        @click="openEditTourObject"
+                        class="dt-btn-text">редактировать</button>
                     <button
                         @click="removedGuideTourObjectsById"
                         class="dt-btn-text-red fw-bold text-uppercase d-lg-block d-none">
@@ -57,14 +59,19 @@
 export default {
     name: "TourObjectCard",
     props: {
-        data: {
+        tourObject: {
             type: Object,
             default: {}
         }
     },
     methods: {
+        openEditTourObject(){
+
+                this.eventBus.emit('open_edit_tour_object_window', this.tourObject)
+
+        },
         restoreRemovedGuideTourObjectsById(){
-            this.$store.dispatch("restoreRemovedGuideTourObjectsById", this.data.id).then(() => {
+            this.$store.dispatch("restoreRemovedGuideTourObjectsById", this.tourObject.id).then(() => {
                 this.eventBus.emit("tour_object_page", 0)
                 this.$notify({
                     title: "Восстановление туристического объекта",
@@ -74,7 +81,7 @@ export default {
             })
         },
         removedGuideTourObjectsById() {
-            this.$store.dispatch("removedGuideTourObjectsById", this.data.id).then(() => {
+            this.$store.dispatch("removedGuideTourObjectsById", this.tourObject.id).then(() => {
                 this.eventBus.emit("tour_object_page", 0)
                 this.$notify({
                     title: "Удаление туристического объекта",

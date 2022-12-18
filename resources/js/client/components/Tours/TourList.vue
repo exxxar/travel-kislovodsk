@@ -67,7 +67,7 @@ export default {
 
                 this.tours = this.getTours
 
-                console.log("loadToursByPage", this.tours)
+
             })
         }
     }

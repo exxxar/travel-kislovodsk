@@ -153,7 +153,7 @@ export default {
             }).then(() => {
                 this.schedule = this.getGuideSchedules
                 this.canLoadMore = this.getGuideSchedulesCanLoadMore
-                console.log("loadGuideSchedulesByPage", this.schedule)
+
             })
         },
         loadMoreSchedule() {
@@ -167,7 +167,7 @@ export default {
             }).then(() => {
                 this.schedule = this.getGuideSchedules
                 this.canLoadMore = this.getGuideSchedulesCanLoadMore
-                console.log("loadGuideSchedulesByPage", this.schedule)
+
             })
         }
     }

@@ -37,7 +37,7 @@ export default {
     },
     mounted() {
         this.loadTourCategories().then(()=>{
-            console.log(this.getCategories)
+
         })
 
         this.eventBus.on('reset_filters', () => {

@@ -1,4 +1,4 @@
-ц
+
 <template>
     <main class="container">
         <div class="main row d-flex justify-content-center">

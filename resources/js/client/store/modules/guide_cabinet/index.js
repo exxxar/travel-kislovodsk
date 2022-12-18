@@ -1,5 +1,4 @@
 import axios from 'axios';
-import transactions from './guide_transactions'
 import schedules from './guide_schedules'
 import tours from './guide_tours'
 
@@ -9,7 +8,6 @@ import util from "../utilites";
 const BASE_GUIDE_CABINET_LINK = '/api/guide-cabinet'
 
 let state = {
-    ...transactions.state,
     ...schedules.state,
     ...tours.state,
     ...tourObjects.state,
@@ -19,7 +17,6 @@ let state = {
 }
 
 const getters = {
-    ...transactions.getters,
     ...schedules.getters,
     ...tours.getters,
     ...tourObjects.getters,
@@ -36,7 +33,7 @@ const getters = {
 }
 
 const actions = {
-    ...transactions.actions,
+
     ...schedules.actions,
     ...tours.actions,
     ...tourObjects.actions,
@@ -182,7 +179,6 @@ const actions = {
 }
 
 const mutations = {
-    ...transactions.mutations,
     ...schedules.mutations,
     ...tours.mutations,
     ...tourObjects.mutations,

@@ -67,7 +67,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(['getGuideTransactions', 'getGuideTransactionsByTransactionType', 'getDictionariesByTypeSlug']),
+        ...mapGetters(['getTransactions', 'getTransactionsByTransactionType', 'getDictionariesByTypeSlug']),
     },
     data: () => ({
         status_types: [],
@@ -76,13 +76,13 @@ export default {
     }),
     watch: {
         transaction_type: function (oldVal, newVal) {
-            this.loadGuideTransactionsByPage()
+            this.loadTransactionsByPage()
         }
     },
     mounted() {
 
         this.loadDictionaries()
-        this.loadGuideTransactionsByPage()
+        this.loadTransactionsByPage()
 
     },
     methods: {
@@ -91,20 +91,20 @@ export default {
                 this.status_types = this.getDictionariesByTypeSlug("transaction_type")
             })
         },
-        loadGuideTransactionsByPage() {
+        loadTransactionsByPage() {
 
             if (this.transaction_type === 0) {
-                return this.$store.dispatch("loadGuideTransactionsByPage").then(() => {
-                    this.transaction_list = this.getGuideTransactions
+                return this.$store.dispatch("loadTransactionsByPage").then(() => {
+                    this.transaction_list = this.getTransactions
                 })
             }
             else
-                return this.$store.dispatch("loadGuideTransactionsFilteredByPage",{
+                return this.$store.dispatch("loadTransactionsFilteredByPage",{
                     filterObject:{
                         transaction_type: this.transaction_type
                     }
                 }).then(() => {
-                    this.transaction_list = this.getGuideTransactions
+                    this.transaction_list = this.getTransactions
                 })
 
         }

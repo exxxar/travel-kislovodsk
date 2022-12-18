@@ -75,7 +75,9 @@
                     <a  @click="openGuideTourGroup(tour)" class="dt-btn-text col-auto d-none d-lg-block">
                         Страница брони экскурсии
                     </a>
-                    <button class="col-auto dt-btn-text">Редактировать</button>
+                    <button
+                        @click="openEditTour"
+                        class="col-auto dt-btn-text">Редактировать</button>
                     <button
                         @click="addToArchive"
                         class="dt-btn-text-red fw-bold text-uppercase col-auto ms-3 px-0 d-none d-lg-block">
@@ -88,7 +90,9 @@
             </div>
             <div v-if="!tour.is_active && !tour.is_moderation && !tour.is_draft" class="splitted">
                 <div class="row align-items-center p-4 mx-0">
-                    <button class="col-auto mx-auto px-0 position-relative dt-btn-text-red text-uppercase fw-bold">
+                    <button
+                        @click="removeTourFromArchive"
+                        class="col-auto mx-auto px-0 position-relative dt-btn-text-red text-uppercase fw-bold">
                         убрать из архива
                     </button>
                 </div>
@@ -134,8 +138,22 @@ export default {
         return {}
     },
     methods:{
+        openEditTour(){
+            this.eventBus.emit('open_edit_tour_window', this.tour)
+        },
         openGuideTourGroup(tour){
             this.eventBus.emit('open_gide_tour_group', tour);
+        },
+        removeTourFromArchive(){
+            this.$store.dispatch("removeTourFromArchive", this.tour.id).then(()=>{
+                this.eventBus.emit('load_guide_tours','Архив');
+
+                this.$notify({
+                    title: "Мои туры",
+                    text: "Тур успешно убран из Архива",
+                    type: 'success'
+                });
+            })
         },
         addToArchive(){
             this.$store.dispatch("addTourToArchive", this.tour.id).then(()=>{

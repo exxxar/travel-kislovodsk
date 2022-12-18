@@ -61,6 +61,7 @@ export default {
         openAddTour(){
             this.eventBus.emit('open_add_tours_window')
         },
+
         changeActiveTitle(title) {
             this.activeType = title
             this.eventBus.emit('select_guide_tours_type', this.activeType)

@@ -31,7 +31,7 @@ export default {
     },
     mounted() {
         this.loadTourCategories().then(()=>{
-            console.log(this.getCategories)
+
         })
     },
     methods:{

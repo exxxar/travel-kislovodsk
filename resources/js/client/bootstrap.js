@@ -47,7 +47,7 @@ if (window.statistic) {
 
 if (window.user) {
     window.user = JSON.parse(window.user)
-    console.log(window.user)
+
     window.user.is_guide = window.user.role.name === "guide"
     window.user.is_user = window.user.role.name === "user"
     window.user.is_guest = false

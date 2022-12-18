@@ -40,7 +40,7 @@ const actions = {
             context.commit('setUserWatchedToursPaginateObject', dataObject)
 
         }).catch(err => {
-            context.dispatch("errorsUserTransactions")
+            context.dispatch("errorsUserWatchedTours")
         })
     },
     async loadUserWatchedToursFilteredByPage(context, payload = {filterObject: null, page: 0, size: 12}) {

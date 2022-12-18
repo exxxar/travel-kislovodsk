@@ -19,6 +19,7 @@ use App\Models\TourObject;
 use App\Models\UserWatchTours;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -171,60 +172,6 @@ class TourController extends Controller
     public function store(TourStoreRequest $request)
     {
 
-        /*
-         *
-         * title:
-asdasd
-base_price:
-012312
-discount_price:
-031313
-short_description:
-asdasd
-description:
-вфывфыв
-categories:
-[16,17,18]
-min_group_size:
-13
-max_group_size:
-15
-comfort_loading:
-start_city:
-12312
-start_address:
-444
-start_latitude:
-start_longitude:
-start_comment:
-12312312
-is_draft:
-true
-duration:
-123 часа
-tour_objects:
-[186,187]
-dates:
-["2022-12-20T21:10:00.000Z","2022-12-22T21:10:00.000Z","2022-12-29T21:10:00.000Z"]
-payment_infos:
-[28,29,30]
-prices:
-[{"base_price":33,"discount_price":0,"has_discount":false,"ticket_type_id":25},{"base_price":55,"discount_price":0,"has_discount":false,"ticket_type_id":26},{"base_price":66,"discount_price":0,"has_discount":false,"ticket_type_id":27}]
-include_services:
-["1231233"]
-exclude_services:
-["1231"]
-duration_type_id:
-32
-movement_type_id:
-36
-tour_type_id:
-23
-preview:
-(binary)
-files[]:
-(binary)
-         */
         //todo: категория туров, расписание, объект тура
 
         $userId = Auth::user()->id;
@@ -331,6 +278,33 @@ files[]:
         return new TourCollection($tours);
     }
 
+    public function loadGuideTourById(Request $request, $id)
+    {
+        $tour = Tour::query()
+            ->with(["tourObjects", "tourCategories", "schedules"])
+            ->find($id);
+
+        $tourObjectsIds = $tour->tourObjects->pluck("id");
+        $tourCategoriesIds = $tour->tourCategories->pluck("id");
+        $scheduleDates = $tour->schedules->pluck("start_at");
+
+
+        $tmp = $tour->toArray();
+
+        // $tmp["tour_objects"] = $tourObjectsIds;
+        $tmp["categories"] = $tourCategoriesIds;
+        $tmp["dates"] = [];
+
+        //unset($tmp["schedules"]);
+        //unset($tmp["tourCategories"]);
+        //unset($tmp["tourObjects"]);
+
+        //dd(  $tmp);
+
+        return response()->json((object)$tmp);
+
+    }
+
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Tour $tour
@@ -353,12 +327,12 @@ files[]:
             ->first();
 
         if (is_null($tour))
-            return view("pages.errors.404");
+            return view("errors.404");
 
         $userId = Auth::user()->id ?? null;
 
         if (($tour->is_draft || !$tour->is_active) && $tour->creator_id != $userId)
-            return view("pages.errors.404");
+            return view("errors.404");
 
         return view('pages.tour', ["tour" => json_encode(new TourResource($tour))]);
     }
@@ -368,9 +342,101 @@ files[]:
      * @param \App\Models\Tour $tour
      * @return \App\Http\Resources\TourResource
      */
-    public function update(TourUpdateRequest $request, Tour $tour)
+    public function update(TourUpdateRequest $request, $id)
     {
-        $tour->update($request->validated());
+        $tour = Tour::query()->find($id);
+
+        $userId = Auth::user()->id;
+
+        $path = '/user/' . $userId . "/tours";
+        if (!Storage::exists('/public' . $path)) {
+            Storage::makeDirectory('/public' . $path);
+        }
+
+        $photos = json_decode($request->images ?? '[]');
+
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+
+            foreach ($files as $key => $file) {
+                $ext = $file->getClientOriginalExtension();
+
+                $name = Str::uuid() . "." . $ext;
+
+                $file->storeAs("/public", $path . '/' . $name);
+                $url = Storage::url('user/' . $userId . "/tours/" . $name);
+                array_push($photos, $url);
+            }
+        }
+
+        $preview_photo = $request->preview_image ?? null;
+
+        if ($request->hasFile('preview')) {
+            $file = $request->file('preview');
+
+            $ext = $file->getClientOriginalExtension();
+            $name = Str::uuid() . "." . $ext;
+
+            $file->storeAs("/public", $path . '/' . $name);
+            $preview_photo = Storage::url('user/' . $userId . "/tours/" . $name);
+        }
+
+        $data = [
+            'title' => $request->title ?? '',
+            'description' => $request->description ?? '',
+            'short_description' => $request->short_description ?? '',
+            'base_price' => $request->base_price ?? 0,
+            'discount_price' => $request->discount_price ?? 0,
+            'comfort_loading' => (boolean)($request->comfort_loading ?? false),
+            'start_address' => $request->start_address ?? '',
+            'start_city' => $request->start_city ?? '',
+            'start_latitude' => (double)($request->start_latitude ?? 0),
+            'start_longitude' => (double)($request->start_longitude ?? 0),
+            'start_comment' => $request->start_comment ?? null,
+            'preview_image' => $preview_photo,
+            'max_group_size' => (int)($request->max_group_size ?? 0),
+            'min_group_size' => (int)($request->min_group_size ?? 0),
+            'is_active' => true,
+            'is_draft' => (boolean)($request->is_draft ?? false),
+            'duration' => $request->duration ?? null,
+            'images' => $photos,
+            'prices' => json_decode($request->prices ?? '[]'),
+            'include_services' => json_decode($request->include_services ?? '[]'),
+            'exclude_services' => json_decode($request->exclude_services ?? '[]'),
+            'duration_type_id' => (int)($request->duration_type_id),
+            'movement_type_id' => (int)($request->movement_type_id),
+            'tour_type_id' => (int)($request->tour_type_id),
+            'payment_infos' => json_decode($request->payment_infos ?? '[]'),
+            'payment_type_id' => (int)($request->payment_type_id),
+            'creator_id' => $userId,
+            'verified_at' => null,
+        ];
+
+
+        $tour->update($data);
+
+        $tourObjectsIds = Collection::make(json_decode($request->tour_objects))->pluck("id");
+        $tourCategoriesIds = Collection::make(json_decode($request->tour_categories))->pluck("id");
+
+        $tour->tourObjects()->sync($tourObjectsIds);
+        $tour->tourCategories()->sync($tourCategoriesIds);
+
+        if (isset($request->removed_dates))
+            foreach (json_decode($request->removed_dates) as $dateId) {
+                $schd = Schedule::query()->find($dateId);
+                if (!is_null($schd))
+                    $schd->delete();
+            }
+
+        $schedulesDates = Collection::make(json_decode($request->schedules))->pluck("start_at");
+        if (isset($request->dates))
+            foreach (json_decode($request->dates) as $date)
+                if (!in_array($date, $schedulesDates->toArray()))
+                    Schedule::query()->create([
+                        'tour_id' => $tour->id,
+                        'guide_id' => $userId,
+                        'start_at' => Carbon::parse($date)->format("Y-m-d H:m")
+                    ]);
 
         return new TourResource($tour);
     }
@@ -433,8 +499,28 @@ files[]:
                 ]
             ]);
 
-        $tour->archived_at = Carbon::now();
         $tour->is_active = false;
+        $tour->save();
+
+        return response()->noContent();
+    }
+
+    public function removeGuideTourFromArchive(Request $request, $tourId)
+    {
+        $userId = Auth::user()->id;
+        $tour = Tour::query()
+            ->where("creator_id", $userId)
+            ->where("id", $tourId)
+            ->first();
+
+        if (is_null($tour))
+            return response()->json([
+                "errors" => [
+                    "message" => ["Тур не найден!"]
+                ]
+            ]);
+
+        $tour->is_active = true;
         $tour->save();
 
         return response()->noContent();

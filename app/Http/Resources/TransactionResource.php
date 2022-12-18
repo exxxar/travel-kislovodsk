@@ -20,6 +20,7 @@ class TransactionResource extends JsonResource
         return [
             'id' => $this->id,
             'status_type' => new DictionaryResource($this->statusType),
+            'status_type_id' => $this->status_type_id,
             'amount' => $this->amount,
             'user_id' => $this->user_id,
             'tour_id' => $this->tour_id,

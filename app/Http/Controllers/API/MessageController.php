@@ -20,6 +20,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class MessageController extends Controller
 {
@@ -61,7 +63,8 @@ class MessageController extends Controller
             ->orderBy("created_at", 'DESC')
             ->paginate($request->size ?? config('app.results_per_page'));
 
-        return new MessageCollection($messages);
+
+        return MessageResource::collection($messages);
 
     }
 
@@ -113,11 +116,82 @@ class MessageController extends Controller
      * @param \App\Models\Message $message
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Message $message)
+    public function destroy(Request $request, $id)
     {
-        $message->delete();
+        $message = Message::query()->find($id);
+        if (!is_null($message)) {
+
+            $chat = Chat::query()->with(["chatUsers"])
+                ->where("id", $message->chat_id)
+                ->first();
+
+            $chat->last_message_id = null;
+            $chat->last_message_at = Carbon::now();
+            $chat->read_at = null;
+            $chat->save();
+
+            $message->delete();
+        }
+
 
         return response()->noContent();
+    }
+
+
+    public function sendFile(Request $request)
+    {
+        $request->validate([
+            "chat_id" => "required"
+        ]);
+
+        $userId = Auth::user()->id;
+
+        $path = '/user/' . $userId . "/messages";
+        if (!Storage::exists('/public' . $path)) {
+            Storage::makeDirectory('/public' . $path);
+        }
+
+        $documents = [];
+
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+
+            foreach ($files as $key => $file) {
+                $ext = $file->getClientOriginalExtension();
+
+                $name = Str::uuid() . "." . $ext;
+
+                $file->storeAs("/public", $path . '/' . $name);
+                $url = Storage::url('user/' . $userId . "/messages/" . $name);
+                array_push($documents, $url);
+            }
+        }
+
+        $message = Message::query()->create([
+            'message' => "Отправка файлов",
+            'user_id' => $userId,
+            'chat_id' => $request->chat_id,
+            'content' => [
+                "type" => "files",
+                "links" => $documents
+            ]
+        ]);
+
+        $chat = Chat::query()->with(["chatUsers"])
+            ->where("id", $request->chat_id)
+            ->first();
+
+        $chat->last_message_id = $message->id;
+        $chat->last_message_at = $message->created_at;
+        $chat->read_at = null;
+        $chat->save();
+
+        $userListIds = $chat->chatUsers()->pluck("user_id");
+
+        event(new ChatNotificationEvent($chat->id, $userListIds));
+
+        return response()->noContent();
+
     }
 
     public function sendMessage(Request $request)
@@ -131,7 +205,8 @@ class MessageController extends Controller
         $message = Message::query()->create([
             'message' => $request->message,
             'user_id' => Auth::user()->id,
-            'chat_id' => $request->chat_id
+            'chat_id' => $request->chat_id,
+            'transaction_id' => $request->transaction_id ?? null
         ]);
 
         $chat = Chat::query()->with(["chatUsers"])->where("id", $request->chat_id)->first();
@@ -142,12 +217,9 @@ class MessageController extends Controller
 
         $userListIds = $chat->chatUsers()->pluck("user_id");
 
-        $messages = Chat::getChatMessagesByChatId($chat->id)
-            ->paginate($request->size ?? config('app.results_per_page'));
-
         event(new ChatNotificationEvent($chat->id, $userListIds));
 
-        return MessageResource::collection($messages);
+        return response()->noContent();
 
     }
 
@@ -178,7 +250,6 @@ class MessageController extends Controller
                 if (is_null($booked->group_chat_id))
                     array_push($userIds, $booked->user_id);
             }
-
 
 
             if (is_null($groupChatId)) {
@@ -212,7 +283,7 @@ class MessageController extends Controller
         }
 
         return response()->json([
-            "chat_id"=>$groupChatId
+            "chat_id" => $groupChatId
         ]);
 
     }
@@ -238,12 +309,13 @@ class MessageController extends Controller
         $chat = Chat::startNewChat($message, $senderId, $recipientId);
 
         return response()->json([
-            "chat_id"=>$chat->id
+            "chat_id" => $chat->id
         ]);
 
     }
 
-    public function getChatUsers(Request $request, $chatId){
+    public function getChatUsers(Request $request, $chatId)
+    {
 
         $chat = Chat::query()->with(["chatUsers"])->where("id", $chatId)
             ->first();
@@ -257,7 +329,7 @@ class MessageController extends Controller
         $users = User::query()
             ->with(["profile"])
             ->whereIn("id", $userIds)
-                ->get();
+            ->get();
 
         return ChatUserResource::collection($users);
 

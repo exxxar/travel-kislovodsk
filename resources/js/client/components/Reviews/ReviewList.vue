@@ -49,7 +49,7 @@ export default {
 
         this.loadTourCategories().then(() => {
             this.reviews = this.getReviews;
-            console.log("obj",this.getReviewsPaginateObject)
+
         })
     },
     methods: {

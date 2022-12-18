@@ -62,9 +62,30 @@ const actions = {
             return Promise.reject(err);
         })
     },
+    async editTourObject(context, payload) {
+        let link = `${BASE_GUIDE_TOUR_OBJECTS_LINK}/edit/${payload.id}`
+        let _axios = util.makeAxiosFactory(link, 'POST', payload.data)
+        return _axios.then((response) => {
+            return response.data
+        }).catch(err => {
+            context.dispatch("errorsGuideTourObjects")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
+        })
+    },
     async clearGuideTourObjects(context) {
         return await context.dispatch("guideTourObjectsPage", {
             url: `${BASE_GUIDE_TOUR_OBJECTS_LINK}/clear`
+        })
+    },
+    async loadGuideTourObjectById(context, id){
+        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_TOUR_OBJECTS_LINK}/${id}`)
+        return _axios.then((response) => {
+            return response
+        }).catch(err => {
+            context.dispatch("errorsGuideTourObjects")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
     async removedGuideTourObjectsById(context, tourObjectId) {

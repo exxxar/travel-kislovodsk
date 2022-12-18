@@ -75,11 +75,6 @@ class TourObjectController extends Controller
     {
         $userId = Auth::user()->id;
 
-        $user = User::query()
-            ->with(["profile", "company"])
-            ->where("id", $userId)
-            ->first();
-
         $path = '/user/' . $userId."/tour-objects";
         if (!Storage::exists('/public' . $path)) {
             Storage::makeDirectory('/public' . $path);
@@ -106,10 +101,8 @@ class TourObjectController extends Controller
 
         $tmp = (object)$request->validated();
 
-        $tmp->creator_id = $user->id;
+        $tmp->creator_id = $userId;
         $tmp->photos = $photos;
-        $tmp->latitude = 0;//todo:load from yandex
-        $tmp->longitude = 0;//todo:load from yandex
 
         $tourObject = TourObject::query()->with(["creator","creator.profile"])->create((array)$tmp);
 
@@ -137,9 +130,46 @@ class TourObjectController extends Controller
      * @param \App\Models\TourObject $tourObject
      * @return TourObjectResource|\Illuminate\Http\JsonResponse
      */
-    public function update(TourObjectUpdateRequest $request, TourObject $tourObject)
+    public function update(TourObjectUpdateRequest $request, $id)
     {
-        $tourObject->update($request->validated());
+        $userId = Auth::user()->id;
+
+
+        $path = '/user/' . $userId."/tour-objects";
+        if (!Storage::exists('/public' . $path)) {
+            Storage::makeDirectory('/public' . $path);
+        }
+
+        $photos = json_decode($request->photos ?? '[]');
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+
+            foreach ($files as $key => $file) {
+                $ext = $file->getClientOriginalExtension();
+
+                $name = Str::uuid().".".$ext;
+
+
+                $file->storeAs("/public", $path . '/' . $name );
+                $url = Storage::url('user/' . $userId . "/tour-objects/" . $name );
+
+                array_push($photos, $url);
+
+            }
+
+        }
+
+        $tmp = (object)$request->validated();
+        $tmp->photos = $photos;
+
+        $tourObject = TourObject::query()
+            ->with(["creator","creator.profile"])
+            ->where("id", $id)
+            ->first();
+
+
+
+        $tourObject->update((array)$tmp);
 
         return new TourObjectResource($tourObject);
     }
@@ -270,6 +300,12 @@ class TourObjectController extends Controller
         } catch (FileNotFoundException $e) {
             return null;
         }
+    }
+
+    public function loadGuideTourObjectById(Request $request, $id){
+        $tourObject = TourObject::query()->find($id);
+
+        return response()->json($tourObject);
     }
 }
 

@@ -145,15 +145,6 @@ const actions = {
             data: messageObject
         })
     },
-    async sendTransaction(context, transactionObject) {
-
-        return await context.dispatch("chatMessagesPage", {
-            url: `${BASE_CHATS_LINK}/send-transaction`,
-            method: 'POST',
-            data: transactionObject
-        })
-
-    },
     async sendFile(context, formData) {
         return axios.post(`${BASE_CHATS_LINK}/send-file`, formData, {
             headers: {
@@ -186,10 +177,7 @@ const actions = {
         })
     },
     async nextChatsPage(context) {
-        console.log("nextChatsPage", state
-            .chats_paginate_object
-            .links
-            .next)
+
         return await context.dispatch("chatsPage", {
             url: state
                 .chats_paginate_object
@@ -220,6 +208,16 @@ const actions = {
         let size = payload.size || 50
         return await context.dispatch("chatsPage", {
             url: `${BASE_CHATS_LINK}/chats?page=${page}&size=${size}`
+        })
+    },
+    async removeMessage(context, id) {
+        let _axios = util.makeAxiosFactory(`${BASE_CHATS_LINK}/remove/${id}`,'DELETE')
+
+        return _axios.then((response) => {
+        }).catch(err => {
+            context.dispatch("errorsChatMessages")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
     async loadChatMessagesByChatId(context, payload = {page: 0, size: 15}) {

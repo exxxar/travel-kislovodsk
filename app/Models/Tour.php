@@ -50,7 +50,6 @@ class Tour extends Model
         'payment_type_id',
         'creator_id',
         'verified_at',
-        'archived_at',
     ];
 
     /**
@@ -62,6 +61,7 @@ class Tour extends Model
         'id' => 'integer',
         'start_latitude' => 'double',
         'start_longitude' => 'double',
+        'comfort_loading' => 'boolean',
 
         'is_hot' => 'boolean',
         'is_active' => 'boolean',

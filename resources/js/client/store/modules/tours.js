@@ -19,7 +19,7 @@ const getters = {
     getToursByCategoryId: (state) => (id) => {
 
         return state.tours.filter(tourItem => {
-            console.log(tourItem.tour_categories)
+
             return tourItem.tour_categories.filter(categoryItem => categoryItem.id === id).length > 0
         })
     },

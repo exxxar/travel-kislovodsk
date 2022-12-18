@@ -86,7 +86,7 @@ export default {
         this.eventBus.on('update_tour_pagination',()=>{
 
             this.pagination = this.getToursPaginateObject
-            console.log("pagination",this.pagination)
+
         })
 
     }

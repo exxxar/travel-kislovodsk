@@ -18,42 +18,52 @@
 import {mapGetters} from "vuex";
 
 export default {
-    data(){
+    data() {
         return {
             activeType: null,
             tours: []
         }
     },
     computed: {
-        ...mapGetters(['getGuideTours','getGuideArchiveTours','getGuideIsDraftTours','getGuideIsModerateTours']),
+        ...mapGetters(['getGuideTours', 'getGuideArchiveTours', 'getGuideIsDraftTours', 'getGuideIsModerateTours']),
     },
     mounted() {
 
         this.loadTours()
 
-        this.eventBus.on('load_guide_tours', ()=>{
+        this.eventBus.on('load_guide_tours', (title) => {
 
-            this.loadTours()
+            this.loadTours().then(() => {
+                if (title)
+                    this.changeActiveTitle(title)
+            })
+
         })
 
-        this.eventBus.on('select_guide_tours_type', (type)=>{
-
+        this.eventBus.on('select_guide_tours_type', (type) => {
             this.changeActiveTitle(type)
         })
     },
-    methods:{
+    methods: {
         changeActiveTitle(title) {
-            switch (title ) {
+            switch (title) {
                 default:
-                case "Действующие": this.tours = this.getGuideTours; break;
-                case "Архив": this.tours = this.getGuideArchiveTours; break;
-                case "На модерации": this.tours = this.getGuideIsModerateTours; break;
-                case "Черновики": this.tours = this.getGuideIsDraftTours; break;
+                case "Действующие":
+                    this.tours = this.getGuideTours;
+                    break;
+                case "Архив":
+                    this.tours = this.getGuideArchiveTours;
+                    break;
+                case "На модерации":
+                    this.tours = this.getGuideIsModerateTours;
+                    break;
+                case "Черновики":
+                    this.tours = this.getGuideIsDraftTours;
+                    break;
             }
         },
-        loadTours(){
-            this.$store.dispatch("loadGuideToursByPage").then(()=>{
-
+        loadTours() {
+            return this.$store.dispatch("loadGuideToursByPage").then(() => {
                 this.tours = this.getGuideTours
             })
         }
@@ -62,13 +72,14 @@ export default {
 </script>
 <style lang="scss">
 .empty-list {
-    width:100%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
     img {
-        width:100%;
+        width: 100%;
         object-fit: cover;
         mix-blend-mode: darken;
     }

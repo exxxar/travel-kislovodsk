@@ -68,6 +68,9 @@ class Chat extends Model
         if (is_null($message))
             return "Чат #".$this->id;
 
+        if (is_null($message->user))
+            return "Чат #$this->id";
+
         return "Чат #$this->id:".$message->user->profile->fname." ".$message->user->profile->tname;
     }
 
@@ -142,12 +145,17 @@ WHERE t1.user_id=$userId1 and t2.user_id=$userId2 and c1.is_multiply=0;
 
     public static function getChatMessagesByChatId($chatId): \Illuminate\Database\Eloquent\Builder
     {
-        return Message::query()->where("chat_id", $chatId);
+        return Message::query()
+            ->with(["transaction"])
+            ->where("chat_id", $chatId)
+            ->orderBy("id","DESC");
     }
 
     public static function getChatMessagesByUserId($userId): \Illuminate\Database\Eloquent\Builder
     {
-        return Message::query()->where("user_id", $userId);
+        return Message::query()
+            ->with(["transaction"])
+            ->where("user_id", $userId);
     }
 
 

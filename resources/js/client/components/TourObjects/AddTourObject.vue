@@ -90,12 +90,12 @@
                         </button>
 
 
-
                         <selected-map-modal-dialog-component id="map-select-object-coords"
                                                              v-on:coords="selectCoords"/>
                     </div>
                     <div class="col-12 col-md-8">
-                        <p class="pt-3" v-if="tourObject.latitude===null||tourObject.longitude===null">Координаты не указаны</p>
+                        <p class="pt-3" v-if="tourObject.latitude===null||tourObject.longitude===null">Координаты не
+                            указаны</p>
                         <p class="pt-3" v-else>Координаты: {{ tourObject.longitude }} {{ tourObject.latitude }}</p>
                     </div>
                 </div>
@@ -147,6 +147,22 @@
     </div>
 </template>
 <script>
+
+const getInitialFormData = () => ({
+    tourObject: {
+        title: null,
+        description: null,
+        city: null,
+        address: null,
+        latitude: null,
+        longitude: null,
+        comment: null,
+        photos: [],
+        need_comment: false
+    },
+});
+
+
 export default {
     data() {
         return {
@@ -186,7 +202,7 @@ export default {
             for (let i = 0; i < files.length; i++)
                 this.items.push({imageUrl: URL.createObjectURL(files[i])})
 
-            console.log(this.items)
+
 
         },
         submitTourObject() {
@@ -199,7 +215,6 @@ export default {
                     data.append(key, item)
                 });
 
-            console.log("data", data)
 
             for (let i = 0; i < this.photos.length; i++)
                 data.append('files[]', this.photos[i]);
@@ -213,15 +228,7 @@ export default {
                 let URL = "/tour-object/" + tourObject.id;
                 window.open(URL);
 
-                this.tourObject.title = null
-                this.tourObject.description = null
-                this.tourObject.city = null
-                this.tourObject.address = null
-                this.tourObject.latitude = null
-                this.tourObject.longitude = null
-                this.tourObject.comment = null
-                this.tourObject.photos = []
-                this.tourObject.need_comment = false
+                this.tourObject = getInitialFormData().tourObject
 
                 this.$notify({
                     title: "Добавление туристического объекта",

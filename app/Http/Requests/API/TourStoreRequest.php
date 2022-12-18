@@ -36,7 +36,7 @@ class TourStoreRequest extends FormRequest
             'preview_image' => [''],
             'is_hot' => [''],
             'is_active' => [''],
-            'is_draft' => ['required'],
+            'is_draft' => [''],
             'duration' => ['string', 'max:255'],
             'images' => [''],
             'prices' => ['json'],

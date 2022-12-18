@@ -60,6 +60,17 @@ const actions = {
             return Promise.reject(err);
         })
     },
+    async editGuideTour(context, payload) {
+
+        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_TOURS_LINK}/update/${payload.id}`, 'POST', payload.data)
+        return _axios.then((response) => {
+            return response
+        }).catch(err => {
+            context.dispatch("errorsGuideTours")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
+        })
+    },
     async addTour(context, tour) {
         let _axios = util.makeAxiosFactory(`${BASE_GUIDE_TOURS_LINK}`, 'POST', tour)
         return _axios.then((response) => {
@@ -73,6 +84,11 @@ const actions = {
     async addTourToArchive(context, tourId) {
         return await context.dispatch("guideToursPage", {
             url: `${BASE_GUIDE_TOURS_LINK}/archive-add/${tourId}`
+        })
+    },
+    async removeTourFromArchive(context, tourId) {
+        return await context.dispatch("guideToursPage", {
+            url: `${BASE_GUIDE_TOURS_LINK}/archive-remove/${tourId}`
         })
     },
     async clearArchiveTours(context) {
@@ -90,6 +106,16 @@ const actions = {
             url: `${BASE_GUIDE_TOURS_LINK}/search?page=${page}&size=${size}`,
             method: 'POST',
             data: data
+        })
+    },
+    async loadGuideTourById(context, id){
+        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_TOURS_LINK}/${id}`)
+        return _axios.then((response) => {
+            return response
+        }).catch(err => {
+            context.dispatch("errorsGuideTours")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
     async loadGuideToursByPage(context, page = 0, size = 100) {

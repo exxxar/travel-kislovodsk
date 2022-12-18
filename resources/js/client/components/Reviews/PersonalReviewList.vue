@@ -32,14 +32,14 @@ export default {
         user_reviews: []
     }),
     mounted() {
-        console.log("loadUserReviewsByPage")
+
         this.loadUserReviewsByPage()
     },
     methods: {
         loadUserReviewsByPage() {
-            console.log("loadUserReviewsByPage 1")
+
             return this.$store.dispatch("loadUserReviewsByPage").then(() => {
-                console.log("loadGuideTransactionsByPage 2")
+
                 this.user_reviews = this.getUserReviews
             })
         }

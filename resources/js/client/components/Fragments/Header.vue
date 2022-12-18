@@ -207,7 +207,7 @@ export default {
     },
     mounted() {
         window.eventBus.on("fcm_message_notification", (data) => {
-            console.log("fcm_message_notification from header", data)
+
             if (data.user_ids.indexOf(this.user.id)!==-1) {
                 this.$notify({
                     title: "Кисловодск-Туризм",

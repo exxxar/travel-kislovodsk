@@ -48,7 +48,7 @@ const actions = {
             method = payload.method || 'GET',
             data = payload.data || null
 
-        console.log("dictionariesPage")
+
         let _axios = util.makeAxiosFactory(link, method, data)
 
         return _axios.then((response) => {

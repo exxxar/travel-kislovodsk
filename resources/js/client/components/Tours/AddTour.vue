@@ -729,6 +729,39 @@
 <script>
 import {mapGetters} from "vuex";
 
+const getInitialFormData = () => ({
+    tour: {
+        title: null,
+        base_price: 0,
+        discount_price: 0,
+        short_description: null,
+        description: null,
+        categories: [],
+        min_group_size: 0,
+        max_group_size: 0,
+        comfort_loading: false,
+        start_city: null,
+        start_address: null,
+        start_latitude: 0,
+        start_longitude: 0,
+        start_comment: null,
+
+        is_draft: 1,
+        duration: null,
+        tour_objects: [],
+
+        dates: [],
+        payment_infos: [],
+        prices: [],
+        include_services: [],
+        exclude_services: [],
+        duration_type_id: null,
+        movement_type_id: null,
+        tour_type_id: null,
+        payment_type_id: null,
+
+    },
+});
 
 export default {
 
@@ -821,7 +854,6 @@ export default {
         onChangePreview(e) {
             const files = e.target.files
             this.preview_photo = files[0]
-            console.log(this.preview_photo)
 
         },
 
@@ -832,7 +864,6 @@ export default {
             for (let i = 0; i < files.length; i++)
                 this.items.push({imageUrl: URL.createObjectURL(files[i])})
 
-            console.log(this.items)
 
         },
         addPaymentInfo() {
@@ -963,7 +994,7 @@ export default {
             })
         },
         selectCoords(e) {
-            console.log("Select coords", e)
+
             this.tour.start_longitude = e[0]
             this.tour.start_latitude = e[1]
         },
@@ -999,6 +1030,8 @@ export default {
 
                 this.resetImages()
 
+                this.tour = getInitialFormData().tour
+
                 let URL = "/tour/" + tour.id;
                 window.open(URL);
 
@@ -1023,7 +1056,7 @@ export default {
                 this.tour_types = this.getDictionariesByTypeSlug('tour_type')
                 this.tickets = this.getDictionariesByTypeSlug('ticket_type')
 
-                console.log("payments", this.payments)
+
 
                 this.preparedPrices();
             })

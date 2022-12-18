@@ -23,6 +23,7 @@ class MessageResource extends JsonResource
             'transaction_id' => $this->transaction_id,
             'user_id' => $this->user_id,
             'profile' => new ProfileResource($this->user->profile),
+            'transaction' => new TransactionResource($this->transaction),
             'chat_id' => $this->chat_id,
             'tour_id' => $this->sender_id,
             'read_at' => $this->read_at,

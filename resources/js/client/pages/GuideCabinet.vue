@@ -142,27 +142,43 @@
                 </svg>
             </div>
 
-            <guide-tours-component v-if="activeTitle == 'Мои экскурсии'"/>
-            <guide-tour-objects-component v-if="activeTitle == 'Мои объекты'"/>
+            <guide-tours-component v-if="activeTitle === 'Мои экскурсии'"/>
+            <guide-tour-objects-component v-if="activeTitle === 'Мои объекты'"/>
 
 
-            <add-tour v-if="activeTitle == 'Добавить экскурсию'" @hideAddExcursion="activeTitle='Мои экскурсии'"/>
-            <add-tour-object v-if="activeTitle == 'Добавить объект'" @hideAddObject="activeTitle='Мои объекты'"/>
+            <add-tour v-if="activeTitle === 'Добавить экскурсию'"
+                      @hideAddExcursion="activeTitle='Мои экскурсии'"/>
 
-            <guide-transactions v-if="activeTitle == 'Транзакции'"/>
-            <guide-schedule v-if="activeTitle == 'Календарь'"/>
-            <guide-settings v-if="activeTitle == 'Настройки'"/>
-            <guide-documents-component v-if="activeTitle == 'Документы'"/>
-            <guide-tour-group-component v-if="selectedTour"
-                                        @hideTourGroup="hideTourGroup"
-                                        :tour="selectedTour"/>
+
+
+            <add-tour-object v-if="activeTitle === 'Добавить объект'" @hideAddObject="activeTitle='Мои объекты'"/>
+
+            <guide-transactions v-if="activeTitle === 'Транзакции'"/>
+            <guide-schedule v-if="activeTitle === 'Календарь'"/>
+            <guide-settings v-if="activeTitle === 'Настройки'"/>
+            <guide-documents-component v-if="activeTitle === 'Документы'"/>
+
+            <guide-tour-group-component v-if="selected&&activeTitle==='Бронирование групп'"
+                                        @hideTourGroup="hide('Мои экскурсии')"
+                                        :tour="selected"/>
+
+
+            <edit-tour v-if="selected&&activeTitle==='Редактирование экскурсии'"
+                                    @hideEditExcursion="hide('Мои экскурсии')"
+                                    :tour-id="selected.id"/>
+
+            <edit-tour-object v-if="selected&&activeTitle==='Редактирование объекта'"
+                       @hideEditTourObject="hide('Мои объекты')"
+                       :tour-object-id="selected.id"/>
         </div>
     </main>
 </template>
 <script>
 import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
 import AddTour from "@/components/Tours/AddTour.vue";
+import EditTour from "@/components/Tours/EditTour.vue";
 import AddTourObject from "@/components/TourObjects/AddTourObject.vue";
+import EditTourObject from "@/components/TourObjects/EditTourObject.vue";
 
 import GuideSchedule from "@/components/GuideCabinet/GuideSchedule.vue";
 import GuideSettings from "@/components/GuideCabinet/GuideSettings.vue";
@@ -170,9 +186,12 @@ import GuideTransactions from "@/components/GuideCabinet/GuideTransactions.vue";
 
 import {mapGetters} from "vuex";
 
+
 export default {
     components: {
+        EditTour,
         AddTourObject,
+        EditTourObject,
         GuideSettings, GuideTransactions,
         GuideSchedule, AddTour, Breadcrumbs
     },
@@ -185,7 +204,7 @@ export default {
     data() {
         return {
             visible: false,
-            selectedTour: null,
+            selected: null,
             breadcrumbs: [
                 {
                     text: "Главная",
@@ -200,6 +219,17 @@ export default {
         }
     },
     mounted() {
+
+        this.eventBus.on('open_edit_tour_object_window', (tourObject) => {
+            this.activeTitle = 'Редактирование объекта'
+            this.selected = tourObject
+        })
+
+        this.eventBus.on('open_edit_tour_window', (tour) => {
+            this.activeTitle = 'Редактирование экскурсии'
+            this.selected = tour
+        })
+
         this.eventBus.on('open_add_tours_window', () => {
             this.activeTitle = 'Добавить экскурсию'
         })
@@ -210,20 +240,20 @@ export default {
 
 
         this.eventBus.on('open_gide_tour_group', (tour) => {
-            this.selectedTour = tour
+            this.selected = tour
             this.activeTitle = 'Бронирование групп'
         });
 
     },
     methods: {
         openMenu(menu, tab = null){
-            this.selectedTour = null
+            this.selected = null
             this.activeTitle = menu
             this.activeType = tab
         },
-        hideTourGroup() {
-            this.selectedTour = null
-            this.activeTitle = 'Мои экскурсии'
+        hide(title) {
+            this.selected = null
+            this.activeTitle = title || 'Мои экскурсии'
         },
         toggle() {
             this.visible = !this.visible;

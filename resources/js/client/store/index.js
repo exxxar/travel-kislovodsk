@@ -7,6 +7,7 @@ import dictionaries from './modules/dictionaries';
 import categories from './modules/tour-categories';
 import bookings from './modules/bookings';
 import chats from './modules/chats';
+import transactions from './modules/transactions';
 import guideCabinet from './modules/guide_cabinet';
 import userCabinet from './modules/user_cabinet';
 import util from "./modules/utilites";
@@ -46,6 +47,7 @@ export default createStore({
         categories,
         bookings,
         chats,
+        transactions,
         reviews,
         guideCabinet,
         userCabinet

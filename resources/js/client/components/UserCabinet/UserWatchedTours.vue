@@ -43,7 +43,7 @@ export default {
         loadUserWatchedToursByPage() {
             this.$store.dispatch("loadUserWatchedToursByPage").then(() => {
                 this.watches = this.getUserWatchedTours
-                console.log("watched", this.watches)
+
             })
         }
     }

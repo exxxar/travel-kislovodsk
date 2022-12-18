@@ -1,7 +1,7 @@
 <template>
     <div class="row mx-0  gap-3" v-if="tour_objects.length>0">
         <guide-tour-object-card-component v-for="item in tour_objects"
-                                          :data="item"
+                                          :tour-object="item"
                                           :key="item"/>
     </div>
     <div class="row gap-3 d-flex justify-content-center" v-else>
@@ -65,7 +65,7 @@ export default {
         loadRemovedTourObjects() {
             this.$store.dispatch("loadRemovedGuideTourObjectsByPage").then(() => {
                 this.tour_objects = this.getGuideRemovedTourObjects
-                console.log("loadRemovedGuideTourObjectsByPage",this.tour_objects )
+
                 this.eventBus.emit('update_tour_object_pagination')
             })
         },
@@ -74,7 +74,7 @@ export default {
             this.$store.dispatch("loadGuideTourObjectsByPage").then(() => {
 
                 this.tour_objects = this.getGuideActiveTourObjects
-                console.log("loadGuideTourObjectsByPage",this.tour_objects )
+
                 this.eventBus.emit('update_tour_object_pagination')
             })
         }

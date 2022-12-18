@@ -97,7 +97,9 @@
                         дата</h5>
                     <h5 class="text-muted-black d-block d-md-none">ближ. дата</h5>
                 </div>
-                <h5 class="fw-bold" v-if="tour.schedules">{{ tour.schedules[0].start_day || 'Не указана' }}</h5>
+                <h5 class="fw-bold" v-if="tour.schedules.length>0">
+                    {{ tour.schedules[0].start_day }}
+                </h5>
                 <h5 class="fw-bold" v-else>Не указан</h5>
 
             </div>

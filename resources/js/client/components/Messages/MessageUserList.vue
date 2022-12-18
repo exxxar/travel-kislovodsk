@@ -75,7 +75,7 @@ export default {
             }
         },
         loadMoreChats() {
-            console.log("loadMoreChats")
+
             return this.$store.dispatch("nextChatsPage").then(() => {
                 this.chats = this.getChats
 

@@ -1,5 +1,5 @@
 <template xmlns="http://www.w3.org/1999/html">
-    <div class="personal-account-transactions-card">
+    <div class="personal-account-transactions-card" @click="sendTransaction">
         <div class="personal-account-transactions-card-head__column">
             <div class="personal-account-transactions-card-head__text fw-bold">
                 № {{ item.id }}
@@ -70,5 +70,10 @@
 <script>
 export default {
     props: ['item'],
+    methods:{
+        sendTransaction(){
+            this.eventBus.emit("send_transaction_to_active_chat", this.item.id)
+        }
+    }
 }
 </script>

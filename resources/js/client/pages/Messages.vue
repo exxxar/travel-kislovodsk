@@ -3,12 +3,11 @@
         <breadcrumbs :items="breadcrumbs" class="pb-4"></breadcrumbs>
         <div class="main row">
             <h1 class="col-12 mb-4 ps-4 ps-lg-0 bold fs-1">Сообщения</h1>
-            <!--HEAD-->
-            <!--СКРЫТЬ/ПОКАЗАТЬ БЛОК СООБЩЕНИЙ/ЧАТА: ДОБАВИТЬ КЛАССЫ hide ИЛИ visible К БЛОКАМ messsages-head ИЛИ messages-body-->
-            <div class="col-12 col-lg-3 me-lg-4 bg-white messages-head visible-lg">
+
+            <div class="col-12 col-lg-3 me-lg-4 bg-white messages-head visible-lg" style="position: sticky; top:10px;">
                 <message-user-card/>
             </div>
-            <!--BODY-->
+
             <chat-form/>
         </div>
     </main>

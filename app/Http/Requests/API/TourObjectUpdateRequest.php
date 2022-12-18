@@ -30,12 +30,9 @@ class TourObjectUpdateRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'address' => ['required', 'string', 'max:255'],
-            'latitude' => ['required', 'numeric'],
-            'longitude' => ['required', 'numeric'],
-            'comment' => ['string'],
-            'tour_guide_id' => ['required', 'integer', 'exists:users,id'],
-            'creator_id' => ['required', 'integer', 'exists:users,id'],
-            'photos' => ['array'],
+            'latitude' => [ ''],
+            'longitude' => [ ''],
+            'comment' => [''],
         ];
     }
 

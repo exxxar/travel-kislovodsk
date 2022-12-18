@@ -7,7 +7,9 @@ use App\Http\Requests\API\TransactionStoreRequest;
 use App\Http\Requests\API\TransactionUpdateRequest;
 use App\Http\Resources\TransactionCollection;
 use App\Http\Resources\TransactionResource;
+use App\Models\Tour;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,12 +21,31 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $transactions = Transaction::query()
-            ->where("user_id", Auth::user()->id)
-            ->paginate($request->count ?? config('app.results_per_page'));
+        $userId = Auth::user()->id;
+
+        $user = User::query()->with(["role"])->find($userId);
+
+        $transactions = [];
+
+        if ($user->role->name=='user') {
+            $transactions = Transaction::query()
+                ->where("user_id", )
+                ->paginate($request->count ?? config('app.results_per_page'));
+        }
+
+        if ($user->role->name=='guide') {
+            $tourIds = Tour::query()->where("creator_id", Auth::user()->id)
+                ->get()->pluck("id");
+
+            $transactions = Transaction::query()
+                ->whereIntegerInRaw("tour_id", $tourIds)
+                ->paginate($request->count ?? config('app.results_per_page'));
+        }
 
         return new TransactionCollection($transactions);
     }
+
+
 
     /**
      * @param \App\Http\Requests\API\TransactionStoreRequest $request
