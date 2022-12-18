@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Classes\PayMaster\PayMaster;
 use App\Core\RolesAndPermissionsChecker;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,6 +16,7 @@ class FacadeServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('roles.and.permissions.checker', fn () => new RolesAndPermissionsChecker());
+        $this->app->bind('payment.service', fn () => new PayMaster());
     }
 
     /**
