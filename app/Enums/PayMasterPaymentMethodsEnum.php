@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum PayMasterPaymentMethods: string
+enum PayMasterPaymentMethodsEnum: string
 {
     case BANKCARD = 'bankcard';
     case SBP = 'sbp';

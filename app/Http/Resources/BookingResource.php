@@ -19,6 +19,7 @@ class BookingResource extends JsonResource
             'id' => $this->id,
             'tour_id' => $this->tour_id,
             'tour' => is_null($this->tour) ? null : new TourResource($this->tour),
+            'transaction' => is_null($this->transaction) ? null : new TransactionResource($this->transaction),
             'user_id' => $this->user_id,
             'group_chat_id' => $this->group_chat_id ?? null,
             'schedule_id' => $this->schedule_id ?? null,
@@ -30,6 +31,7 @@ class BookingResource extends JsonResource
             'phone' => $this->phone,
             'avatar' => $this->user->profile->photo,
             'email' => $this->email,
+            'has_private_chat_with_guide' => $this->has_private_chat_with_guide ?? false,
             'start_at' => Carbon::parse($this->start_at)->format('Y-m-d H:m'),
             'payed_at' => $this->payed_at,
 

@@ -39,6 +39,9 @@ export default {
             }).then(() => {
                 this.tour_objects = this.getGuideActiveTourObjects
                 this.eventBus.emit('update_tour_object_pagination')
+
+
+
             })
 
         })

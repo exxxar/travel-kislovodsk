@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Events\TelegramNotificationProfileVerifiedEvent;
 use App\Exports\TourGroupExport;
 use App\Http\Controllers\API\ReviewController;
 use App\Http\Controllers\VerificationController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\WebNotificationController;
 use App\Models\Booking;
 use App\Models\Chat;
 use App\Models\ChatUsers;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Response;
@@ -16,6 +18,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Telegram\Bot\FileUpload\InputFile;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,17 +32,37 @@ use Maatwebsite\Excel\Facades\Excel;
 |
 */
 Route::get("/test", function () {
+    $mpdf = new \Mpdf\Mpdf();
+    $mpdf->WriteHTML(
+        view("pdf.group",
+            [
+                "agency" => [],
+                "group" => [],
+                "guide" => [],
+                "members" => [],
+            ]
+        )
+    );
 
-    $user = \App\Models\User::query()->find(1);
-    Mail::to("exxxar@gmail.com")
-        ->send(new \App\Mail\NotifyMail("Test"));
+    $data = $mpdf->Output("group.pdf", "S");
+
+
+    $response = Telegram::sendDocument([
+        'chat_id' => env("ADMIN_TELEGRAM_CHANNEL"),
+        "document" => InputFile::createFromContents($data, "invoice.pdf"),
+        "caption" => "#мчс,#заявкамчс,#туристическаягруппамчс",
+        "parse_mode" => "HTML"
+
+    ]);
 });
+
 Route::get('/push-notificaiton', [WebNotificationController::class, 'index'])->name('push-notificaiton');
 Route::post('/store-token', [WebNotificationController::class, 'storeToken'])->name('store.token');
 Route::post('/send-web-notification', [WebNotificationController::class, 'sendWebNotification'])->name('send.web-notification');
 
 Route::get('/storage/user/{id}/{folder}/{path}', [\App\Http\Controllers\API\TouristGuideController::class, "downloadDocument"]);
 Route::get('/storage/user/{id}/{path}', [\App\Http\Controllers\API\TouristGuideController::class, "downloadImage"]);
+Route::get('/load-template/{path}', [\App\Http\Controllers\API\TouristGuideController::class, "loadTemplate"]);
 
 //Route::get('/storage/user/{id}/tour-objects/{path}',[\App\Http\Controllers\API\TouristGuideController::class,"downloadImage"]);
 
@@ -71,8 +95,9 @@ Route::get('/tour-object/{id}', [\App\Http\Controllers\API\TourObjectController:
 Route::view('/tours-all', 'pages.tours-all')->name("page.tours-all");
 Route::view('/tours-hot', 'pages.tours-hot')->name("page.tours-hot");
 Route::view('/tour-search', 'pages.tours-search')->name("page.tour-search");
-Route::view('/not-found', 'pages.errors.404')->name("page.not-found");
-Route::view('/error', 'pages.errors.500')->name("page.error");
+Route::view('/not-found', 'errors.404')->name("page.not-found");
+Route::view('/error', 'errors.500')->name("page.error");
+Route::view('/success', 'errors.200')->name("page.success");
 
 Route::middleware(["auth", "verified"])->group(function () {
 
@@ -84,7 +109,7 @@ Route::middleware(["auth", "verified"])->group(function () {
         Route::view('/user-cabinet', 'pages.user-cabinet')->name("page.user-cabinet");
     });
 
-    Route::get('/logout', \App\Http\Controllers\SocialAuthController::class . '@logout')->name("logout");
+
 });
 
 
@@ -178,19 +203,24 @@ Route::prefix("api")
                 Route::prefix("tours")
                     ->controller(\App\Http\Controllers\API\TourController::class)
                     ->group(function () {
-                        Route::get('/actual-booked-tours', 'loadActualGuideBookedTours');
+                        Route::get('/request-tour-verified/{id}', [\App\Http\Controllers\API\TouristGuideController::class, 'requestTourVerified']);
+                        Route::post('/upload-tours-excel', 'uploadToursExcel');
+                        Route::get('/actual-booked-tours/{id}', 'loadActualGuideBookedTours');
                         Route::get('/archive-add/{id}', 'addGuideTourToArchive');
-                        Route::get('/archive-remove/{id}', 'removeGuideTourFromArchive');
+                        Route::delete('/archive-remove/{id}', 'removeGuideTourFromArchive');
+
                         Route::post('/update/{id}', 'update');
                         Route::get('/', 'loadGuideToursByPage');
                         Route::post('/', 'store');
                         Route::get('/{id}', 'loadGuideTourById');
+                        Route::delete('/{id}', 'destroy');
                     });
 
                 Route::prefix("tour-objects")
                     ->controller(\App\Http\Controllers\API\TourObjectController::class)
                     ->group(function () {
                         Route::post('/search', 'search');
+                        Route::post('/upload-tour-objects-excel', 'uploadTourObjectsExcel');
                         Route::delete('/clear-active', 'clearActive');
                         Route::delete('/clear-removed', 'clearRemoved');
                         Route::delete('/clear', 'clear');
@@ -229,12 +259,14 @@ Route::prefix("api")
                     });
 
 
+                Route::get('/request-profile-document-verified/{id}', [\App\Http\Controllers\API\TouristGuideController::class, 'requestProfileDocumentVerified']);
+                Route::get('/request-profile-verified', [\App\Http\Controllers\API\TouristGuideController::class, 'requestProfileVerified']);
+
                 Route::post('/booked-tour-info', [\App\Http\Controllers\API\BookingController::class, 'getBookedTourInfo']);
             });
 
         Route::prefix("user-cabinet")
             ->group(function () {
-
 
                 Route::prefix("tours")
                     ->group(function () {
@@ -283,6 +315,21 @@ Route::prefix("api")
             ->group(function () {
                 Route::get('/', 'index');
                 Route::post('/search', 'getFilteredTransactions');
+            });
+    });
+
+Route::prefix("admin")
+    ->middleware(["is_admin"])
+    ->group(function () {
+
+        Route::controller(\App\Http\Controllers\AdminVerifiedController::class)
+            ->group(function () {
+                Route::get('/accept-document/{id}', 'acceptDocument');
+                Route::get('/decline-document/{id}', 'declineDocument');
+                Route::get('/decline-profile/{id}', 'declineProfile');
+                Route::get('/accept-profile/{id}', 'acceptProfile');
+                Route::get('/decline-tour/{id}', 'declineTour');
+                Route::get('/accept-tour/{id}', 'acceptTour');
             });
     });
 

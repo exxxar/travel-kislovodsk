@@ -1,4 +1,5 @@
 import util from '../utilites';
+import axios from "axios";
 
 const BASE_GUIDE_TOUR_OBJECTS_LINK = '/api/guide-cabinet/tour-objects'
 
@@ -49,6 +50,20 @@ const actions = {
             context.dispatch("errorsGuideTourObjects")
             context.commit("setErrors", err.response.data.errors || [])
             return Promise.reject(err);
+        })
+    },
+    async uploadTourObjectsExcel(context, formData) {
+        return axios.post(`${BASE_GUIDE_TOUR_OBJECTS_LINK}/upload-tour-objects-excel`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then((response) => {
+
+        }).catch(err => {
+            context.commit("setErrors", err.response.data.errors || [])
+            context.dispatch("errorsGuideTourObjects")
+            return Promise.reject(err);
+
         })
     },
     async addTourObject(context, tourObject) {

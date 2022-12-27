@@ -53,31 +53,37 @@
         <div class="excursion row mx-0 mb-5">
             <div class="col px-0 me-5">
                 <div class="col-auto">
-                    <h1 class="excursion__name mb-4 bold">{{tour.title || 'Нет заголовка'}}</h1>
+                    <h1 class="excursion__name mb-4 bold">{{ tour.title || 'Нет заголовка' }}</h1>
                     <p class="excursion__description opacity-80 mb-4 lh-lg">
-                        {{tour.short_description || 'Нет короткого описания'}}
+                        {{ tour.short_description || 'Нет короткого описания' }}
                     </p>
                     <div class="excursion__info row align-items-center">
                         <div class="col-auto me-auto">
                                     <span class="excursion__type font-size-07 bg-blue rounded-1 px-1">
-                                        {{tour.tour_type || 'Тип тура не задан'}}
+                                        {{ tour.tour_type || 'Тип тура не задан' }}
                                     </span>
                         </div>
                         <div class="col-auto me-auto">
                             <span class="excursion_number letter-spacing-3 text-uppercase bold">
-                                 {{tour.base_price || 'Не указана'}}
+                                 {{ tour.base_price || 'Не указана' }}
                             </span>
                             <span class="font-size-05 text-uppercase">руб.</span>
                         </div>
                         <div class="col-auto me-auto">
-                            <span class="excursion_number letter-spacing-3 text-uppercase bold">{{tour.duration.split(' ')[0]}}</span>
-                            <span class="font-size-05 text-uppercase">{{tour.duration.split(' ')[1]}}</span>
+                            <span
+                                class="excursion_number letter-spacing-3 text-uppercase bold">{{
+                                    tour.duration.split(' ')[0]
+                                }}</span>
+                            <span class="font-size-05 text-uppercase">{{ tour.duration.split(' ')[1] }}</span>
                         </div>
                         <div class="col-12 col-lg-auto row mt-3 mt-xxl-0 align-items-center">
                             <div class="col-auto">
                                         <span class="excursion__rating font-size-07 opacity-40 me-1">рейтинг
                                             экскурсии</span>
-                                <span class="excursion_number letter-spacing-3 text-uppercase bold">{{tour.rating}}</span>
+                                <span
+                                    class="excursion_number letter-spacing-3 text-uppercase bold">{{
+                                        tour.rating
+                                    }}</span>
                             </div>
                             <div class="col-auto me-auto align-items-center rating">
                                 <rating-component :rating="tour.rating"/>
@@ -90,11 +96,14 @@
                 <img class="rounded cover w-100 h-100 rounded-end" v-lazy="tour.preview_image" alt=""/>
             </div>
         </div>
-        <div class="accordion row mx-0 mb-6 gap-2">
+        <div class="accordion row mx-0 mb-6 gap-2" v-if="groupedByDate.length>0">
             <div
                 v-for="(date, index) in groupedByDate"
+
                 class="accordion__item visible bg-white rounded bg-white rounded">
-                <div class="accordion__head p-4 row align-items-center justify-content-between">
+                <div
+
+                    class="accordion__head p-4 row align-items-center justify-content-between">
                     <div class="col-1 pb-4 pb-xl-0">
                         <div class="big-icon bg-light rounded d-flex justify-content-center align-items-center">
                             <i class="fa-regular fa-calendar-days"></i>
@@ -105,21 +114,28 @@
                         class="row mx-0 col-12 col-xl-5 accordion__head-splitted splitted splitted-xl-none px-0 pt-4 pt-xl-0 order-last order-xl-3 justify-content-between">
 
                         <ul class="group-list-controls d-flex justify-content-between align-items-center">
-                            <li><a @click="startGroupChat(date)">Групповой чат<i class="fa-solid fa-comments"></i></a></li>
+                            <li><a @click="startGroupChat(date)">Групповой чат<i class="fa-solid fa-comments"></i></a>
+                            </li>
                             <li><a @click="downloadGroupDocument(date.items[0])"
                                    target="_blank">Эксель <i class="fa-solid fa-file-csv"></i></a></li>
-                            <li>{{date.items.length}}
-                                участников</li>
+                            <li>{{ date.items.length }}
+                                участников
+                            </li>
                         </ul>
                     </div>
                     <div
+                        @click="toggleAccordion(date.date)"
                         class="expand-img col-auto py-2 py-xl-0 order-2 order-xl-last d-flex justify-content-end">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20" width="20">
-                            <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
-                        </svg>
+                        <span v-if="selectedDate === date.date">
+                                <i class="fa-solid fa-angle-down"></i>
+                        </span>
+                        <span v-else>
+                            <i class="fa-solid fa-chevron-up"></i>
+                        </span>
                     </div>
                 </div>
-                <div class="accordion__content">
+
+                <div class="accordion__content" v-if="selectedDate === date.date">
                     <div
                         v-for="person in date.items"
                         class="accordion__content-item row splitted px-4 py-3 align-items-center justify-content-between">
@@ -128,34 +144,59 @@
                                 <img class="rounded big-icon" v-lazy="person.avatar" alt="">
                             </div>
                         </div>
-                        <span class="col-5 col-xl-3 order-2 semibold ps-0">{{person.tname}} {{person.sname}} {{person.fname}}</span>
+                        <span
+                            class="col-5 col-xl-3 order-2 semibold ps-0">{{ person.tname }} {{
+                                person.sname
+                            }} {{ person.fname }}</span>
                         <div class="col-6 col-xl-4 order-4 order-xl-3 row mx-0 px-0 mt-3 mt-xl-0">
-                            <span class="col-12 col-xl-6 blue semibold">{{$filters.phoneFilter(person.phone)}}</span>
-                            <span class="col-12 col-xl-6 thin opacity-80">{{person.email}}</span>
-                        </div>
-                        <div
-                            class="col-auto col-xl-1 order-3 order-xl-4 d-flex justify-content-end ms-auto position-relative opacity-15">
-                            <svg class="black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
-                                 height="20" width="20">
-                                <path
-                                    d="M14.95 22.1q.95 0 1.6-.65.65-.65.65-1.6 0-.95-.65-1.6-.65-.65-1.6-.65-.95 0-1.6.65-.65.65-.65 1.6 0 .95.65 1.6.65.65 1.6.65Zm9.2 0q.95 0 1.6-.65.65-.65.65-1.6 0-.95-.65-1.6-.65-.65-1.6-.65-.95 0-1.6.65-.65.65-.65 1.6 0 .95.65 1.6.65.65 1.6.65Zm8.85 0q.95 0 1.6-.65.65-.65.65-1.6 0-.95-.65-1.6-.65-.65-1.6-.65-.95 0-1.6.65-.65.65-.65 1.6 0 .95.65 1.6.65.65 1.6.65ZM3.3 44.7V7.25q0-1.6 1.175-2.8 1.175-1.2 2.775-1.2h33.5q1.6 0 2.8 1.2 1.2 1.2 1.2 2.8v25.5q0 1.55-1.2 2.75t-2.8 1.2H11.3Zm3.95-8.95 3-3h30.5V7.25H7.25Zm0-28.5v28.5Z"/>
-                            </svg>
+                            <span class="col-12 col-xl-6 blue semibold">{{ $filters.phoneFilter(person.phone) }}</span>
+                            <span class="col-12 col-xl-6 thin opacity-80">{{ person.email }}</span>
                         </div>
                         <div
                             @click="startChatWithUser(person.user_id)"
-                            class="col-auto col-xl-1 order-last d-flex justify-content-end ms-auto ms-xl-2 mt-3 mt-xl-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20" width="20">
-                                <path
-                                    d="M11.2 45.3q-2.6 0-4.425-1.8-1.825-1.8-1.825-4.45V32.1h6.7V3.5l3.15 3.15 3.15-3.15 3.1 3.15L24.2 3.5l3.1 3.15 3.15-3.15 3.1 3.15L36.7 3.5l3.15 3.15 3.2-3.15v35.55q0 2.65-1.825 4.45-1.825 1.8-4.425 1.8Zm25.6-4q1 0 1.625-.625t.625-1.625V9.6H15.6v22.5h18.95v6.95q0 1 .625 1.625t1.625.625ZM18.25 17.65v-3h11.5v3Zm0 6.7v-3h11.5v3Zm16.15-6.7q-.6 0-1.05-.45-.45-.45-.45-1.05 0-.6.45-1.05.45-.45 1.05-.45.6 0 1.05.45.45.45.45 1.05 0 .6-.45 1.05-.45.45-1.05.45Zm0 6.45q-.6 0-1.05-.45-.45-.45-.45-1.05 0-.6.45-1.05.45-.45 1.05-.45.6 0 1.05.45.45.45.45 1.05 0 .6-.45 1.05-.45.45-1.05.45ZM11.15 41.3H30.6v-5.2H8.95v2.95q0 1 .65 1.625t1.55.625Zm-2.2 0v-5.2 5.2Z"/>
-                            </svg>
-                        </div>
-                    </div>
+                            class="col-auto col-xl-1 order-3 order-xl-4 d-flex justify-content-end ms-auto position-relative">
 
+
+                            <i v-bind:class="{'text-main-color': person.has_private_chat_with_guide}"
+                               class="fa-regular fa-message "></i>
+                        </div>
+                        <div
+                            v-if="person.transaction"
+                            data-bs-toggle="modal" :data-bs-target="'#transaction-modal-'+person.user_id"
+                            class="col-auto col-xl-1 order-last d-flex justify-content-end ms-auto ms-xl-2 mt-3 mt-xl-0">
+                            <i class="text-main-color fa-solid fa-file-invoice-dollar"></i>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" :id="'transaction-modal-'+person.user_id" tabindex="-1"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Информация о транзакции</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <transaction-card :key="person.user_id" :item="person.transaction"/>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
                 </div>
             </div>
 
 
-            <button class="button col-12 px-4 active rounded shadow-none">
+            <button
+                v-if="canLoadMore"
+                @click="loadMore"
+                class="btn btn-outline-primary col-12 px-4 active rounded shadow-none">
                 <span class="bold">Показать ещё</span>
                 <i class="fa-solid fa-chevron-down"></i>
             </button>
@@ -167,24 +208,36 @@
 <script>
 import {mapGetters} from "vuex";
 import {saveAs} from 'file-saver';
+import TransactionCard from "@/components/Transactions/TransactionCard.vue";
 export default {
-    props:["tour"],
+    props: ["tour"],
+    components:{
+        TransactionCard
+    },
     data() {
         return {
+            selectedDate: null,
+            page: 0,
+            canLoadMore: false,
             bookeds: []
         }
     },
 
     computed: {
-        ...mapGetters(['getGuideBookedToursByTourId']),
+        ...mapGetters(['getGuideBookedTours', 'canGuideBookedToursLoadMore']),
         groupedByDate() {
             let arr = [];
 
+            if (this.bookeds.length === 0)
+                return [];
+
             this.bookeds.forEach(item => {
 
-                let arrItem = arr.find(sub => sub.date === item.start_at&&sub.schedule_id === item.schedule_id)
+                let arrItem = arr.find(sub => sub.date === item.start_at && sub.schedule_id === item.schedule_id)
 
                 if (!arrItem) {
+
+
                     arr.push({
                         date: item.start_at,
                         schedule_id: item.schedule_id,
@@ -205,13 +258,28 @@ export default {
         this.loadActualGuideBookedTours()
     },
     methods: {
-        downloadGroupDocument(item){
+        toggleAccordion(date) {
+
+            if (this.selectedDate != null) {
+                this.selectedDate = null
+
+            } else {
+                this.selectedDate = date
+            }
+
+
+        },
+        loadMore() {
+            this.page++;
+            this.loadActualGuideBookedTours()
+        },
+        downloadGroupDocument(item) {
             this.$notify({
                 title: "Кисловодск-Туризм",
                 text: "Внимание! Начал формироваться документ по группе",
                 type: 'success'
             });
-            this.$store.dispatch("downloadGroupDocument",{
+            this.$store.dispatch("downloadGroupDocument", {
                 schedule_id: item.schedule_id,
                 tour_id: item.tour_id
             }).then((resp) => {
@@ -224,17 +292,17 @@ export default {
                 });
             })
         },
-        startChatWithUser(userId){
+        startChatWithUser(userId) {
             this.$store.dispatch("startChat", {
                 recipient_id: userId,
                 message: `Добрый день!`
-            }).then((resp)=>{
+            }).then((resp) => {
                 let chatId = resp.data.chat_id
                 window.open(`/messages#chat-${chatId}`)
             })
         },
-        startGroupChat(item){
-            this.$store.dispatch("startGroupChat",{
+        startGroupChat(item) {
+            this.$store.dispatch("startGroupChat", {
                 schedule_id: item.schedule_id, tour_id: item.tour_id
             }).then((resp) => {
                 let chatId = resp.data.chat_id;
@@ -242,8 +310,14 @@ export default {
             })
         },
         loadActualGuideBookedTours() {
-            this.$store.dispatch("loadActualGuideBookedTours").then(() => {
-                this.bookeds = this.getGuideBookedToursByTourId(this.tour.id)
+            this.$store.dispatch("loadActualGuideBookedTours", {
+                page: this.page,
+                tourId: this.tour.id
+            }).then(() => {
+
+                this.bookeds = this.getGuideBookedTours
+                this.canLoadMore = this.canGuideBookedToursLoadMore
+
             })
         }
     }
@@ -267,10 +341,14 @@ export default {
     li {
         a {
             i {
-                font-size:16px;
-                color:#0071eb;
+                font-size: 16px;
+                color: #0071eb;
             }
         }
     }
+}
+
+.text-main-color {
+    color: #0071eb;
 }
 </style>

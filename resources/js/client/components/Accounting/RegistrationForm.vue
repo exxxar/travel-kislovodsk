@@ -299,8 +299,8 @@
                 </slot>
             </label>
         </div>
-        <div class="btn dt-btn-blue d-flex align-items-center justify-content-center w-100">
-            <button class="btn dt-btn-blue w-100"
+        <div class="d-flex align-items-center justify-content-center w-100">
+            <button class="btn btn-primary w-100"
                     type="submit"
                     :disabled="!accept_rules">
                 Регистрация

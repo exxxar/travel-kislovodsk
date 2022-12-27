@@ -52,11 +52,16 @@ class Booking extends Model
         'payed_at' => 'timestamp'
     ];
 
-    protected $appends = ['resource_url'];
+    protected $appends = ['resource_url','has_private_chat_with_guide'];
 
     public function getResourceUrlAttribute()
     {
         return url('/admin/bookings/' . $this->getKey());
+    }
+
+    public function getHasPrivateChatWithGuideAttribute():bool
+    {
+        return (Chat::hasChat(Auth::user()->id, $this->user_id)!=null) && Auth::user()->id!=$this->user_id;
     }
 
     public function tour()

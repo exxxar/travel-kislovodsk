@@ -9,7 +9,7 @@
                     <div class="personal-account-transactions-check__input dt-check__input bg-white">
                         <input type="radio" name="transactions_status"
                                checked
-                        @click="transaction_type=0"
+                               @click="transaction_type=0"
                         >
                         <div class="dt-check__input-check"></div>
                     </div>
@@ -84,6 +84,9 @@ export default {
         this.loadDictionaries()
         this.loadTransactionsByPage()
 
+        this.eventBus.on('transaction_page', (page) => {
+            this.loadTransactionsByPage(page)
+        });
     },
     methods: {
         loadDictionaries() {
@@ -91,20 +94,23 @@ export default {
                 this.status_types = this.getDictionariesByTypeSlug("transaction_type")
             })
         },
-        loadTransactionsByPage() {
+        loadTransactionsByPage(page = 0) {
 
             if (this.transaction_type === 0) {
-                return this.$store.dispatch("loadTransactionsByPage").then(() => {
+                return this.$store.dispatch("loadTransactionsByPage", {
+                    page: page
+                }).then(() => {
                     this.transaction_list = this.getTransactions
+                    this.eventBus.emit('update_transactions_pagination')
                 })
-            }
-            else
-                return this.$store.dispatch("loadTransactionsFilteredByPage",{
-                    filterObject:{
+            } else
+                return this.$store.dispatch("loadTransactionsFilteredByPage", {
+                    filterObject: {
                         transaction_type: this.transaction_type
                     }
                 }).then(() => {
                     this.transaction_list = this.getTransactions
+                    this.eventBus.emit('update_transactions_pagination')
                 })
 
         }

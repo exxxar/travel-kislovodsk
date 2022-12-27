@@ -50,6 +50,8 @@ const actions = {
 
         }).catch(err => {
             context.dispatch("errorsReviews")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
     async loadReviewData(context, payload) {
@@ -68,44 +70,44 @@ const actions = {
 
         }).catch(err => {
             context.dispatch("errorsReviews")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
         })
     },
     async loadReviewsAll(context){
-        return context.dispatch("loadReviewData",{
+        return await context.dispatch("loadReviewData",{
             url:`${BASE_REVIEWS_LINK}`
         })
     },
-    async loadReviewsNext(context){
+    async loadReviewsNext(context, payload = {sort:null, direction:'ASC'}){
         let url = state
                 .paginate_object
                 .links
                 .next || BASE_REVIEWS_LINK
 
-        return context.dispatch("loadReviewDataWithAppends",{
-            url: url
+        return await context.dispatch("loadReviewDataWithAppends",{
+            url: `${url}?sort=${payload.sort}&direction=${payload.direction}`
         })
     },
-    async loadReviewsByTour(context, id){
-        return context.dispatch("loadReviewData",{
-            url:`${BASE_REVIEWS_LINK}/tour/${id}`
+    async loadReviewsByTour(context, payload = {tourId:null, sort:null, direction:'ASC'}){
+        return await context.dispatch("loadReviewData",{
+            url:`${BASE_REVIEWS_LINK}/tour/${payload.tourId}?sort=${payload.sort}&direction=${payload.direction}`
         })
     },
     async loadReviewByGuide(context, guideId){
-        return context.dispatch("loadReviewData",{
+        return await context.dispatch("loadReviewData",{
             url:`${BASE_REVIEWS_LINK}/guide/${guideId}`
         })
     },
     async addReview(context, review){
-
-        return context.dispatch("loadReviewData",{
+        return await context.dispatch("loadReviewData",{
             url:`${BASE_REVIEWS_LINK}`,
             method: 'POST',
             data: review
-
         })
     },
     async removeReview(context, reviewId){
-        return context.dispatch("loadReviewData",{
+        return await context.dispatch("loadReviewData",{
             url:`${BASE_REVIEWS_LINK}/${reviewId}`,
             method: 'DELETE'
         })

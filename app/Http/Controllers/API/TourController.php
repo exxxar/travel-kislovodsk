@@ -10,6 +10,8 @@ use App\Http\Resources\BookingResource;
 use App\Http\Resources\FavoriteCollection;
 use App\Http\Resources\TourCollection;
 use App\Http\Resources\TourResource;
+use App\Imports\TourImport;
+use App\Imports\TourObjectImport;
 use App\Models\Booking;
 use App\Models\Dictionary;
 use App\Models\Favorite;
@@ -23,6 +25,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TourController extends Controller
 {
@@ -53,7 +57,13 @@ class TourController extends Controller
 
     public function getMaxTourPrice(Request $request)
     {
-        return response()->json(Tour::query()->max("base_price"));
+        $price = Tour::query()
+            ->where('is_active', true)
+            ->where('is_draft', false)
+            ->whereNull("deleted_at")
+            ->max("base_price");
+
+        return response()->json($price);
     }
 
     public function loadGuideToursByPage(Request $request)
@@ -526,19 +536,47 @@ class TourController extends Controller
         return response()->noContent();
     }
 
-    public function loadActualGuideBookedTours(Request $request)
+    public function loadActualGuideBookedTours(Request $request, $tourId)
     {
         $userId = Auth::user()->id;
 
+        $size = $request->get("size") ?? config('app.results_per_page');
+
         $bookedTours = Booking::query()
-            ->with(["tour", "user.profile"])
+            ->with(["tour", "user.profile", "transaction"])
+            ->where("tour_id", $tourId)
             ->where("start_at", ">", Carbon::now()->format('Y-m-d H:m'))
             ->orderBy("start_at", "ASC")
             ->whereHas("tour", function ($q) use ($userId) {
                 $q->where("creator_id", $userId);
             })
-            ->get();
+            ->paginate($size);
 
         return BookingResource::collection($bookedTours);
+    }
+
+    public function uploadToursExcel(Request $request)
+    {
+        $file = $request->file('file');
+
+        if (is_null($file))
+            return response()->noContent(400);
+
+        $fileName = Str::uuid() . "." . $file->getClientOriginalExtension();
+        $destinationPath = storage_path('app/public');
+        $file->move($destinationPath, $fileName);
+
+        try {
+            Excel::import(new TourImport, storage_path('app/public/') . $fileName);
+        } catch (\Exception $e) {
+            return response()->json([
+                "errors" => [
+                    "message" => [$e->getMessage()]
+                ]
+            ], 400);
+        }
+        unlink(storage_path('app/public/') . $fileName);
+
+        return response()->noContent();
     }
 }

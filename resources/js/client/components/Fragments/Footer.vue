@@ -86,4 +86,12 @@
         </div>
         <div class="dt-wrapper--black-50 position-absolute top-0"></div>
     </footer>
+
+    <mobile-footer-menu-component/>
+    <mobile-sidebar-menu-component/>
 </template>
+<script>
+export default {
+    components: {}
+}
+</script>

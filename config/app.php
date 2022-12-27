@@ -199,6 +199,8 @@ return [
         \App\Providers\FacadeServiceProvider::class,
         Appy\FcmHttpV1\FcmProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Telegram\Bot\Laravel\TelegramServiceProvider::class,
+
     ],
 
     /*
@@ -216,6 +218,8 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PaymentService' => \App\Facades\PaymentServiceFacade::class,
+        'Telegram'  => Telegram\Bot\Laravel\Facades\Telegram::class,
+
     ])->toArray(),
 
 ];

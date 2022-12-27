@@ -43,6 +43,10 @@ export default {
         this.eventBus.on('select_guide_tours_type', (type) => {
             this.changeActiveTitle(type)
         })
+
+        this.eventBus.on('tour_page', (page) => {
+            this.loadTours(page)
+        })
     },
     methods: {
         changeActiveTitle(title) {
@@ -62,9 +66,12 @@ export default {
                     break;
             }
         },
-        loadTours() {
-            return this.$store.dispatch("loadGuideToursByPage").then(() => {
+        loadTours(page = 0) {
+            return this.$store.dispatch("loadGuideToursByPage", {
+                page: page
+            }).then(() => {
                 this.tours = this.getGuideTours
+                this.eventBus.emit('update_tours_pagination')
             })
         }
     }

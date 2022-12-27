@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsAdminAPI;
 use App\Http\Middleware\IsGuide;
 use App\Http\Middleware\IsUser;
@@ -69,5 +70,6 @@ class Kernel extends HttpKernel
         'is_guide' => IsGuide::class,
         'is_user' => IsUser::class,
         'is_admin_api' => IsAdminAPI::class,
+        'is_admin' => IsAdmin::class,
     ];
 }

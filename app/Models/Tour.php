@@ -49,6 +49,7 @@ class Tour extends Model
         'tour_type_id',
         'payment_type_id',
         'creator_id',
+        'request_verify_at',
         'verified_at',
     ];
 

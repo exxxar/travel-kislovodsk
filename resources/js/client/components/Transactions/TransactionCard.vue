@@ -47,9 +47,11 @@
             <div class="personal-account-transactions-card-body__text">
                 <div class="personal-account-transactions-card-body__text_grey">
                     оплата за
-                    <span class="personal-account-transactions-card-body__text_blue">
+                    <a :href="'/tour/'+item.tour.id"
+                       target="_blank"
+                       class="personal-account-transactions-card-body__text_blue">
                         {{ item.tour.title }}
-                    </span>
+                    </a>
                     <span v-if="item.user">
                     от
                     <span class="personal-account-transactions-card-body__text_blue ms-0">

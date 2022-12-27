@@ -2,8 +2,7 @@
     <div id="my-excurions" class="col">
         <h2 class="lh-1 mb-5 bold mt-5 mt-lg-0">Мои экскурсии</h2>
         <div class="row mx-0 mb-5">
-            <div class="order-2 order-lg-1 row flex-nowrap col-12 col-lg-auto overflow-x-auto px-0 mx-0
-                                mt-5 mt-lg-0">
+            <div class="d-flex flex-nowrap col-md-8 px-0 mx-0">
                 <button @click="changeActiveTitle('Действующие')"
                         :class="{'personal-account-nav__link_active': activeType == 'Действующие',
                                 'bg-white' : activeType != 'Действующие'}"
@@ -29,21 +28,53 @@
                     Черновики
                 </button>
             </div>
-            <button
-                    @click="openAddTour"
-                    class="dt-btn-add order-1 order-lg-2 button col-12 col-lg-3 bg-green d-flex rounded ms-auto px-4
-                                    justify-content-center align-items-center bold">
-                Добавить экскурсию
-            </button>
+
+            <div class="dropdown col-md-4">
+                <button type="button"
+                        class="dt-btn-add order-1 order-lg-2 button  bg-green d-flex rounded ms-auto px-4
+                                    justify-content-center align-items-center bold"
+                        data-bs-toggle="dropdown">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <ul
+                    class="dropdown-menu p-2">
+                    <li @click="openAddTour"><a class="dropdown-item"> Добавить экскурсию </a> </li>
+                    <li><a class="dropdown-item"
+                           data-bs-toggle="modal"
+                           data-bs-target="#excelToursUpload"> Загрузить Excel </a> </li>
+                    <li><a href="/load-template/tours.xlsx" class="dropdown-item"> Скачать шаблон </a> </li>
+
+                </ul>
+            </div>
         </div>
 
         <div class="dt-excursions">
+
             <guide-tour-list-component/>
+            <guide-tour-paginate-component/>
         </div>
 
     </div>
 
-
+    <!-- Modal -->
+    <div class="modal fade" id="excelToursUpload"
+         data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Загрузка туров через Excel-файл</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <excel-uploader-component :type="1"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </template>
 
@@ -51,6 +82,8 @@
 import {mapGetters} from "vuex";
 ;
 export default {
+    components: {},
+
 
     data(){
         return {

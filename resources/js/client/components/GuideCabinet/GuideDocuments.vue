@@ -1,6 +1,8 @@
 <template>
 
+
     <div id="documents" class="dt-page__guide-documents col ">
+
         <div class="row mb-2">
             <div class="col-12">
                 <form v-on:submit.prevent="submitDocuments" id="files">
@@ -31,11 +33,20 @@
                         d="M14 33.9h13.75v-3H14Zm0-8.4h20.05v-3H14Zm0-8.45h20.05v-3H14ZM9.25 42.7q-1.6 0-2.775-1.175Q5.3 40.35 5.3 38.75V9.25q0-1.65 1.175-2.825Q7.65 5.25 9.25 5.25h29.5q1.65 0 2.825 1.175Q42.75 7.6 42.75 9.25v29.5q0 1.6-1.175 2.775Q40.4 42.7 38.75 42.7Zm0-3.95h29.5V9.25H9.25v29.5Zm0-29.5v29.5-29.5Z"/>
                 </svg>
                 <span class="col font-size-09 px-0">
-                   {{doc.title || 'Без названия'}}
+                   {{doc.origin_title || doc.title || 'Без названия'}}
                 </span>
+
                 <span class="col-auto opacity-40 thin font-size-08">{{ doc.size / 1000 }} кб</span>
-                <span class="col-auto opacity-40 thin font-size-08" v-if="doc.approved_at!==null">
+                <span class="col-auto opacity-40 thin font-size-08" style="color:green;" v-if="doc.approved_at!==null">
                     Проверено!
+                </span>
+                <span class="col-auto opacity-40 thin font-size-08" v-if="doc.approved_at==null&&doc.request_approve_at==null">
+                    <a
+                        @click="verifiedDocument(doc)" class="btn btn-link"><i class="fa-solid fa-triangle-exclamation text-danger"></i></a>
+                </span>
+
+                <span class="col-auto opacity-40 thin font-size-08" v-if="doc.approved_at==null&&doc.request_approve_at!=null">
+                  <i class="fa-solid fa-flag-checkered text-danger" ></i>
                 </span>
             </div>
             <div
@@ -72,6 +83,29 @@ export default {
         ...mapGetters(['getGuideDocuments'])
     },
     methods: {
+        verifiedDocument(doc){
+
+            if (doc.request_approve_at!=null)
+            {
+                this.loadGuideDocuments();
+                this.$notify({
+                    title: "Кабинет гида",
+                    text: "Запрос на верификацию уже отправлен! Дождитесь подтверждения!",
+                    type: 'warn'
+                });
+                return;
+            }
+
+
+            this.$store.dispatch("requestGuideProfileDocumentVerified", doc.id).then(() => {
+                this.loadGuideDocuments();
+                this.$notify({
+                    title: "Кабинет гида",
+                    text: "Запрос на верификацию успешно отправлен",
+                    type: 'success'
+                });
+            })
+        },
         onChange(e) {
             const files = e.target.files
             this.files = files

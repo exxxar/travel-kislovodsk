@@ -42,7 +42,7 @@
                     <span class="thin opacity-40" v-if="item.created_at">{{
                             moment(item.created_at).format('HH:mm')
                         }}</span>
-                    <span class="thin opacity-40" v-else>Не указана дата отправления </span>
+                    <span class="thin opacity-40" v-else>Отправляется...</span>
                 </div>
             </div>
             <div class="messages-body__scroll"></div>
@@ -89,7 +89,6 @@
 
                 </button>
                 <button
-                    :disabled="loading"
                     type="submit" class="order-3 big-icon rounded ms-3 dt-btn dt-btn-blue">
                     <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20" width="20">
                         <path d="M6 40V27.75L21.1 24 6 20.15V8l38 16Z"/>

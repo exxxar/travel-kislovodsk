@@ -258,7 +258,10 @@
                             </div>
                         </div>
                     </div>
-                    <review-list :tour="tour"/>
+                    <review-add-form-component v-if="tour"
+                                               :object-type="'tour'"
+                                               :object-id="tour.id"/>
+                    <review-list v-if="tour" :tour="tour"/>
                 </div>
                 <tour-booking v-else
                               :tour="tour"

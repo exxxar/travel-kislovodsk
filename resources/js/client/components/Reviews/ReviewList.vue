@@ -1,6 +1,21 @@
 <template>
     <div class="dt-reviews">
         <ReviewCounter :tour="tour"></ReviewCounter>
+        <div class="dt-reviews__sort-by d-flex justify-content-end">
+            <p class="dt-sort-by__title fw-thin">сортировка по:</p>
+            <p class="dt-sort-by__item fw-regular"
+               v-bind:class="{'active':sort==='date'}"
+               @click="changeSort('date')">дате
+                <span v-if="direction==='DESC'"><i class="fa-solid fa-caret-down"></i></span>
+                <span v-else><i class="fa-solid fa-caret-up"></i></span>
+            </p>
+            <p class="dt-sort-by__item fw-regular"
+               v-bind:class="{'active':sort==='rating'}"
+               @click="changeSort('rating')">оценке
+                <span v-if="direction==='DESC'"><i class="fa-solid fa-caret-down"></i></span>
+                <span v-else><i class="fa-solid fa-caret-up"></i></span>
+            </p>
+        </div>
         <div class="dt-reviews__content">
             <ReviewCard v-for="(item, i) in reviews" :key="i" :item="item"></ReviewCard>
             <a v-if="canLoadMore" @click="loadNextReviews" class="align-items-center d-flex dt-btn dt-btn--height-50 dt-btn-blue
@@ -32,14 +47,15 @@ export default {
     },
     data() {
         return {
-            reviews: []
-
+            reviews: [],
+            sort: null,
+            direction: 'ASC'
         }
     },
     computed: {
         ...mapGetters(['getReviewsByTourId', 'getReviews', 'getReviewsPaginateObject']),
         canLoadMore() {
-            if (this.getReviewsPaginateObject.length===0)
+            if (this.getReviewsPaginateObject.length === 0)
                 return false;
 
             return this.getReviewsPaginateObject.links.next != null || false
@@ -47,17 +63,35 @@ export default {
     },
     mounted() {
 
-        this.loadTourCategories().then(() => {
-            this.reviews = this.getReviews;
-
+        this.eventBus.on("request_reload_reviews", ()=>{
+            this.loadReviewsByTour()
+            console.log("request_reload_reviews")
         })
+
+        this.loadReviewsByTour()
     },
     methods: {
-        loadTourCategories() {
-            return this.$store.dispatch("loadReviewsByTour", this.tour.id)
+        changeSort(param) {
+            this.sort = param
+
+            this.direction = this.direction === 'ASC' ? 'DESC' : 'ASC'
+
+            this.loadReviewsByTour()
         },
-        loadNextReviews(){
-            return this.$store.dispatch("loadReviewsNext").then(()=>{
+        loadReviewsByTour() {
+            this.$store.dispatch("loadReviewsByTour", {
+                tourId: this.tour.id,
+                sort: this.sort,
+                direction: this.direction
+            }).then(() => {
+                this.reviews = this.getReviews;
+            })
+        },
+        loadNextReviews() {
+            return this.$store.dispatch("loadReviewsNext",{
+                sort: this.sort,
+                direction: this.direction
+            }).then(() => {
                 this.reviews = this.getReviews;
             })
         }

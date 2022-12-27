@@ -66,6 +66,7 @@ class TourResource extends JsonResource
             'payment_type_id' => $this->payment_type_id,
             'creator_id' => $this->creator_id,
             'guide' => new ProfileResource($this->creator->profile) ?? null,
+            'request_verify_at' => $this->request_verify_at,
             'verified_at' => $this->verified_at,
             'reviews' => $reviews
 

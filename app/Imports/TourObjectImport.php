@@ -25,22 +25,26 @@ class TourObjectImport implements OnEachRow
         if ($row[0] == '')
             return;
 
-        if (strpos(",", ($row[7] ?? '')) > 0)
-            $photos = explode(",", $row[7]);
-        else
-            $photos = $row[7];
+        $images = [];
+        for ($i = 8; $i <= 18; $i++)
+            if (!empty($row[$i]))
+                array_push($images, $row[$i]);
 
-        $tourObject = TourObject::create([
-            'title' => $row[0],
-            'description' => $row[1],
-            'city' => $row[2],
-            'address' => $row[3],
-            'latitude' => $row[4],
-            'longitude' => $row[5],
-            'comment' => $row[6],
-            'creator_id' => Auth::user()->id,
-            'photos' => json_encode("[$photos]"),
-        ]);
+        try {
+            $tourObject = TourObject::create([
+                'title' => $row[1] ?? null,
+                'description' => $row[2] ?? null,
+                'city' => $row[3] ?? null,
+                'address' => $row[4] ?? null,
+                'latitude' => $row[5] ?? 0,
+                'longitude' => $row[6] ?? 0,
+                'comment' => $row[7] ?? null,
+                'creator_id' => Auth::user()->id,
+                'photos' => $images,
+            ]);
+        } catch (\Exception $ex) {
+            throw new \Exception("Ошибка структуры файла");
+        }
 
     }
 }

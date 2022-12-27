@@ -2,7 +2,7 @@
     <div class="dt-modal modal fade" tabindex="-1" id="dtModalEntry" aria-hidden="true" data-bs-backdrop="static"
          data-bs-keyboard="false">
         <div class="dt-modal-entry">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-fullscreen-sm-down mt-0" style="height: 100vh">
                 <div class="modal-content dt-modal-content">
                     <div class="dt-modal-header">
                         <h1 class="dt-modal__title">Вход</h1>
@@ -35,7 +35,7 @@
     <div class="dt-modal modal fade" tabindex="-1" id="dtModalRegistry" aria-hidden="true" data-bs-backdrop="static"
          data-bs-keyboard="false">
         <div class="dt-modal-registry">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-fullscreen-sm-down mt-0">
                 <div class="modal-content dt-modal-content">
                     <div class="dt-modal-header">
                         <h1 class="dt-modal__title">Регистрация</h1>
@@ -50,6 +50,16 @@
                     <div class="dt-modal-body">
                         <registration-form-component/>
                     </div>
+                    <div class="dt-modal-footer">
+                        <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#dtModalEntry"
+                           class="text-uppercase dt-travel-card__action">
+                            <h6 class="dt-btn-text">Вход</h6>
+                        </a>
+                        <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#dtModalRecovery-1"
+                           class="text-uppercase dt-travel-card__action">
+                            <h6 class="dt-btn-text">Забыли пароль?</h6>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,7 +68,7 @@
     <div class="dt-modal modal fade" tabindex="-1" id="dtModalRecovery-1" aria-hidden="true" data-bs-backdrop="static"
          data-bs-keyboard="false">
         <div class="dt-modal-entry">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-fullscreen-sm-down mt-0">
                 <div class="modal-content dt-modal-content">
                     <div class="dt-modal-header dt-header__recovery">
                         <h1 class="dt-modal__title">Восстановление пароля</h1>

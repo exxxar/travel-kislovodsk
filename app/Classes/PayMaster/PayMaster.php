@@ -2,7 +2,7 @@
 
 namespace App\Classes\PayMaster;
 
-use App\Enums\PayMasterPaymentMethods;
+use App\Enums\PayMasterPaymentMethodsEnum;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -16,9 +16,9 @@ class PayMaster
         return $this;
     }
 
-    public function createInvoiceLink(float                   $value,
-                                      string                  $description,
-                                      PayMasterPaymentMethods $paymentMethod): object
+    public function createInvoiceLink(float                       $value,
+                                      string                      $description,
+                                      PayMasterPaymentMethodsEnum $paymentMethod): object
     {
         $idempotencyKey = Str::uuid();
 

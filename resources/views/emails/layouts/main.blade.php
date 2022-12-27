@@ -105,6 +105,13 @@
             text-decoration: none;
             font-weight: bold; }
 
+        .red-bg {
+            background-color:red !important;
+        }
+
+        .green-bg {
+            background-color:green !important;
+        }
     </style>
 </head>
 <body>

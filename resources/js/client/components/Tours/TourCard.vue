@@ -171,7 +171,11 @@ export default {
             if (this.tour.is_liked)
                 this.$store.dispatch("removeFavorite", this.tour.id)
             else
+            {
                 this.$store.dispatch("addToFavorites", this.tour.id)
+                this.eventBus.emit("like_notification")
+            }
+
 
             this.tour.is_liked = !this.tour.is_liked
         }

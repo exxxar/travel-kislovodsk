@@ -1,6 +1,36 @@
 <template>
+
+
     <main class="container px-3 px-sm-0 personal-account dt-guide-cabinet">
         <breadcrumbs :items="breadcrumbs"/>
+        <div class="row"
+             v-if="user.company.approve_at==null&&user.company.request_approve_at==null&&!isSendVerifiedRequest">
+
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Внимание!</h4>
+                <p>Ваш аккаунт требует верификации!</p>
+                <hr>
+                <p class="mb-0">Нажмите на
+                    <button @click="verifiedProfile" type="button" class="btn btn-link">эту кнопку</button>
+                    для запроса подтверждения вашего аккаунта! Если вам подвтердят или
+                    откажут, то данная информация отобразится в этом разделе!
+                </p>
+            </div>
+        </div>
+
+        <div class="row" v-if="user.company.approve_at==null&&user.company.request_approve_at||isSendVerifiedRequest">
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading">Всё отлично!</h4>
+                <p>Аккаунт ожидает подтверждения</p>
+            </div>
+        </div>
+
+        <div class="row" v-if="user.company.approve_at!=null">
+           <div class="col-12 mb-5">
+               <p><i class="fa-solid fa-check" style="color:green;"></i> Подтвержденный аккаунт</p>
+           </div>
+        </div>
+
         <div class="main row">
             <div class="d-lg-block d-none col-3 pe-5">
 
@@ -150,7 +180,6 @@
                       @hideAddExcursion="activeTitle='Мои экскурсии'"/>
 
 
-
             <add-tour-object v-if="activeTitle === 'Добавить объект'" @hideAddObject="activeTitle='Мои объекты'"/>
 
             <guide-transactions v-if="activeTitle === 'Транзакции'"/>
@@ -164,12 +193,12 @@
 
 
             <edit-tour v-if="selected&&activeTitle==='Редактирование экскурсии'"
-                                    @hideEditExcursion="hide('Мои экскурсии')"
-                                    :tour-id="selected.id"/>
+                       @hideEditExcursion="hide('Мои экскурсии')"
+                       :tour-id="selected.id"/>
 
             <edit-tour-object v-if="selected&&activeTitle==='Редактирование объекта'"
-                       @hideEditTourObject="hide('Мои объекты')"
-                       :tour-object-id="selected.id"/>
+                              @hideEditTourObject="hide('Мои объекты')"
+                              :tour-object-id="selected.id"/>
         </div>
     </main>
 </template>
@@ -203,6 +232,7 @@ export default {
     },
     data() {
         return {
+            isSendVerifiedRequest: false,
             visible: false,
             selected: null,
             breadcrumbs: [
@@ -246,7 +276,29 @@ export default {
 
     },
     methods: {
-        openMenu(menu, tab = null){
+        verifiedProfile() {
+
+            if (this.user.company.request_approve_at != null) {
+                this.$notify({
+                    title: "Кабинет гида",
+                    text: "Запрос на верификацию уже отправлен! Дождитесь подтверждения!",
+                    type: 'warn'
+                });
+                return;
+            }
+
+
+            this.$store.dispatch("requestGuideProfileVerified").then(() => {
+                this.isSendVerifiedRequest = true
+                this.$notify({
+                    title: "Кабинет гида",
+                    text: "Запрос на верификацию успешно отправлен",
+                    type: 'success'
+                });
+
+            })
+        },
+        openMenu(menu, tab = null) {
             this.selected = null
             this.activeTitle = menu
             this.activeType = tab

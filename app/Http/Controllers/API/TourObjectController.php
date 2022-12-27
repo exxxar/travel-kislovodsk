@@ -10,6 +10,8 @@ use App\Http\Requests\API\TourObjectUpdateRequest;
 use App\Http\Resources\TourObjectCollection;
 use App\Http\Resources\TourObjectResource;
 use App\Http\Resources\TourResource;
+use App\Imports\TourImport;
+use App\Imports\TourObjectImport;
 use App\Models\Tour;
 use App\Models\TourObject;
 use App\Models\User;
@@ -23,6 +25,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TourObjectController extends Controller
 {
@@ -35,13 +38,12 @@ class TourObjectController extends Controller
         $removed = (boolean)($request->removed ?? 0);
         if ($removed)
             $tourObjects = TourObject::withTrashed()
-
                 ->whereNotNull("deleted_at")
-                ->orderBy("created_at","DESC")
+                ->orderBy("created_at", "DESC")
                 ->paginate($request->size ?? config('app.results_per_page'));
         else
             $tourObjects = TourObject::query()
-                ->orderBy("created_at","DESC")
+                ->orderBy("created_at", "DESC")
                 ->paginate($request->size ?? config('app.results_per_page'));
 
         return new TourObjectCollection($tourObjects);
@@ -55,12 +57,12 @@ class TourObjectController extends Controller
             $tourObjects = TourObject::withTrashed()
                 ->whereNotNull("deleted_at")
                 ->where("creator_id", Auth::user()->id)
-                ->orderBy("created_at","DESC")
+                ->orderBy("created_at", "DESC")
                 ->paginate($request->size ?? config('app.results_per_page'));
         else
             $tourObjects = TourObject::query()
                 ->where("creator_id", Auth::user()->id)
-                ->orderBy("created_at","DESC")
+                ->orderBy("created_at", "DESC")
                 ->paginate($request->size ?? config('app.results_per_page'));
 
         return new TourObjectCollection($tourObjects);
@@ -75,7 +77,7 @@ class TourObjectController extends Controller
     {
         $userId = Auth::user()->id;
 
-        $path = '/user/' . $userId."/tour-objects";
+        $path = '/user/' . $userId . "/tour-objects";
         if (!Storage::exists('/public' . $path)) {
             Storage::makeDirectory('/public' . $path);
         }
@@ -87,11 +89,11 @@ class TourObjectController extends Controller
             foreach ($files as $key => $file) {
                 $ext = $file->getClientOriginalExtension();
 
-                $name = Str::uuid().".".$ext;
+                $name = Str::uuid() . "." . $ext;
 
 
-                $file->storeAs("/public", $path . '/' . $name );
-                $url = Storage::url('user/' . $userId . "/tour-objects/" . $name );
+                $file->storeAs("/public", $path . '/' . $name);
+                $url = Storage::url('user/' . $userId . "/tour-objects/" . $name);
 
                 array_push($photos, $url);
 
@@ -104,7 +106,7 @@ class TourObjectController extends Controller
         $tmp->creator_id = $userId;
         $tmp->photos = $photos;
 
-        $tourObject = TourObject::query()->with(["creator","creator.profile"])->create((array)$tmp);
+        $tourObject = TourObject::query()->with(["creator", "creator.profile"])->create((array)$tmp);
 
         return new TourObjectResource($tourObject);
     }
@@ -135,7 +137,7 @@ class TourObjectController extends Controller
         $userId = Auth::user()->id;
 
 
-        $path = '/user/' . $userId."/tour-objects";
+        $path = '/user/' . $userId . "/tour-objects";
         if (!Storage::exists('/public' . $path)) {
             Storage::makeDirectory('/public' . $path);
         }
@@ -147,11 +149,11 @@ class TourObjectController extends Controller
             foreach ($files as $key => $file) {
                 $ext = $file->getClientOriginalExtension();
 
-                $name = Str::uuid().".".$ext;
+                $name = Str::uuid() . "." . $ext;
 
 
-                $file->storeAs("/public", $path . '/' . $name );
-                $url = Storage::url('user/' . $userId . "/tour-objects/" . $name );
+                $file->storeAs("/public", $path . '/' . $name);
+                $url = Storage::url('user/' . $userId . "/tour-objects/" . $name);
 
                 array_push($photos, $url);
 
@@ -163,10 +165,9 @@ class TourObjectController extends Controller
         $tmp->photos = $photos;
 
         $tourObject = TourObject::query()
-            ->with(["creator","creator.profile"])
+            ->with(["creator", "creator.profile"])
             ->where("id", $id)
             ->first();
-
 
 
         $tourObject->update((array)$tmp);
@@ -278,8 +279,8 @@ class TourObjectController extends Controller
 
         if (is_null($tourObject))
             return response()->json([
-                "errors"=>[
-                    "message"=>"Объект не найден!"
+                "errors" => [
+                    "message" => "Объект не найден!"
                 ]
             ]);
 
@@ -290,10 +291,11 @@ class TourObjectController extends Controller
         return new TourObjectResource($tourObject);
     }
 
-    public function downloadImage($request, $userId, $path){
+    public function downloadImage($request, $userId, $path)
+    {
         try {
 
-            $file = Storage::disk('local')->get("public/user/".$userId."/tour-objects/" . $path);
+            $file = Storage::disk('local')->get("public/user/" . $userId . "/tour-objects/" . $path);
 
             return (new Response($file, 200))
                 ->header('Content-Type', 'image/jpeg');
@@ -302,10 +304,38 @@ class TourObjectController extends Controller
         }
     }
 
-    public function loadGuideTourObjectById(Request $request, $id){
+    public function loadGuideTourObjectById(Request $request, $id)
+    {
         $tourObject = TourObject::query()->find($id);
 
         return response()->json($tourObject);
+    }
+
+    public function uploadTourObjectsExcel(Request $request)
+    {
+        $file = $request->file('file');
+
+        if (is_null($file))
+            return response()->noContent(400);
+
+        $fileName = Str::uuid() . "." . $file->getClientOriginalExtension();
+        $destinationPath = storage_path('app/public');
+        $file->move($destinationPath, $fileName);
+
+
+        try {
+             Excel::import(new TourObjectImport, storage_path('app/public/') . $fileName);
+        } catch (ValidationException $e) {
+            return response()->json([
+                "errors" => [
+                    "message" => [$e->getMessage()]
+                ]
+            ], 400);
+        }
+
+        unlink(storage_path('app/public/') . $fileName);
+
+        return response()->noContent();
     }
 }
 

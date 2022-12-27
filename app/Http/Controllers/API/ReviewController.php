@@ -11,6 +11,9 @@ use App\Models\Review;
 use App\Models\Tour;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Wkhooy\ObsceneCensorRus;
 
 class ReviewController extends Controller
 {
@@ -38,9 +41,49 @@ class ReviewController extends Controller
      * @param \App\Http\Requests\API\ReviewStoreRequest $request
      * @return \App\Http\Resources\ReviewResource
      */
-    public function store(ReviewStoreRequest $request)
+    public function store(Request $request)
     {
-        $review = Review::create($request->validated());
+        $request->validate([
+            "rating" => "required",
+            "comment" => "required",
+            "object_id" => "required",
+            "object_type" => "required",
+        ]);
+
+        $userId = Auth::user()->id;
+
+        $path = '/user/' . $userId . "/reviews";
+        if (!Storage::exists('/public' . $path)) {
+            Storage::makeDirectory('/public' . $path);
+        }
+
+        $photos = [];
+
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+
+            foreach ($files as $key => $file) {
+                $ext = $file->getClientOriginalExtension();
+
+                $name = Str::uuid() . "." . $ext;
+
+                $file->storeAs("/public", $path . '/' . $name);
+                $url = Storage::url('user/' . $userId . "/reviews/" . $name);
+                array_push($photos, $url);
+            }
+        }
+
+        $text = $request->comment;
+        ObsceneCensorRus::filterText($text);
+
+        $review = Review::create([
+            'user_id' => $userId,
+            'tour_id' => $request->object_type == 'tour' ? $request->object_id : null,
+            'tour_guide_id' => $request->object_type == 'guide' ? $request->object_id : null,
+            'comment' => $text,
+            'images' => $photos,
+            'rating' => $request->rating
+        ]);
 
         return new ReviewResource($review);
     }
@@ -59,7 +102,17 @@ class ReviewController extends Controller
     {
         $size = $request->get("size") ?? config('app.results_per_page');
 
-        $reviews = Review::query()->where("tour_id", $tourId)
+        $sort = $request->get("sort") ?? null;
+        $direction = $request->get("direction") ?? 'ASC';
+
+        $sortObject = (object)[
+            "sort"=>$sort,
+            "direction"=>$direction
+        ];
+
+        $reviews = Review::query()
+            ->withSort($sortObject)
+            ->where("tour_id", $tourId)
             ->paginate($size);
 
         return ReviewResource::collection($reviews ?? []);
@@ -83,8 +136,26 @@ class ReviewController extends Controller
      * @param \App\Models\Review $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Review $review)
+    public function destroy(Request $request, $id)
     {
+         $review = Review::query()->where("id", $id)
+             ->where("user_id", Auth::user()->id)
+             ->first();
+
+         if (is_null($review))
+             return response()->json([
+                 "errors" => [
+                     "message" => ["Отзыв не найден!"]
+                 ]
+             ]);
+
+        if (!is_null($review->deleted_at))
+            return response()->json([
+                "errors" => [
+                    "message" => ["Отзыв уже удален!"]
+                ]
+            ]);
+
         $review->delete();
 
         return response()->noContent();

@@ -12,8 +12,8 @@ let state = {
     ...tours.state,
     ...tourObjects.state,
     documents: [],
-    guide_booked_tours: []
-
+    guide_booked_tours: [],
+    guide_booked_tours_load_more: false
 }
 
 const getters = {
@@ -22,14 +22,11 @@ const getters = {
     ...tourObjects.getters,
     getGuideDocuments: state => state.documents || [],
     getGuideBookedTours: state => state.guide_booked_tours || [],
+    canGuideBookedToursLoadMore: state => state.guide_booked_tours_load_more || false,
     getGuideDocumentById: (state) => (id) => {
         return state.documents.find(item => item.id === id)
     },
-    //отдаем список броней по конкретному туру на конкретное время
-    getGuideBookedToursByTourId: (state) => (id) => {
-        return state.guide_booked_tours.filter(item =>
-            item.tour_id === id)
-    },
+
 }
 
 const actions = {
@@ -42,6 +39,18 @@ const actions = {
             !localStorage.getItem('travel_store_guide_documents') ?
                 [] : JSON.parse(localStorage.getItem('travel_store_guide_documents')))
 
+    },
+    async requestGuideProfileDocumentVerified(context, documentId) {
+
+        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_CABINET_LINK}/request-profile-document-verified/${documentId}`)
+
+        return _axios.then((response) => {
+
+        }).catch(err => {
+            context.commit("setErrors", err.response.data.errors || [])
+            context.dispatch("errorGuideCabinet")
+            return Promise.reject(err);
+        })
     },
     async requestGuideProfileVerified(context) {
 
@@ -93,12 +102,18 @@ const actions = {
             return Promise.reject(err);
         })
     },
-    async loadActualGuideBookedTours(context) {
-        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_CABINET_LINK}/tours/actual-booked-tours`)
+    async loadActualGuideBookedTours(context, payload = {tourId:null, page: 0, size: 15}) {
+        let page = payload.page || 0,
+            size = payload.size || 15,
+            tourId = payload.tourId
+
+        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_CABINET_LINK}/tours/actual-booked-tours/${tourId}?page=${page}&size=${size}`)
 
         return _axios.then((response) => {
             let dataObject = response.data
             context.commit('setGuideBookedTours', dataObject.data)
+            delete dataObject.data
+            context.commit('setGuideBookedToursCanLoadMore', dataObject)
 
         }).catch(err => {
             context.commit("setErrors", err.response.data.errors || [])
@@ -187,8 +202,14 @@ const mutations = {
         state.documents = payload || [];
         localStorage.setItem('travel_store_guide_documents', JSON.stringify(payload));
     },
+    setGuideBookedToursCanLoadMore(state, payload) {c
+        state.guide_booked_tours_load_more = payload.links.next!==null
+    },
     setGuideBookedTours(state, payload) {
-        state.guide_booked_tours = payload || [];
+        if (state.guide_booked_tours.length === 0  )
+            state.guide_booked_tours = payload || [];
+        else
+            state.guide_booked_tours = [...state.guide_booked_tours, ...payload]
         localStorage.setItem('travel_store_guide_booked_tours', JSON.stringify(payload));
     },
 }

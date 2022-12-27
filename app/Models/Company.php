@@ -22,6 +22,8 @@ class Company extends Model
         'inn',
         'ogrn',
         'law_address',
+        'approve_at',
+        'request_approve_at',
     ];
 
     /**

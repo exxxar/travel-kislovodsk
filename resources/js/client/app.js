@@ -70,13 +70,20 @@ import GuideTourObjects from '@/components/GuideCabinet/GuideTourObjects.vue'
 import GuideTourObjectList from '@/components/GuideCabinet/GuideTourObjectList.vue'
 import GuideTourObjectCard from '@/components/GuideCabinet/GuideTourObjectCard.vue'
 import GuideTourObjectPaginate from '@/components/GuideCabinet/GuideTourObjectPaginate.vue'
+import GuideTourPaginate from '@/components/GuideCabinet/GuideTourPaginate.vue'
 import GuideDocuments from "@/components/GuideCabinet/GuideDocuments.vue";
 import GuideTourGroup from "@/components/GuideCabinet/GuideTourGroup.vue";
 import ReviewList from "@/components/Reviews/ReviewList.vue";
+import ReviewAddForm from "@/components/Reviews/ReviewAddForm.vue";
+import ExcelUploader from "@/components/Fragments/ExcelUploader.vue";
 
 import Rating from "@/components/Fragments/Rating.vue";
 
 import PersonalReviewCard from '@/components/Reviews/PersonalReviewCard.vue'
+
+
+import MobileFooterMenu from "@/components/Fragments/Mobile/MobileFooterMenu.vue";
+import MobileSideBarMenu from "@/components/Fragments/Mobile/MobileSideBarMenu.vue";
 
 const eventBus = mitt()
 const app = createApp({})
@@ -164,6 +171,7 @@ app.component('guide-tour-list-component', GuideTourList)
 app.component('guide-tour-card-component', GuideTourCard)
 app.component('guide-tour-objects-component', GuideTourObjects)
 app.component('guide-tour-object-paginate-component', GuideTourObjectPaginate)
+app.component('guide-tour-paginate-component', GuideTourPaginate)
 app.component('guide-tour-object-list-component', GuideTourObjectList)
 app.component('guide-tour-object-card-component', GuideTourObjectCard)
 app.component('guide-documents-component', GuideDocuments)
@@ -171,7 +179,13 @@ app.component('guide-tour-group-component', GuideTourGroup)
 
 app.component('personal-review-card-component', PersonalReviewCard)
 app.component('review-list-component', ReviewList)
+app.component('review-add-form-component', ReviewAddForm)
 app.component('rating-component', Rating)
+app.component('excel-uploader-component', ExcelUploader)
+
+
+app.component('mobile-footer-menu-component', MobileFooterMenu)
+app.component('mobile-sidebar-menu-component', MobileSideBarMenu)
 
 
 import store from './store'

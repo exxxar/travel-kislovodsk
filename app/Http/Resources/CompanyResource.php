@@ -22,7 +22,8 @@ class CompanyResource extends JsonResource
             'inn' => $this->inn,
             'ogrn' => $this->ogrn,
             'law_address' => $this->law_address,
-            'softdeletes' => $this->softdeletes,
+            'approve_at'=> $this->approve_at,
+            'request_approve_at'=> $this->request_approve_at,
             'documents' => DocumentCollection::make($this->whenLoaded('documents')),
         ];
     }

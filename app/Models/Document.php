@@ -17,11 +17,13 @@ class Document extends Model
      */
     protected $fillable = [
         'title',
+        'origin_title',
         'path',
         'size',
         'user_id',
         'valid_to',
         'approved_at',
+        'request_approve_at',
     ];
 
     /**
@@ -34,6 +36,7 @@ class Document extends Model
         'user_id' => 'integer',
         'valid_to' => 'timestamp',
         'approved_at' => 'timestamp',
+        'request_approve_at' => 'timestamp',
     ];
 
     protected $appends = ['resource_url'];

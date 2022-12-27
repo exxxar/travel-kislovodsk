@@ -4,8 +4,12 @@ namespace App\Providers;
 
 use App\Events\ChatNotificationEvent;
 use App\Events\SMSNotificationEvent;
+use App\Events\TelegramNotificationDocumentVerifiedEvent;
+use App\Events\TelegramNotificationProfileVerifiedEvent;
+use App\Events\TelegramNotificationTourVerifiedEvent;
 use App\Listeners\ChatNotificationListener;
 use App\Listeners\SMSNotificationListener;
+use App\Listeners\TelegramNotificationListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,6 +31,15 @@ class EventServiceProvider extends ServiceProvider
         ],
         SMSNotificationEvent::class => [
             SMSNotificationListener::class,
+        ],
+        TelegramNotificationDocumentVerifiedEvent::class => [
+            TelegramNotificationListener::class,
+        ],
+        TelegramNotificationProfileVerifiedEvent::class => [
+            TelegramNotificationListener::class,
+        ],
+        TelegramNotificationTourVerifiedEvent::class => [
+            TelegramNotificationListener::class,
         ],
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             // ... other providers

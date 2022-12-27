@@ -36,7 +36,8 @@
                                 </button>
                             </li>
                             <li class="text-start" v-if="tour.is_draft || tour.is_moderation">
-                                <button class="dropdown-item mt-3 p-0"><span
+                                <button
+                                    class="dropdown-item mt-3 p-0"><span
                                     class="px-0 font-size-07 letter-spacing-3 text-uppercase bold position-relative red red-underline">удалить</span>
                                 </button>
                             </li>
@@ -99,8 +100,16 @@
             </div>
             <div v-if="tour.is_draft" class="splitted">
                 <div class="row align-items-center justify-content-center justify-content-xxl-start p-4 mx-0">
-                    <button class="col-auto dt-btn-text">Редактировать</button>
-                    <button class="col-auto ms-auto dt-btn-text-red fw-bold text-uppercase px-0 d-none d-lg-block">
+                    <button
+                        @click="openEditTour"
+                        class="col-auto dt-btn-text">Редактировать</button>
+                    <button
+                        @click="requestVerify"
+                        class="col-auto dt-btn-text">Запрос верификации</button>
+
+                    <button
+                        @click="removeTour"
+                        class="col-auto ms-auto dt-btn-text-red fw-bold text-uppercase px-0 d-none d-lg-block">
                         Удалить
                     </button>
                 </div>
@@ -110,8 +119,16 @@
                     <button class="dt-btn-text col-auto d-none d-lg-block">
                         Страница экскурсии
                     </button>
-                    <button class="col-auto dt-btn-text">Редактировать</button>
-                    <button class="d-none d-lg-block dt-btn-text-red col-auto ms-auto px-0 fw-bold text-uppercase">
+                    <button
+                        @click="requestVerify"
+                        class="col-auto dt-btn-text">Запрос верификации</button>
+
+                    <button
+                        @click="openEditTour"
+                        class="col-auto dt-btn-text">Редактировать</button>
+                    <button
+                        @click="removeTour"
+                        class="d-none d-lg-block dt-btn-text-red col-auto ms-auto px-0 fw-bold text-uppercase">
                         Удалить
                     </button>
                 </div>
@@ -138,11 +155,34 @@ export default {
         return {}
     },
     methods:{
+        requestVerify(){
+
+            this.$store.dispatch("requestGuideTourVerified", this.tour.id).then(()=>{
+                this.eventBus.emit('load_guide_tours','Действующие');
+
+                this.$notify({
+                    title: "Мои туры",
+                    text: "Тур успешно отправлен на верификацию",
+                    type: 'success'
+                });
+            })
+        },
         openEditTour(){
             this.eventBus.emit('open_edit_tour_window', this.tour)
         },
         openGuideTourGroup(tour){
             this.eventBus.emit('open_gide_tour_group', tour);
+        },
+        removeTour(){
+            this.$store.dispatch("removeTour", this.tour.id).then(()=>{
+                this.eventBus.emit('load_guide_tours','Действующие');
+
+                this.$notify({
+                    title: "Мои туры",
+                    text: "Тур успешно удалён",
+                    type: 'success'
+                });
+            })
         },
         removeTourFromArchive(){
             this.$store.dispatch("removeTourFromArchive", this.tour.id).then(()=>{

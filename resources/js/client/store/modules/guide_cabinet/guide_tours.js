@@ -1,4 +1,5 @@
 import util from '../utilites';
+import axios from "axios";
 
 const BASE_GUIDE_TOURS_LINK = '/api/guide-cabinet/tours'
 
@@ -21,10 +22,13 @@ const getters = {
         return state.guide_tours.filter(item => item.is_active === false &&  item.is_draft === false)
     },
     getGuideIsDraftTours: (state) => {
-        return state.guide_tours.filter(item => item.is_draft === true)
+        return state.guide_tours.filter(item => item.is_draft === true&&item.request_verify_at === null)
     },
     getGuideIsModerateTours: (state) => {
-        return state.guide_tours.filter(item => item.verified_at === null)
+        return state.guide_tours.filter(item =>
+            item.verified_at === null&&item.request_verify_at !==null ||
+            item.verified_at === null&&item.request_verify_at ===null
+        )
     },
     getGuideToursPaginateObject: state => state.guide_tours_paginate_object || [],
 }
@@ -60,6 +64,20 @@ const actions = {
             return Promise.reject(err);
         })
     },
+    async uploadToursExcel(context, formData) {
+        return axios.post(`${BASE_GUIDE_TOURS_LINK}/upload-tours-excel`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then((response) => {
+
+        }).catch(err => {
+            context.commit("setErrors", err.response.data.errors || [])
+            context.dispatch("errorsGuideTours")
+            return Promise.reject(err);
+
+        })
+    },
     async editGuideTour(context, payload) {
 
         let _axios = util.makeAxiosFactory(`${BASE_GUIDE_TOURS_LINK}/update/${payload.id}`, 'POST', payload.data)
@@ -88,7 +106,26 @@ const actions = {
     },
     async removeTourFromArchive(context, tourId) {
         return await context.dispatch("guideToursPage", {
-            url: `${BASE_GUIDE_TOURS_LINK}/archive-remove/${tourId}`
+            url: `${BASE_GUIDE_TOURS_LINK}/archive-remove/${tourId}`,
+            method:'DELETE'
+        })
+    },
+    async removeTour(context, tourId) {
+        return await context.dispatch("guideToursPage", {
+            url: `${BASE_GUIDE_TOURS_LINK}/${tourId}`,
+            method:'DELETE'
+        })
+    },
+    async requestGuideTourVerified(context, tourId) {
+
+        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_TOURS_LINK}/request-tour-verified/${tourId}`)
+
+        return _axios.then((response) => {
+
+        }).catch(err => {
+            context.commit("setErrors", err.response.data.errors || [])
+            context.dispatch("errorsGuideTours")
+            return Promise.reject(err);
         })
     },
     async clearArchiveTours(context) {
@@ -118,7 +155,9 @@ const actions = {
             return Promise.reject(err);
         })
     },
-    async loadGuideToursByPage(context, page = 0, size = 100) {
+    async loadGuideToursByPage(context, payload = {page: 0, size: 100}) {
+        let page = payload.page || 0,
+            size = payload.size || 100
         return await context.dispatch("guideToursPage", {
                 url: `${BASE_GUIDE_TOURS_LINK}?page=${page}&size=${size}`
             }

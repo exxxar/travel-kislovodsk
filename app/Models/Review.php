@@ -38,9 +38,23 @@ class Review extends Model
         'rating' => 'double',
     ];
 
-/*    protected $with = ["user","user.profile"];*/
+    /*    protected $with = ["user","user.profile"];*/
 
     protected $appends = ['resource_url'];
+
+    public function scopeWithSort($query, $sortObject)
+    {
+        if (is_null($sortObject))
+            return $query->orderBy('id', 'ASC');
+
+        if ($sortObject->sort === "date")
+            return $query->orderBy("created_at", $sortObject->direction);
+
+        if ($sortObject->sort === "rating")
+            return $query->orderBy("rating", $sortObject->direction);
+
+        return $query;
+    }
 
     public function getResourceUrlAttribute()
     {

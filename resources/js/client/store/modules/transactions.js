@@ -76,7 +76,7 @@ const mutations = {
         localStorage.setItem('travel_store_transactions', JSON.stringify(payload));
     },
     setTransactionsPaginateObject(state, payload) {
-        state.transactions_paginate_object = payload.data || [];
+        state.transactions_paginate_object = payload || [];
         localStorage.setItem('travel_store_transactions_paginate_object', JSON.stringify(payload));
     }
 }

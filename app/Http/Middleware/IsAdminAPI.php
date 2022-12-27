@@ -34,7 +34,7 @@ class IsAdminAPI
             throw new AuthenticationException("Пользователь не найден",400);
 
 
-        if ($user->role!=="admin")
+        if ($user->role->name!=="admin")
             throw new AuthenticationException("Пользователь не является администратором",400);
 
         return $next($request);

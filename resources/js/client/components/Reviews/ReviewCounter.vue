@@ -71,11 +71,7 @@
                 <p class="dt-main-text-thin">{{statistic[1]}}</p>
             </div>
         </div>
-        <div class="dt-reviews__sort-by d-flex justify-content-end">
-            <p class="dt-sort-by__title fw-thin">сортировка по</p>
-            <p class="dt-sort-by__item active fw-regular">дате</p>
-            <p class="dt-sort-by__item fw-regular">оценке</p>
-        </div>
+
     </div>
 </template>
 

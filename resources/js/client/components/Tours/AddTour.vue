@@ -1,4 +1,5 @@
 <template>
+
     <div id="add-excursion" class="add-excursion col ">
         <div class="row align-items-center mx-0 mb-4 mb-lg-5">
             <button @click="$emit('hideAddExcursion')"
@@ -9,6 +10,7 @@
             <h1 class="col-12 col-lg-auto bold fs-2 ms-lg-3 mt-5 mt-lg-0 px-0 hide">Редактирование экскурсии
             </h1>
         </div>
+
 
         <form v-on:submit.prevent="submitTour">
             <h1 class="bold mb-3">Основные данные</h1>
@@ -664,7 +666,7 @@
             <span class="blue fs-6">&gt;</span>
         </button>
         <div class="w-100 mt-4"></div>
-        <input type="checkbox"
+<!--        <input type="checkbox"
                v-model="tour.is_draft"
                id="draft-mark">
         <label for="draft-mark"
@@ -675,7 +677,7 @@
                 </div>
             </div>
             <span class="col-auto thin ms-2 px-0">Сохранить как черновик</span>
-        </label>
+        </label>-->
         <input type="checkbox"
                v-model="data_is_correct"
                id="add-exc-accept-mark">
@@ -746,7 +748,7 @@ const getInitialFormData = () => ({
         start_longitude: 0,
         start_comment: null,
 
-        is_draft: 1,
+        is_draft: true,
         duration: null,
         tour_objects: [],
 
@@ -795,7 +797,7 @@ export default {
                 start_longitude: 0,
                 start_comment: null,
 
-                is_draft: 1,
+                is_draft: true,
                 duration: null,
                 tour_objects: [],
 
@@ -848,23 +850,18 @@ export default {
         this.loadTourCategories()
         this.loadAllDictionaries()
         this.loadTourObjects()
-
     },
     methods: {
         onChangePreview(e) {
             const files = e.target.files
             this.preview_photo = files[0]
-
         },
-
         onChangePhotos(e) {
             const files = e.target.files
             this.photos = files
 
             for (let i = 0; i < files.length; i++)
                 this.items.push({imageUrl: URL.createObjectURL(files[i])})
-
-
         },
         addPaymentInfo() {
             this.tour.payment_infos.push("");
