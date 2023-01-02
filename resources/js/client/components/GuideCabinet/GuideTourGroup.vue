@@ -202,7 +202,7 @@
             </button>
         </div>
 
-        <review-list-component :tour="tour"/>
+        <review-list-component  :object="tour" :object-type="'tour'"/>
     </div>
 </template>
 <script>
@@ -350,5 +350,12 @@ export default {
 
 .text-main-color {
     color: #0071eb;
+}
+
+.dt-rating__star {
+    img {
+        width: 20px;
+        height: 20px;
+    }
 }
 </style>

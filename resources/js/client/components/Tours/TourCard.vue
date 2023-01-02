@@ -97,8 +97,11 @@
                         дата</h5>
                     <h5 class="text-muted-black d-block d-md-none">ближ. дата</h5>
                 </div>
-                <h5 class="fw-bold" v-if="tour.schedules.length>0">
-                    {{ tour.schedules[0].start_day }}
+                <h5 class="fw-bold" v-if="tour.schedules">
+                    <span v-if="tour.schedules.length>0">
+                          {{ tour.schedules[0].start_day || 'Не указано' }}
+                    </span>
+
                 </h5>
                 <h5 class="fw-bold" v-else>Не указан</h5>
 
@@ -139,14 +142,14 @@
             </div>
 
 
-<!--            <a v-if="tour.complete && tour.finish" href="#" class="mt-4 personal-account-orders-completed-footer__link
-                personal-account-orders-completed-footer__link_blue">
-                Поставить оценку
-            </a>
-            <a v-if="tour.review && tour.finish" href="#" class="mt-4 personal-account-orders-completed-footer__link
-                personal-account-orders-completed-footer__link_grey">
-                Смотреть мой отзыв
-            </a>-->
+            <!--            <a v-if="tour.complete && tour.finish" href="#" class="mt-4 personal-account-orders-completed-footer__link
+                            personal-account-orders-completed-footer__link_blue">
+                            Поставить оценку
+                        </a>
+                        <a v-if="tour.review && tour.finish" href="#" class="mt-4 personal-account-orders-completed-footer__link
+                            personal-account-orders-completed-footer__link_grey">
+                            Смотреть мой отзыв
+                        </a>-->
         </div>
     </div>
 </template>
@@ -170,8 +173,7 @@ export default {
         addToFavorites() {
             if (this.tour.is_liked)
                 this.$store.dispatch("removeFavorite", this.tour.id)
-            else
-            {
+            else {
                 this.$store.dispatch("addToFavorites", this.tour.id)
                 this.eventBus.emit("like_notification")
             }
@@ -184,6 +186,6 @@ export default {
 </script>
 <style>
 .right-60 {
-    right:60px !important;
+    right: 60px !important;
 }
 </style>

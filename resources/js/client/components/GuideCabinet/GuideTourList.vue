@@ -1,8 +1,12 @@
 <template>
     <div class="dt-excursions__item" v-for="item in tours" v-if="tours.length>0">
-        <guide-tour-card-component :tour="item" :key="item"/>
+        <div class="row mb-4">
+            <div class="col-12">
+                <guide-tour-card-component :tour="item" :key="item"/>
+            </div>
+        </div>
     </div>
-    <div class="dt-excursions__item" v-else>
+    <div class="dt-excursions__item" v-else-if="!load&&tours.length===0">
         <div class="row d-flex justify-content-center">
             <div class="col col-12 col-md-6">
                 <div class="empty-list">
@@ -13,6 +17,20 @@
 
         </div>
     </div>
+
+    <div v-if="load">
+        <div class="row d-flex justify-content-center">
+            <div class="col col-12 col-md-6">
+                <div class="empty-list">
+                    <img v-lazy="'/img/load.gif'" alt="">
+                    <p>Грузим информацию....</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <paginate-component v-if="pagination"
+                        :pagination="pagination"/>
 </template>
 <script>
 import {mapGetters} from "vuex";
@@ -20,12 +38,18 @@ import {mapGetters} from "vuex";
 export default {
     data() {
         return {
+            load: false,
             activeType: null,
-            tours: []
+            tours: [],
+            pagination: null
         }
     },
     computed: {
-        ...mapGetters(['getGuideTours', 'getGuideArchiveTours', 'getGuideIsDraftTours', 'getGuideIsModerateTours']),
+        ...mapGetters(['getGuideTours',
+            'getGuideArchiveTours',
+            'getGuideIsDraftTours',
+            'getGuideIsModerateTours',
+            'getGuideToursPaginateObject']),
     },
     mounted() {
 
@@ -44,7 +68,7 @@ export default {
             this.changeActiveTitle(type)
         })
 
-        this.eventBus.on('tour_page', (page) => {
+        this.eventBus.on('pagination_page', (page) => {
             this.loadTours(page)
         })
     },
@@ -67,11 +91,13 @@ export default {
             }
         },
         loadTours(page = 0) {
+            this.load = true
             return this.$store.dispatch("loadGuideToursByPage", {
                 page: page
             }).then(() => {
                 this.tours = this.getGuideTours
-                this.eventBus.emit('update_tours_pagination')
+                this.pagination = this.getGuideToursPaginateObject
+                this.load = false
             })
         }
     }

@@ -1,13 +1,20 @@
 <template>
-    <div class="footer-menu d-md-none d-block" v-if="!user.is_guest">
+
+    <div class="footer-menu d-md-none d-block" >
         <ul>
             <li @click="openSideBar"><a href="#sidebar"><i class="fa-solid fa-bars"></i></a></li>
             <li><a href="/tours-all"><i class="fa-solid fa-map-location-dot"></i></a></li>
             <li class="footer-menu--center">
-                <a :href="profileLink"><i class="fa-solid fa-house"></i></a>
+                <a v-if="!user.is_guest" :href="profileLink"><i class="fa-solid fa-house"></i></a>
+                <a v-if="user.is_guest" href="/login"><i class="fa-solid fa-right-to-bracket"></i></a>
             </li>
-            <li v-bind:class="{'has-new':hasMessages}"><a href="/messages"><i class="fa-regular fa-comments"></i></a></li>
-            <li v-bind:class="{'has-new':hasLikes}"><a href="/favorites"><i class="fa-solid fa-heart"></i></a></li>
+            <li v-if="user.is_guest"><a href="/group-register"><i class="fa-solid fa-user-group"></i></a></li>
+            <li v-if="user.is_guest"><a href="/contacts"><i class="fa-solid fa-address-book"></i></a></li>
+
+            <li v-if="!user.is_guest"
+                v-bind:class="{'has-new':hasMessages}"><a href="/messages"><i class="fa-regular fa-comments"></i></a></li>
+            <li v-if="!user.is_guest"
+                v-bind:class="{'has-new':hasLikes}"><a href="/favorites"><i class="fa-solid fa-heart"></i></a></li>
         </ul>
     </div>
 </template>
@@ -65,12 +72,11 @@ export default {
         height: 60px;
         border-radius: 10px;
         background-color: white;
-        box-shadow: 0px 0px 2px 0px black;
+        box-shadow: 0px 0px 2px 0px #cdcbcb;
         padding: 10px;
         box-sizing: border-box;
         display: flex;
         justify-content: space-around;
-        border: 2px #0071eb solid;
 
         li {
             position: relative;

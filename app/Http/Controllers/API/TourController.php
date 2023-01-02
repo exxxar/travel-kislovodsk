@@ -272,6 +272,9 @@ class TourController extends Controller
 
     public function getTourByGuide(Request $request, $guideId)
     {
+
+        $size = $request->get("size") ?? config('app.results_per_page');
+
         $tours = Tour::query()
             ->with([
                 'tourObjects',
@@ -283,7 +286,7 @@ class TourController extends Controller
                 'reviews'
             ])
             ->where("creator_id", $guideId)
-            ->get();
+            ->paginate($size);
 
         return new TourCollection($tours);
     }

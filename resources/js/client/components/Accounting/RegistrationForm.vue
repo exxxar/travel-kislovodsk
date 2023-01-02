@@ -300,7 +300,7 @@
             </label>
         </div>
         <div class="d-flex align-items-center justify-content-center w-100">
-            <button class="btn btn-primary w-100"
+            <button class="btn dt-btn dt-btn-blue w-100"
                     type="submit"
                     :disabled="!accept_rules">
                 Регистрация

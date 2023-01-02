@@ -5,19 +5,18 @@
                 class="dt-input__label">ваш телефон</label>
             </div>
             <div class="dt-input__group">
-                <input type="text" name="phone" placeholder="+7 (000) 000-00-00"
+                <input type="text" name="phone"
+                       v-mask="'+7(###)###-##-##'"
+                       placeholder="+7(000)000-00-00"
                        class="dt-input" autocomplete="off">
                 <div class="dt-input__group-item">
                     <div class="dt-input__icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"
-                             viewBox="0 0 48 48" fill="#0071eb">
-                            <path d="M39.8 42.65q-6.25 0-12.4-3.05t-11.075-7.95Q11.4 26.75 8.35 20.575 5.3 14.4 5.3 8.2q0-1.25.85-2.1.85-.85 2.05-.85h7q1.2 0 1.975.675Q17.95 6.6 18.2 7.8l1.35 5.85q.2 1.05-.025 1.875T18.7 16.9l-5.15 4.85q2.65 4.3 5.8 7.425t7.1 5.275l4.9-5q.7-.75 1.575-1.025.875-.275 1.875-.025l5.35 1.25q1.2.3 1.875 1.125T42.7 32.8v6.9q0 1.25-.85 2.1-.85.85-2.05.85Zm-28.2-24.4 4-3.9-1.1-5.1H9.3q-.05 1.8.5 3.975t1.8 5.025Zm18.5 18.2q1.9.9 4.175 1.475 2.275.575 4.425.725V33.4L34 32.35Zm-18.5-18.2Zm18.5 18.2Z"/>
-                        </svg>
+                        <i class="fa-solid fa-phone"></i>
                     </div>
                 </div>
             </div>
         </div>
-        <button class="btn dt-btn dt-btn-blue dt_btn__recovery d-flex align-items-center justify-content-center w-100">
+        <button class="btn dt-btn dt-btn-blue w-100 mt-2">
             Выслать код для восстановления
         </button>
 
@@ -26,10 +25,19 @@
                 class="dt-input__label">введите код из смс</label>
             </div>
             <div class="dt-input__group">
-                <input type="text" name="phone" class="dt-input" autocomplete="off">
+                <input type="text"
+                       v-mask="'##-##-##'"
+                       placeholder="XX-XX-XX"
+                       name="sms" class="dt-input" autocomplete="off">
+
+                <div class="dt-input__group-item">
+                    <div class="dt-input__icon">
+                        <i class="fa-solid fa-comment-sms"></i>
+                    </div>
+                </div>
             </div>
         </div>
-        <button class="btn dt-btn dt-btn-blue d-flex align-items-center justify-content-center w-100">
+        <button class="btn dt-btn dt-btn-blue w-100 mt-2">
             Сменить пароль
         </button>
     </div>

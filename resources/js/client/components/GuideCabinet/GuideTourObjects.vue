@@ -1,9 +1,9 @@
 <template>
     <div class="dt-tour-objects-list col">
-        <h2 class="lh-1 mb-5 bold mt-5 mt-lg-0">Мои объекты</h2>
-        <div class="row mx-0 mb-5">
+        <h2 class="mb-sm-2 bold mt-5 mt-lg-0">Мои объекты</h2>
+        <div class="row mb-4">
 
-            <div class="col-md-8 d-flex">
+            <div class="col-md-10 d-flex mb-4">
                 <button @click="changeActiveTitle('Действующие объекты')"
                         :class="{'personal-account-nav__link_active' : activeType == 'Действующие объекты',
                             'bg-white' : activeType != 'Действующие объекты'}"
@@ -21,15 +21,15 @@
             </div>
 
 
-            <div class="dropdown col-md-4">
+            <div class="dropdown col-md-2 col-12">
                 <button type="button"
-                        class="dt-btn-add order-1 order-lg-2 button  bg-green d-flex rounded ms-auto px-4
+                        class="w-100 dt-btn-add order-1 order-lg-2 button  bg-green d-flex rounded ms-auto px-4
                                     justify-content-center align-items-center bold"
                         data-bs-toggle="dropdown">
                     <i class="fa-solid fa-bars"></i>
                 </button>
                 <ul
-                    class="dropdown-menu p-2">
+                    class="dropdown-menu p-2 w-100">
                     <li @click="openAddTourObject"><a class="dropdown-item"> Добавить объект </a> </li>
                     <li><a
                         data-bs-toggle="modal"
@@ -41,7 +41,6 @@
             </div>
 
         </div>
-
         <guide-tour-object-list-component/>
         <guide-tour-object-paginate-component/>
     </div>

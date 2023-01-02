@@ -1,6 +1,6 @@
 <template>
     <div class="dt-reviews">
-        <ReviewCounter :tour="tour"></ReviewCounter>
+        <ReviewCounter v-if="object" :object="object"></ReviewCounter>
         <div class="dt-reviews__sort-by d-flex justify-content-end">
             <p class="dt-sort-by__title fw-thin">сортировка по:</p>
             <p class="dt-sort-by__item fw-regular"
@@ -40,7 +40,7 @@ import ReviewCounter from "@/components/Reviews/ReviewCounter.vue";
 import {mapGetters} from 'vuex';
 
 export default {
-    props: ["tour"],
+    props: ["object", "objectType"],
     components: {
         ReviewCard,
         ReviewCounter,
@@ -48,7 +48,7 @@ export default {
     data() {
         return {
             reviews: [],
-            sort: null,
+            sort: 'id',
             direction: 'ASC'
         }
     },
@@ -63,12 +63,12 @@ export default {
     },
     mounted() {
 
-        this.eventBus.on("request_reload_reviews", ()=>{
-            this.loadReviewsByTour()
+        this.eventBus.on("request_reload_reviews", () => {
+            this.loadReviews()
             console.log("request_reload_reviews")
         })
 
-        this.loadReviewsByTour()
+        this.loadReviews()
     },
     methods: {
         changeSort(param) {
@@ -76,19 +76,27 @@ export default {
 
             this.direction = this.direction === 'ASC' ? 'DESC' : 'ASC'
 
-            this.loadReviewsByTour()
+            this.loadReviews()
         },
-        loadReviewsByTour() {
-            this.$store.dispatch("loadReviewsByTour", {
-                tourId: this.tour.id,
+        loadReviews() {
+            let reviewLoadFunction = this.objectType === 'tour' ? 'loadReviewsByTour' : 'loadReviewByGuide';
+
+            let data = {
                 sort: this.sort,
                 direction: this.direction
-            }).then(() => {
+            }
+
+            if ( this.objectType === 'tour')
+                data.tourId =  this.object.id
+            else
+                data.guideId =  this.object.id
+
+            this.$store.dispatch(reviewLoadFunction, data).then(() => {
                 this.reviews = this.getReviews;
             })
         },
         loadNextReviews() {
-            return this.$store.dispatch("loadReviewsNext",{
+            return this.$store.dispatch("loadReviewsNext", {
                 sort: this.sort,
                 direction: this.direction
             }).then(() => {

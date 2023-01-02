@@ -26,6 +26,8 @@ class ReviewResource extends JsonResource
             'id' => $this->id,
             'user_id' => $this->user_id,
             'tour_id' => $this->tour_id,
+            'tour' => new TourResource($this->tour),
+            'guide' => $this->tourGuide,
             'tour_guide_id' => $this->tour_guide_id,
             'comment' => $this->comment ?? null,
             'images' => $this->images ?? [],

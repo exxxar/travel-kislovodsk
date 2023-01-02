@@ -54,17 +54,43 @@
                 <a :href="doc.path" target="_blank" class="col-auto"><span
                     class="font-size-08 position-relative black-underline">Открыть</span></a>
                 <button
-                    @click="removeDocument(doc.id)"
+                    data-bs-toggle="modal" :data-bs-target="'#removeModalDialog'+doc.id"
                     class="col-auto ms-auto"><span
                     class="font-size-08 position-relative red red-underline">Удалить</span></button>
             </div>
+
+            <action-modal-dialog-component
+                :id="'removeModalDialog'+doc.id"
+                v-on:accept="removeDocument(doc.id)">
+                <template v-slot:head>
+                    <p>Диалог удаления докумета</p>
+                </template>
+
+                <template v-slot:body>
+                    <p>Вы действтельно хотите удалить документ "{{doc.origin_title || doc.title || 'Без названия'}}"?</p>
+                </template>
+            </action-modal-dialog-component>
         </div>
-        <div v-else
+        <div v-else-if="!load&&documents.length===0"
             class="col-12 row bg-white rounded px-3 py-4 mx-0 mb-2 d-flex">
             Документы еще не загружены
         </div>
 
+
+        <div v-if="load">
+            <div class="row d-flex justify-content-center">
+                <div class="col col-12 col-md-6">
+                    <div class="empty-list">
+                        <img v-lazy="'/img/load.gif'" alt="">
+                        <p>Грузим информацию....</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+
 </template>
 <script>
 import {mapGetters} from "vuex";
@@ -72,6 +98,7 @@ import {mapGetters} from "vuex";
 export default {
     data() {
         return {
+            load:false,
             files: [],
             documents: [],
         }
@@ -111,8 +138,10 @@ export default {
             this.files = files
         },
         loadGuideDocuments() {
+            this.load = true
             this.$store.dispatch("loadGuideDocuments").then(() => {
                 this.documents = this.getGuideDocuments
+                this.load = false
             })
         },
         removeDocument(id){

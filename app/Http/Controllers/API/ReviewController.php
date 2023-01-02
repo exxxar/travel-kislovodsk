@@ -31,6 +31,7 @@ class ReviewController extends Controller
     public function selfReviews(Request $request)
     {
         $reviews = Review::query()
+            ->with(["tour"])
             ->where("user_id", Auth::user()->id)
             ->paginate($request->count ?? config('app.results_per_page'));
 
@@ -96,6 +97,26 @@ class ReviewController extends Controller
     public function show(Request $request, Review $review)
     {
         return new ReviewResource($review);
+    }
+
+    public function showByGuide(Request $request, $guideId)
+    {
+        $size = $request->get("size") ?? config('app.results_per_page');
+
+        $sort = $request->get("sort") ?? null;
+        $direction = $request->get("direction") ?? 'ASC';
+
+        $sortObject = (object)[
+            "sort"=>$sort,
+            "direction"=>$direction
+        ];
+
+        $reviews = Review::query()
+            ->withSort($sortObject)
+            ->where("tour_guide_id", $guideId)
+            ->paginate($size);
+
+        return ReviewResource::collection($reviews ?? []);
     }
 
     public function showByTour(Request $request, $tourId)

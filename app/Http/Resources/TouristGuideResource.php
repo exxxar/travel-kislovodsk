@@ -26,6 +26,9 @@ class TouristGuideResource extends JsonResource
             'address' => $this->address,
             'company' => $this->company,
             'birthday' => $this->birthday,
+            'reviews' => $this->reviews,
+            'rating' => $this->rating ?? 1,
+            'rating_statistic' => $this->rating_statistic,
         ];
     }
 }

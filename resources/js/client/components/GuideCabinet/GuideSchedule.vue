@@ -9,26 +9,27 @@
                         @click="filterObject.filter_type =1"
                         v-bind:class="{'btn-primary':filterObject.filter_type ===1
                   }"
-                        class="btn">
+                        class="btn btn-schedule">
                         Сегодня
                     </button>
                     <button
                         type="button"
                         @click="filterObject.filter_type =2"
                         v-bind:class="{'btn-primary':filterObject.filter_type ===2 }"
-                        class="btn ms-2 px-4">
+                        class="btn ms-2 px-4 btn-schedule">
                         Ближайшие даты
                     </button>
                     <button
                         type="button"
                         @click="filterObject.filter_type =0"
                         v-bind:class="{'btn-primary':filterObject.filter_type ===0}"
-                        class="btn ">
+                        class="btn btn-schedule">
                         Выбранная
                         дата
                     </button>
                 </div>
                 <div class="col-12 col-xl mx-0 mt-3 mt-xl-0 px-0" v-if="schedule.length>0">
+                    <p class="mt-2" style="color:gray; text-align: center;"><small>Событий всего - {{schedule.length}}</small></p>
                     <div class="mt-4" v-for="item in groupByDate">
                         <span class="bold font-size-09">{{ item.date }}</span>
                         <div
@@ -59,7 +60,7 @@
                         </svg>
                     </button>
                 </div>
-                <div class="col-12 col-xl mx-0 mt-3 mt-xl-0 px-0" v-else>
+                <div class="col-12 col-xl mx-0 mt-3 mt-xl-0 px-0" v-else-if="!load&&schedule.length===0">
 
                     <div class="empty-list">
                         <img v-lazy="'/img/no-tour.jpg'" alt="">
@@ -67,16 +68,23 @@
                     </div>
 
                 </div>
+
+                <div v-if="load">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col col-12 col-md-6">
+                            <div class="empty-list">
+                                <img v-lazy="'/img/load.gif'" alt="">
+                                <p>Грузим информацию....</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-12 col-xl row d-flex mx-0 px-0 ps-xl-5 order-1 order-xl-2 sticky-calendar">
+            <div class="col-12 col-xl row mx-0 px-0 ps-xl-5 order-1 order-xl-2 sticky-calendar d-none d-lg-flex" >
                 <tour-calendar-component
-
-
                     v-on:select-date="updateDate"
                     :inline="true"
-
                     :only-self-tour="true"/>
-
                 <p class="mt-5" v-if="filterObject.data!=null">{{ filterObject.data }}</p>
             </div>
         </div>
@@ -88,6 +96,7 @@ import {mapGetters} from "vuex";
 export default {
     data() {
         return {
+            load:false,
             canLoadMore: false,
             page: 0,
             activeType: null,
@@ -147,13 +156,14 @@ export default {
             this.filterObject.date = date
         },
         loadGuideSchedulesFilteredByPage() {
+            this.load = true
             this.$store.dispatch("loadGuideSchedulesFilteredByPage", {
                 page: this.page,
                 filterObject: this.filterObject
             }).then(() => {
                 this.schedule = this.getGuideSchedules
                 this.canLoadMore = this.getGuideSchedulesCanLoadMore
-
+                this.load = false
             })
         },
         loadMoreSchedule() {
@@ -162,12 +172,13 @@ export default {
             this.loadGuideSchedulesByPage();
         },
         loadGuideSchedulesByPage() {
+            this.load = true
             this.$store.dispatch("loadGuideSchedulesByPage", {
                 page: this.page
             }).then(() => {
                 this.schedule = this.getGuideSchedules
                 this.canLoadMore = this.getGuideSchedulesCanLoadMore
-
+                this.load = false
             })
         }
     }
@@ -177,5 +188,12 @@ export default {
 .sticky-calendar {
     position: sticky;
     top: 20px;
+}
+
+.btn-schedule {
+    min-width: 196px;
+    padding: 10px;
+    background: white;
+    margin: 0 10px;
 }
 </style>

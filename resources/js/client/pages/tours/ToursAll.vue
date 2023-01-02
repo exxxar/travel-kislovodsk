@@ -37,8 +37,9 @@
                     </div>
 
                 </div>
-                <div class="dt-page__pagination" v-if="tours.length>0">
-                    <tour-pagination/>
+                <div class="dt-page__pagination">
+                    <paginate-component v-if="pagination"
+                                        :pagination="pagination"/>
                 </div>
             </div>
         </div>
@@ -54,19 +55,20 @@
 import TourCard from "@/components/Tours/TourCard.vue";
 import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
 import TourCategories from "@/components/Tours/TourCategoriesList.vue";
-import TourPagination from "@/components/Tours/TourPagination.vue";
+
 import TourSortFilter from "@/components/Tours/TourSortFilter.vue";
 import TourFilter from "@/components/Tours/TourFilter.vue";
 import TourSearchFilter from "@/components/Tours/TourSearchFilter.vue";
 import {mapGetters} from "vuex";
 
 export default {
-    components: {TourSearchFilter, TourFilter, TourSortFilter, TourPagination, Breadcrumbs, TourCard, TourCategories},
+    components: {TourSearchFilter, TourFilter, TourSortFilter, Breadcrumbs, TourCard, TourCategories},
     data() {
         return {
 
             current_page: 0,
             tours: [],
+            pagination:null,
             breadcrumbs: [
                 {
                     text: "Главная",
@@ -135,7 +137,7 @@ export default {
 
             this.$store.dispatch("nextToursPage",filterObject).then(() => {
                 this.tours = this.getTours
-                this.eventBus.emit('update_tour_pagination')
+                this.pagination = this.getToursPaginateObject
             })
 
         })
@@ -150,7 +152,7 @@ export default {
 
             this.$store.dispatch("previousToursPage",filterObject).then(() => {
                 this.tours = this.getTours
-                this.eventBus.emit('update_tour_pagination')
+                this.pagination = this.getToursPaginateObject
             })
 
         })
@@ -191,7 +193,7 @@ export default {
                 page: this.current_page
             }).then(() => {
                 this.tours = this.getTours
-                this.eventBus.emit('update_tour_pagination')
+                this.pagination = this.getToursPaginateObject
             })
         },
 
@@ -208,7 +210,7 @@ export default {
                 filters: filterObject
             }).then(() => {
                 this.tours = this.getTours
-                this.eventBus.emit('update_tour_pagination')
+                this.pagination = this.getToursPaginateObject
             })
 
         }

@@ -1,7 +1,7 @@
 <template>
-    <main class="dt-advantages">
-        <div class="col-12 col-sm-12 align-self-center row mx-0 px-0 mt-5 d-flex justify-content-center">
-            <h1 class="col-12 px-0 text-center bold fs-1">Преимущества нашего сервиса</h1>
+    <main class="dt-advantages m-0" >
+        <div class="col-12 col-sm-12">
+            <h1 class="col-12 text-center bold mb-5">Преимущества нашего сервиса</h1>
             <span class="col-12 px-0 text-center thin font-size-09">вы оцените качество нашего сервиса по
                     достоинству</span>
             <div
@@ -30,7 +30,7 @@
                         <img v-lazy="'/img/icons/preferences/3.png'" alt="">
                     </div>
                     <div class="col d-flex flex-column px-0 ms-4 me-0">
-                        <span class="bold font-size-09">Оплата онлайн</span>
+                        <span class="bold font-size-09">Бронирование онлайн</span>
                         <span class="thin font-size-09 opacity-70 mt-1">Мы гарантируем сохранность платежей и
                                 персональных данных.</span>
                     </div>

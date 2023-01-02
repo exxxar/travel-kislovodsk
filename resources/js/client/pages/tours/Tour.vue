@@ -261,7 +261,7 @@
                     <review-add-form-component v-if="tour"
                                                :object-type="'tour'"
                                                :object-id="tour.id"/>
-                    <review-list v-if="tour" :tour="tour"/>
+                    <review-list v-if="tour" :object="tour" :object-type="'tour'"/>
                 </div>
                 <tour-booking v-else
                               :tour="tour"
@@ -278,20 +278,16 @@
                                     <p class="dt-guide__name">{{ tour.guide.fname }} {{ tour.guide.sname }}
                                         {{ tour.guide.tname }}</p>
                                     <div class="dt-rating__star d-flex">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <img v-lazy="'/img/icons/star_blue.svg'" alt="">
-                                        <p class="dt-guide__rating fw-bold">4.84</p>
+                                        <rating-component :rating="tour.guide.rating"/>
+                                        <p class="dt-guide__rating fw-bold">{{tour.guide.rating || 'Еще нет рейтинга'}}</p>
                                     </div>
                                     <a :href="'/guide/'+tour.guide.id"
                                        class="dt-btn-text text-uppercase me-3 d-lg-flex d-none">смотреть
                                         отзывы
-                                        (140)</a>
+                                        ({{tour.reviews.length}})</a>
                                     <a :href="'/guide/'+tour.guide.id"
                                        class="dt-btn-text text-uppercase text-nowrap d-flex d-lg-none">отзывы
-                                        (140)</a>
+                                        ({{tour.reviews.length}})</a>
                                 </div>
                             </div>
                         </div>

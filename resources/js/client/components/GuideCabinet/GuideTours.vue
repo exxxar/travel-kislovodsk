@@ -1,8 +1,8 @@
 <template>
     <div id="my-excurions" class="col">
-        <h2 class="lh-1 mb-5 bold mt-5 mt-lg-0">Мои экскурсии</h2>
-        <div class="row mx-0 mb-5">
-            <div class="d-flex flex-nowrap col-md-8 px-0 mx-0">
+        <h2 class="mb-2 bold mt-5 mt-lg-0">Мои экскурсии</h2>
+        <div class="row">
+            <div class="d-flex flex-nowrap col-md-10 col-12 mb-2" style="overflow: auto">
                 <button @click="changeActiveTitle('Действующие')"
                         :class="{'personal-account-nav__link_active': activeType == 'Действующие',
                                 'bg-white' : activeType != 'Действующие'}"
@@ -29,15 +29,15 @@
                 </button>
             </div>
 
-            <div class="dropdown col-md-4">
+            <div class="dropdown col-md-2 col-12 mb-2">
                 <button type="button"
-                        class="dt-btn-add order-1 order-lg-2 button  bg-green d-flex rounded ms-auto px-4
+                        class="w-100 dt-btn-add order-1 order-lg-2 button  bg-green d-flex rounded
                                     justify-content-center align-items-center bold"
                         data-bs-toggle="dropdown">
                     <i class="fa-solid fa-bars"></i>
                 </button>
                 <ul
-                    class="dropdown-menu p-2">
+                    class="dropdown-menu w-100">
                     <li @click="openAddTour"><a class="dropdown-item"> Добавить экскурсию </a> </li>
                     <li><a class="dropdown-item"
                            data-bs-toggle="modal"
@@ -49,9 +49,7 @@
         </div>
 
         <div class="dt-excursions">
-
             <guide-tour-list-component/>
-            <guide-tour-paginate-component/>
         </div>
 
     </div>
@@ -97,6 +95,14 @@ export default {
 
         changeActiveTitle(title) {
             this.activeType = title
+
+            const dropdownElementList = document.querySelectorAll('.dropdown-toggle')
+            const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl))
+
+            dropdownList.forEach(item=>{
+                item.hide()
+            })
+
             this.eventBus.emit('select_guide_tours_type', this.activeType)
         },
 

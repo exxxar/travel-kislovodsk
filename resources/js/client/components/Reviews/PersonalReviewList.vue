@@ -33,6 +33,9 @@ export default {
     }),
     mounted() {
 
+        this.eventBus.on("request_reload_reviews", ()=>{
+            this.loadUserReviewsByPage()
+        })
         this.loadUserReviewsByPage()
     },
     methods: {

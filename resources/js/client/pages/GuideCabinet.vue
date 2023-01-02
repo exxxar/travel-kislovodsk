@@ -95,7 +95,7 @@
 
             </div>
             <div class="dropdown d-lg-none d-block col-12 position-relative mx-0 ms-auto px-0 rounded
-                        dt-btn__dropdown-menu">
+                        dt-btn__dropdown-menu" style="position: sticky !important;top: 10px;z-index: 999;">
                 <button type="button" class="big-button d-flex col-12 ps-2rem
                         personal-account-nav__link_active dropdown-toggle text-start font-size-09
                         align-items-center active rounded"
@@ -106,11 +106,13 @@
                                 d="M9.3 42.7V7.25h18.45l.95 4.3h12.05V31.5H26.6l-.95-4.25h-12.4V42.7ZM25 19.4Zm5 8.15h6.75v-12H25.3l-.95-4.3h-11.1V23.3h15.8Z"/>
                         </svg>
                     </div>
-                    <span class="col menu-item__name font-size-09 ms-4 semibold">Мои экскурсии</span>
+                    <span class="col menu-item__name font-size-09 ms-4 semibold">{{activeTitle||'Не выбрано'}}</span>
                 </button>
                 <ul class="dropdown-menu row col-12 flex-grow-1 border-0 pb-0 pt-0 rounded font-size-09"
                     style="z-index: 9999;">
-                    <button class="dropdown-item menu-item bg-white d-flex rounded px-2rem py-4 align-items-center">
+                    <button
+                        @click="openMenu('Мои экскурсии','Действующие')"
+                        class="dropdown-item menu-item bg-white d-flex rounded px-2rem py-4 align-items-center">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20" width="20">
                                 <path
@@ -119,7 +121,9 @@
                         </div>
                         <span class="col menu-item__name blue-hover font-size-09 ms-4 semibold">Мои экскурсии</span>
                     </button>
-                    <button class="dropdown-item menu-item bg-white d-flex rounded px-2rem py-4 align-items-center">
+                    <button
+                        @click="openMenu('Мои объекты','Действующие')"
+                        class="dropdown-item menu-item bg-white d-flex rounded px-2rem py-4 align-items-center">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20" width="20">
                                 <path
@@ -128,7 +132,9 @@
                         </div>
                         <span class="col menu-item__name blue-hover font-size-09 ms-4 semibold">Мои объекты</span>
                     </button>
-                    <button class="dropdown-item menu-item bg-white d-flex rounded px-2rem py-4 align-items-center">
+                    <button
+                        @click="openMenu('Транзакции')"
+                        class="dropdown-item menu-item bg-white d-flex rounded px-2rem py-4 align-items-center">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20" width="20">
                                 <path
@@ -137,7 +143,9 @@
                         </div>
                         <span class="col menu-item__name blue-hover font-size-09 ms-4 semibold">Транзакции</span>
                     </button>
-                    <button class="dropdown-item menu-item bg-white d-flex rounded px-2rem py-4 align-items-center">
+                    <button
+                        @click="openMenu('Календарь')"
+                        class="dropdown-item menu-item bg-white d-flex rounded px-2rem py-4 align-items-center">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20" width="20">
                                 <path
@@ -146,7 +154,9 @@
                         </div>
                         <span class="col menu-item__name blue-hover font-size-09 ms-4 semibold">Календарь</span>
                     </button>
-                    <button class="dropdown-item menu-item bg-white d-flex rounded px-2rem py-4 align-items-center">
+                    <button
+                        @click="openMenu('Документы')"
+                        class="dropdown-item menu-item bg-white d-flex rounded px-2rem py-4 align-items-center">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20" width="20">
                                 <path
@@ -155,7 +165,9 @@
                         </div>
                         <span class="col menu-item__name blue-hover font-size-09 ms-4 semibold">Документы</span>
                     </button>
-                    <button class="dropdown-item menu-item bg-white d-flex rounded px-2rem py-4 align-items-center">
+                    <button
+                        @click="openMenu('Настройки')"
+                        class="dropdown-item menu-item bg-white d-flex rounded px-2rem py-4 align-items-center">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20" width="20">
                                 <path
@@ -181,21 +193,16 @@
 
 
             <add-tour-object v-if="activeTitle === 'Добавить объект'" @hideAddObject="activeTitle='Мои объекты'"/>
-
             <guide-transactions v-if="activeTitle === 'Транзакции'"/>
             <guide-schedule v-if="activeTitle === 'Календарь'"/>
             <guide-settings v-if="activeTitle === 'Настройки'"/>
             <guide-documents-component v-if="activeTitle === 'Документы'"/>
-
             <guide-tour-group-component v-if="selected&&activeTitle==='Бронирование групп'"
                                         @hideTourGroup="hide('Мои экскурсии')"
                                         :tour="selected"/>
-
-
             <edit-tour v-if="selected&&activeTitle==='Редактирование экскурсии'"
                        @hideEditExcursion="hide('Мои экскурсии')"
                        :tour-id="selected.id"/>
-
             <edit-tour-object v-if="selected&&activeTitle==='Редактирование объекта'"
                               @hideEditTourObject="hide('Мои объекты')"
                               :tour-object-id="selected.id"/>

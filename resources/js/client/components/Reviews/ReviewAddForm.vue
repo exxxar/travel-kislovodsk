@@ -4,8 +4,8 @@
             <div class="row g-4">
 
                 <div class="col-sm-12">
-                    Укажите оценку тура
-
+                    <p v-if="objectType==='guide'"> Укажите оценку гиду</p>
+                    <p v-if="objectType==='tour'"> Укажите оценку тура</p>
                     <StarRating
                         :increment="0.1"
                         :active-color="'white'"

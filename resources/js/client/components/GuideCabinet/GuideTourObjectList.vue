@@ -1,10 +1,12 @@
 <template>
-    <div class="row mx-0  gap-3" v-if="tour_objects.length>0">
-        <guide-tour-object-card-component v-for="item in tour_objects"
-                                          :tour-object="item"
-                                          :key="item"/>
+    <div class="row" v-if="tour_objects.length>0&&!load">
+        <div class="col-12 col-md-6 col-xl-4 col-lg-6 mb-2" :key="item" v-for="item in tour_objects">
+            <guide-tour-object-card-component
+                :tour-object="item"
+            />
+        </div>
     </div>
-    <div class="row gap-3 d-flex justify-content-center" v-else>
+    <div class="row  d-flex justify-content-center" v-else-if="!load&&tour_objects.length===0">
 
         <div class="col col-12 col-md-6">
             <div class="empty-list">
@@ -15,6 +17,21 @@
 
 
     </div>
+
+    <div v-if="load">
+        <div class="row d-flex justify-content-center">
+            <div class="col col-12 col-md-6">
+                <div class="empty-list">
+                    <img v-lazy="'/img/load.gif'" alt="">
+                    <p>Грузим информацию....</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <paginate-component v-if="pagination"
+
+                        :pagination="pagination"/>
 </template>
 <script>
 import {mapGetters} from "vuex";
@@ -22,26 +39,26 @@ import {mapGetters} from "vuex";
 export default {
     data() {
         return {
+            load: false,
             activeType: null,
-            tour_objects: []
+            tour_objects: [],
+            pagination: null
         }
     },
     computed: {
-        ...mapGetters(['getGuideActiveTourObjects', 'getGuideRemovedTourObjects']),
+        ...mapGetters(['getGuideActiveTourObjects', 'getGuideRemovedTourObjects', 'getGuideTourObjectsPaginateObject']),
     },
     mounted() {
         this.loadTourObjects()
 
-
-        this.eventBus.on('tour_object_page', (index) => {
-            this.$store.dispatch("loadGuideTourObjectsByPage",{
+        this.eventBus.on('pagination_page', (index) => {
+            this.load = true
+            this.$store.dispatch("loadGuideTourObjectsByPage", {
                 page: index,
             }).then(() => {
+                this.load = false
                 this.tour_objects = this.getGuideActiveTourObjects
-                this.eventBus.emit('update_tour_object_pagination')
-
-
-
+                this.pagination = this.getGuideTourObjectsPaginateObject
             })
 
         })
@@ -66,19 +83,21 @@ export default {
         },
 
         loadRemovedTourObjects() {
+            this.pagination = null
+            this.load = true
             this.$store.dispatch("loadRemovedGuideTourObjectsByPage").then(() => {
                 this.tour_objects = this.getGuideRemovedTourObjects
-
-                this.eventBus.emit('update_tour_object_pagination')
+                this.pagination = this.getGuideTourObjectsPaginateObject
+                this.load = false
             })
         },
         loadTourObjects() {
-
+            this.pagination = null
+            this.load = true
             this.$store.dispatch("loadGuideTourObjectsByPage").then(() => {
-
                 this.tour_objects = this.getGuideActiveTourObjects
-
-                this.eventBus.emit('update_tour_object_pagination')
+                this.pagination = this.getGuideTourObjectsPaginateObject
+                this.load = false
             })
         }
     }
@@ -102,6 +121,7 @@ export default {
         width: 100%;
         text-align: center;
         margin-bottom: 10px;
+
     }
 }
 </style>

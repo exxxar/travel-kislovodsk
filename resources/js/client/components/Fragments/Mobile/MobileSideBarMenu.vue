@@ -2,7 +2,9 @@
     <Transition duration="550" name="nested">
         <div class="sidebar-menu outer" v-if="show">
 
-            <div class="flex-shrink-0  bg-white inner sidebar" style="width: 280px;">
+            <div
+                v-if="!user.is_guest"
+                class="flex-shrink-0  bg-white inner sidebar" style="width: 280px;">
 
                 <div class="row justify-content-end p-2 sidebar-header">
                     <div class="col-auto">
@@ -111,6 +113,75 @@
                             <ul class="btn-toggle-nav fw-normal pb-1 small">
                                 <li><a href="/settings" class="link-dark rounded">Настройки</a></li>
                                 <li><a href="/logout" class="link-dark rounded">Выйти</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div
+                v-if="user.is_guest"
+                class="flex-shrink-0  bg-white inner sidebar" style="width: 280px;">
+
+                <div class="row justify-content-end p-2 sidebar-header">
+                    <div class="col-auto">
+                        <button class="btn close-btn"
+                                @click="show = false"
+                                id="sidenav-close"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </div>
+
+                <ul class="sidebar-menu-list p-3">
+                    <li class="mb-1">
+                        <a href="/" class="btn btn-toggle rounded w-100 text-left">
+
+                            <i class="fa-solid fa-house primary-text-color"></i> Главная страница
+                        </a>
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle rounded w-100 text-left"
+                                data-bs-toggle="collapse" data-bs-target="#home-collapse"
+                                aria-expanded="true">
+                            <i class="fa-solid fa-right-to-bracket primary-text-color"></i> Авторизация
+                        </button>
+                        <div class="collapse show" id="home-collapse" style="">
+                            <ul class="btn-toggle-nav fw-normal pb-1 small">
+                                <li><a href="/login" class="link-dark rounded">Вход</a></li>
+                                <li><a href="/register" class="link-dark rounded">Регистрация</a></li>
+                                <li><a href="/forgot-password" class="link-dark rounded">Восстановление пароля</a></li>
+                                <li><a href="/rules" class="link-dark rounded">Правила использования платформы</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle rounded collapsed w-100 text-left"
+                                data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                            <i class="fa-solid fa-map-location-dot primary-text-color"></i> Туры
+                        </button>
+                        <div class="collapse" id="dashboard-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="/group-register" class="link-dark rounded">Заявка в МЧС</a></li>
+                                <li><a href="/tours-all" class="link-dark rounded">Поиск туров</a></li>
+                                <li><a href="/tours-hot" class="link-dark rounded">Горячие туры</a></li>
+                                <li><a href="/weather" class="link-dark rounded">Погода в горах</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle rounded collapsed w-100 text-left"
+                                data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+                            <i class="fa-solid fa-circle-info primary-text-color"></i> Информационный блок
+                        </button>
+                        <div class="collapse" id="orders-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="/partners" class="link-dark rounded">Партнерам</a></li>
+                                <li><a href="/for-guides" class="link-dark rounded">Гидам</a></li>
+                                <li><a href="/for-tourist" class="link-dark rounded">Путешественникам</a></li>
+                                <li><a href="/faq" class="link-dark rounded">FAQ</a></li>
+                                <li><a href="/about" class="link-dark rounded">О проекте</a></li>
+                                <li><a href="/contacts" class="link-dark rounded">Контакты</a></li>
+                                <li><a href="/contact-us" class="link-dark rounded">Связь с нами</a></li>
+                                <li><a href="/how-become-guide" class="link-dark rounded">Как стать гидом</a></li>
                             </ul>
                         </div>
                     </li>
@@ -242,6 +313,7 @@ export default {
         position: relative;
         z-index: 2;
         overflow-y: auto;
+        padding-bottom: 200px;
     }
 
     & > .backdrop {

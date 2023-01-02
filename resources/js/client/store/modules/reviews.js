@@ -94,9 +94,9 @@ const actions = {
             url:`${BASE_REVIEWS_LINK}/tour/${payload.tourId}?sort=${payload.sort}&direction=${payload.direction}`
         })
     },
-    async loadReviewByGuide(context, guideId){
+    async loadReviewByGuide(context, payload = {guideId:null, sort:null, direction:'ASC'}){
         return await context.dispatch("loadReviewData",{
-            url:`${BASE_REVIEWS_LINK}/guide/${guideId}`
+            url:`${BASE_REVIEWS_LINK}/guide/${payload.guideId}?sort=${payload.sort}&direction=${payload.direction}`
         })
     },
     async addReview(context, review){

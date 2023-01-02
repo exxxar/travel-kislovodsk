@@ -185,10 +185,15 @@ class TourObjectController extends Controller
 
         $tourObject = TourObject::query()->where("id", $id)->first();
 
-        if (!is_null($tourObject))
+        if (!is_null($tourObject)) {
             $tourObject->delete();
-
-        return response()->noContent();
+            return response()->noContent();
+        }
+        return response()->json([
+            "errors" => [
+                "message" => ["Данный туристический объект не найден!"]
+            ]
+        ], 404);
     }
 
     public function search(TourObjectSearchRequest $request)
@@ -324,7 +329,7 @@ class TourObjectController extends Controller
 
 
         try {
-             Excel::import(new TourObjectImport, storage_path('app/public/') . $fileName);
+            Excel::import(new TourObjectImport, storage_path('app/public/') . $fileName);
         } catch (ValidationException $e) {
             return response()->json([
                 "errors" => [

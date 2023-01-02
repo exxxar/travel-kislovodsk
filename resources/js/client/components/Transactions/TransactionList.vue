@@ -42,7 +42,7 @@
             <div class="personal-account-transactions" v-if="transaction_list.length>0">
                 <transaction-card v-for="item in transaction_list" :key="item.id" :item="item"/>
             </div>
-            <div class="personal-account-transactions" v-else>
+            <div class="personal-account-transactions" v-else-if="!load&&transaction_list.length===0">
                 <div class="row d-flex justify-content-center">
                     <div class="col col-12 col-md-6">
                         <div class="empty-list">
@@ -53,6 +53,20 @@
                 </div>
 
             </div>
+
+            <div v-if="load">
+                <div class="row d-flex justify-content-center">
+                    <div class="col col-12 col-md-6">
+                        <div class="empty-list">
+                            <img v-lazy="'/img/load.gif'" alt="">
+                            <p>Грузим информацию....</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <paginate-component v-if="pagination"
+                                :pagination="pagination"/>
         </div>
     </div>
 </template>
@@ -67,16 +81,22 @@ export default {
     },
 
     computed: {
-        ...mapGetters(['getTransactions', 'getTransactionsByTransactionType', 'getDictionariesByTypeSlug']),
+        ...mapGetters(['getTransactions',
+            'getTransactionsByTransactionType',
+            'getDictionariesByTypeSlug',
+            'getTransactionsPaginateObject']),
     },
     data: () => ({
+        load: false,
         status_types: [],
         transaction_type: 0,
-        transaction_list: []
+        transaction_list: [],
+        pagination: null,
     }),
     watch: {
         transaction_type: function (oldVal, newVal) {
-            this.loadTransactionsByPage()
+            this.pagination = null
+            this.loadTransactionsByPage(0)
         }
     },
     mounted() {
@@ -84,7 +104,7 @@ export default {
         this.loadDictionaries()
         this.loadTransactionsByPage()
 
-        this.eventBus.on('transaction_page', (page) => {
+        this.eventBus.on('pagination_page', (page) => {
             this.loadTransactionsByPage(page)
         });
     },
@@ -96,12 +116,15 @@ export default {
         },
         loadTransactionsByPage(page = 0) {
 
+            this.load = true
             if (this.transaction_type === 0) {
                 return this.$store.dispatch("loadTransactionsByPage", {
                     page: page
+
                 }).then(() => {
                     this.transaction_list = this.getTransactions
-                    this.eventBus.emit('update_transactions_pagination')
+                    this.pagination = this.getTransactionsPaginateObject
+                    this.load = false
                 })
             } else
                 return this.$store.dispatch("loadTransactionsFilteredByPage", {
@@ -110,7 +133,8 @@ export default {
                     }
                 }).then(() => {
                     this.transaction_list = this.getTransactions
-                    this.eventBus.emit('update_transactions_pagination')
+                    this.pagination = this.getTransactionsPaginateObject
+                    this.load = false
                 })
 
         }

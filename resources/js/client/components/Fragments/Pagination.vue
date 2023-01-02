@@ -4,12 +4,12 @@
 
         </div>
         <div class="col-lg-6 dt-pagination d-flex justify-content-center align-items-center">
-<!--            <button class="button bold bg-blue col-12 col-lg-auto px-4 rounded">Показать еще
-                <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20"
-                     width="20">
-                    <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
-                </svg>
-            </button>-->
+            <!--            <button class="button bold bg-blue col-12 col-lg-auto px-4 rounded">Показать еще
+                            <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20"
+                                 width="20">
+                                <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
+                            </svg>
+                        </button>-->
             <nav aria-label="Page navigation" class="dt-nav-pagination dt-pagination_body">
                 <ul class="pagination" v-if="pagination">
                     <li class="page-item page-item-control"
@@ -25,10 +25,11 @@
 
                     <li class="page-item" :key="'paginate'+index"
                         v-for="(item, index) in filteredLinks"
-                        v-bind:class="{'active':item.active}"
-                        @click="page(item.label)"
+                        @click="page(index)"
+                        v-bind:class="{'active':currentPage==index }"
                     >
-                        <div class="page-link">{{item.label}}</div>
+
+                        <div class="page-link" v-if="index!==0&&index!==filteredLinks.length-1">{{item.label}}</div>
                     </li>
 
                     <li class="page-item page-item-control"
@@ -51,45 +52,46 @@
     </div>
 </template>
 <script>
-import {mapGetters} from "vuex";
+
 
 export default {
+    props:["pagination"],
     data(){
         return {
-            pagination:null,
+            currentPage:1,
         }
     },
     computed: {
-        ...mapGetters(['getGuideToursPaginateObject']),
         filteredLinks(){
             if (!this.pagination)
                 return [];
 
-            return this.pagination.meta.links.filter((item, index)=>{
-                return index>0
-                    &&index<this.pagination.meta.last_page
-                    &&this.pagination.meta.current_page>index-3
-                    &&this.pagination.meta.current_page<index+3
-            })
-
+            return this.pagination.meta.links
         }
     },
     methods:{
         nextPage(){
-            this.eventBus.emit('tour_page', this.pagination.meta.current_page+1)
+            this.currentPage = this.pagination.meta.current_page+1
+            this.eventBus.emit('pagination_page', this.pagination.meta.current_page+1)
         },
         page(index){
-            this.eventBus.emit('tour_page', index)
+            if (this.currentPage===index)
+                return;
+            window.scrollTo({
+                top: 500,
+                behavior: "smooth"
+            })
+            this.currentPage = index
+            this.eventBus.emit('pagination_page', index)
         },
         prevPage(){
-            this.eventBus.emit('tour_page', this.pagination.meta.current_page-1)
+            if (this.currentPage===1)
+                return
+
+            this.currentPage = this.pagination.meta.current_page-1
+            this.eventBus.emit('pagination_page', this.pagination.meta.current_page-1)
         }
     },
-    mounted() {
-        this.eventBus.on('update_tours_pagination',()=>{
-            this.pagination = this.getGuideToursPaginateObject
-        })
 
-    }
 }
 </script>

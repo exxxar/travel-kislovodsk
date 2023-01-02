@@ -1,9 +1,10 @@
 
 <template>
     <main class="container">
-        <div class="main row d-flex justify-content-center">
-            <div class="row col-11 col-md-10 col-lg-8 mx-0 px-0">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8 mx-0 px-0">
                 <breadcrumbs :items="breadcrumbs" class="d-flex justify-content-center"/>
+
                 <h1 class="col-12 px-0 mb-5 bold fs-1 lh-sm">Онлайн-заявка на регистрацию<br/>туристких групп</h1>
                 <p class="col-12 px-0 mb-5 bold font-size-09 thin">
                     <span class="bold red font-size-09">Собрались в поход - проинформируйте МЧС!</span>
@@ -15,7 +16,7 @@
                     suscipit exercitationem tenetur reprehenderit amet totam dolorum distinctio minima ullam veniam
                     saepe!
                 </p>
-                <div class="col-12 row px-0 mx-0 mb-5">
+                <div class="col-12 mb-5">
                     <img class="icon-svg px-0" v-lazy="'/img/icons/info-red.svg'" alt="info">
                     <div class="col row px-0 mx-0 ms-2">
                         <span class="col-12 px-0 bold font-size-09">срок подачи заявления за 10 рабочих дней до даты
@@ -24,10 +25,10 @@
                             before the start of the route</span>
                     </div>
                 </div>
-                <div class="col-12 row px-0 mx-0 mb-5">
-                    <img class="px-0 rounded img-250" v-lazy="'/img/3.png'" alt="">
+                <div class="col-12 px-0 mx-0 mb-5 d-flex justify-content-center">
+                    <img class="px-0 rounded img-250 w-100" v-lazy="'/img/3.png'" alt="">
                 </div>
-                <div class="col-12 row px-0 mx-0 mb-5">
+                <div class="col-12 px-0 mx-0 mb-5">
                     <img class="icon-svg px-0" v-lazy="'/img/icons/info-red.svg'" alt="info">
                     <div class="col row px-0 mx-0 ms-2">
                         <p class="px-0">
@@ -40,8 +41,8 @@
                 </div>
 
                 <form v-on:submit.prevent="submitForm">
-                    <div class="col-12 row px-0 mx-0 mb-5 align-items-center">
-                        <div class="col-12 col-md-3 row ps-0 pe-4 mx-0">
+                    <div class="col-12 px-0 mx-0 mb-5 align-items-center">
+                        <div class="col-12 col-md-3 ps-0 pe-4 mx-0">
                             <span class="col-auto px-0 mx-0 blue bold font-size-09">01.</span>
                             <div class="col px-0 ms-2 d-flex flex-column">
                                 <span class="bold font-size-09">Дата регистрации</span>
@@ -269,7 +270,7 @@
                             <div class="col-12 col-md-9 mt-2 px-0 d-flex justify-content-between">
                                 <input type="number"  name="group-number-total"
                                        v-model="groupForm.group_info.members_count"
-                                       min="0" step="1" class="col-3 mt-2 mt-md-0 px-2rem py-4 rounded border-0 "
+                                       min="0" step="1" class="w-100 mt-2 mt-md-0 px-2rem py-4 rounded border-0 "
                                        required>
                             </div>
                         </div>
@@ -280,20 +281,20 @@
                             </div>
                             <div class="col-12 col-md-9 mt-2 px-0 d-flex flex-wrap">
                                 <div class="row w-100 mt-2">
-                                    <div class="col-md-4 col-12">
+                                    <div class="col-md-4 col-12 d-none d-sm-block">
                                         <p>Возраст</p>
                                     </div>
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-md-6 col-12 d-none d-sm-block">
                                         <p>Колличество</p>
                                     </div>
-                                    <div class="col-md-2 col-12 text-center">
+                                    <div class="col-md-2 col-12 text-center d-none d-sm-block">
                                         <p>Действие</p>
                                     </div>
                                 </div>
 
                                 <div class="row w-100 mt-2" v-for="(item, index) in groupForm.group_info.children">
                                     <div class="col-md-4 col-12">
-
+                                        <p class="d-block d-sm-none">Возраст</p>
                                         <input type="number" min="0" name="group-number-children"
                                                v-model="groupForm.group_info.children[index].age"
                                                class="col-3 px-2rem py-4 rounded border-0 w-100" required>
@@ -301,14 +302,15 @@
 
                                     </div>
                                     <div class="col-md-6 col-12">
-
+                                        <p class="d-block d-sm-none">Колличество</p>
                                         <input type="number" min="0" name="group-children-age"
                                                v-model="groupForm.group_info.children[index].count"
                                                class="col  px-2rem py-4 rounded border-0 w-100" required>
                                     </div>
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
+
                                         <button @click="removeChildren(index)" type="button"
-                                                class="btn btn-danger">
+                                                class="btn btn-danger mt-2 w-100">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </div>

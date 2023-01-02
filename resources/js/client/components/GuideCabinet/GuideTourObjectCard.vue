@@ -1,58 +1,67 @@
 <template>
-    <div class="object object__info row col-4 bg-white rounded mx-0 px-0">
-        <div class="col-12 px-0">
-            <img class="cover w-100 rounded-top" :class="{'archived': tourObject.deleted_at}"
-                 v-lazy="tourObject.photos[0]"
-                 alt="travel"/>
-        </div>
-        <div class="col-12 px-0">
-            <div class="object__body">
-                <h2 class="object__name mb-2 bold">{{ tourObject.title }}</h2>
-                <p class="short-descrtiption opacity-80 lh-lg">
+    <div class="card tour-card">
+        <div class="card-body p-0">
+            <div class="tour-card__logo">
+                <img class="cover w-100" :class="{'archived': tourObject.deleted_at}"
+                     v-lazy="tourObject.photos[0]"
+                     alt="travel"/>
+            </div>
+            <div class="tour-card__content">
+                <h2 class="tour-card__name mb-2 bold">{{ tourObject.title }}</h2>
+                <p class="tour-card__description">
                     {{ tourObject.description }}
                 </p>
             </div>
-            <div v-if="!tourObject.deleted_at" class="object__body splitted">
-                <div class="align-items-baseline mx-0 d-flex justify-content-between position-relative">
-                    <button
-                        @click="openEditTourObject"
-                        class="dt-btn-text">редактировать</button>
-                    <button
-                        @click="removedGuideTourObjectsById"
-                        class="dt-btn-text-red fw-bold text-uppercase d-lg-block d-none">
-                        удалить
-                    </button>
-                    <div class="dropdown position-absolute d-lg-none d-block" style="top: -10px; right: 0;">
-                        <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown">
-                            <div
-                                class="col-auto menu-dots rounded d-flex px-0 gap-1 align-items-center justify-content-center">
-                                <div class="menu-dot bg-blue rounded"></div>
-                                <div class="menu-dot bg-blue rounded"></div>
-                                <div class="menu-dot bg-blue rounded"></div>
-                            </div>
-                        </button>
-                        <ul class="w-auto dropdown-menu col-12 flex-grow-1 border-0 px-2rem pb-3
-                                                    pt-0 text-center rounded font-size-09">
-                            <li>
-                                <button class="dropdown-item mt-3 p-0"><span
-                                    class="px-0 font-size-07 letter-spacing-3 text-uppercase bold position-relative red red-underline">удалить</span>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div v-else class="object__body splitted">
-                <div class="align-items-baseline mx-0 d-flex justify-content-center position-relative">
-                    <button
-                        @click="restoreRemovedGuideTourObjectsById"
-                        class="letter-spacing-3 text-uppercase bold position-relative black-underline">
-                        восстановить
-                    </button>
-                </div>
+        </div>
+        <div class="card-footer ">
+
+            <div class="dropdown">
+                <button class="btn btn-link btn-action w-100 dropdown-toggle"
+                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-chevron-right" style="color:red; margin-right: 10px;"></i> Действия
+                </button>
+                <ul class="dropdown-menu w-100">
+                    <li v-if="!tourObject.deleted_at">
+                        <a class="dropdown-item"
+                           :href="'/tour-object/'+tourObject.id"><i class="fa-solid fa-eye"></i> Просмотр объекта</a>
+                    </li>
+                    <li v-if="!tourObject.deleted_at">
+                        <a class="dropdown-item"
+                           @click="openEditTourObject"
+                           href="#edit-tour-object"><i class="fa-solid fa-pen-to-square"></i> Редактировать</a>
+                    </li>
+                    <li v-if="!tourObject.deleted_at">
+                        <a class="dropdown-item"
+                           style="color:red;"
+                           data-bs-toggle="modal" :data-bs-target="'#removeTourObjectModalDialog'+tourObject.id"
+                           href="#remove-tour-object">
+                            <i
+                                style="color:red;"
+                                class="fa-solid fa-trash"></i> Удалить
+                        </a>
+                    </li>
+                    <li v-if="tourObject.deleted_at">
+                        <a class="dropdown-item"
+                           @click="restoreRemovedTourObject"
+                           href="#restore-tour-object"><i class="fa-solid fa-trash-can-arrow-up"></i> Восстановить</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
+
+
+    <action-modal-dialog-component
+        :id="'removeTourObjectModalDialog'+tourObject.id"
+        v-on:accept="removeTourObject">
+        <template v-slot:head>
+            <p>Диалог удаления тура</p>
+        </template>
+
+        <template v-slot:body>
+            <p>Вы действтельно хотите удалить тур "{{ tourObject.title || 'Нет заголовка' }}"?</p>
+        </template>
+    </action-modal-dialog-component>
 </template>
 
 <script>
@@ -65,14 +74,12 @@ export default {
         }
     },
     methods: {
-        openEditTourObject(){
-
-                this.eventBus.emit('open_edit_tour_object_window', this.tourObject)
-
+        openEditTourObject() {
+            this.eventBus.emit('open_edit_tour_object_window', this.tourObject)
         },
-        restoreRemovedGuideTourObjectsById(){
+        restoreRemovedTourObject() {
             this.$store.dispatch("restoreRemovedGuideTourObjectsById", this.tourObject.id).then(() => {
-                this.eventBus.emit("tour_object_page", 0)
+                this.eventBus.emit("pagination_page", 0)
                 this.$notify({
                     title: "Восстановление туристического объекта",
                     text: "Туристический объект успешно восстановлен",
@@ -80,9 +87,9 @@ export default {
                 });
             })
         },
-        removedGuideTourObjectsById() {
+        removeTourObject() {
             this.$store.dispatch("removedGuideTourObjectsById", this.tourObject.id).then(() => {
-                this.eventBus.emit("tour_object_page", 0)
+                this.eventBus.emit("pagination_page", 0)
                 this.$notify({
                     title: "Удаление туристического объекта",
                     text: "Туристический объект успешно удален",
@@ -95,9 +102,64 @@ export default {
 </script>
 
 <style lang="scss">
-.object__info {
+
+
+.tour-card {
+    background-color: white;
+    overflow: hidden;
+
     img {
         height: 350px;
+        object-fit: cover;
+    }
+
+    .tour-card__logo {
+
+    }
+
+    .tour-card__content {
+        min-height: 270px;
+    }
+
+    .tour-card__name {
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        overflow: hidden;
+
+        padding: 10px;
+        box-sizing: border-box;
+
+    }
+
+    .tour-card__description {
+        overflow: hidden;
+        padding: 10px;
+        box-sizing: border-box;
+        position: relative;
+        text-overflow: ellipsis;
+        height: 150px;
+
+        &:after {
+            content: '';
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(transparent, white);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+    }
+
+    .card-footer {
+        background-color: white;
+
+        .btn-action {
+            color: #0071eb;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 12px;
+        }
     }
 }
 </style>

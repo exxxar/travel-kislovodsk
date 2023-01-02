@@ -4,9 +4,14 @@
             Просмотренные
         </h2>
         <div class="personal-account-viewed">
-            <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" v-if="watches.length>0">
-                <div class="col col-xs-12" v-for="item in watches">
+            <div class="dt-form row" v-if="watches.length>0">
+                <div class="col-12 col-md-4" v-for="item in watches">
                     <tour-card-component :tour="item.tour" :key="item"/>
+                </div>
+
+                <div class="col-12">
+                    <paginate-component v-if="pagination"
+                                        :pagination="pagination"/>
                 </div>
             </div>
 
@@ -18,7 +23,11 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
+
+
     </div>
 </template>
 
@@ -29,12 +38,12 @@ import {mapGetters} from "vuex";
 export default {
     data() {
         return {
-
+            pagination:null,
             watches: []
         }
     },
     computed: {
-        ...mapGetters(['getUserWatchedTours']),
+        ...mapGetters(['getUserWatchedTours','getUserWatchedToursPaginateObject']),
     },
     mounted() {
         this.loadUserWatchedToursByPage();
@@ -43,7 +52,7 @@ export default {
         loadUserWatchedToursByPage() {
             this.$store.dispatch("loadUserWatchedToursByPage").then(() => {
                 this.watches = this.getUserWatchedTours
-
+                this.pagination = this.getUserWatchedToursPaginateObject
             })
         }
     }

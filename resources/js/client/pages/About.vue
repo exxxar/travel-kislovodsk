@@ -1,7 +1,7 @@
 <template>
     <main class="container">
-        <div class="main row d-flex justify-content-center">
-            <div class="row col-11 col-md-10 col-lg-8 align-self-center mx-0 px-0">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8 align-self-center">
                 <h3 class="col-12 px-0 mb-5 opacity-40 letter-spasing-3 text-uppercase">главная <span
                     class="fs-6 opacity-40">&gt;</span>
                     о проекте</h3>
@@ -132,6 +132,10 @@
                         <button class="big-button rounded col-12 col-lg-auto px-5 mt-3 mt-lg-0 bg-blue bold font-size-09">Задать вопрос</button>
                     </div>
                 </div>
+            </div>
+
+            <div class="col-12">
+                <benefits-component></benefits-component>
             </div>
         </div>
     </main>

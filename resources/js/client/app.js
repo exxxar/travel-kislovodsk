@@ -33,6 +33,7 @@ import TourCategoriesListSlider from '@/components/Tours/TourCategoriesListSlide
 import TourList from '@/components/Tours/TourList.vue'
 import TourFavoriteList from '@/components/Tours/TourFavoriteList.vue'
 import ImageModalDialog from '@/components/Fragments/ImageModalDialog.vue'
+import ActionModalDialog from '@/components/Fragments/ActionModalDialog.vue'
 import MapModalDialog from '@/components/Fragments/MapModalDialog.vue'
 import SelectedMapModalDialog from '@/components/Fragments/SelectedMapModalDialog.vue'
 
@@ -69,8 +70,8 @@ import GuideTourCard from '@/components/GuideCabinet/GuideTourCard.vue'
 import GuideTourObjects from '@/components/GuideCabinet/GuideTourObjects.vue'
 import GuideTourObjectList from '@/components/GuideCabinet/GuideTourObjectList.vue'
 import GuideTourObjectCard from '@/components/GuideCabinet/GuideTourObjectCard.vue'
-import GuideTourObjectPaginate from '@/components/GuideCabinet/GuideTourObjectPaginate.vue'
-import GuideTourPaginate from '@/components/GuideCabinet/GuideTourPaginate.vue'
+
+import Paginate from '@/components/Fragments/Pagination.vue'
 import GuideDocuments from "@/components/GuideCabinet/GuideDocuments.vue";
 import GuideTourGroup from "@/components/GuideCabinet/GuideTourGroup.vue";
 import ReviewList from "@/components/Reviews/ReviewList.vue";
@@ -95,7 +96,7 @@ window.eventBus = eventBus;
 
 app.use(VueLazyLoad,
     {
-        loading: '/img/preloader.gif',
+        loading: '/img/load.gif',
         error: '/img/error.png'
     })
 
@@ -137,6 +138,7 @@ app.component('tour-categories-list-slider-component', TourCategoriesListSlider)
 app.component('tour-list-component', TourList)
 app.component('tour-favorite-list-component', TourFavoriteList)
 app.component('image-modal-dialog-component', ImageModalDialog)
+app.component('action-modal-dialog-component', ActionModalDialog)
 app.component('map-modal-dialog-component', MapModalDialog)
 app.component('selected-map-modal-dialog-component', SelectedMapModalDialog)
 
@@ -170,8 +172,7 @@ app.component('guide-tours-component', GuideTours)
 app.component('guide-tour-list-component', GuideTourList)
 app.component('guide-tour-card-component', GuideTourCard)
 app.component('guide-tour-objects-component', GuideTourObjects)
-app.component('guide-tour-object-paginate-component', GuideTourObjectPaginate)
-app.component('guide-tour-paginate-component', GuideTourPaginate)
+
 app.component('guide-tour-object-list-component', GuideTourObjectList)
 app.component('guide-tour-object-card-component', GuideTourObjectCard)
 app.component('guide-documents-component', GuideDocuments)
@@ -183,6 +184,7 @@ app.component('review-add-form-component', ReviewAddForm)
 app.component('rating-component', Rating)
 app.component('excel-uploader-component', ExcelUploader)
 
+app.component('paginate-component', Paginate)
 
 app.component('mobile-footer-menu-component', MobileFooterMenu)
 app.component('mobile-sidebar-menu-component', MobileSideBarMenu)

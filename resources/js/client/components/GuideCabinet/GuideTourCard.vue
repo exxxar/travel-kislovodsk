@@ -1,143 +1,173 @@
 <template>
-    <div class="excursion row bg-white rounded mx-0 mb-4 overflow-hidden" v-if="tour">
-        <div class="col px-0">
-            <div class="px-4 py-4 align-items-center row mx-0 excursion__info position-relative">
-                <p class="excursion__name mb-2 bold order-2 order-xxl-1 col-12 mt-4 mt-xxl-0">
-                    {{ tour.title || 'Нет заголовка'}}
-                </p>
-                <p class="short-descrtiption opacity-80 mb-3 lh-lg order-3 order-xxl-2 col-12">
-                    {{ tour.short_description || tour.description || 'Нет описания' }}
-                </p>
-                <div class="col-12 col-xxl-auto order-1 order-xxl-3 row align-items-center mx-0">
-                    <p class="dt-excursion-type position-static col-auto">
-                        {{ tour.tour_type }}
+
+    <div class="excursion-card card w-100" v-if="tour">
+        <div class="row g-0">
+            <div class="col-md-8 d-flex justify-content-between flex-column">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        {{ tour.title || 'Нет заголовка' }}
+                    </h2>
+                    <p class="card-text">
+                        {{ tour.short_description || tour.description || 'Нет описания' }}
                     </p>
-                    <div v-if="tour.is_active || tour.is_moderation || tour.is_draft"
-                        class="dropdown position-absolute d-lg-none d-block w-auto" style="top: 20px; right: 10px;">
-                        <button type="button" class="dropdown-toggle" tour-bs-toggle="dropdown">
-                            <div
-                                class="col-auto menu-dots rounded d-flex px-0 gap-1 align-items-center justify-content-center">
-                                <div class="menu-dot bg-blue rounded"></div>
-                                <div class="menu-dot bg-blue rounded"></div>
-                                <div class="menu-dot bg-blue rounded"></div>
-                            </div>
-                        </button>
-                        <ul class="w-auto dropdown-menu col-12 flex-grow-1 border-0 px-2rem pb-3
-                                                    pt-0 text-center rounded font-size-09">
-                            <li class="text-start" v-if="!tour.is_draft">
-                                <a :href="'/tour/'+tour.id" target="_blank" class="dropdown-item mt-3 p-0">
-                                    <span class="dt-btn-text">страница экскурсии</span>
-                                </a>
-                            </li>
-                            <li v-if="tour.is_active" class="text-start">
-                                <button @click="addToArchive"
-                                        class="dropdown-item mt-3 p-0"><span
-                                    class="px-0 font-size-07 letter-spacing-3 text-uppercase bold position-relative red red-underline">в архив</span>
-                                </button>
-                            </li>
-                            <li class="text-start" v-if="tour.is_draft || tour.is_moderation">
-                                <button
-                                    class="dropdown-item mt-3 p-0"><span
-                                    class="px-0 font-size-07 letter-spacing-3 text-uppercase bold position-relative red red-underline">удалить</span>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-auto order-last row me-auto">
-                    <div class="col-auto">
-                        <span class="excursion_number letter-spacing-3 text-uppercase bold">{{ tour.base_price }}</span>
-                        <span class="font-size-08 text-uppercase"><i class="fa-solid fa-ruble-sign"></i></span>
-                    </div>
-                    <div class="col-auto">
-                        <span class="excursion_number letter-spacing-3 text-uppercase bold">{{ tour.duration }}</span>
-                        <span class="font-size-08 text-uppercase"><i class="fa-solid fa-clock-rotate-left"></i></span>
-                    </div>
-                </div>
-                <div v-if="tour.is_moderation" class="col-12 col-sm-auto order-last mt-3 mt-sm-0 ms-sm-auto">
-                    <span class="excursion__status green font-size-08">на проверке</span>
-                </div>
-                <div v-if="!tour.is_moderation" class="col-auto order-last row align-items-center mt-3 mt-sm-0">
-                    <div class="col-auto">
-                        <span class="excursion__rating font-size-07 opacity-40 me-1">рейтинг экскурсии</span>
-                        <span class="excursion_number excursion_number__rating text-uppercase bold">
+                    <p class="card-text"><small class="text-muted">
+                        {{ moment(tour.created_at).format('YYYY-MM-DD H:m:s') }}</small></p>
+
+                    <div class="row">
+                        <div class="col-sm-3 col-6">
+                            <p class="dt-excursion-type position-static col-auto">
+                                {{ tour.tour_type }}
+                            </p>
+                        </div>
+                        <div class="col-sm-4 col-6 d-flex justify-content-around align-items-center">
+                            <p>
+                                <span class="excursion_number letter-spacing-3 text-uppercase bold">{{
+                                        tour.base_price
+                                    }}</span>
+                                <span class="font-size-08 text-uppercase"><i class="fa-solid fa-ruble-sign"></i></span>
+                            </p>
+
+                            <p>
+                                <span class="excursion_number letter-spacing-3 text-uppercase bold">{{
+                                        tour.duration
+                                    }}</span>
+                                <span class="font-size-08 text-uppercase"><i class="fa-solid fa-clock-rotate-left"></i></span>
+                            </p>
+
+                        </div>
+
+
+                        <div
+                            class="col-sm-5 mt-2 mt-sm-0 align-items-center col-12 dt-rating__star d-flex justify-content-around align-items-center">
+                            <p class="w-100 d-flex justify-content-center align-items-center">
+                                <span class="excursion__rating font-size-07 opacity-40 me-1">рейтинг экскурсии</span>
+                                <span class="excursion_number excursion_number__rating text-uppercase bold">
                             {{ tour.rating }}
                         </span>
+                            </p>
+
+                            <div class="w-100 d-flex justify-content-center">
+                                <rating-component :rating="tour.rating"/>
+                            </div>
+
+
+                        </div>
                     </div>
-                    <div class="col-auto align-items-center d-flex gap-1 dt-rating">
-                        <div class="dt-rating__star d-flex">
-                            <rating-component :rating="tour.rating"/>
+                </div>
+                <div class="card-footer bg-white">
+                    <div class="align-items-center row excursion__info position-relative">
+                        <div class="dropdown">
+                            <button class="btn btn-link btn-action w-100 dropdown-toggle"
+                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-chevron-right" style="color:red; margin-right: 10px;"></i>
+                                Действия
+                            </button>
+                            <ul class="dropdown-menu w-100">
+                                <li v-if="!tour.is_draft">
+                                    <a class="dropdown-item"><i class="fa-solid fa-eye"></i> Просмотреть тур</a>
+                                </li>
+
+                                <li v-if="tour.is_active">
+                                    <a
+                                        @click="openGuideTourGroup(tour)"
+                                        class="dropdown-item"><i class="fa-solid fa-eye"></i> Бронь тура</a>
+                                </li>
+                                <li v-if="tour.verified_at==null&&tour.request_verify_at==null&&tour.is_draft">
+                                    <a data-bs-toggle="modal" :data-bs-target="'#verifyRequestModalDialog'+tour.id"
+                                       class="dropdown-item"><i class="fa-solid fa-eye"></i> Запросить верифкацию
+                                        тура</a>
+                                </li>
+                                <li v-if="tour.is_active">
+                                    <a data-bs-toggle="modal" :data-bs-target="'#archiveModalDialog'+tour.id"
+                                       class="dropdown-item"><i class="fa-solid fa-eye"></i> Архивировать тур</a>
+                                </li>
+
+                                <li v-if="!tour.is_active&&!tour.is_draft">
+                                    <a class="dropdown-item"
+                                       data-bs-toggle="modal" :data-bs-target="'#archiveRestoreModalDialog'+tour.id"
+                                       href="#restore-tour-object"><i class="fa-solid fa-trash-can-arrow-up"></i>
+                                        Восстановить из архива</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       @click="openEditTour"
+                                       href="#edit-tour-object"><i class="fa-solid fa-pen-to-square"></i> Редактировать</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       style="color:red;"
+                                       data-bs-toggle="modal"
+                                       :data-bs-target="'#removeTourModalDialog'+tour.id"
+                                       href="#remove-tour-object">
+                                        <i
+                                            style="color:red;"
+                                            class="fa-solid fa-trash"></i> Удалить
+                                    </a>
+                                </li>
+
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <div v-if="tour.is_active" class="splitted">
-                <div class="row align-items-center p-4 mx-0">
-                    <a  @click="openGuideTourGroup(tour)" class="dt-btn-text col-auto d-none d-lg-block">
-                        Страница брони экскурсии
-                    </a>
-                    <button
-                        @click="openEditTour"
-                        class="col-auto dt-btn-text">Редактировать</button>
-                    <button
-                        @click="addToArchive"
-                        class="dt-btn-text-red fw-bold text-uppercase col-auto ms-3 px-0 d-none d-lg-block">
-                        в архив
-                    </button>
-                    <div class="col-auto ms-auto sms lh-1 position-relative">
-                        <a href="/messages"><i class="fa-regular fa-comment-dots"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div v-if="!tour.is_active && !tour.is_moderation && !tour.is_draft" class="splitted">
-                <div class="row align-items-center p-4 mx-0">
-                    <button
-                        @click="removeTourFromArchive"
-                        class="col-auto mx-auto px-0 position-relative dt-btn-text-red text-uppercase fw-bold">
-                        убрать из архива
-                    </button>
-                </div>
-            </div>
-            <div v-if="tour.is_draft" class="splitted">
-                <div class="row align-items-center justify-content-center justify-content-xxl-start p-4 mx-0">
-                    <button
-                        @click="openEditTour"
-                        class="col-auto dt-btn-text">Редактировать</button>
-                    <button
-                        @click="requestVerify"
-                        class="col-auto dt-btn-text">Запрос верификации</button>
 
-                    <button
-                        @click="removeTour"
-                        class="col-auto ms-auto dt-btn-text-red fw-bold text-uppercase px-0 d-none d-lg-block">
-                        Удалить
-                    </button>
-                </div>
+            <div class="col-md-4 excursion-card__preview">
+                <img class="img-fluid rounded-start d-sm-block d-none" style="height: 100%;" v-lazy="tour.preview_image"
+                     alt=""/>
+                <img class="img-fluid rounded-start d-sm-none d-block" style="max-height: 200px;"
+                     v-lazy="tour.preview_image" alt=""/>
             </div>
-            <div v-if="tour.is_moderation" class="splitted">
-                <div class="row align-items-center p-4 mx-0 justify-content-center">
-                    <button class="dt-btn-text col-auto d-none d-lg-block">
-                        Страница экскурсии
-                    </button>
-                    <button
-                        @click="requestVerify"
-                        class="col-auto dt-btn-text">Запрос верификации</button>
-
-                    <button
-                        @click="openEditTour"
-                        class="col-auto dt-btn-text">Редактировать</button>
-                    <button
-                        @click="removeTour"
-                        class="d-none d-lg-block dt-btn-text-red col-auto ms-auto px-0 fw-bold text-uppercase">
-                        Удалить
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="excursion__image col-12 col-xl-4 px-0">
-            <img class="cover w-100" style="height:250px;" v-lazy="tour.preview_image" alt=""/>
         </div>
     </div>
+
+    <action-modal-dialog-component
+        :id="'archiveModalDialog'+tour.id"
+        v-on:accept="addToArchive">
+        <template v-slot:head>
+            <p>Диалог архивирования тура</p>
+        </template>
+
+        <template v-slot:body>
+            <p>Вы действтельно хотите отправить тур "{{ tour.title || 'Нет заголовка' }}" в архив?</p>
+        </template>
+    </action-modal-dialog-component>
+
+    <action-modal-dialog-component
+        :id="'removeTourModalDialog'+tour.id"
+        v-on:accept="removeTour">
+        <template v-slot:head>
+            <p>Диалог удаления тура</p>
+        </template>
+
+        <template v-slot:body>
+            <p>Вы действтельно хотите удалить тур "{{ tour.title || 'Нет заголовка' }}"?</p>
+        </template>
+    </action-modal-dialog-component>
+
+    <action-modal-dialog-component
+        :id="'archiveRestoreModalDialog'+tour.id"
+        v-on:accept="removeTourFromArchive">
+        <template v-slot:head>
+            <p>Диалог восстановления тура</p>
+        </template>
+
+        <template v-slot:body>
+            <p>Вы действтельно хотите восстановить тур "{{ tour.title || 'Нет заголовка' }}" из архива?</p>
+        </template>
+    </action-modal-dialog-component>
+
+    <action-modal-dialog-component
+        :id="'verifyRequestModalDialog'+tour.id"
+        v-on:accept="requestVerify">
+        <template v-slot:head>
+            <p>Диалог запроса верификации тура</p>
+        </template>
+
+        <template v-slot:body>
+            <p>Вы действтельно хотите запросить у администрации сайта проверку тура
+                "{{ tour.title || 'Нет заголовка' }}"?</p>
+        </template>
+    </action-modal-dialog-component>
 </template>
 <script>
 export default {
@@ -151,14 +181,19 @@ export default {
             }
         }
     },
+    computed: {
+        moment() {
+            return window.moment
+        }
+    },
     data() {
         return {}
     },
-    methods:{
-        requestVerify(){
+    methods: {
+        requestVerify() {
 
-            this.$store.dispatch("requestGuideTourVerified", this.tour.id).then(()=>{
-                this.eventBus.emit('load_guide_tours','Действующие');
+            this.$store.dispatch("requestGuideTourVerified", this.tour.id).then(() => {
+                this.eventBus.emit('load_guide_tours', 'Действующие');
 
                 this.$notify({
                     title: "Мои туры",
@@ -167,15 +202,15 @@ export default {
                 });
             })
         },
-        openEditTour(){
+        openEditTour() {
             this.eventBus.emit('open_edit_tour_window', this.tour)
         },
-        openGuideTourGroup(tour){
+        openGuideTourGroup(tour) {
             this.eventBus.emit('open_gide_tour_group', tour);
         },
-        removeTour(){
-            this.$store.dispatch("removeTour", this.tour.id).then(()=>{
-                this.eventBus.emit('load_guide_tours','Действующие');
+        removeTour() {
+            this.$store.dispatch("removeTour", this.tour.id).then(() => {
+                this.eventBus.emit('load_guide_tours', 'Действующие');
 
                 this.$notify({
                     title: "Мои туры",
@@ -184,9 +219,9 @@ export default {
                 });
             })
         },
-        removeTourFromArchive(){
-            this.$store.dispatch("removeTourFromArchive", this.tour.id).then(()=>{
-                this.eventBus.emit('load_guide_tours','Архив');
+        removeTourFromArchive() {
+            this.$store.dispatch("removeTourFromArchive", this.tour.id).then(() => {
+                this.eventBus.emit('load_guide_tours', 'Архив');
 
                 this.$notify({
                     title: "Мои туры",
@@ -195,8 +230,8 @@ export default {
                 });
             })
         },
-        addToArchive(){
-            this.$store.dispatch("addTourToArchive", this.tour.id).then(()=>{
+        addToArchive() {
+            this.$store.dispatch("addTourToArchive", this.tour.id).then(() => {
                 this.eventBus.emit('load_guide_tours');
 
                 this.$notify({
@@ -210,10 +245,32 @@ export default {
 }
 </script>
 <style lang="scss">
-.dt-rating__star {
-    img {
-        width: 20px;
-        height: 20px;
+
+
+.excursion-card {
+    .dt-rating__star {
+        img {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .card-footer {
+        background-color: white;
+
+        .btn-action {
+            color: #0071eb;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 12px;
+        }
+    }
+
+    .excursion-card__preview {
+        img {
+            object-fit: cover;
+            width: 100%;
+        }
     }
 }
 </style>

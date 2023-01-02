@@ -67,6 +67,30 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [ 'rating_statistic','rating'];
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class,'tour_guide_id','id');
+    }
+
+    public function getRatingAttribute()
+    {
+
+        $reviews = $this->reviews()->get() ?? [];
+
+
+        $sum = 0;
+
+        foreach ($reviews as $review) {
+            $sum += $review->rating;
+        }
+
+        if (count($reviews) === 0)
+            return 1;
+        return round($sum / count($reviews), 2);
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class);
@@ -251,5 +275,18 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
     {
         $this->notify(new EmailNotification());
     }*/
+
+    public function getRatingStatisticAttribute()
+    {
+        $reviews = $this->reviews()->get() ?? [];
+
+        $tmp = [0, 0, 0, 0, 0, 0];
+
+        foreach ($reviews as $review) {
+            $tmp[$review->rating]++;
+        }
+
+        return $tmp;
+    }
 
 }

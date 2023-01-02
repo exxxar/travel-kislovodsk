@@ -16,8 +16,8 @@
             <div class="d-flex align-items-center justify-content-between"><label
                 class="dt-input__label"><span v-if="is_email">почта</span><span v-else>телефон</span></label>
 
-                <span class="mb-2" @click="is_email = !is_email" v-if="is_email">Войти по номеру телефона</span>
-                <span class="mb-2" @click="is_email = !is_email" v-if="!is_email">Войти через email</span>
+                <span class="mb-2 cursor-pointer" @click="is_email = !is_email" v-if="is_email">Войти по номеру телефона</span>
+                <span class="mb-2 cursor-pointer" @click="is_email = !is_email" v-if="!is_email">Войти через email</span>
             </div>
             <div class="dt-input__group">
                 <input type="text" name="phone"
@@ -32,6 +32,7 @@
                        v-if="is_email"
                        placeholder="index@example.com"
                        class="dt-input" autocomplete="off">
+
                 <div class="dt-input__group-item">
                     <div class="dt-input__icon" v-if="!is_email">
                         <i class="fa-solid fa-phone"></i>
@@ -58,6 +59,28 @@
                 </div>
             </div>
         </div>
+
+        <div class="dt-input__wrapper mb-4" v-if="is_send_sms">
+            <div class="d-flex align-items-center justify-content-between"><label
+                class="dt-input__label">sms-код подтверждения</label>
+            </div>
+            <div class="dt-input__group">
+                <input type="text" name="sms"
+                       v-mask="'##-##-##'"
+                       placeholder="XX-XX-XX"
+                       v-model="form.sms" class="dt-input" autocomplete="off">
+                <div class="dt-input__group-item">
+                    <div class="dt-input__icon">
+                        <i class="fa-solid fa-comment-sms"></i>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
         <div class="dt-check align-items-start mb-4">
             <div class="dt-check__input">
                 <input type="checkbox" v-model="accept_rules"/>
@@ -84,11 +107,13 @@
 export default {
     data() {
         return {
+            is_send_sms: false,
             is_email: false,
             is_hidden_password:true,
             form: {
                 username: null,
                 password: null,
+                sms: null,
             },
             accept_rules: false,
         }
@@ -96,7 +121,23 @@ export default {
     methods: {
         login() {
             this.$store.dispatch("login", this.form)
+            this.is_send_sms = true;//todo: сделать логику
         }
     }
 }
 </script>
+<style lang="scss">
+.dt-btn-transparent {
+    padding: 10px 20px;
+    width: 100%;
+    img {
+        object-fit: contain;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+</style>

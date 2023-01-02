@@ -15,7 +15,7 @@
                 <div class="dt-online-register__info d-flex align-items-center">
                     <h3 class="fw-bold dt-online-register-title text-white">Онлайн заявка на регистрацию туристических
                         групп</h3>
-                    <a href="/group-register" target="_blank" class="btn dt-btn-white dt-online-register-btn"><span>Заполнить</span></a>
+                    <a href="/group-register" class="btn dt-btn-white dt-online-register-btn"><span>Заполнить</span></a>
                 </div>
             </div>
             <div class="dt-popular">

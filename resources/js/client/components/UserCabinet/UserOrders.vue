@@ -44,6 +44,7 @@
                             <div class="empty-list">
                                 <img v-lazy="'/img/no-tour.jpg'" alt="">
                                 <p>По данному фильтру ничего не найдено:(</p>
+                                <a href="/tours-all" class="btn btn-primary">Посмотреть туры</a>
                             </div>
                         </div>
 

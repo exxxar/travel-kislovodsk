@@ -59,7 +59,7 @@ class TouristGuideController extends Controller
     public function show(Request $request, $id)
     {
         $touristGuide = User::query()
-            ->with(["profile", "company"])
+            ->with(["profile", "company","reviews","bookings"])
             ->where("id", $id)
             ->first();
 
