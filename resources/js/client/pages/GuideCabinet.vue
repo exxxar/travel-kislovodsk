@@ -2,7 +2,7 @@
 
 
     <main class="container px-3 px-sm-0 personal-account dt-guide-cabinet">
-        <breadcrumbs :items="breadcrumbs"/>
+        <breadcrumbs-component :items="breadcrumbs"/>
         <div class="row"
              v-if="user.company.approve_at==null&&user.company.request_approve_at==null&&!isSendVerifiedRequest">
 
@@ -210,7 +210,7 @@
     </main>
 </template>
 <script>
-import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
+
 import AddTour from "@/components/Tours/AddTour.vue";
 import EditTour from "@/components/Tours/EditTour.vue";
 import AddTourObject from "@/components/TourObjects/AddTourObject.vue";
@@ -229,7 +229,7 @@ export default {
         AddTourObject,
         EditTourObject,
         GuideSettings, GuideTransactions,
-        GuideSchedule, AddTour, Breadcrumbs
+        GuideSchedule, AddTour
     },
     computed: {
         user() {

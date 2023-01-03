@@ -1,12 +1,11 @@
 <template>
     <main class="container">
         <div class="main row d-flex justify-content-center">
-            <div class="row col-11 col-md-10 col-lg-8 align-self-center mx-0 px-0">
-                <h3 class="col-12 px-0 mb-5 opacity-40 letter-spasing-3 text-uppercase">главная <span
-                    class="fs-6 opacity-40">&gt;</span>
-                    faq</h3>
-                <h1 class="col-12 px-0 mb-4 bold fs-1">Для путешественника</h1>
-                <p class="col-12 px-0 mb-4 thin font-size-09">
+            <div class="col-12 align-self-center mx-0 px-0">
+                <breadcrumbs-component :items="breadcrumbs"/>
+
+                <h1 class="px-0 mb-4 bold fs-1">Часто задаваемые вопросы</h1>
+                <p class="px-0 mb-4 thin font-size-09">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ad exercitationem laborum
                     consequuntur blanditiis quae excepturi nisi voluptas ea quibusdam sunt ipsam amet dignissimos, quam
                     tempora dolor, soluta magni labore vitae dolores eius natus. Iure eos unde saepe dolores inventore,
@@ -46,7 +45,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 bg-image p-3 rounded">
+                <div class="bg-image p-3 rounded">
                     <div
                         class="row col-12 px-5 py-2rem mx-0 bg-light d-flex justify-content-between align-items-center">
                         <div class="col-12 col-lg-6 row px-0 mx-0">
@@ -61,7 +60,9 @@
                     </div>
                 </div>
             </div>
-            <benefits-component/>
+            <div class="col-12">
+                <benefits-component></benefits-component>
+            </div>
         </div>
     </main>
 </template>
@@ -69,6 +70,15 @@
 export default {
     data() {
         return {
+            breadcrumbs: [
+                {
+                    text: "Главная",
+                    href: "/",
+                },
+                {
+                    text: "Для туриста",
+                    active: true,
+                }],
             questions: [{
                 id: 0,
                 title: "Какой-то вопрос?",

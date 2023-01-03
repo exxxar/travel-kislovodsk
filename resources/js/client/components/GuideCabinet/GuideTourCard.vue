@@ -112,7 +112,7 @@
             </div>
 
             <div class="col-md-4 excursion-card__preview">
-                <img class="img-fluid rounded-start d-sm-block d-none" style="height: 100%;" v-lazy="tour.preview_image"
+                <img class="img-fluid rounded-start d-sm-block d-none" style="height: 100%; max-height: 350px;" v-lazy="tour.preview_image"
                      alt=""/>
                 <img class="img-fluid rounded-start d-sm-none d-block" style="max-height: 200px;"
                      v-lazy="tour.preview_image" alt=""/>

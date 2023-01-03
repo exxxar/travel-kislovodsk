@@ -19,6 +19,7 @@
         "maatwebsite/excel": "^3.1",
         "mpdf/mpdf": "^8.1",
         "psr/simple-cache": "2.0",
+        "silviolleite/laravelpwa": "^2.0",
         "socialiteproviders/vkontakte": "^5.0",
         "tcg/voyager": "^1.6",
         "vearutop/php-obscene-censor-rus": "^1.0"

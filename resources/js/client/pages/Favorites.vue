@@ -1,6 +1,11 @@
 <template>
     <main class="dt-page-main mt-0">
         <div class="container">
+            <div class="row d-flex mt-5">
+                <div class="col-12 ">
+                    <breadcrumbs-component :items="breadcrumbs"/>
+                </div>
+            </div>
             <div class="dt-popular">
                 <div class="dt-popular__header dt-block-header text-center">
                     <h1 class="dt-header__title">То что понравилось</h1>
@@ -19,3 +24,33 @@
         </div>
     </main>
 </template>
+<script>
+import {mapGetters} from "vuex";
+
+export default {
+
+    computed: {
+        user() {
+            return window.user
+        },
+    },
+    data() {
+        return {
+            breadcrumbs: [
+                {
+                    text: "Главная",
+                    href: "/",
+                },
+                {
+                    text: "Избранное",
+                    active: true,
+                }],
+
+        }
+    },
+
+}
+</script>
+<style lang="scss">
+
+</style>

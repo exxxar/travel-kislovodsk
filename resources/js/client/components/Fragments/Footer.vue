@@ -4,43 +4,43 @@
         <div class="container" style="z-index: 4; position: relative;">
             <ul class="dt-links__list dt-sitemap__links justify-content-between h-100">
                 <li>
-                    <a href="/partners" target="_blank"
+                    <a href="/partners"
                        class="dt-link text-white text-decoration-none text-uppercase">Партнерам</a>
                 </li>
                 <li>
-                    <a href="/for-guides" target="_blank"
+                    <a href="/for-guides"
                        class="dt-link text-white text-decoration-none text-uppercase">Гидам</a>
                 </li>
                 <li>
-                    <a href="/for-tourist" target="_blank"
+                    <a href="/for-tourist"
                        class="dt-link text-white text-decoration-none text-uppercase">Путешественникам</a>
                 </li>
                 <li>
-                    <a href="/faq" target="_blank"
+                    <a href="/faq"
                        class="dt-link text-white text-decoration-none text-uppercase">FAQ</a>
                 </li>
                 <li>
-                    <a href="/about" target="_blank"
+                    <a href="/about"
                        class="dt-link text-white text-decoration-none text-uppercase">О проекте</a>
                 </li>
                 <li>
-                    <a href="#" target="_blank"
+                    <a href="/login"
                        class="dt-link text-white text-decoration-none text-uppercase">Вход</a>
                 </li>
                 <li>
-                    <a href="/tour-all" target="_blank"
+                    <a href="/tours-all"
                        class="dt-link text-white text-decoration-none text-uppercase">Поиск экскурсий</a>
                 </li>
                 <li>
-                    <a href="/contacts" target="_blank"
+                    <a href="/contacts"
                        class="dt-link text-white text-decoration-none text-uppercase">Контакты</a>
                 </li>
                 <li>
-                    <a href="/contact-us" target="_blank"
+                    <a href="/contact-us"
                        class="dt-link text-white text-decoration-none text-uppercase">Связаться с нами</a>
                 </li>
                 <li>
-                    <a href="/how-become-guide" target="_blank"
+                    <a href="/how-become-guide"
                        class="dt-link text-white text-decoration-none text-uppercase">Как стать гидом</a>
                 </li>
             </ul>
@@ -52,7 +52,7 @@
                 <div class="row">
                     <div class="col-lg-4 col-12 dt-order-name">
                         <div class="dt-years text-start">
-                            <h5 class="text-muted-white">2012-2022 "Название"</h5>
+                            <h5 class="text-muted-white">2012-2022 {{ title }}</h5>
                         </div>
                     </div>
                     <div class="col-lg-4 col-12 dt-order-payments">
@@ -75,7 +75,7 @@
                     </div>
                     <div class="col-lg-4 col-12 dt-order-privacy">
                         <div class="dt-privacy text-end">
-                            <a href="#"
+                            <a href="/privacy-policy"
                                class="dt-link dt-link--thin-12 text-white text-decoration-underline">
                                 политика конфиденциальности
                             </a>
@@ -92,6 +92,15 @@
 </template>
 <script>
 export default {
-    components: {}
+    components: {},
+
+    computed:{
+      title(){
+          return import.meta.env.VITE_APP_NAME;
+      }
+    },
+    mounted() {
+
+    }
 }
 </script>

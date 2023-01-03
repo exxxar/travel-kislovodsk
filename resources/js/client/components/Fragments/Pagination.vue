@@ -1,17 +1,10 @@
 <template>
-    <div class="row">
-        <div class="col-lg-3">
+    <div class="row d-flex justify-content-center">
 
-        </div>
         <div class="col-lg-6 dt-pagination d-flex justify-content-center align-items-center">
-            <!--            <button class="button bold bg-blue col-12 col-lg-auto px-4 rounded">Показать еще
-                            <svg class="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20"
-                                 width="20">
-                                <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
-                            </svg>
-                        </button>-->
+
             <nav aria-label="Page navigation" class="dt-nav-pagination dt-pagination_body">
-                <ul class="pagination" v-if="pagination">
+                <ul class="pagination" v-if="hasPagination">
                     <li class="page-item page-item-control"
                         v-bind:class="{'disabled':pagination.links.prev===null}"
                         @click="prevPage">
@@ -46,9 +39,7 @@
                 </ul>
             </nav>
         </div>
-        <div class="col-lg-3">
 
-        </div>
     </div>
 </template>
 <script>
@@ -62,6 +53,15 @@ export default {
         }
     },
     computed: {
+        hasPagination(){
+          if (this.pagination===null||!this.pagination)
+              return false;
+
+          if (this.pagination.meta.links[0].active===false
+              &&this.pagination.meta.links[this.pagination.meta.links.length-1].active===false)
+              return false
+            return true;
+        },
         filteredLinks(){
             if (!this.pagination)
                 return [];
@@ -69,6 +69,7 @@ export default {
             return this.pagination.meta.links
         }
     },
+
     methods:{
         nextPage(){
             this.currentPage = this.pagination.meta.current_page+1

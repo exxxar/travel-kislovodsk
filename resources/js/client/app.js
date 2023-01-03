@@ -36,6 +36,7 @@ import ImageModalDialog from '@/components/Fragments/ImageModalDialog.vue'
 import ActionModalDialog from '@/components/Fragments/ActionModalDialog.vue'
 import MapModalDialog from '@/components/Fragments/MapModalDialog.vue'
 import SelectedMapModalDialog from '@/components/Fragments/SelectedMapModalDialog.vue'
+import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
 
 /* Pages */
 import MainPage from '@/pages/Main.vue'
@@ -44,6 +45,7 @@ import ForgotPasswordPage from '@/pages/ForgotPassword.vue'
 import RegistrationPage from '@/pages/Registration.vue'
 import AboutPage from '@/pages/About.vue'
 import ContactPage from '@/pages/Contacts.vue'
+import ContactUsPage from '@/pages/ContactUs.vue'
 import FAQPage from '@/pages/FAQ.vue'
 import FavoritesPage from '@/pages/Favorites.vue'
 import ForGuidesPage from '@/pages/ForGuides.vue'
@@ -132,6 +134,7 @@ app.component('guide-registration-form-component', GuideRegistrationForm)
 app.component('user-registration-form-component', UserRegistrationForm)
 app.component('tour-calendar-component', TourCalendar)
 app.component('date-time-calendar-component', DateTimeCalendar)
+app.component('breadcrumbs-component', Breadcrumbs)
 
 app.component('tour-card-component', TourCard)
 app.component('tour-categories-list-slider-component', TourCategoriesListSlider)
@@ -148,6 +151,7 @@ app.component('registration-page', RegistrationPage)
 app.component('forgot-password-page', ForgotPasswordPage)
 app.component('about-page', AboutPage)
 app.component('contact-page', ContactPage)
+app.component('contact-us-page', ContactUsPage)
 app.component('faq-page', FAQPage)
 app.component('favorites-page', FavoritesPage)
 app.component('for-guides-page', ForGuidesPage)
