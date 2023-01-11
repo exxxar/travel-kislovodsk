@@ -118,18 +118,8 @@
                     saepe! At dolores voluptatem nam rem et ea dolore exercitationem temporibus soluta quisquam, ducimus
                     repudiandae! Optio dolor temporibus, consectetur eos exercitationem hic reiciendis!
                 </p>
-                <div class="bg-image p-3 rounded">
-                    <div
-                        class="row col-12 px-5 py-2rem mx-0 bg-light d-flex justify-content-between align-items-center">
-                        <div class="col-12 col-lg-6 row px-0 mx-0">
-                            <span class="col-12 px-0 bold fs-5">Остались вопросы?</span>
-                            <span class="col-12 px-0 mt-2 thin font-size-09">Вы можете пообщаться, задать их через
-                                специальную
-                                форму, и мы обязательно ответим на любой ваш вопрос.</span>
-                        </div>
-                        <button class="big-button rounded col-12 col-lg-auto px-5 mt-3 mt-lg-0 bg-blue bold font-size-09">Задать вопрос</button>
-                    </div>
-                </div>
+
+                <callback-section-component/>
             </div>
 
             <div class="col-12">

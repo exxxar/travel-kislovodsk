@@ -117,7 +117,12 @@
                 };
                 new Notification(title, options);
 
-                window.eventBus.emit("fcm_message_notification",JSON.parse(payload.notification.body))
+                console.log("title",title)
+
+                if (title === "message")
+                    window.eventBus.emit("fcm_message_notification", JSON.parse(payload.notification.body))
+                if (title === "logout")
+                    window.eventBus.emit("fcm_logout_notification")
             }
         });
 

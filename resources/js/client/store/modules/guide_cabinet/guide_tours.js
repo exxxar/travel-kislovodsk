@@ -10,25 +10,10 @@ let state = {
 
 const getters = {
     getGuideTours: state => {
-        return state.guide_tours.filter(item =>
-            item.is_active === true &&
-            item.deleted_at == null &&
-            item.is_draft === false)
+        return state.guide_tours
     },
     getGuideTourById: (state) => (id) => {
         return state.guide_tours.find(item => item.id === id)
-    },
-    getGuideArchiveTours: (state) => {
-        return state.guide_tours.filter(item => item.is_active === false &&  item.is_draft === false)
-    },
-    getGuideIsDraftTours: (state) => {
-        return state.guide_tours.filter(item => item.is_draft === true&&item.request_verify_at === null)
-    },
-    getGuideIsModerateTours: (state) => {
-        return state.guide_tours.filter(item =>
-            item.verified_at === null&&item.request_verify_at !==null ||
-            item.verified_at === null&&item.request_verify_at ===null
-        )
     },
     getGuideToursPaginateObject: state => state.guide_tours_paginate_object || [],
 }
@@ -107,13 +92,13 @@ const actions = {
     async removeTourFromArchive(context, tourId) {
         return await context.dispatch("guideToursPage", {
             url: `${BASE_GUIDE_TOURS_LINK}/archive-remove/${tourId}`,
-            method:'DELETE'
+            method: 'DELETE'
         })
     },
     async removeTour(context, tourId) {
         return await context.dispatch("guideToursPage", {
             url: `${BASE_GUIDE_TOURS_LINK}/${tourId}`,
-            method:'DELETE'
+            method: 'DELETE'
         })
     },
     async requestGuideTourVerified(context, tourId) {
@@ -145,7 +130,7 @@ const actions = {
             data: data
         })
     },
-    async loadGuideTourById(context, id){
+    async loadGuideTourById(context, id) {
         let _axios = util.makeAxiosFactory(`${BASE_GUIDE_TOURS_LINK}/${id}`)
         return _axios.then((response) => {
             return response
@@ -155,11 +140,13 @@ const actions = {
             return Promise.reject(err);
         })
     },
-    async loadGuideToursByPage(context, payload = {page: 0, size: 100}) {
+    async loadGuideToursByPage(context, payload = {category: 0, page: 0, size: 100}) {
         let page = payload.page || 0,
-            size = payload.size || 100
+            size = payload.size || 100,
+            category = payload.category || 0
+
         return await context.dispatch("guideToursPage", {
-                url: `${BASE_GUIDE_TOURS_LINK}?page=${page}&size=${size}`
+                url: `${BASE_GUIDE_TOURS_LINK}?page=${page}&size=${size}&category=${category}`
             }
         )
     },

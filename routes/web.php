@@ -100,7 +100,6 @@ Route::view('/error', 'errors.500')->name("page.error");
 Route::view('/success', 'errors.200')->name("page.success");
 
 Route::middleware(["auth", "verified"])->group(function () {
-
     Route::middleware(["is_guide"])->group(function () {
         Route::view('/guide-cabinet', 'pages.guide-cabinet')->name("page.guide-cabinet");
     });
@@ -109,7 +108,6 @@ Route::middleware(["auth", "verified"])->group(function () {
         Route::view('/user-cabinet', 'pages.user-cabinet')->name("page.user-cabinet");
     });
 
-
 });
 
 
@@ -117,6 +115,7 @@ Route::prefix("api")
     ->group(function () {
 
         Route::post('/send-mchs-form', [\App\Http\Controllers\TourGroupController::class, "sendMCHSForm"]);
+        Route::post('/send-question', [\App\Http\Controllers\TourGroupController::class, "sendQuestion"]);
 
         Route::controller(\App\Http\Controllers\SocialAuthController::class)
             ->group(function () {
@@ -128,6 +127,17 @@ Route::prefix("api")
             ->controller(\App\Http\Controllers\API\TourCategoryController::class)
             ->group(function () {
                 Route::get('/', 'index');
+            });
+
+
+        Route::prefix("payment")
+            ->controller(\App\Http\Controllers\PaymentController::class)
+            ->group(function () {
+                Route::get('/callback', 'callback');
+                Route::post('/notification', 'notification');
+                Route::post('/invoice', 'invoice');
+                Route::post('/success', 'success');
+                Route::post('/failure', 'failure');
             });
 
         Route::prefix("tours")
@@ -314,6 +324,7 @@ Route::prefix("api")
             ->controller(\App\Http\Controllers\API\TransactionController::class)
             ->group(function () {
                 Route::get('/', 'index');
+                Route::get('/request/{transactionId}', 'requestPaymentByTransactionId');
                 Route::post('/search', 'getFilteredTransactions');
             });
     });

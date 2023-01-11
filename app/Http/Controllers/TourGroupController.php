@@ -147,4 +147,43 @@ class TourGroupController extends Controller
 
         return response()->noContent();
     }
+
+    public function sendQuestion(Request $request){
+        $request->validate([
+            "name"=>"required",
+            "phone"=>"required",
+            "type"=>"required",
+            "message"=>"required"
+        ]);
+
+        $name = $request->name ?? 'не указано';
+        $phone = $request->phone ?? 'не указано';
+
+        $type = $request->type ?? 0;
+
+        $text = $request->message ?? 'не указано';
+
+        $mail = $request->email ?? 'не указано';
+
+        $types = [
+            "Вопросы по заказу тура",
+            "Стать гидом",
+            "Реклама и продвижение",
+            "Другие вопросы"
+        ];
+
+        $message = "От: $name \n";
+        $message .= "Телефон: $phone \n";
+        $message .= "Почта: $mail \n";
+        $message .= "Тип вопроса: ".$types[$type]." \n";
+        $message .= "Сообщение пользователя:\n $text";
+
+        $response = Telegram::sendMessage([
+            'chat_id' => env("ADMIN_TELEGRAM_CHANNEL"),
+            "text" => $message,
+            "parse_mode" => "HTML"
+        ]);
+
+        return response()->noContent();
+    }
 }

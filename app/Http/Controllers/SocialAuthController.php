@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ActionNotificationEvent;
 use App\Facades\PaymentServiceFacade;
 use App\Models\Dictionary;
 use App\Models\DictionaryType;
@@ -156,7 +157,10 @@ class SocialAuthController extends Controller
 
     public function logout(Request $request)
     {
+        event(new ActionNotificationEvent("logout"));
+
         Auth::logout();
+
         return response()->redirectToRoute("login");
     }
 }

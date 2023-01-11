@@ -206,6 +206,13 @@ export default {
         }
     },
     mounted() {
+
+
+
+        window.eventBus.on("fcm_logout_notification", () => {
+            window.location.reload();
+        })
+
         window.eventBus.on("fcm_message_notification", (data) => {
 
             if (data.user_ids.indexOf(this.user.id)!==-1) {

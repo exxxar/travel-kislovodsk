@@ -56,7 +56,7 @@ const actions = {
             context.commit('setBookings', dataObject.data)
             delete dataObject.data
             context.commit('setBookingsPaginateObject', dataObject)
-
+            return Promise.resolve(dataObject);
         }).catch(err => {
             context.dispatch("errorsBookings")
             context.commit("setErrors", err.response.data.errors || [])

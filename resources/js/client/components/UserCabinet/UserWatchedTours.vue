@@ -15,11 +15,23 @@
                 </div>
             </div>
 
-            <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1 d-flex justify-content-center" v-else>
+            <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1 d-flex justify-content-center"
+                 v-else-if="watches.length===0&&!load">
                 <div class="col col-12 col-md-6">
                     <div class="empty-list">
                         <img v-lazy="'/img/no-tour.jpg'" alt="">
                         <p>По данному фильтру ничего не найдено:(</p>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="load">
+                <div class="row d-flex justify-content-center">
+                    <div class="col col-12 col-md-6">
+                        <div class="empty-list">
+                            <img v-lazy="'/img/load.gif'" alt="">
+                            <p>Грузим информацию....</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -38,21 +50,31 @@ import {mapGetters} from "vuex";
 export default {
     data() {
         return {
-            pagination:null,
-            watches: []
+            pagination: null,
+            watches: [],
+            load: false
         }
     },
     computed: {
-        ...mapGetters(['getUserWatchedTours','getUserWatchedToursPaginateObject']),
+        ...mapGetters(['getUserWatchedTours', 'getUserWatchedToursPaginateObject']),
     },
     mounted() {
         this.loadUserWatchedToursByPage();
+
+        this.eventBus.on('pagination_page', (page) => {
+            this.loadUserWatchedToursByPage(page)
+        })
     },
     methods: {
-        loadUserWatchedToursByPage() {
-            this.$store.dispatch("loadUserWatchedToursByPage").then(() => {
+        loadUserWatchedToursByPage(page = 0) {
+            this.load = true
+            this.watches = []
+            this.$store.dispatch("loadUserWatchedToursByPage", {
+                page: page
+            }).then(() => {
                 this.watches = this.getUserWatchedTours
                 this.pagination = this.getUserWatchedToursPaginateObject
+                this.load = false
             })
         }
     }

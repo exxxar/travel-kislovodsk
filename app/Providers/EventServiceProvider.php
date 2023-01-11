@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Events\ActionNotificationEvent;
 use App\Events\ChatNotificationEvent;
 use App\Events\SMSNotificationEvent;
 use App\Events\TelegramNotificationDocumentVerifiedEvent;
 use App\Events\TelegramNotificationProfileVerifiedEvent;
 use App\Events\TelegramNotificationTourVerifiedEvent;
+use App\Listeners\ActionNotificationListener;
 use App\Listeners\ChatNotificationListener;
 use App\Listeners\SMSNotificationListener;
 use App\Listeners\TelegramNotificationListener;
@@ -25,6 +27,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        ActionNotificationEvent::class => [
+            ActionNotificationListener::class,
         ],
         ChatNotificationEvent::class => [
             ChatNotificationListener::class,

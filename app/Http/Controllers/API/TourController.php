@@ -69,6 +69,7 @@ class TourController extends Controller
     public function loadGuideToursByPage(Request $request)
     {
 
+        $category = $request->get("category") ?? 0;
         $size = $request->get("size") ?? config('app.results_per_page');
 
         $tours = Tour::query()
@@ -81,6 +82,7 @@ class TourController extends Controller
                 'schedules',
                 'reviews'
             ])
+            ->withCategoryFilters($category)
             ->where("creator_id", Auth::user()->id)
             ->paginate($size);
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -57,6 +58,17 @@ class Booking extends Model
     public function getResourceUrlAttribute()
     {
         return url('/admin/bookings/' . $this->getKey());
+    }
+
+    public function scopeWithTypeFilters($query, $type)
+    {
+        if ($type==0)
+            return $query->whereNotNull("payed_at");
+        if ($type==1)
+            return $query
+                ->whereNotNull("payed_at")
+                ->where("start_at", ">", Carbon::now()->format('Y-m-d H:m'))
+                ->orderBy("start_at", "ASC");
     }
 
     public function getHasPrivateChatWithGuideAttribute():bool

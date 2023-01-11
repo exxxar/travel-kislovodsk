@@ -1,6 +1,6 @@
 <template>
     <div class="dt-excursions__item" v-for="item in tours" v-if="tours.length>0">
-        <div class="row mb-4">
+        <div class="row mb-2">
             <div class="col-12">
                 <guide-tour-card-component :tour="item" :key="item"/>
             </div>
@@ -41,14 +41,12 @@ export default {
             load: false,
             activeType: null,
             tours: [],
+            category:0,
             pagination: null
         }
     },
     computed: {
         ...mapGetters(['getGuideTours',
-            'getGuideArchiveTours',
-            'getGuideIsDraftTours',
-            'getGuideIsModerateTours',
             'getGuideToursPaginateObject']),
     },
     mounted() {
@@ -56,15 +54,17 @@ export default {
         this.loadTours()
 
         this.eventBus.on('load_guide_tours', (title) => {
-
-            this.loadTours().then(() => {
+            console.log("load_guide_tours", title)
+            this.changeActiveTitle(title)
+           /* this.loadTours().then(() => {
                 if (title)
-                    this.changeActiveTitle(title)
-            })
+
+            })*/
 
         })
 
         this.eventBus.on('select_guide_tours_type', (type) => {
+            console.log("select_guide_tours_type", type)
             this.changeActiveTitle(type)
         })
 
@@ -77,23 +77,31 @@ export default {
             switch (title) {
                 default:
                 case "Действующие":
-                    this.tours = this.getGuideTours;
+                    //this.tours = this.getGuideTours;
+                    this.category = 0
                     break;
                 case "Архив":
-                    this.tours = this.getGuideArchiveTours;
+                    //this.tours = this.getGuideArchiveTours;
+                    this.category = 1
                     break;
                 case "На модерации":
-                    this.tours = this.getGuideIsModerateTours;
+                    //this.tours = this.getGuideIsModerateTours;
+                    this.category = 2
                     break;
                 case "Черновики":
-                    this.tours = this.getGuideIsDraftTours;
+                    //this.tours = this.getGuideIsDraftTours
+                    this.category = 3
                     break;
             }
+
+            this.loadTours()
         },
         loadTours(page = 0) {
             this.load = true
+            this.tours = []
             return this.$store.dispatch("loadGuideToursByPage", {
-                page: page
+                page: page,
+                category: this.category
             }).then(() => {
                 this.tours = this.getGuideTours
                 this.pagination = this.getGuideToursPaginateObject

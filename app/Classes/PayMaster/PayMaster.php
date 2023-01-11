@@ -17,8 +17,8 @@ class PayMaster
     }
 
     public function createInvoiceLink(float                       $value,
-                                      string                      $description,
-                                      PayMasterPaymentMethodsEnum $paymentMethod): object
+                                      string                      $description = "Бронирование тура",
+                                      PayMasterPaymentMethodsEnum $paymentMethod = PayMasterPaymentMethodsEnum::BANKCARD): object
     {
         $idempotencyKey = Str::uuid();
 
@@ -30,38 +30,46 @@ class PayMaster
         $returnURL = config("paymaster.return_url");
         $callbackURL = config("paymaster.callback_url");
 
+
         $response = Http::withHeaders([
             'Authorization' => "Bearer $token",
-            'Idempotency-Key' => $idempotencyKey,
+            'Idempotency-Key' => $idempotencyKey->toString(),
             'Content-Type' => ' application/json',
             'Accept' => 'application/json',
         ])->post("$url/api/v2/invoices", [
             'merchantId' => $merchantId,
             'invoice' => [
                 'description' => $description,
-                'params' => [
-                    "USER" => $user->id
-                ]
+
             ],
+            'testMode'=>true,
             'amount' => [
                 'value' => $value,
                 'currency' => "RUB"
             ],
+
+         /*   "paymentData" => [
+        "paymentMethod"=> "BankCard",
+    "card"=>[
+            "pan"=> "4111111111111111",
+      "expiry"=> "12/24",
+      "cvc"=> "123"
+    ]
+  ]*/
             "paymentMethod" => $paymentMethod->value,
-            "protocol" => [
+        /*    "protocol" => [
                 "returnURL" => $returnURL,
                 "callbackURL" => $callbackURL,
             ],
             'customer' => [
                 'email' => $user->email,
-                'phone' => $user->phone,
+                //'phone' => $user->phone,
                 'account' => $user->name
-            ],
-            'receipt' => [
+            ],*/
+            /*'receipt' => [
                 'client' => [
                     'email' => $user->email,
-                    'phone' => $user->phone,
-
+                    //'phone' => $user->phone,
                 ],
                 'items' => [
                     [
@@ -73,7 +81,7 @@ class PayMaster
                         "paymentMethod" => config("paymaster.payment_method"),
                     ]
                 ]
-            ]
+            ]*/
         ]);
 
 

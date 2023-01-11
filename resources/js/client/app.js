@@ -37,6 +37,8 @@ import ActionModalDialog from '@/components/Fragments/ActionModalDialog.vue'
 import MapModalDialog from '@/components/Fragments/MapModalDialog.vue'
 import SelectedMapModalDialog from '@/components/Fragments/SelectedMapModalDialog.vue'
 import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
+import CallbackForm from '@/components/Callback/CallbackForm.vue'
+import CallbackSection from '@/components/Fragments/CallbackSection.vue'
 
 /* Pages */
 import MainPage from '@/pages/Main.vue'
@@ -64,6 +66,7 @@ import ToursHotPage from '@/pages/tours/ToursHot.vue'
 import TourObjectPage from '@/pages/tours/TourObject.vue'
 import ToursSearchPage from '@/pages/tours/ToursSearch.vue'
 import UserCabinetPage from '@/pages/UserCabinet.vue'
+
 
 /*------------------------*/
 import GuideTours from '@/components/GuideCabinet/GuideTours.vue'
@@ -135,6 +138,9 @@ app.component('user-registration-form-component', UserRegistrationForm)
 app.component('tour-calendar-component', TourCalendar)
 app.component('date-time-calendar-component', DateTimeCalendar)
 app.component('breadcrumbs-component', Breadcrumbs)
+app.component('callback-component', CallbackForm)
+app.component('callback-section-component', CallbackSection)
+
 
 app.component('tour-card-component', TourCard)
 app.component('tour-categories-list-slider-component', TourCategoriesListSlider)
@@ -195,6 +201,7 @@ app.component('mobile-sidebar-menu-component', MobileSideBarMenu)
 
 
 import store from './store'
+
 
 
 app.config.globalProperties.$filters = {

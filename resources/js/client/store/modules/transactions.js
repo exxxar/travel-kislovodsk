@@ -8,13 +8,16 @@ let state = {
 }
 
 const getters = {
-    getTransactions: state => state.transactions || [],
+    getTransactions: state => state.transactions,
     getTransactionById: (state) => (id) => {
         return state.transactions.find(item => item.id === id)
     },
     getTransactionsByTransactionType: (state) => (typeId) => {
 
-        return state.transactions.filter(item => item.status_type_id === typeId)
+        if (typeId != 0)
+            return state.transactions.filter(item => item.status_type_id === typeId)
+        else
+            return state.transactions
     },
     getTransactionsPaginateObject: state => state.transactions_paginate_object || [],
 }
@@ -42,7 +45,7 @@ const actions = {
             context.commit('setTransactions', dataObject.data)
             delete dataObject.data
             context.commit('setTransactionsPaginateObject', dataObject)
-
+            return Promise.resolve(dataObject);
         }).catch(err => {
             context.dispatch("errorsTransactions")
             context.commit("setErrors", err.response.data.errors || [])
@@ -58,6 +61,11 @@ const actions = {
             url: `${BASE_TRANSACTIONS_LINK}/search?page=${page}&size=${size}`,
             method: 'POST',
             data: filterObject
+        })
+    },
+    async requestPaymentByTransactionId(context, transactionId){
+        return await context.dispatch("transactionsPage", {
+            url: `${BASE_TRANSACTIONS_LINK}/request/${transactionId}`
         })
     },
     async loadTransactionsByPage(context, payload = {page: 0, size: 15}) {

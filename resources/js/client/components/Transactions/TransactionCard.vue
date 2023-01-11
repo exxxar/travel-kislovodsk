@@ -13,7 +13,10 @@
         </div>
         <div v-if="item.status_type.slug === 'transaction_in_progress_type'"
              class="personal-account-transactions-card-head__status personal-account-transactions-card-head__status_blue">
-            в ожидании
+            в ожидании, <a data-bs-toggle="modal"
+                           class="cursor-pointer underline"
+                           :data-bs-target="'#requestPaymentDialog'+item.id">
+            повторить оплату?</a>
             <div class="personal-account-transactions-card-head__icon">
                 <svg class="personal-account-transactions-card-head__svg" xmlns="http://www.w3.org/2000/svg"
                      height="100%" width="100" viewBox="0 0 48 48">
@@ -34,7 +37,10 @@
         </div>
         <div v-if="item.status_type.slug === 'transaction_discard_type'"
              class="personal-account-transactions-card-head__status personal-account-transactions-card-head__status_red">
-            отклонено
+            отклонено,  <a data-bs-toggle="modal"
+                           class="cursor-pointer underline"
+                           :data-bs-target="'#requestPaymentDialog'+item.id">
+            повторить оплату?</a>
             <div class="personal-account-transactions-card-head__icon">
                 <svg class="personal-account-transactions-card-head__svg" xmlns="http://www.w3.org/2000/svg"
                      height="100%" width="100%" viewBox="0 0 48 48">
@@ -68,11 +74,29 @@
             </a>
         </div>
     </div>
+
+    <action-modal-dialog-component
+        :id="'requestPaymentDialog'+item.id"
+        v-on:accept="requestPaymentByTransaction">
+        <template v-slot:head>
+            <p>Диалог запроса оплаты</p>
+        </template>
+
+        <template v-slot:body>
+            <p>Вы действительно хотите повторить оплату по текущей транзакции?
+                "{{ item.description || 'Нет описания' }}"?</p>
+        </template>
+    </action-modal-dialog-component>
 </template>
 <script>
 export default {
     props: ['item'],
     methods:{
+        requestPaymentByTransaction(){
+            this.$store.dispatch("requestPaymentByTransactionId", this.item.id).then((resp)=>{
+                window.open(resp.url, '_blank')
+            })
+        },
         sendTransaction(){
             this.eventBus.emit("send_transaction_to_active_chat", this.item.id)
         }

@@ -23,7 +23,7 @@
                     <a href="/about"
                        class="dt-link text-white text-decoration-none text-uppercase">О проекте</a>
                 </li>
-                <li>
+                <li v-if="user.is_guest">
                     <a href="/login"
                        class="dt-link text-white text-decoration-none text-uppercase">Вход</a>
                 </li>
@@ -94,10 +94,13 @@
 export default {
     components: {},
 
-    computed:{
-      title(){
-          return import.meta.env.VITE_APP_NAME;
-      }
+    computed: {
+        title() {
+            return import.meta.env.VITE_APP_NAME;
+        },
+        user() {
+            return window.user
+        }
     },
     mounted() {
 

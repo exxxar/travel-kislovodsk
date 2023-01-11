@@ -1,45 +1,47 @@
 <template>
     <div class="card mb-3">
         <form v-on:submit.prevent="sendRequest" class="card-body">
-            <h5 class="card-title">Форма обратной связи</h5>
-            <div class="form-group">
+            <div class="form-group mb-2">
                 <input type="text"
                        name="name"
                        class="form-control"
                        v-model="form.name" placeholder="Ваше Ф.И.О." required>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-2">
                 <input type="text" name="phone" class="form-control" v-model="form.phone"
-                       pattern="[\+]\d{2} [\(]\d{3}[\)] \d{3}[\-]\d{2}[\-]\d{2}"
+                       pattern="[\+]\d{1}[\(]\d{3}[\)]\d{3}[\-]\d{2}[\-]\d{2}"
                        maxlength="19"
-                       v-mask="['+7 (###) ###-##-##']"
+                       v-mask="['+7(###)###-##-##']"
                        placeholder="Номер телефона" required>
             </div>
-            <div class="form-group">
-                <select name="question-type" v-model="type" class="form-control" required>
+            <div class="form-group mb-2">
+                <input type="email" name="email" class="form-control" v-model="form.email"
+                       placeholder="Почта для обратной связи">
+            </div>
+            <div class="form-group mb-2">
+                <select name="question-type" v-model="form.type" class="form-control" required>
                     <option v-for="(option,index) in question_types" :value="index">
-                        {{option}}
+                        {{ option }}
                     </option>
                 </select>
             </div>
-            <div class="form-group">
-                    <textarea name="message" v-model="message" class="form-control"
+            <div class="form-group mb-2">
+                    <textarea name="message" v-model="form.message"
+                              style="min-height: 200px"
+                              class="form-control"
                               placeholder="Текст сообщения" required></textarea>
             </div>
 
-
-            <div class="form-group mb-2">
-                <mobile-voice-callback-form :phone="phone" :cansend="cansend"></mobile-voice-callback-form>
-            </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary mr-1 mb-1 w-100">
-                    <i class="icon ion-md-mail"></i>
+                <button type="submit" class="btn btn-outline-primary mr-1 mb-1 w-100 p-3">
+                    <i class="fa-solid fa-paper-plane"></i>
                     Отправить
                 </button>
             </div>
-            <div class="form-group mb-2">
+            <div class="form-group mb-2 d-flex justify-content-center">
 
-                <a href="/m/rules" class="btn btn-link mr-1 mb-1" title="Пользовательское соглашение" aria-label="Пользовательское соглашение">
+                <a href="/rules" class="btn btn-link mt-2" title="Пользовательское соглашение"
+                   aria-label="Пользовательское соглашение">
                     <i class="icon ion-ios-filing"></i>
                     Пользовательское соглашение!
                 </a>
@@ -55,9 +57,10 @@ export default {
     data() {
         return {
 
-            form:{
+            form: {
                 name: null,
                 phone: null,
+                email: null,
                 type: 0,
                 message: '',
             },
@@ -71,20 +74,23 @@ export default {
     },
     methods: {
         sendRequest: function (e) {
-            axios
-                .post('../api/v1/wish', {
-                    from: this.name,
-                    phone: this.phone,
-                    message: "*" + this.question_types[this.type] + "*:\n" + this.message
-                })
-                .then(response => {
-                    this.sendMessage("Сообщение успешно отправлено");
-                    $('#contactModalBox').modal('hide')
-                    this.name = "";
-                    this.phone = "";
-                    this.message = "";
-                    this.cansend = false;
-                })
+
+            this.$store.dispatch("sendQuestionForm", this.form).then(() => {
+
+                this.form.name = "";
+                this.form.phone = "";
+                this.form.email = "";
+                this.form.message = "";
+                this.form.type = 0;
+                this.form.cansend = false;
+
+                this.$notify({
+                    title: "Сообщения",
+                    text: "Ваше сообщение успешно отправлено",
+                    type: 'success'
+                });
+            })
+
         },
 
     },

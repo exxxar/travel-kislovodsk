@@ -5,7 +5,7 @@
 
             <div class="container dt-search__content text-center">
                 <h1 class="dt-search__title">Экскурсии по Ставропольскому краю</h1>
-                <tour-search-filter :is-links-white="true" :need-redirect-to-all="true" />
+                <tour-search-filter :is-links-white="true" :need-redirect-to-all="true"/>
             </div>
         </div>
         <div class="container">
@@ -27,14 +27,21 @@
                     <tour-categories-list-slider-component/>
                     <tour-list-component/>
                     <div class="dt-popular__action text-center d-flex justify-content-center">
-                        <a href="/tours-all" class="align-items-center btn d-flex dt-btn dt-btn-blue justify-content-center">
+                        <a href="/tours-all"
+                           class="align-items-center btn d-flex dt-btn dt-btn-blue justify-content-center">
                             Все экскурсии
                         </a>
                     </div>
                 </div>
             </div>
             <benefits-component/>
+
+            <callback-section-component/>
+
+
         </div>
+
+
     </main>
 </template>
 <script>
@@ -44,7 +51,7 @@ export default {
     components: {TourSearchFilter}
 }
 </script>
-<style>
+<style lang="scss">
 .dt-page-main .dt-online-register .dt-wrapper.bg-img-1 {
     background: url('img/3.png') no-repeat;
     background-size: cover;
@@ -58,6 +65,5 @@ export default {
     justify-content: center;
     align-items: center;
 }
-
 
 </style>

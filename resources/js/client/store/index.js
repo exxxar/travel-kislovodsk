@@ -22,13 +22,24 @@ export default createStore({
         getErrors: state => state.errors || [],
     },
     actions: {
+        async sendQuestionForm(context, form) {
+            let _axios = util.makeAxiosFactory(`${BASE_API_LINK}/send-question`, 'POST', form)
+
+            return _axios.then((response) => {
+                return response
+            }).catch(err => {
+
+                context.commit("setErrors", err.response.data.errors || [])
+                return Promise.reject(err);
+            })
+        },
         async sendMCHSGroupForm(context, form) {
             let _axios = util.makeAxiosFactory(`${BASE_API_LINK}/send-mchs-form`, 'POST', form)
 
             return _axios.then((response) => {
                 return response
             }).catch(err => {
-                context.dispatch("errorsChatMessages")
+
                 context.commit("setErrors", err.response.data.errors || [])
                 return Promise.reject(err);
             })

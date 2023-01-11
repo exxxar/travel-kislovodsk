@@ -63,6 +63,13 @@
                                 Действия
                             </button>
                             <ul class="dropdown-menu w-100">
+                                <li v-if="tour.verified_at==null&&tour.request_verify_at!=null&&tour.is_draft">
+                                    <a class="dropdown-item disabled"
+                                       href="#" tabindex="-1" aria-disabled="true"><i
+                                        style="color:red;"
+                                        class="fa-solid fa-triangle-exclamation"></i> Тур уже на верификации</a>
+                                </li>
+
                                 <li v-if="!tour.is_draft">
                                     <a class="dropdown-item"><i class="fa-solid fa-eye"></i> Просмотреть тур</a>
                                 </li>
@@ -70,7 +77,7 @@
                                 <li v-if="tour.is_active">
                                     <a
                                         @click="openGuideTourGroup(tour)"
-                                        class="dropdown-item"><i class="fa-solid fa-eye"></i> Бронь тура</a>
+                                        class="dropdown-item"><i class="fa-solid fa-bookmark"></i> Бронь тура</a>
                                 </li>
                                 <li v-if="tour.verified_at==null&&tour.request_verify_at==null&&tour.is_draft">
                                     <a data-bs-toggle="modal" :data-bs-target="'#verifyRequestModalDialog'+tour.id"
@@ -79,7 +86,7 @@
                                 </li>
                                 <li v-if="tour.is_active">
                                     <a data-bs-toggle="modal" :data-bs-target="'#archiveModalDialog'+tour.id"
-                                       class="dropdown-item"><i class="fa-solid fa-eye"></i> Архивировать тур</a>
+                                       class="dropdown-item"><i class="fa-solid fa-box-archive"></i> Архивировать тур</a>
                                 </li>
 
                                 <li v-if="!tour.is_active&&!tour.is_draft">

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Facades\PaymentServiceFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\TransactionStoreRequest;
 use App\Http\Requests\API\TransactionUpdateRequest;
 use App\Http\Resources\TransactionCollection;
 use App\Http\Resources\TransactionResource;
+use App\Models\Dictionary;
 use App\Models\Tour;
 use App\Models\Transaction;
 use App\Models\User;
@@ -29,7 +31,7 @@ class TransactionController extends Controller
 
         if ($user->role->name=='user') {
             $transactions = Transaction::query()
-                ->where("user_id", )
+                ->where("user_id", $userId)
                 ->paginate($request->count ?? config('app.results_per_page'));
         }
 
@@ -105,5 +107,21 @@ class TransactionController extends Controller
             ->paginate($request->count ?? config('app.results_per_page'));
 
         return new TransactionCollection($transactions);
+    }
+
+    public function requestPaymentByTransactionId(Request $request, $transactionId){
+
+        $transaction = Transaction::query()->find($transactionId);
+
+        if (is_null($transaction)){
+            return response()->json([
+                "errors" => [
+                    "message" => ["Транзакция не найдена"]
+                ],
+            ], 400);
+        }
+
+        return PaymentServiceFacade::payment()
+            ->createInvoiceLink($transaction->amount, $transaction->description );
     }
 }

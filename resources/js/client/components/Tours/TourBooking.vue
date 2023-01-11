@@ -141,7 +141,7 @@
                     <button
                         type="button"
                         class="btn "
-                            v-bind:class="{'btn-outline-primary':active_person_index!==index&&checkFormVerified(index),
+                        v-bind:class="{'btn-outline-primary':active_person_index!==index&&checkFormVerified(index),
                             'btn-primary':active_person_index===index&&checkFormVerified(index),
                             'btn-outline-danger':active_person_index!==index&&!checkFormVerified(index),
                             'btn-danger':active_person_index===index&&!checkFormVerified(index)
@@ -255,10 +255,78 @@
                     </div>
                 </div>
 
+                <div class="alert alert-success" role="alert"  v-if="user.is_guest&&index===0">
+                    После создания аккаунта будет выполнен автоматический вход в систему.
+                </div>
+
+                <div class="form-check form-switch" v-if="user.is_guest">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           :disabled="index===0"
+                           v-model="bookingForm.persons[index].need_create_account"
+                           v-if="user.is_guest"
+                           id="flexSwitchCheckDefault">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Создать аккаунт</label>
+                </div>
+
+                <div v-if="bookingForm.persons[index].need_create_account&&user.is_guest">
+
+
+                    <div class="row dt-personal-data__item">
+                        <div class="col-lg-3">
+                            <label class="dt-personal-data__label">Имя аккаунта</label>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="dt-input__wrapper">
+                                <div class="dt-input__group">
+                                    <input type="text" name="username" id="username_reg"
+                                           pattern="[A-Za-z0-9]+"
+                                           v-model="bookingForm.persons[index].account.username"
+                                           maxlength="255"
+                                           placeholder="travel" class="dt-input"
+                                           autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row dt-personal-data__item">
+                        <div class="col-lg-3">
+                            <label class="dt-personal-data__label">Пароль</label>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="dt-input__wrapper">
+                                <div class="dt-input__group">
+                                    <input type="password"
+                                           v-model="bookingForm.persons[index].account.password"
+                                           name="password" id="password" class="dt-input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row dt-personal-data__item">
+                        <div class="col-lg-3">
+                            <label class="dt-personal-data__label">Повторите пароль</label>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="dt-input__wrapper">
+                                <div class="dt-input__group">
+                                    <input type="password"
+                                           v-model="bookingForm.persons[index].account.confirm_password"
+                                           name="confirm_password" id="confirm_password" class="dt-input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
 
         </div>
+
         <div class="row dt-content--bottom-60">
             <div class="col-lg-6">
                 <div class="dt-check align-items-start mb-3">
@@ -288,13 +356,15 @@
                 </div>
             </div>
             <div class="col-1"></div>
-            <div class="col-lg-5 align-items-center d-flex">
+
+            <div class="col-lg-5 align-items-center d-flex" >
                 <button type="submit" class="dt-btn-blue w-100"
                         v-bind:class="{'disabled':!bookingForm.accept_rules || !bookingForm.booking_is_correct}"
                         :disabled="!bookingForm.accept_rules || !bookingForm.booking_is_correct || bookingForm.persons.length===0">
                     <span>Оформить заказ </span>
                 </button>
             </div>
+
         </div>
     </form>
 </template>
@@ -307,6 +377,8 @@ export default {
     props: ["tour"],
     data() {
         return {
+
+            step: 0,
             active_person_index: 0,
             service: [],
             bookingForm: {
@@ -361,7 +433,6 @@ export default {
 
             return dates.sort(compare);
         },
-
         summaryPeopleCount() {
 
             let people = 0;
@@ -387,10 +458,11 @@ export default {
             return this.summaryPrice + Math.round(this.summaryPrice * (tourDiscountPrice / tourBasePrice));
         },
         summaryDiscountPrice() {
-
             return this.summaryPrice
+        },
+        user() {
+            return window.user
         }
-
     },
     mounted() {
         this.loadDictionaries()
@@ -405,8 +477,8 @@ export default {
 
             return isVerified
         },
-        changeTime(time){
-            this.bookingForm.time= time.start_time
+        changeTime(time) {
+            this.bookingForm.time = time.start_time
             this.bookingForm.schedule_id = time.id
         },
         changeDate(day) {
@@ -421,22 +493,13 @@ export default {
 
             this.$store.dispatch("bookATour", this.bookingForm).then((resp) => {
 
-                /*  this.bookingForm.tour_id = null
-                  this.bookingForm.date = null
-                  this.bookingForm.time = null
-                  this.bookingForm.counts = []
-                  this.bookingForm.services = []
-                  this.bookingForm.full_name = null
-                  this.bookingForm.phone = null
-                  this.bookingForm.email = null
-                  this.bookingForm.accept_rules = false
-                  this.bookingForm.booking_is_correct = false*/
-
+                window.open(resp.url, '_blank')
                 this.$notify({
                     title: "Кисловодск-Туризм",
                     text: "Тур успешно забронирован",
                     type: 'success'
                 });
+                window.location.reload()
             })
         },
         getCountBySlug(slug) {
@@ -462,6 +525,12 @@ export default {
                 document_info: null,
                 document_type_title: null,
                 email: null,
+                need_create_account: this.bookingForm.persons.length === 0,
+                account: {
+                    username: null,
+                    password: null,
+                    confirm_password: null,
+                },
             })
 
         },
@@ -487,7 +556,7 @@ export default {
             this.$emit('closeBooking');
         },
         loadDictionaries() {
-            this.$store.dispatch("loadAllDictionaries").then(()=>{
+            this.$store.dispatch("loadAllDictionaries").then(() => {
                 this.service = this.getDictionariesByTypeSlug("service_type")
             })
         },

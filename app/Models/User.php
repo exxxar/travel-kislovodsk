@@ -150,6 +150,13 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
     }
 
 
+    public static function existUser($phone, $email):bool
+    {
+        $user = User::query()->where("phone", $phone)
+            ->orWhere("email", $email)->first();
+
+        return !is_null($user);
+    }
 
     public static function createUser(array $data)
     {

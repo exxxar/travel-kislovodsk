@@ -7,49 +7,48 @@
             <div class="personal-account-orders__links">
                 <div class="personal-account-orders__link"
                      :class="{ 'personal-account-orders__link_active': part === 'Предстоящие' }"
-                     @click="part = 'Предстоящие'">
+                     @click="selectPart( 'Предстоящие')">
                     Предстоящие
                 </div>
                 <div class="personal-account-orders__link"
                      :class="{ 'personal-account-orders__link_active': part === 'Завершенные' }"
-                     @click="part = 'Завершенные'">
+                     @click="selectPart( 'Завершенные')">
                     Завершенные
                 </div>
             </div>
-            <template v-if="part === 'Завершенные'">
-                <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" v-if="completed.length">
-                    <div class="col col-xs-12" v-for="item in completed">
-                        <tour-card-component :tour="item.tour" :key="item"/>
-                    </div>
+
+            <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" v-if="tours.length">
+                <div class="col-12" v-for="item in tours">
+                    <tour-card-component :tour="item.tour" :key="item"/>
                 </div>
 
-                <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1 d-flex justify-content-center" v-else>
-                    <div class="col col-12 col-md-8">
+                <div class="col-12">
+                    <paginate-component v-if="pagination"
+                                        :pagination="pagination"/>
+                </div>
+            </div>
+
+            <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1 d-flex justify-content-center"
+                 v-else-if="tours.length===0&&!load">
+                <div class="col col-12 col-md-8">
+                    <div class="empty-list">
+                        <img v-lazy="'/img/no-tour.jpg'" alt="">
+                        <p>По данному фильтру ничего не найдено:(</p>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="load">
+                <div class="row d-flex justify-content-center">
+                    <div class="col col-12 col-md-6">
                         <div class="empty-list">
-                            <img v-lazy="'/img/no-tour.jpg'" alt="">
-                            <p>По данному фильтру ничего не найдено:(</p>
+                            <img v-lazy="'/img/load.gif'" alt="">
+                            <p>Грузим информацию....</p>
                         </div>
                     </div>
                 </div>
-            </template>
-            <template v-if="part === 'Предстоящие' ">
-                <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" v-if="upcoming.length>0">
-                    <div class="col col-xs-12" v-for="item in upcoming">
-                        <tour-card-component :tour="item.tour" :key="item"/>
-                    </div>
-                </div>
-                <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1 d-flex justify-content-center" v-else>
+            </div>
 
-                        <div class="col col-12 col-md-8">
-                            <div class="empty-list">
-                                <img v-lazy="'/img/no-tour.jpg'" alt="">
-                                <p>По данному фильтру ничего не найдено:(</p>
-                                <a href="/tours-all" class="btn btn-primary">Посмотреть туры</a>
-                            </div>
-                        </div>
-
-                </div>
-            </template>
         </div>
     </div>
 </template>
@@ -62,29 +61,46 @@ export default {
     name: "Orders",
     components: {},
     data: () => ({
+        load: false,
         part: 'Предстоящие',
-        upcoming: [],
-        completed: []
+        tours: [],
+        pagination: null
     }),
     computed: {
-        ...mapGetters(['getUserUpcomingBookedTours', 'getUserCompletedBookedTours']),
+        ...mapGetters(['getUserBookedTours']),
     },
     mounted() {
         this.loadUserOrders();
+
+        this.eventBus.on('pagination_page', (page) => {
+            this.loadUserOrders(page)
+        })
     },
     methods: {
-        loadUserOrders() {
-            this.$store.dispatch("loadUserBookedToursByPage").then(() => {
-                this.upcoming = this.getUserUpcomingBookedTours
-                this.completed = this.getUserCompletedBookedTours
+        selectPart(part) {
+            this.part = part
+            this.loadUserOrders()
+        },
+
+        loadUserOrders(page = 0) {
+            let type = 0
+
+            if (this.part === 'Предстоящие')
+                type = 0
+            if (this.part === 'Завершенные')
+                type = 1
+
+            this.load = true
+            this.tours = []
+            this.$store.dispatch("loadUserBookedToursByPage", {
+                type: type,
+                page: page
+            }).then(() => {
+                this.tours = this.getUserBookedTours
+                this.load = false
             })
         },
-        OrdersUpcomingToggle() {
-            this.OrdersCompleted = false;
-        },
-        OrdersCompletedToggle() {
-            this.OrdersCompleted = true;
-        },
+
     }
 }
 </script>

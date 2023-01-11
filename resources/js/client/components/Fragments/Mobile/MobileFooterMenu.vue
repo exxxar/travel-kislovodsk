@@ -65,7 +65,7 @@ export default {
     width: 100%;
     box-sizing: border-box;
     padding: 10px;
-    z-index: 9999;
+    z-index: 999;
 
     ul {
         width: 100%;

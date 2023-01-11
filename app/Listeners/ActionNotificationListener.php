@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\ActionNotificationEvent;
 use App\Events\ChatNotificationEvent;
 use App\Models\User;
 use Appy\FcmHttpV1\FcmNotification;
@@ -10,7 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Auth;
 
-class ChatNotificationListener
+class ActionNotificationListener
 {
     /**
      * Create the event listener.
@@ -28,7 +29,7 @@ class ChatNotificationListener
      * @param object $event
      * @return void
      */
-    public function handle(ChatNotificationEvent $event)
+    public function handle(ActionNotificationEvent $event)
     {
 
         if (is_null($event))
@@ -38,11 +39,8 @@ class ChatNotificationListener
 
         FcmTopicHelper::subscribeToTopic([$token], "general");
         $notif = new FcmNotification;
-        $notif->setTitle("message")
-            ->setBody(json_encode((object)[
-                "chat_id" => $event->chatId,
-                "user_ids" => $event->userListIds
-            ]))
+        $notif->setTitle($event->type)
+            ->setBody(json_encode($event->data??[]))
             ->setTopic("general")->send();
 
     }

@@ -108,6 +108,29 @@ class Tour extends Model
         return $query->orderBy($sortAssociation[$sort->slug], $sortDirection);
     }
 
+    public function scopeWithCategoryFilters($query, $category)
+    {
+        switch ($category){
+            default:
+            case 0: return $query
+            ->where("is_active", true)
+            ->whereNull("deleted_at")
+            ->where("is_draft", false);
+
+            case 1: return $query
+                ->where("is_active", false)
+                ->where("is_draft", false);
+            case 2: return $query
+                ->whereNull("verified_at")
+                ->whereNotNull("request_verify_at");
+            case 3: return $query
+                ->where("is_active", false)
+                ->where("is_draft", true);
+
+
+        }
+
+    }
     public function scopeWithFilters($query, $filterObject)
     {
 

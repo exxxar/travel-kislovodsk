@@ -9,12 +9,6 @@ let state = {
 
 const getters = {
     getUserBookedTours: state => state.user_booked_tours || [],
-    getUserUpcomingBookedTours: (state) => {
-        return state.user_booked_tours.filter(item => item.payed_at == null)
-    },
-    getUserCompletedBookedTours: (state) => {
-        return state.user_booked_tours.filter(item => item.payed_at !== null)
-    },
     getUserBookedTourById: (state) => (id) => {
         return state.user_booked_tours.find(item => item.id === id)
     },
@@ -63,13 +57,14 @@ const actions = {
         })
 
     },
-    async loadUserBookedToursByPage(context, payload = {page: 0, size: 15}) {
+    async loadUserBookedToursByPage(context, payload = {type:0, page: 0, size: 15}) {
 
         let page = payload.page || 0,
-            size = payload.size || 15
+            size = payload.size || 15,
+            type = payload.type || 0
 
         return await context.dispatch("userBookedToursPage", {
-            url: `${BASE_USER_BOOKED_TOURS_LINK}?page=${page}&size=${size}`,
+            url: `${BASE_USER_BOOKED_TOURS_LINK}?page=${page}&size=${size}&type=${type}`,
         })
 
     },
