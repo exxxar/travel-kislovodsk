@@ -492,14 +492,15 @@ export default {
             this.bookingForm.tour_id = this.tour.id
 
             this.$store.dispatch("bookATour", this.bookingForm).then((resp) => {
-
-                window.open(resp.url, '_blank')
-                this.$notify({
-                    title: "Кисловодск-Туризм",
-                    text: "Тур успешно забронирован",
-                    type: 'success'
-                });
-                window.location.reload()
+                if (resp.url) {
+                    window.open(resp.url, '_blank')
+                    this.$notify({
+                        title: "Кисловодск-Туризм",
+                        text: "Тур успешно забронирован",
+                        type: 'success'
+                    });
+                    window.location.reload()
+                }
             })
         },
         getCountBySlug(slug) {

@@ -66,6 +66,7 @@ import ToursHotPage from '@/pages/tours/ToursHot.vue'
 import TourObjectPage from '@/pages/tours/TourObject.vue'
 import ToursSearchPage from '@/pages/tours/ToursSearch.vue'
 import UserCabinetPage from '@/pages/UserCabinet.vue'
+import VerifyEmailPage from '@/pages/VerifyEmail.vue'
 
 
 /*------------------------*/
@@ -176,6 +177,7 @@ app.component('tours-hot-page', ToursHotPage)
 app.component('tour-object-page', TourObjectPage)
 app.component('tour-search-page', ToursSearchPage)
 app.component('user-cabinet-page', UserCabinetPage)
+app.component('verify-email-page', VerifyEmailPage)
 
 /*---------------------------*/
 app.component('guide-tours-component', GuideTours)

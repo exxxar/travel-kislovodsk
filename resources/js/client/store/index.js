@@ -22,6 +22,15 @@ export default createStore({
         getErrors: state => state.errors || [],
     },
     actions: {
+        async requestEmailVerify(context){
+            let _axios = util.makeAxiosFactory(`/email/verification-notification`, 'POST')
+            return _axios.then((response) => {
+                return response
+            }).catch(err => {
+                context.commit("setErrors", err.response.data.errors || [])
+                return Promise.reject(err);
+            })
+        },
         async sendQuestionForm(context, form) {
             let _axios = util.makeAxiosFactory(`${BASE_API_LINK}/send-question`, 'POST', form)
 

@@ -37,9 +37,9 @@
         </div>
         <div v-if="item.status_type.slug === 'transaction_discard_type'"
              class="personal-account-transactions-card-head__status personal-account-transactions-card-head__status_red">
-            отклонено,  <a data-bs-toggle="modal"
-                           class="cursor-pointer underline"
-                           :data-bs-target="'#requestPaymentDialog'+item.id">
+            отклонено, <a data-bs-toggle="modal"
+                          class="cursor-pointer underline"
+                          :data-bs-target="'#requestPaymentDialog'+item.id">
             повторить оплату?</a>
             <div class="personal-account-transactions-card-head__icon">
                 <svg class="personal-account-transactions-card-head__svg" xmlns="http://www.w3.org/2000/svg"
@@ -61,11 +61,11 @@
                     <span v-if="item.user">
                     от
                     <span class="personal-account-transactions-card-body__text_blue ms-0">
-                        {{ item.user.tname }} {{  item.user.fname }}
+                        {{ item.user.tname }} {{ item.user.fname }}
                     </span>
                     </span>
                 </div>
-                <div class="personal-account-transactions-card-body__text_grey ms-2" >
+                <div class="personal-account-transactions-card-body__text_grey ms-2">
 
                 </div>
             </div>
@@ -91,13 +91,15 @@
 <script>
 export default {
     props: ['item'],
-    methods:{
-        requestPaymentByTransaction(){
-            this.$store.dispatch("requestPaymentByTransactionId", this.item.id).then((resp)=>{
-                window.open(resp.url, '_blank')
+    methods: {
+        requestPaymentByTransaction() {
+            this.$store.dispatch("requestPaymentByTransactionId", this.item.id).then((resp) => {
+                if (resp.url)
+                    window.open(resp.url, '_blank')
+
             })
         },
-        sendTransaction(){
+        sendTransaction() {
             this.eventBus.emit("send_transaction_to_active_chat", this.item.id)
         }
     }

@@ -346,7 +346,7 @@ class TourController extends Controller
 
         $userId = Auth::user()->id ?? null;
 
-        if (($tour->is_draft || !$tour->is_active) && $tour->creator_id != $userId)
+        if (($tour->is_draft || !$tour->is_active)/* && $tour->creator_id != $userId*/)
             return view("errors.404");
 
         return view('pages.tour', ["tour" => json_encode(new TourResource($tour))]);
