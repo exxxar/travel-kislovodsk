@@ -180,7 +180,7 @@ class BookingController extends Controller
 
         $personCount = count($request->persons ?? []);
 
-        $summaryTax = max(env("base_tax"), $personCount * env("base_tax"));
+        $summaryTax = max(env("BASE_TAX"), $personCount * env("BASE_TAX"));
 
         if (is_null($userId))
             return response()->json([

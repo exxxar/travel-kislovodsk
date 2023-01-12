@@ -57,7 +57,7 @@ class PayMaster
     ]
   ]*/
             "paymentMethod" => $paymentMethod->value,
-        /*    "protocol" => [
+            "protocol" => [
                 "returnURL" => $returnURL,
                 "callbackURL" => $callbackURL,
             ],
@@ -65,7 +65,7 @@ class PayMaster
                 'email' => $user->email,
                 //'phone' => $user->phone,
                 'account' => $user->name
-            ],*/
+            ],
             /*'receipt' => [
                 'client' => [
                     'email' => $user->email,
