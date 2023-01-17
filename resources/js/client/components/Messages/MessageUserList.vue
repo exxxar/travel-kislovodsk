@@ -1,5 +1,6 @@
 <template>
     <div v-for="chat in chats" class="messages-head__message flex-nowrap row mx-0 px-4 align-items-center"
+         v-if="chats.length>0"
          :class="{ 'unread': chat.read_at === null }">
         <div class="icon-wrap col-auto px-0 mx-0 float-start">
             <div class="round-icon rounded-3 d-flex align-items-center justify-content-center bg-light">
@@ -26,6 +27,9 @@
             </p>
         </div>
         <div class="messages-head__unread col-auto mx-0 px-0 float-end d-none"></div>
+    </div>
+    <div v-else class="messages-head__message flex-nowrap row mx-0 px-4 align-items-center">
+        <p class="text-center">У вас нет диалогов!</p>
     </div>
     <div class="messages-head__scroll"></div>
     <button v-if="canLoadMore" @click="loadMoreChats">Загрузить еще

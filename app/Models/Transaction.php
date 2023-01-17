@@ -22,6 +22,8 @@ class Transaction extends Model
         'user_id',
         'tour_id',
         'description',
+        'payment_method',
+        'payment_instrument',
     ];
 
     /**

@@ -42,7 +42,8 @@
                 </span>
                 <span class="col-auto opacity-40 thin font-size-08" v-if="doc.approved_at==null&&doc.request_approve_at==null">
                     <a
-                        @click="verifiedDocument(doc)" class="btn btn-link"><i class="fa-solid fa-triangle-exclamation text-danger"></i></a>
+                        data-bs-toggle="modal" :data-bs-target="'#verifyDocumentModalDialog'+doc.id"
+                         class="btn btn-link"><i class="fa-solid fa-triangle-exclamation text-danger"></i></a>
                 </span>
 
                 <span class="col-auto opacity-40 thin font-size-08" v-if="doc.approved_at==null&&doc.request_approve_at!=null">
@@ -58,6 +59,18 @@
                     class="col-auto ms-auto"><span
                     class="font-size-08 position-relative red red-underline">Удалить</span></button>
             </div>
+
+            <action-modal-dialog-component
+                :id="'verifyDocumentModalDialog'+doc.id"
+                v-on:accept="verifiedDocument(doc)">
+                <template v-slot:head>
+                    <p>Диалог запроса верифкации докумета</p>
+                </template>
+
+                <template v-slot:body>
+                    <p>Вы действтельно хотите запросить верификацию для документа "{{doc.origin_title || doc.title || 'Без названия'}}"?</p>
+                </template>
+            </action-modal-dialog-component>
 
             <action-modal-dialog-component
                 :id="'removeModalDialog'+doc.id"

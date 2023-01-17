@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Classes\PayMaster\PayMaster;
+use App\Enums\PayMasterPaymentMethodsEnum;
 use App\Exports\TourGroupExport;
 use App\Facades\PaymentServiceFacade;
 use App\Http\Controllers\Controller;
@@ -194,7 +195,7 @@ class BookingController extends Controller
             'amount' => $summaryTax,
             'user_id' => $userId,
             'tour_id' => $request->tour_id,
-            'description' => "Бронирование утра: $summaryTax руб за $personCount чел."
+            'description' => "Бронирование тура: $summaryTax руб за $personCount чел."
         ]);
 
         Booking::query()->create([
@@ -217,7 +218,17 @@ class BookingController extends Controller
             $userId,
             $tour->creator_id);
 
-        return PaymentServiceFacade::payment()->createInvoiceLink($transaction->amount, $transaction->description);
+        return response()->json([
+            "bankcard" => PaymentServiceFacade::payment()
+                ->createInvoiceLink($transaction->amount,
+                    $transaction->id,
+                    $transaction->description),
+            "sbp" => PaymentServiceFacade::payment()
+                ->createInvoiceLink($transaction->amount,
+                    $transaction->id,
+                    $transaction->description,
+                    PayMasterPaymentMethodsEnum::SBP)
+        ]);
     }
 
     public function selfBookedTours(Request $request)

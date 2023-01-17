@@ -12,7 +12,7 @@
                 <div class="modal-body">
                     <slot name="body"></slot>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" v-if="!hideControls">
                     <button type="button" class="btn btn-outline-primary"
                             @click="decline"
                             data-bs-dismiss="modal">Отменить
@@ -29,6 +29,12 @@
 </template>
 <script>
 export default {
+    props: {
+        hideControls:{
+            type: Boolean,
+            default: false
+        },
+    },
     methods: {
         accept() {
             this.$notify({

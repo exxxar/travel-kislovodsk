@@ -1,7 +1,7 @@
 <template>
 
     <div id="add-excursion" class="add-excursion col ">
-        <div class="row align-items-center mx-0 mb-4 mb-lg-5">
+        <div class="row align-items-center mx-0 mb-4 mb-lg-5 mt-4">
             <button @click="$emit('hideAddExcursion')"
                     class="personal-account-nav__link_active button col-auto px-2rem active rounded shadow-none bold">
                 <span class="fs-6 me-1">&lt;</span>Назад

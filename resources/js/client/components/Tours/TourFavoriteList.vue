@@ -2,8 +2,8 @@
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
              aria-labelledby="pills-home-tab">
-            <div class="dt-form row-cols-lg-4 row-cols-sm-1 row-cols-md-2" v-if="favorites.length>0">
-                <div class="col col-xs-12" v-for="item in favorites" >
+            <div class="dt-form row" v-if="favorites.length>0">
+                <div class="col-12 col-md-6 col-lg-3" v-for="item in favorites" >
                     <tour-card-component :tour="item.tour" :key="item"/>
                 </div>
 

@@ -233,13 +233,13 @@ export default {
 
             this.bookeds.forEach(item => {
 
-                let arrItem = arr.find(sub => sub.date === item.start_at && sub.schedule_id === item.schedule_id)
+                let arrItem = arr.find(sub => sub.date === item.schedule.start_at /*&& sub.schedule_id === item.schedule_id*/)
 
                 if (!arrItem) {
 
 
                     arr.push({
-                        date: item.start_at,
+                        date: item.schedule.start_at,
                         schedule_id: item.schedule_id,
                         tour_id: item.tour_id,
                         items: [
@@ -314,7 +314,6 @@ export default {
                 page: this.page,
                 tourId: this.tour.id
             }).then(() => {
-
                 this.bookeds = this.getGuideBookedTours
                 this.canLoadMore = this.canGuideBookedToursLoadMore
 

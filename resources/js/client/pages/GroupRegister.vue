@@ -1097,8 +1097,10 @@
                             type="submit"
                             :disabled="!groupForm.accept_rules||!groupForm.approve_info"
                             class="big-button bold bg-blue col-12 col-md-4 mt-5 mt-md-0 ms-0 ms-md-5 px-5 rounded font-size-09">
-                            Отправить
-                            заявку
+                            <span v-if="!load" class="text-white">Отправить заявку</span>
+                            <div v-if="load" class="spinner-border text-white" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
                         </button>
                     </div>
                 </form>
@@ -1188,6 +1190,7 @@ export default {
     components: {Breadcrumbs},
     data() {
         return {
+            load:false,
             memberForm: {
                 full_name: null,
                 date_of_birth: null,
@@ -1280,15 +1283,17 @@ export default {
 
     methods: {
         submitForm() {
-
+            this.load = true
             this.$store.dispatch("sendMCHSGroupForm", this.groupForm).then(() => {
                 this.groupForm = getInitialFormData().groupForm
-
+                this.load = false
                 this.$notify({
                     title: "Кисловодск-Туризм",
                     text: "Форма регистрации группы в МЧС успешно отправлена. Менеджер свяжется с вами в течении суток.",
                     type: 'success'
                 });
+            }).catch(()=>{
+                this.load = false
             })
         },
         removeMedicalProfessionals(index) {

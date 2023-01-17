@@ -17,6 +17,7 @@ class PayMaster
     }
 
     public function createInvoiceLink(float                       $value,
+                                      int                         $transactionId = null,
                                       string                      $description = "Бронирование тура",
                                       PayMasterPaymentMethodsEnum $paymentMethod = PayMasterPaymentMethodsEnum::BANKCARD): object
     {
@@ -40,26 +41,27 @@ class PayMaster
             'merchantId' => $merchantId,
             'invoice' => [
                 'description' => $description,
+                'orderNo' => "$transactionId",
 
             ],
-            'testMode'=>true,
+            'testMode' => env("APP_DEBUG"),
             'amount' => [
                 'value' => $value,
                 'currency' => "RUB"
             ],
 
-         /*   "paymentData" => [
-        "paymentMethod"=> "BankCard",
-    "card"=>[
-            "pan"=> "4111111111111111",
-      "expiry"=> "12/24",
-      "cvc"=> "123"
-    ]
-  ]*/
+            /*   "paymentData" => [
+           "paymentMethod"=> "BankCard",
+       "card"=>[
+               "pan"=> "4111111111111111",
+         "expiry"=> "12/24",
+         "cvc"=> "123"
+       ]
+     ]*/
             "paymentMethod" => $paymentMethod->value,
             "protocol" => [
-                "returnURL" => $returnURL,
-                "callbackURL" => $callbackURL,
+                "returnURL" => "$returnURL",
+                "callbackURL" => "$callbackURL",
             ],
             'customer' => [
                 'email' => $user->email,

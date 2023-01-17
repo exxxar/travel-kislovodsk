@@ -255,6 +255,8 @@ export default {
 
 
 .excursion-card {
+    border: 1px #efefef solid;
+
     .dt-rating__star {
         img {
             width: 20px;
@@ -264,7 +266,7 @@ export default {
 
     .card-footer {
         background-color: white;
-
+        border-top: 1px #efefef solid !important;
         .btn-action {
             color: #0071eb;
             font-weight: 600;

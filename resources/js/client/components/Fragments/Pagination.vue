@@ -4,7 +4,7 @@
         <div class="col-lg-6 dt-pagination d-flex justify-content-center align-items-center">
 
             <nav aria-label="Page navigation" class="dt-nav-pagination dt-pagination_body">
-                <ul class="pagination" v-if="hasPagination">
+                <ul class="pagination" >
                     <li class="page-item page-item-control"
                         v-bind:class="{'disabled':pagination.links.prev===null}"
                         @click="prevPage">
@@ -65,6 +65,8 @@ export default {
         filteredLinks(){
             if (!this.pagination)
                 return [];
+
+            let index = parseInt(this.pagination.meta.links.find(item=>item.active===true).label)
 
             return this.pagination.meta.links
         }

@@ -1,5 +1,5 @@
 <template>
-    <form v-on:submit.prevent="registration">
+    <form v-on:submit.prevent="preRegistration">
         <div class="dt-input__wrapper">
             <div class="d-flex align-items-center justify-content-between"><label
                 class="dt-input__label">Имя аккаунта</label>
@@ -299,11 +299,55 @@
                 </slot>
             </label>
         </div>
-        <div class="d-flex align-items-center justify-content-center w-100">
+        <div class="d-flex align-items-center justify-content-center w-100" v-if="!is_send_sms">
             <button class="btn dt-btn dt-btn-blue w-100"
                     type="submit"
                     :disabled="!accept_rules">
-                Регистрация
+                <span v-if="!load" class="text-white"> Регистрация</span>
+                <div v-if="load" class="spinner-border text-white" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </button>
+        </div>
+
+
+    </form>
+
+    <form v-on:submit.prevent="registration" v-if="is_send_sms">
+        <div class="alert alert-warning" role="alert">
+            Вам должен прийти телефонный вызов. Последние 4 цифры номера - код подтверждения.
+        </div>
+
+        <div class="dt-input__wrapper mb-4">
+            <div class="d-flex align-items-center justify-content-between"><label
+                class="dt-input__label">sms-код подтверждения</label>
+            </div>
+            <div class="dt-input__group">
+                <input type="text" name="sms"
+                       v-mask="'####'"
+                       placeholder="XXXX"
+                       maxlength="4"
+                       minlength="4"
+                       v-model="form.code" class="dt-input" autocomplete="off">
+                <div class="dt-input__group-item">
+                    <div class="dt-input__icon">
+                        <i class="fa-solid fa-comment-sms"></i>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="d-flex align-items-center justify-content-center w-100">
+            <button class="btn dt-btn dt-btn-blue w-100"
+                    type="submit"
+            >
+
+                <span v-if="!load" class="text-white"> Отправить</span>
+                <div v-if="load" class="spinner-border text-white" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
             </button>
         </div>
     </form>
@@ -313,10 +357,13 @@
 export default {
     data() {
         return {
+            is_send_sms: false,
             i_am_guide: false,
+            load:false,
             form: {
                 username: null,
                 photo: null,
+                code: null,
                 first_name: null,
                 last_name: null,
                 patronymic: null,
@@ -345,8 +392,47 @@ export default {
         }
     },
     methods: {
+        preRegistration() {
+            this.load = true
+            this.$store.dispatch("preRegistration", this.form).then((response) => {
+                if (response.data.sms) {
+                    this.$notify({
+                        title: "Кисловодск-Туризм",
+                        text: "Вам отправили телефонный вызов! Код - последние 4 цифры",
+                        type: 'warn'
+                    });
+
+                    this.is_send_sms = true
+                } else {
+                    let role = response.data.role
+                    window.location.href = `/${role}-cabinet`
+                }
+                this.load = false
+            }).catch(()=>{
+                this.load = false
+            })
+        },
         registration() {
-            this.$store.dispatch("registration", this.form)
+            this.is_send_sms = false
+            this.load = true
+            this.$store.dispatch("registration", this.form).then((response) => {
+                if (response.data.sms) {
+                    this.$notify({
+                        title: "Кисловодск-Туризм",
+                        text: "Вам повторно отправили телефонный вызов! Код - последние 4 цифры",
+                        type: 'warn'
+                    });
+
+                    this.is_send_sms = true
+                } else {
+                    let role = response.data.role
+                    window.location.href = `/${role}-cabinet`
+                }
+                this.load = false
+            }).catch(()=>{
+                this.is_send_sms = true
+                this.load = false
+            })
         }
     }
 }

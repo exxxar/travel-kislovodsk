@@ -87,16 +87,63 @@
                 "{{ item.description || 'Нет описания' }}"?</p>
         </template>
     </action-modal-dialog-component>
+
+    <action-modal-dialog-component
+        :hide-controls="true"
+        :id="'choosePayment'+item.id">
+        <template v-slot:head>
+            <p>Диалог выбора способа</p>
+        </template>
+
+        <template v-slot:body>
+
+            <div class="row" v-if="payment">
+                <div class="col-12 d-flex align-items-center justify-content-center flex-column pt-5 pb-5" v-if="payment.bankcard.url">
+                    <p>Оплата банковской картой</p>
+                    <a
+                        class="cursor-pointer select-payment-method"
+                       :href="payment.bankcard.url" >
+                        <img class="w-100" v-lazy="'/img/2payments22.png'" alt="">
+                    </a>
+                </div>
+                <div class="col-12 d-flex align-items-center justify-content-center flex-column" v-if="payment.sbp.url">
+                    <p>Оплата через систему быстрых платежей</p>
+                    <a
+                        class="cursor-pointer select-payment-method"
+                       :href="payment.sbp.url">
+                        <img class="w-100" v-lazy="'/img/sbp.jpg'" alt="">
+                    </a>
+                </div>
+            </div>
+            <div class="row" v-else>
+                <div class="col-12">
+                    <div class="empty-list">
+                        <img v-lazy="'/img/load.gif'" alt="">
+                        <p>Грузим информацию....</p>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </action-modal-dialog-component>
+
+
 </template>
 <script>
 export default {
     props: ['item'],
+    data(){
+      return {
+          payment:null
+      }
+    },
     methods: {
         requestPaymentByTransaction() {
-            this.$store.dispatch("requestPaymentByTransactionId", this.item.id).then((resp) => {
-                if (resp.url)
-                    window.open(resp.url, '_blank')
+            let myModal = new bootstrap.Modal(document
+                .getElementById('choosePayment'+this.item.id), {})
+            myModal.show();
 
+            this.$store.dispatch("requestPaymentByTransactionId", this.item.id).then((resp) => {
+                this.payment = resp
             })
         },
         sendTransaction() {
@@ -105,3 +152,13 @@ export default {
     }
 }
 </script>
+<style lang="scss">
+.select-payment-method {
+    border:2px white solid;
+    border-radius: 10px;
+    &:hover {
+        border:2px #1553ce solid;
+
+    }
+}
+</style>

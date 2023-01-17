@@ -69,6 +69,7 @@ Route::get('/load-template/{path}', [\App\Http\Controllers\API\TouristGuideContr
 
 Route::view('/', 'pages.main')->name("page.main");
 Route::view('/about', 'pages.about')->name("page.about");
+Route::view('/settings', 'pages.settings')->name("page.settings");
 Route::view('/contact-us', 'pages.contact-us')->name("page.contact-us"); // +
 Route::view('/contacts', 'pages.contacts')->name("page.contacts"); // +
 Route::view('/faq', 'pages.faq')->name("page.faq"); // проверить скрытие вопросов
@@ -119,8 +120,13 @@ Route::prefix("api")
 
         Route::controller(\App\Http\Controllers\SocialAuthController::class)
             ->group(function () {
+                Route::post('/pre-registration', 'preRegistration');
                 Route::post('/registration', 'registration');
                 Route::post('/login', 'login');
+                Route::post('/login-with-code', 'loginWithCode');
+                Route::post('/pre-recovery', 'preRecovery');
+                Route::post('/pre-recovery-code', 'preRecoveryCode');
+                Route::post('/recovery', 'recovery');
             });
 
         Route::prefix("tour-categories")

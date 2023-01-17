@@ -124,6 +124,7 @@ export default {
                 }).then(() => {
                     this.transaction_list = this.getTransactions
                     this.pagination = this.getTransactionsPaginateObject
+
                     this.load = false
                 })
             } else

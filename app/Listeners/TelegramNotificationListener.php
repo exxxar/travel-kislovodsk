@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Enums\TelegramNotificationVerifiedType;
 use App\Events\TelegramNotificationDocumentVerifiedEvent;
+use App\Events\TelegramNotificationEvent;
 use App\Events\TelegramNotificationProfileVerifiedEvent;
 use App\Events\TelegramNotificationTourVerifiedEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -40,6 +41,11 @@ class TelegramNotificationListener
         $buttons = [];
 
         switch (get_class($event)) {
+            case TelegramNotificationEvent::class:
+                $message = $event->text;
+                $this->sendMessage($message);
+                break;
+
             case TelegramNotificationDocumentVerifiedEvent::class:
                 $document = $event->object;
 

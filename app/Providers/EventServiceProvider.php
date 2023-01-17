@@ -6,6 +6,7 @@ use App\Events\ActionNotificationEvent;
 use App\Events\ChatNotificationEvent;
 use App\Events\SMSNotificationEvent;
 use App\Events\TelegramNotificationDocumentVerifiedEvent;
+use App\Events\TelegramNotificationEvent;
 use App\Events\TelegramNotificationProfileVerifiedEvent;
 use App\Events\TelegramNotificationTourVerifiedEvent;
 use App\Listeners\ActionNotificationListener;
@@ -44,6 +45,9 @@ class EventServiceProvider extends ServiceProvider
             TelegramNotificationListener::class,
         ],
         TelegramNotificationTourVerifiedEvent::class => [
+            TelegramNotificationListener::class,
+        ],
+        TelegramNotificationEvent::class => [
             TelegramNotificationListener::class,
         ],
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [

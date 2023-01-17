@@ -218,6 +218,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PaymentService' => \App\Facades\PaymentServiceFacade::class,
+        'SmsService' => \App\Facades\SmsServiceFacade::class,
         'Telegram'  => Telegram\Bot\Laravel\Facades\Telegram::class,
 
     ])->toArray(),

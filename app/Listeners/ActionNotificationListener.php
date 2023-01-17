@@ -35,13 +35,17 @@ class ActionNotificationListener
         if (is_null($event))
             return;
 
-        $token = User::find(Auth::user()->id)->device_key;
+        try {
+            $token = User::find(Auth::user()->id)->device_key;
 
-        FcmTopicHelper::subscribeToTopic([$token], "general");
-        $notif = new FcmNotification;
-        $notif->setTitle($event->type)
-            ->setBody(json_encode($event->data??[]))
-            ->setTopic("general")->send();
+            FcmTopicHelper::subscribeToTopic([$token], "general");
+            $notif = new FcmNotification;
+            $notif->setTitle($event->type)
+                ->setBody(json_encode($event->data ?? []))
+                ->setTopic("general")->send();
+        } catch (\Exception $e) {
+
+        }
 
     }
 }

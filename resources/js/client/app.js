@@ -19,11 +19,8 @@ import Modals from '@/components/Fragments/Modals.vue'
 import Notifications from '@/components/Fragments/Notifications.vue'
 import LoginForm from '@/components/Accounting/LoginForm.vue'
 import PasswordRecoveryForm from '@/components/Accounting/PasswordRecoveryForm.vue'
-import ChangePasswordForm from '@/components/Accounting/ChangePasswordForm.vue'
-import SuccessChangePasswordForm from '@/components/Accounting/SuccessChangePasswordForm.vue'
 import RegistrationForm from '@/components/Accounting/RegistrationForm.vue'
-import UserRegistrationForm from '@/components/Accounting/UserRegistrationForm.vue'
-import GuideRegistrationForm from '@/components/Accounting/GuideRegistrationForm.vue'
+
 import Benefits from '@/components/Fragments/Benefits.vue'
 import TourCalendar from '@/components/Fragments/TourCalendar.vue'
 import DateTimeCalendar from '@/components/Fragments/DateTimeCalendar.vue'
@@ -46,6 +43,7 @@ import LoginPage from '@/pages/Login.vue'
 import ForgotPasswordPage from '@/pages/ForgotPassword.vue'
 import RegistrationPage from '@/pages/Registration.vue'
 import AboutPage from '@/pages/About.vue'
+import SettingsPage from '@/pages/Settings.vue'
 import ContactPage from '@/pages/Contacts.vue'
 import ContactUsPage from '@/pages/ContactUs.vue'
 import FAQPage from '@/pages/FAQ.vue'
@@ -131,11 +129,8 @@ app.component('notifications-component', Notifications)
 app.component('benefits-component', Benefits)
 app.component('login-form-component', LoginForm)
 app.component('password-recovery-form-component', PasswordRecoveryForm)
-app.component('change-password-form-component', ChangePasswordForm)
-app.component('success-change-password-form-component', SuccessChangePasswordForm)
 app.component('registration-form-component', RegistrationForm)
-app.component('guide-registration-form-component', GuideRegistrationForm)
-app.component('user-registration-form-component', UserRegistrationForm)
+
 app.component('tour-calendar-component', TourCalendar)
 app.component('date-time-calendar-component', DateTimeCalendar)
 app.component('breadcrumbs-component', Breadcrumbs)
@@ -157,6 +152,7 @@ app.component('login-page', LoginPage)
 app.component('registration-page', RegistrationPage)
 app.component('forgot-password-page', ForgotPasswordPage)
 app.component('about-page', AboutPage)
+app.component('settings-page', SettingsPage)
 app.component('contact-page', ContactPage)
 app.component('contact-us-page', ContactUsPage)
 app.component('faq-page', FAQPage)

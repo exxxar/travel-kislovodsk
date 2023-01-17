@@ -27,22 +27,51 @@
 
             </p>
             <div class="dt-review__photos" v-if="review.images.length>0">
-                <div class="dt-photos__item" v-for="item in review.images">
-                    <img v-lazy="item">
+                <div class="dt-photos__item" v-for="(item, index) in review.images">
+                    <img
+                        data-bs-toggle="modal"
+                        :data-bs-target="'#comment-image-modal'+item.id+'-'+index"
+                        v-lazy="item">
+
+                    <image-modal-dialog-component :id="'comment-image-modal'+item.id+'-'+index" :url="item"/>
+
                 </div>
 
             </div>
             <div class="dt-review__footer" v-if="user.id===review.user_id">
                 <button
-                    @click="removeReview"
-                    class="btn btn-outline-danger">Удалить отзыв</button>
+                    data-bs-toggle="modal"
+                    :data-bs-target="'#removeReviewModalDialog'+review.id"
+                    class="btn btn-danger p-2" style="min-width: 200px;">
+                    <span v-if="!load" class="text-white">Удалить отзыв</span>
+                    <div v-if="load" class="spinner-border text-white" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </button>
             </div>
         </div>
     </div>
+
+    <action-modal-dialog-component
+        :id="'removeReviewModalDialog'+review.id"
+        v-on:accept="removeReview">
+        <template v-slot:head>
+            <p>Диалог удаления отзыва</p>
+        </template>
+
+        <template v-slot:body>
+            <p>Вы действтельно хотите удалить отзыв "{{ review.comment || 'Нет текста' }}"?</p>
+        </template>
+    </action-modal-dialog-component>
 </template>
 <script>
 export default {
     props:["review"],
+    data(){
+       return {
+           load:false,
+       }
+    },
     computed: {
         user() {
             return window.user
@@ -53,13 +82,17 @@ export default {
     },
     methods:{
         removeReview(){
+            this.load = true
             this.$store.dispatch("removeReview", this.review.id).then(()=>{
+                this.load = false
                 this.eventBus.emit("request_reload_reviews")
                 this.$notify({
                     title: "Удаление отзыва",
                     text: "Отзыв успешно удален",
                     type: 'success'
                 });
+            }).catch(()=>{
+                this.load = false
             })
         }
     }

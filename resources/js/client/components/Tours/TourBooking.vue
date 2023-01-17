@@ -255,7 +255,7 @@
                     </div>
                 </div>
 
-                <div class="alert alert-success" role="alert"  v-if="user.is_guest&&index===0">
+                <div class="alert alert-success" role="alert" v-if="user.is_guest&&index===0">
                     После создания аккаунта будет выполнен автоматический вход в систему.
                 </div>
 
@@ -357,7 +357,7 @@
             </div>
             <div class="col-1"></div>
 
-            <div class="col-lg-5 align-items-center d-flex" >
+            <div class="col-lg-5 align-items-center d-flex">
                 <button type="submit" class="dt-btn-blue w-100"
                         v-bind:class="{'disabled':!bookingForm.accept_rules || !bookingForm.booking_is_correct}"
                         :disabled="!bookingForm.accept_rules || !bookingForm.booking_is_correct || bookingForm.persons.length===0">
@@ -367,6 +367,32 @@
 
         </div>
     </form>
+
+    <action-modal-dialog-component
+        :hide-controls="true"
+        :id="'choosePayment-on-booking'">
+        <template v-slot:head>
+            <p>Диалог выбора способа</p>
+        </template>
+
+        <template v-slot:body>
+
+            <div class="row" v-if="payment">
+                <div class="col-12">
+                    <a v-if="payment.bankcard.url"
+                       :href="payment.bankcard.url" >
+                        <img class="w-100" v-lazy="'/img/2payments22.png'" alt="">
+                    </a>
+                </div>
+                <div class="col-12">
+                    <a v-if="payment.sbp.url"
+                       :href="payment.sbp.url">
+                        <img class="w-100" v-lazy="'/img/sbp.jpg'" alt="">
+                    </a>
+                </div>
+            </div>
+        </template>
+    </action-modal-dialog-component>
 </template>
 <script>
 import {mapGetters} from "vuex";
@@ -377,7 +403,7 @@ export default {
     props: ["tour"],
     data() {
         return {
-
+            payment: null,
             step: 0,
             active_person_index: 0,
             service: [],
@@ -492,15 +518,19 @@ export default {
             this.bookingForm.tour_id = this.tour.id
 
             this.$store.dispatch("bookATour", this.bookingForm).then((resp) => {
-                if (resp.url) {
-                    window.open(resp.url, '_blank')
-                    this.$notify({
-                        title: "Кисловодск-Туризм",
-                        text: "Тур успешно забронирован",
-                        type: 'success'
-                    });
-                    window.location.reload()
+
+                let myModal = new bootstrap.Modal(document
+                    .getElementById('choosePayment-on-booking'), {})
+
+                this.payment = resp
+
+                if (resp.bankcard.url || resp.sbp.url) {
+                    myModal.show()
+
+                    // window.location.reload()
                 }
+
+
             })
         },
         getCountBySlug(slug) {

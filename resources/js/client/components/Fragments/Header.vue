@@ -66,6 +66,7 @@
                                            data-bs-target="#dtModalRegistry"
                                            href="#">Регистрация</a></li>
                                     <li><a class="dropdown-item" data-bs-toggle="modal"
+                                           @click="prepareRecoveryForm"
                                            data-bs-target="#dtModalRecovery-1"
                                            href="#">Восстановление пароля</a></li>
                                 </ul>
@@ -92,12 +93,24 @@
                                         гида</a></li>
                                     <li><a class="dropdown-item" v-if="user.is_admin" href="/admin">Кабинет
                                         администратора</a></li>
-                                    <li><hr class="dropdown-divider bg-primary"></li>
-                                    <li><a class="dropdown-item" href="/favorites">Избранные туры <span class="badge bg-primary text-white p-2">{{statistic.favorites_count || 0}}</span></a></li>
-                                    <li><a class="dropdown-item" href="/messages">Чаты <span class="badge bg-primary text-white p-2">{{statistic.unread_chats_count || 0}}</span></a></li>
-                                    <li><a class="dropdown-item disabled" href="#watched">Просмотренные туры <span class="badge bg-primary text-white p-2">{{statistic.watched_count || 0}}</span></a></li>
-                                    <li><a class="dropdown-item disabled" href="#booked">Забронированные туры <span class="badge bg-primary text-white p-2">{{statistic.booked_count || 0}}</span></a></li>
-                                    <li><hr class="dropdown-divider bg-primary"></li>
+                                    <li>
+                                        <hr class="dropdown-divider bg-primary">
+                                    </li>
+                                    <li><a class="dropdown-item" href="/favorites">Избранные туры <span
+                                        class="badge bg-primary text-white p-2">{{ statistic.favorites_count || 0 }}</span></a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="/messages">Чаты <span
+                                        class="badge bg-primary text-white p-2">{{ statistic.unread_chats_count || 0 }}</span></a>
+                                    </li>
+                                    <li><a class="dropdown-item disabled" href="#watched">Просмотренные туры <span
+                                        class="badge bg-primary text-white p-2">{{ statistic.watched_count || 0 }}</span></a>
+                                    </li>
+                                    <li><a class="dropdown-item disabled" href="#booked">Забронированные туры <span
+                                        class="badge bg-primary text-white p-2">{{ statistic.booked_count || 0 }}</span></a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider bg-primary">
+                                    </li>
                                     <li><a class="dropdown-item" href="/logout">Выход</a></li>
 
                                 </ul>
@@ -191,7 +204,7 @@
 import {mapGetters} from "vuex";
 
 export default {
-    data(){
+    data() {
         return {
             hasMessages: false,
         }
@@ -208,14 +221,13 @@ export default {
     mounted() {
 
 
-
         window.eventBus.on("fcm_logout_notification", () => {
             window.location.reload();
         })
 
         window.eventBus.on("fcm_message_notification", (data) => {
 
-            if (data.user_ids.indexOf(this.user.id)!==-1) {
+            if (data.user_ids.indexOf(this.user.id) !== -1) {
                 this.$notify({
                     title: "Кисловодск-Туризм",
                     text: "Вам пришло новое сообщение!",
@@ -226,9 +238,9 @@ export default {
 
         })
     },
-    watch:{
-        getErrors:function (newVal, oldVal){
-            Object.keys(newVal).forEach(key=> {
+    watch: {
+        getErrors: function (newVal, oldVal) {
+            Object.keys(newVal).forEach(key => {
                 this.$notify({
                     title: "Кисловодск-Туризм",
                     text: newVal[key],
@@ -238,6 +250,11 @@ export default {
 
         }
     },
+    methods: {
+        prepareRecoveryForm() {
+            this.eventBus.emit("reset_recovery_form");
+        }
+    }
 }
 </script>
 

@@ -1,34 +1,45 @@
 <template>
     <div id="calendar" class="col ">
-        <div class="row row-cols-2 align-items-start mx-0">
-            <h2 class="col-12 lh-1 mb-4 bold px-0 title-guide-cabinet">Календарь</h2>
-            <div class="col-12 col-xl row mx-0 px-0 order-2 order-xl-1">
-                <div class="overflow-x-auto d-flex align-items-center mx-0 px-0 mt-5 mt-xl-0">
-                    <button
+        <h2 class=" mb-4 bold px-0 title-guide-cabinet">Календарь</h2>
+
+        <div class="row">
+
+
+            <div class="col-12 col-md-6">
+                <div class="row">
+                    <div class="col-12 col-md-6 mb-2">
+                        <button
                         type="button"
                         @click="filterObject.filter_type =1"
-                        v-bind:class="{'btn-primary':filterObject.filter_type ===1
+                        v-bind:class="{'active':filterObject.filter_type ===1
                   }"
-                        class="btn btn-schedule">
+                        class="btn btn-schedule w-100">
                         Сегодня
                     </button>
-                    <button
-                        type="button"
-                        @click="filterObject.filter_type =2"
-                        v-bind:class="{'btn-primary':filterObject.filter_type ===2 }"
-                        class="btn ms-2 px-4 btn-schedule">
-                        Ближайшие даты
-                    </button>
-                    <button
-                        type="button"
-                        @click="filterObject.filter_type =0"
-                        v-bind:class="{'btn-primary':filterObject.filter_type ===0}"
-                        class="btn btn-schedule">
-                        Выбранная
-                        дата
-                    </button>
+                    </div>
+                    <div class="col-12 col-md-6 mb-2">
+                        <button
+                            type="button"
+                            @click="filterObject.filter_type =2"
+                            v-bind:class="{'active':filterObject.filter_type ===2 }"
+                            class="btn btn-schedule w-100">
+                            Ближайшие даты
+                        </button>
+                    </div>
+                    <div class="col-12 col-md-12 mb-2">
+                        <button
+                            type="button"
+                            @click="filterObject.filter_type =0"
+                            v-bind:class="{'active':filterObject.filter_type ===0}"
+                            class="btn btn-schedule w-100">
+                            Выбранная
+                            дата
+                        </button>
+                    </div>
                 </div>
-                <div class="col-12 col-xl mx-0 mt-3 mt-xl-0 px-0" v-if="schedule.length>0">
+
+
+                <div v-if="schedule.length>0">
                     <p class="mt-2" style="color:gray; text-align: center;"><small>Событий всего - {{schedule.length}}</small></p>
                     <div class="mt-4" v-for="item in groupByDate">
                         <span class="bold font-size-09">{{ item.date }}</span>
@@ -80,7 +91,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-xl row mx-0 px-0 ps-xl-5 order-1 order-xl-2 sticky-calendar d-none d-lg-flex" >
+            <div class="col-12 col-md-6 sticky-calendar d-none d-md-block" >
                 <tour-calendar-component
                     v-on:select-date="updateDate"
                     :inline="true"

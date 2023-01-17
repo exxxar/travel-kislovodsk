@@ -1,6 +1,7 @@
 <template>
     <div class="dt-page__search-excursion">
-        <div class="d-flex dt-top-info-block--three-input">
+
+        <div class="d-flex dt-top-info-block&#45;&#45;three-input justify-content-center">
             <div class="d-flex flex-wrap align-items-end">
                 <div class="switcher d-flex align-items-center">
                     <p class="dt-direction-excursion" :class="{'text-white': isLinksWhite}">Куда?</p>
@@ -12,8 +13,8 @@
                     </div>
                     <p class="dt-direction-excursion" :class="{'text-white': isLinksWhite}">Откуда?</p>
                 </div>
-                <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters--links-white': isLinksWhite}">
-                    <a data-bs-toggle="modal" data-bs-target="#map-main-modal" class="dt-link-filter--hover-blue">Смотреть
+                <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters&#45;&#45;links-white': isLinksWhite}">
+                    <a data-bs-toggle="modal" data-bs-target="#map-main-modal" class="dt-link-filter&#45;&#45;hover-blue">Смотреть
                         карту</a>
                 </div>
             </div>
@@ -41,9 +42,9 @@
 
                     </div>
                 </div>
-                <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters--links-white': isLinksWhite}">
+                <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters&#45;&#45;links-white': isLinksWhite}">
                     <div class="d-flex dt-list">
-                        <a href="#reset-filter" class="dt-link-filter--hover-blue"
+                        <a href="#reset-filter" class="dt-link-filter&#45;&#45;hover-blue"
                            @click="resetFilter">Сбросить фильтры</a>
                     </div>
                 </div>
@@ -64,15 +65,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters--links-white': isLinksWhite}">
+                <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters&#45;&#45;links-white': isLinksWhite}">
                     <div class="d-flex dt-list">
-                        <a class="dt-link-filter--hover-blue"
+                        <a class="dt-link-filter&#45;&#45;hover-blue"
                            v-bind:class="{'active':checkNearest(0)}"
                            @click="toggleNearestFilter(0)">Завтра</a>
-                        <a class="dt-link-filter--hover-blue"
+                        <a class="dt-link-filter&#45;&#45;hover-blue"
                            v-bind:class="{'active':checkNearest(1)}"
                            @click="toggleNearestFilter(1)">В ближайшие 3 дня</a>
-                        <a class="dt-link-filter--hover-blue"
+                        <a class="dt-link-filter&#45;&#45;hover-blue"
                            v-bind:class="{'active':checkNearest(2)}"
                            @click="toggleNearestFilter(2)"
                         >
@@ -119,6 +120,7 @@
             </div>
             <button class="dt-info-block__button dt-btn dt-btn-blue" @click="applyFilter">
                 Найти экскурсии
+
             </button>
         </div>
     </div>

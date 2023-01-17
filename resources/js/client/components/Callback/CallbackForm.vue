@@ -33,9 +33,12 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-outline-primary mr-1 mb-1 w-100 p-3">
-                    <i class="fa-solid fa-paper-plane"></i>
-                    Отправить
+                <button type="submit" class="btn btn-primary mr-1 mb-1 w-100 p-3">
+
+                    <span v-if="!load" class="text-white"> <i class="fa-solid fa-paper-plane mr-2 text-white"></i> Отправить</span>
+                    <div v-if="load" class="spinner-border text-white" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                 </button>
             </div>
             <div class="form-group mb-2 d-flex justify-content-center">
@@ -56,7 +59,7 @@
 export default {
     data() {
         return {
-
+            load: false,
             form: {
                 name: null,
                 phone: null,
@@ -74,7 +77,7 @@ export default {
     },
     methods: {
         sendRequest: function (e) {
-
+            this.load = true
             this.$store.dispatch("sendQuestionForm", this.form).then(() => {
 
                 this.form.name = "";
@@ -84,11 +87,14 @@ export default {
                 this.form.type = 0;
                 this.form.cansend = false;
 
+                this.load = false
                 this.$notify({
                     title: "Сообщения",
                     text: "Ваше сообщение успешно отправлено",
                     type: 'success'
                 });
+            }).catch(()=>{
+                this.load = false
             })
 
         },

@@ -45,7 +45,14 @@
 
                 </div>
                 <div class="col-sm-12 text-center pt-4">
-                    <button class="btn btn-primary" type="submit">Отправить отзыв</button>
+                    <button class="btn btn-primary p-3" style="min-width: 200px;" type="submit">
+                        <span v-if="!load" class="text-white">Отправить отзыв</span>
+                        <div v-if="load" class="spinner-border text-white" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+
+
                 </div>
             </div>
         </form>
@@ -61,6 +68,7 @@ export default {
     },
     data() {
         return {
+            load:false,
             review: {
                 rating: 1,
                 comment: null,
@@ -92,6 +100,7 @@ export default {
         },
         submitReview() {
 
+            this.load = true
             let data = new FormData();
 
             Object.keys(this.review)
@@ -111,6 +120,8 @@ export default {
 
 
             this.$store.dispatch("addReview", data).then((data) => {
+                this.load = false
+
                 this.resetImages()
 
                 this.review.comment = null;
@@ -118,11 +129,14 @@ export default {
 
                 this.eventBus.emit("request_reload_reviews")
 
+
                 this.$notify({
                     title: "Страница тура",
                     text: "Отзыв успшено добавлен",
                     type: 'success'
                 });
+            }).catch(()=>{
+                this.load = false
             })
         },
     }

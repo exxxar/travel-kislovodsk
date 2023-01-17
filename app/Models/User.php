@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Exceptions\SmsCodeValidationException;
+use App\Facades\SmsServiceFacade;
 use App\Http\Resources\ProfileResource;
 use App\Mail\RegistrationMail;
 use App\Mail\VerificationEmail;
@@ -39,6 +41,8 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
         'old_password',
         'company_id',
         'user_law_status_id',
+        'email_verified_at',
+        'phone_verified_at',
         'profile_id',
         'sms_code',
         'sms_notification',
@@ -67,11 +71,11 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = [ 'rating_statistic','rating'];
+    protected $appends = ['rating_statistic', 'rating'];
 
     public function reviews()
     {
-        return $this->hasMany(Review::class,'tour_guide_id','id');
+        return $this->hasMany(Review::class, 'tour_guide_id', 'id');
     }
 
     public function getRatingAttribute()
@@ -142,15 +146,15 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
     public static function selfStatistic(): string
     {
         return json_encode((object)[
-            "unread_chats_count"=>Chat::unreadChatsCount(),
-            "favorites_count"=>Favorite::favoriteToursCount(),
-            "watched_count"=>UserWatchTours::watchedToursCount(),
-            "booked_count"=>Booking::bookedToursCount(),
+            "unread_chats_count" => Chat::unreadChatsCount(),
+            "favorites_count" => Favorite::favoriteToursCount(),
+            "watched_count" => UserWatchTours::watchedToursCount(),
+            "booked_count" => Booking::bookedToursCount(),
         ]);
     }
 
 
-    public static function existUser($phone, $email):bool
+    public static function existUser($phone, $email): bool
     {
         $user = User::query()->where("phone", $phone)
             ->orWhere("email", $email)->first();
@@ -218,7 +222,7 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
             'photo' => $validated->photo ?? null,
         ]);
 
-        if (strpos($validated->phone, "@") === -1)
+        if (!strpos($validated->phone, "@") )
             $ph_number = preg_replace("/[^0-9]/", "", $validated->phone);
 
         $user = User::query()->create([
@@ -246,6 +250,49 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
         return $user;
     }
 
+    public static function loginUserWithCode(array $data)
+    {
+        $validator = Validator::make($data, [
+            'phone' => 'required|max:255',
+            'password' => 'required|max:255',
+            'code' => 'required|numeric',
+        ]);
+
+        $validated = (object)$validator->validated();
+
+        if (!strpos($validated->phone, "@"))
+            $ph_number = preg_replace("/[^0-9]/", "", $validated->phone);
+
+        $user = User::query()
+            ->with(["profile", "role"])
+            ->where("phone", $ph_number ?? $validated->phone)
+            ->orWhere("email", $validated->phone)
+            ->first();
+
+        if (!is_null($user)) {
+            $hasher = app('hash');
+            if (!$hasher->check($validated->password, $user->password))
+                throw new AuthenticationException("Ошибка пароля");
+
+            if ($user->sms_code === $validated->code) {
+                $user->phone_verified_at = Carbon::now();
+                $user->save();
+            } else {
+                $user->sms_code = SmsServiceFacade::actions()->sendCall("+" . $user->phone);
+                $user->save();
+
+                if (!is_null($user->sms_code))
+                    throw new SmsCodeValidationException("Ошибка верифкации аккаунта");
+            }
+
+            Auth::login($user, true);
+            return $user;
+        }
+
+        throw new AuthenticationException("Пользователь не найден!");
+
+    }
+
     public static function loginUser(array $data)
     {
         $validator = Validator::make($data, [
@@ -255,7 +302,7 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
 
         $validated = (object)$validator->validated();
 
-        if (!strpos($validated->phone, "@") )
+        if (!strpos($validated->phone, "@"))
             $ph_number = preg_replace("/[^0-9]/", "", $validated->phone);
 
 
@@ -270,6 +317,15 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
             if (!$hasher->check($validated->password, $user->password))
                 throw new AuthenticationException("Ошибка пароля");
 
+            if (is_null($user->phone_verified_at)) {
+                $user->sms_code = SmsServiceFacade::actions()->sendCall("+" . $user->phone);
+                $user->save();
+
+                if (!is_null($user->sms_code))
+                    throw new SmsCodeValidationException("Ошибка верифкации аккаунта");
+            }
+
+
             Auth::login($user, true);
             return $user;
         }
@@ -278,10 +334,10 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
 
     }
 
-   /* public function sendEmailVerificationNotification()
-    {
-        $this->notify(new EmailNotification());
-    }*/
+    /* public function sendEmailVerificationNotification()
+     {
+         $this->notify(new EmailNotification());
+     }*/
 
     public function getRatingStatisticAttribute()
     {

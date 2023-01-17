@@ -16,8 +16,10 @@
             <div class="d-flex align-items-center justify-content-between"><label
                 class="dt-input__label"><span v-if="is_email">почта</span><span v-else>телефон</span></label>
 
-                <span class="mb-2 cursor-pointer" @click="is_email = !is_email" v-if="is_email">Войти по номеру телефона</span>
-                <span class="mb-2 cursor-pointer" @click="is_email = !is_email" v-if="!is_email">Войти через email</span>
+                <span class="mb-2 cursor-pointer" @click="is_email = !is_email"
+                      v-if="is_email">Войти по номеру телефона</span>
+                <span class="mb-2 cursor-pointer" @click="is_email = !is_email"
+                      v-if="!is_email">Войти через email</span>
             </div>
             <div class="dt-input__group">
                 <input type="text" name="phone"
@@ -60,26 +62,6 @@
             </div>
         </div>
 
-        <div class="dt-input__wrapper mb-4" v-if="is_send_sms">
-            <div class="d-flex align-items-center justify-content-between"><label
-                class="dt-input__label">sms-код подтверждения</label>
-            </div>
-            <div class="dt-input__group">
-                <input type="text" name="sms"
-                       v-mask="'##-##-##'"
-                       placeholder="XX-XX-XX"
-                       v-model="form.sms" class="dt-input" autocomplete="off">
-                <div class="dt-input__group-item">
-                    <div class="dt-input__icon">
-                        <i class="fa-solid fa-comment-sms"></i>
-                    </div>
-                </div>
-
-
-            </div>
-
-        </div>
-
 
         <div class="dt-check align-items-start mb-4">
             <div class="dt-check__input">
@@ -95,9 +77,36 @@
                 </slot>
             </label>
         </div>
+
+        <div class="dt-input__wrapper mb-4" v-if="is_send_sms">
+            <div class="d-flex align-items-center justify-content-between"><label
+                class="dt-input__label">sms-код подтверждения</label>
+            </div>
+            <div class="dt-input__group">
+                <input type="text" name="sms"
+                       v-mask="'####'"
+                       placeholder="XXXX"
+                       maxlength="4"
+                       minlength="4"
+                       v-model="form.code" class="dt-input" autocomplete="off">
+                <div class="dt-input__group-item">
+                    <div class="dt-input__icon">
+                        <i class="fa-solid fa-comment-sms"></i>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
         <div class="d-flex align-items-center justify-content-center w-100">
             <button class="btn dt-btn dt-btn-blue w-100"
-                    type="submit" :disabled="!accept_rules">Войти
+                    type="submit" :disabled="!accept_rules">
+                <span v-if="!load" class="text-white">Войти</span>
+                <div v-if="load" class="spinner-border text-white" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
             </button>
         </div>
     </form>
@@ -107,21 +116,40 @@
 export default {
     data() {
         return {
+            load:false,
             is_send_sms: false,
             is_email: false,
-            is_hidden_password:true,
+            is_hidden_password: true,
             form: {
                 username: null,
                 password: null,
-                sms: null,
+                code: null,
             },
             accept_rules: false,
         }
     },
     methods: {
         login() {
-            this.$store.dispatch("login", this.form)
-            this.is_send_sms = true;//todo: сделать логику
+            this.is_send_sms = false
+            this.load = true
+            this.$store.dispatch(this.form.code == null?"login":'loginWithCode', this.form).then(response => {
+                    if (response.data.sms) {
+                        this.$notify({
+                            title: "Кисловодск-Туризм",
+                            text: response.data.message,
+                            type: 'warn'
+                        });
+
+                        this.is_send_sms = true
+                    } else {
+                        let role = response.data.role
+                        window.location.href = `/${role}-cabinet`
+                    }
+
+                    this.load = false
+                }).catch(()=>{
+                this.load = false
+            })
         }
     }
 }
@@ -130,6 +158,7 @@ export default {
 .dt-btn-transparent {
     padding: 10px 20px;
     width: 100%;
+
     img {
         object-fit: contain;
         height: 100%;

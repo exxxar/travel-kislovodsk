@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\PayMasterPaymentMethodsEnum;
 use App\Facades\PaymentServiceFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\TransactionStoreRequest;
@@ -29,24 +30,29 @@ class TransactionController extends Controller
 
         $transactions = [];
 
-        if ($user->role->name=='user') {
+        if ($user->role->name == 'user') {
             $transactions = Transaction::query()
                 ->where("user_id", $userId)
                 ->paginate($request->count ?? config('app.results_per_page'));
         }
 
-        if ($user->role->name=='guide') {
-            $tourIds = Tour::query()->where("creator_id", Auth::user()->id)
-                ->get()->pluck("id");
+        if ($user->role->name == 'guide') {
+          /*  $tourIds = Tour::query()->where("creator_id", Auth::user()->id)
+                ->get()->pluck("id");*/
 
             $transactions = Transaction::query()
-                ->whereIntegerInRaw("tour_id", $tourIds)
+                ->with(["tour"])
+                ->whereHas("tour", function ($q){
+                    $q->where("creator_id", Auth::user()->id);
+                })
+                ->orderBy("created_at","desc")
+               // ->whereIntegerInRaw("tour_id", $tourIds)
                 ->paginate($request->count ?? config('app.results_per_page'));
+
         }
 
         return new TransactionCollection($transactions);
     }
-
 
 
     /**
@@ -109,11 +115,12 @@ class TransactionController extends Controller
         return new TransactionCollection($transactions);
     }
 
-    public function requestPaymentByTransactionId(Request $request, $transactionId){
+    public function requestPaymentByTransactionId(Request $request, $transactionId)
+    {
 
         $transaction = Transaction::query()->find($transactionId);
 
-        if (is_null($transaction)){
+        if (is_null($transaction)) {
             return response()->json([
                 "errors" => [
                     "message" => ["Транзакция не найдена"]
@@ -121,7 +128,20 @@ class TransactionController extends Controller
             ], 400);
         }
 
-        return PaymentServiceFacade::payment()
-            ->createInvoiceLink($transaction->amount, $transaction->description );
+        //dd(intval($transaction->amount));
+
+        return response()->json([
+            "bankcard" => PaymentServiceFacade::payment()
+                ->createInvoiceLink($transaction->amount,
+                    $transaction->id,
+                    $transaction->description),
+            "sbp" => PaymentServiceFacade::payment()
+                ->createInvoiceLink($transaction->amount,
+                    $transaction->id,
+                    $transaction->description,
+                    PayMasterPaymentMethodsEnum::SBP)
+        ]);
+
+
     }
 }

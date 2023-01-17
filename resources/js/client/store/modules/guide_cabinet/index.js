@@ -202,7 +202,7 @@ const mutations = {
         state.documents = payload || [];
         localStorage.setItem('travel_store_guide_documents', JSON.stringify(payload));
     },
-    setGuideBookedToursCanLoadMore(state, payload) {c
+    setGuideBookedToursCanLoadMore(state, payload) {
         state.guide_booked_tours_load_more = payload.links.next!==null
     },
     setGuideBookedTours(state, payload) {

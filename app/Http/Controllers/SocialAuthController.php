@@ -3,14 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Events\ActionNotificationEvent;
+use App\Exceptions\SmsCodeValidationException;
 use App\Facades\PaymentServiceFacade;
+use App\Facades\SmsServiceFacade;
+use App\Mail\NotifyMail;
 use App\Models\Dictionary;
 use App\Models\DictionaryType;
 use App\Models\Profile;
 use App\Models\User;
 use App\Models\CustomUserRole;
+use Carbon\Carbon;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
 use TCG\Voyager\Models\Role;
 
@@ -57,8 +63,13 @@ class SocialAuthController extends Controller
                 'law_status' => 0,
                 'photo' => $vkUser->getAvatar(),
             ]);
+
+            $user->email_verified_at = Carbon::now();
+            $user->phone_verified_at = Carbon::now();
+            $user->save();
+
             Auth::login($user, true);
-            $user->sendEmailVerificationNotification();
+
         } catch (\Exception $e) {
             return redirect()->route("login");
         }
@@ -67,7 +78,7 @@ class SocialAuthController extends Controller
 
     }
 
-    public function registration(Request $request)
+    public function preRegistration(Request $request)
     {
         $request->validate([
             'username' => 'required|max:255',
@@ -76,11 +87,11 @@ class SocialAuthController extends Controller
             'patronymic' => 'nullable|max:255',
             'phone' => 'required|unique:users',
             'email' => 'required|unique:users',
-            "password"=>'min:6|required_with:confirm_password|same:confirm_password',
-            "confirm_password"=>"required",
+            "password" => 'min:6|required_with:confirm_password|same:confirm_password',
+            "confirm_password" => "required",
             'law_status' => 'required',
             'photo' => 'nullable',
-            'company'=>'nullable',
+            'company' => 'nullable',
             'company.title' => 'nullable|max:255',
             'company.logo' => 'nullable|max:255',
             'company.description' => 'nullable|max:255',
@@ -111,16 +122,116 @@ class SocialAuthController extends Controller
                 ],
             ]);
 
-            Auth::login($user, true);
+            $user->sms_code = SmsServiceFacade::actions()->sendCall("+" . $user->phone);
+            $user->save();
 
-            $user->sendEmailVerificationNotification();
 
         } catch (\Exception $e) {
             return response()->json([
                 "errors" => [
-                    "message"=>[$e->getMessage()]
+                    "message" => [$e->getMessage()]
                 ]
             ], 400);
+        }
+
+        if (!is_null($user->sms_code)) {
+            return response()->json([
+                "message" => "Need sms",
+                "sms" => true
+            ]);
+        } else {
+            Auth::login($user, true);
+
+            return response()->json([
+                "message" => "Success",
+                "role" => $user->role->name
+            ]);
+        }
+
+
+    }
+
+    public function registration(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|max:255',
+            'code' => 'required|numeric',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'patronymic' => 'nullable|max:255',
+            'phone' => 'required',
+            'email' => 'required',
+            "password" => 'min:6|required_with:confirm_password|same:confirm_password',
+            "confirm_password" => "required",
+            'law_status' => 'required',
+            'photo' => 'nullable',
+            'company' => 'nullable',
+            'company.title' => 'nullable|max:255',
+            'company.logo' => 'nullable|max:255',
+            'company.description' => 'nullable|max:255',
+            'company.inn' => 'nullable|max:50',
+            'company.ogrn' => 'nullable|max:50',
+            'company.law_address' => 'nullable|max:255',
+        ]);
+
+        $ph_number = preg_replace("/[^0-9]/", "", $request->phone);
+
+
+        $user = User::query()->where("phone", $ph_number)
+            ->first();
+
+
+        if (is_null($user))
+            return response()->json([
+                "errors" => [
+                    "message" => ["Пользователь не найден"]
+                ]
+            ], 404);
+
+        if ($user->sms_code !== $request->code)
+            return response()->json([
+                "errors" => [
+                    "message" => ["Неверный проверочный код"]
+                ]
+            ], 404);
+
+        $user->sms_code = null;
+        $user->phone_verified_at = Carbon::now();
+        $user->save();
+
+        Auth::login($user, true);
+
+        return response()->json([
+            "message" => "Success",
+            "role" => $user->role->name
+        ]);
+    }
+
+    public function loginWithCode(Request $request)
+    {
+        $request->validate([
+            "username" => "required",
+            "password" => "required",
+            "code" => "required|numeric"
+        ]);
+
+        try {
+            $user = User::loginUserWithCode([
+                "phone" => $request->username,
+                "password" => $request->password,
+                "code" => $request->code
+            ]);
+        } catch (AuthenticationException $e) {
+            return response()->json([
+                "errors" => [
+                    "message" => [$e->getMessage()]
+                ]
+            ], 400);
+        } catch (SmsCodeValidationException $e) {
+            return response()->json([
+                "message" => "Неверно введен подтверждающий код",
+                "sms" => true
+            ]);
         }
 
         return response()->json([
@@ -141,12 +252,17 @@ class SocialAuthController extends Controller
                 "phone" => $request->username,
                 "password" => $request->password,
             ]);
-        } catch (\Exception $e) {
+        } catch (AuthenticationException $e) {
             return response()->json([
                 "errors" => [
-                    "message"=>[$e->getMessage()]
+                    "message" => [$e->getMessage()]
                 ]
             ], 400);
+        } catch (SmsCodeValidationException $e) {
+            return response()->json([
+                "message" => "Ваш аккаунт не верифицирован! Вам отправлен звонок с кодом",
+                "sms" => true
+            ]);
         }
 
         return response()->json([
@@ -157,10 +273,139 @@ class SocialAuthController extends Controller
 
     public function logout(Request $request)
     {
-        event(new ActionNotificationEvent("logout"));
 
         Auth::logout();
 
+        event(new ActionNotificationEvent("logout"));
+
         return response()->redirectToRoute("login");
+    }
+
+    public function preRecovery(Request $request)
+    {
+        $request->validate([
+            "phone" => "required"
+        ]);
+
+
+        if (!strpos($request->phone, "@"))
+            $ph_number = preg_replace("/[^0-9]/", "", $request->phone);
+
+        $user = User::query()
+            ->where("phone", $ph_number ?? $request->phone)
+            ->orWhere("email", $request->phone)
+            ->first();
+
+        if (is_null($user))
+            return response()->json([
+                "errors" => [
+                    "message" => ["Пользователь с таким номером не найден!"]
+                ]
+            ], 400);
+
+        $code = SmsServiceFacade::actions()->sendCall("+" . $user->phone);
+
+        if (is_null($code)) {
+            $user->sms_code = random_int(1000, 9999);
+            $user->save();
+
+            Mail::to($user->email)
+                ->send(new NotifyMail("Ваш код для смены пароля: $user->sms_code"));
+
+            return response()->json([
+                "message" => "К сожалению, sms-сервис сейчас не доступен, мы отправили код восстановления на вашу электронную почту!",
+                "sms" => true
+            ]);
+        } else {
+            $user->sms_code = $code;
+            $user->save();
+
+            return response()->json([
+                "message" => "На ваш номер телефона отправлен входящий звонок! Последние 4 цифры номера - ваш код.",
+                "sms" => true
+            ]);
+        }
+
+
+    }
+
+    public function preRecoveryCode(Request $request) {
+        $request->validate([
+            "phone" => "required",
+            "code" => "required|numeric",
+        ]);
+
+        if (!strpos($request->phone, "@"))
+            $ph_number = preg_replace("/[^0-9]/", "", $request->phone);
+
+        $user = User::query()
+            ->where("phone", $ph_number ?? $request->phone)
+            ->orWhere("email", $request->phone)
+            ->first();
+
+        if (is_null($user))
+            return response()->json([
+                "errors" => [
+                    "message" => ["Пользователь с таким номером не найден!"]
+                ]
+            ], 400);
+
+
+        if ($user->sms_code!==$request->code){
+            return response()->json([
+                "errors" => [
+                    "message" => ["Неверный код!"]
+                ]
+            ], 400);
+        }
+
+        return response()->json([
+            "message" => "Код успешно принят, введите новый пароль!",
+            "sms" => true
+        ]);
+    }
+
+    public function recovery(Request $request)
+    {
+        $request->validate([
+            "phone" => "required",
+            "code" => "required|numeric",
+            "password" => 'min:6|required_with:confirm_password|same:confirm_password',
+            "confirm_password" => "required",
+        ]);
+
+        if (!strpos($request->phone, "@"))
+            $ph_number = preg_replace("/[^0-9]/", "", $request->phone);
+
+        $user = User::query()
+            ->where("phone", $ph_number ?? $request->phone)
+            ->orWhere("email", $request->phone)
+            ->first();
+
+        if (is_null($user))
+            return response()->json([
+                "errors" => [
+                    "message" => ["Пользователь с таким номером не найден!"]
+                ]
+            ], 400);
+
+
+        if ($user->sms_code!==$request->code){
+            return response()->json([
+                "errors" => [
+                    "message" => ["Неверный код!"]
+                ]
+            ], 400);
+        }
+
+        $user->sms_code = null;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        return response()->json([
+            "message" => "Ваш пароль успешно иземенен!",
+            "sms"=>true
+        ]);
+
     }
 }

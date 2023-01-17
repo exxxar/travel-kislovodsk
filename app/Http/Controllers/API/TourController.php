@@ -548,12 +548,15 @@ class TourController extends Controller
         $size = $request->get("size") ?? config('app.results_per_page');
 
         $bookedTours = Booking::query()
-            ->with(["tour", "user.profile", "transaction"])
+            ->with(["tour", "user.profile", "transaction","schedule"])
             ->where("tour_id", $tourId)
-            ->where("start_at", ">", Carbon::now()->format('Y-m-d H:m'))
             ->orderBy("start_at", "ASC")
-            ->whereHas("tour", function ($q) use ($userId) {
-                $q->where("creator_id", $userId);
+            ->whereHas("schedule", function ($q) use ($userId) {
+                $q->whereBetween("start_at", [
+                        Carbon::now()->format('Y-m-d H:m:s'),
+                        Carbon::now()->addYear()->format('Y-m-d H:m:s')
+                    ]
+                );
             })
             ->paginate($size);
 

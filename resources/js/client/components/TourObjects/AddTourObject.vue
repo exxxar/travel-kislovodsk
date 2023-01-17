@@ -1,6 +1,6 @@
 <template>
     <div class="col">
-        <div class="row align-items-center mx-0 mb-5">
+        <div class="row align-items-center mx-0 mb-4 mt-4">
             <button @click="$emit('hideAddObject')"
                     class="personal-account-nav__link_active button col-auto px-4 active rounded shadow-none bold"><span
                 class="fs-6 me-1">&lt;</span>Назад
@@ -67,7 +67,7 @@
                 </span>
 
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-4 mb-2">
                         <input type="text"
                                v-model="tourObject.city"
                                maxlength="255"
@@ -75,7 +75,7 @@
                                name="add-obj-city" class="col-12 px-2rem py-4 rounded border-0 font-size-09" required>
 
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8 mb-2">
                         <input type="text"
                                v-model="tourObject.address"
                                maxlength="255"
