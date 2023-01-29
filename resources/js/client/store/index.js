@@ -10,6 +10,7 @@ import chats from './modules/chats';
 import transactions from './modules/transactions';
 import guideCabinet from './modules/guide_cabinet';
 import userCabinet from './modules/user_cabinet';
+import adminCabinet from './modules/admin_cabinet';
 import util from "./modules/utilites";
 
 const BASE_API_LINK = "/api"
@@ -70,6 +71,7 @@ export default createStore({
         transactions,
         reviews,
         guideCabinet,
-        userCabinet
+        userCabinet,
+        adminCabinet
     }
 })

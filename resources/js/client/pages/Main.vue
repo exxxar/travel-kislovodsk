@@ -5,8 +5,12 @@
 
             <div class="container dt-search__content text-center">
                 <h1 class="dt-search__title">Экскурсии по Ставропольскому краю</h1>
+
                 <tour-search-filter :is-links-white="true" :need-redirect-to-all="true"/>
             </div>
+        </div>
+        <div class="container mb-5 mt-5" v-if="user.is_admin">
+            <admin-menu-component/>
         </div>
         <div class="container">
             <div
@@ -48,7 +52,12 @@
 import TourSearchFilter from "@/components/Tours/TourSearchFilter.vue";
 
 export default {
-    components: {TourSearchFilter}
+    components: {TourSearchFilter},
+    computed:{
+        user(){
+            return window.user
+        }
+    }
 }
 </script>
 <style lang="scss">

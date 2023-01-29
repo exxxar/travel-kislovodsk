@@ -197,10 +197,43 @@ app.component('paginate-component', Paginate)
 app.component('mobile-footer-menu-component', MobileFooterMenu)
 app.component('mobile-sidebar-menu-component', MobileSideBarMenu)
 
+/*************Admin*****************/
+
+import AdminCabinetPage from '@/pages/AdminCabinet.vue'
+import AdminToursPage from '@/pages/admin/Tours.vue'
+import AdminTourObjectsPage from '@/pages/admin/TourObjects.vue'
+import AdminUsersPage from '@/pages/admin/Users.vue'
+import AdminTransactionsPage from '@/pages/admin/Transactions.vue'
+
+import AdminMenuComponent from '@/components/AdminCabinet/AdminMenuBar.vue'
+import AdminToursComponent from '@/components/AdminCabinet/AdminTours.vue'
+import AdminTourCardComponent from '@/components/AdminCabinet/AdminTourCard.vue'
+import AdminTourObjectsComponent from '@/components/AdminCabinet/AdminTours.vue'
+import AdminAddTourComponent from '@/components/AdminCabinet/AdminAddTour.vue'
+import AdminAddTourObjectComponent from '@/components/AdminCabinet/AdminTours.vue'
+import AdminAddUserComponent from '@/components/AdminCabinet/AdminTours.vue'
+import AdminEditUserComponent from '@/components/AdminCabinet/AdminTours.vue'
+import AdminEditTourComponent from '@/components/AdminCabinet/AdminTours.vue'
+import AdminEditTourObjectComponent from '@/components/AdminCabinet/AdminTours.vue'
+
+app.component('admin-cabinet-page', AdminCabinetPage)
+app.component('admin-tours-page', AdminToursPage)
+app.component('admin-tour-objects-page', AdminTourObjectsPage)
+app.component('admin-users-page', AdminUsersPage)
+app.component('admin-transactions-page', AdminTransactionsPage)
+
+app.component('admin-menu-component', AdminMenuComponent)
+app.component('admin-tours-component', AdminToursComponent)
+app.component('admin-tour-card-component', AdminTourCardComponent)
+app.component('admin-tour-objects-component', AdminTourObjectsComponent)
+app.component('admin-add-tour-component', AdminAddTourComponent)
+app.component('admin-add-tour-object-component', AdminAddTourObjectComponent)
+app.component('admin-add-user-component', AdminAddUserComponent)
+app.component('admin-edit-user-component', AdminEditUserComponent)
+app.component('admin-edit-tour-component', AdminEditTourComponent)
+app.component('admin-edit-tour-object-component ', AdminEditTourObjectComponent)
 
 import store from './store'
-
-
 
 app.config.globalProperties.$filters = {
     phoneFilter(value) {

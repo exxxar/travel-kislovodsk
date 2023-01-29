@@ -116,7 +116,7 @@
 export default {
     data() {
         return {
-            load:false,
+            load: false,
             is_send_sms: false,
             is_email: false,
             is_hidden_password: true,
@@ -132,22 +132,26 @@ export default {
         login() {
             this.is_send_sms = false
             this.load = true
-            this.$store.dispatch(this.form.code == null?"login":'loginWithCode', this.form).then(response => {
-                    if (response.data.sms) {
-                        this.$notify({
-                            title: "Кисловодск-Туризм",
-                            text: response.data.message,
-                            type: 'warn'
-                        });
+            this.$store.dispatch(this.form.code == null ? "login" : 'loginWithCode', this.form).then(response => {
+                if (response.data.sms) {
+                    this.$notify({
+                        title: "Кисловодск-Туризм",
+                        text: response.data.message,
+                        type: 'warn'
+                    });
 
-                        this.is_send_sms = true
-                    } else {
-                        let role = response.data.role
+                    this.is_send_sms = true
+                } else {
+                    let role = response.data.role
+
+                    if (role !== 'admin')
                         window.location.href = `/${role}-cabinet`
-                    }
+                    else
+                        window.location.href = `/admin/cabinet`
+                }
 
-                    this.load = false
-                }).catch(()=>{
+                this.load = false
+            }).catch(() => {
                 this.load = false
             })
         }

@@ -339,6 +339,26 @@ Route::prefix("admin")
     ->middleware(["is_admin"])
     ->group(function () {
 
+        Route::view('/cabinet', 'pages.admin.cabinet')->name("page.admin.cabinet");
+        Route::view('/tours', 'pages.admin.tours')->name("page.admin.tours");
+        Route::view('/users', 'pages.admin.users')->name("page.admin.users");
+        Route::view('/transactions', 'pages.admin.transactions')->name("page.admin.transactions");
+        Route::view('/tour-objects', 'pages.admin.tour-objects')->name("page.admin.tour-objects");
+
+
+        Route::prefix("api/tours")
+            ->controller(\App\Http\Controllers\API\Admin\TourController::class)
+            ->group(function () {
+                Route::get('/', 'index');
+                Route::get('/actual-booked-tours/{id}', 'loadActualGuideBookedTours');
+                Route::get('/archive-add/{id}', 'addGuideTourToArchive');
+                Route::delete('/archive-remove/{id}', 'removeGuideTourFromArchive');
+                Route::post('/update/{id}', 'update');
+                Route::post('/', 'store');
+                Route::post('/search', 'search');
+                Route::delete('/{id}', 'destroy');
+            });
+
         Route::controller(\App\Http\Controllers\AdminVerifiedController::class)
             ->group(function () {
                 Route::get('/accept-document/{id}', 'acceptDocument');
