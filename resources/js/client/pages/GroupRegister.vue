@@ -1,57 +1,61 @@
-
 <template>
     <main class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-12 col-md-10 col-lg-8 mx-0 px-0">
-                <breadcrumbs :items="breadcrumbs" class="d-flex justify-content-center"/>
+                <breadcrumbs :items="breadcrumbs"/>
 
                 <h1 class="col-12 px-0 mb-5 bold fs-1 lh-sm">Онлайн-заявка на регистрацию<br/>туристких групп</h1>
                 <p class="col-12 px-0 mb-5 bold font-size-09 thin">
                     <span class="bold red font-size-09">Собрались в поход - проинформируйте МЧС!</span>
-                    - consequuntur blanditiis quae excepturi nisi voluptas ea quibusdam sunt ipsam amet dignissimos,
-                    quam
-                    tempora dolor, soluta magni labore vitae dolores eius natus. Iure eos unde saepe dolores inventore,
-                    blanditiis quasi culpa numquam, nesciunt laudantium natus alias sit voluptatem. Natus odit, facilis
-                    quibusdam numquam autem vero alias minus libero ad magni nobis architecto recusandae commodi
-                    suscipit exercitationem tenetur reprehenderit amet totam dolorum distinctio minima ullam veniam
-                    saepe!
+                    - рекомендуют спасатели и советуют, пройти регистрацию не позднее, чем за две недели до начала
+                    похода. Но, если туристы сообщат о своем путешествии за два дня, они также их зарегистрируют, ведь
+                    такой вариант, в любом случае, лучше, чем не уведомить МЧС вообще. Зарегистрировать свою группу
+                    можно на нашем сайте, при личном визите в подразделение МЧС или позвонив спасателям по телефону.
                 </p>
                 <div class="col-12 mb-5">
-                    <img class="icon-svg px-0" v-lazy="'/img/icons/info-red.svg'" alt="info">
-                    <div class="col row px-0 mx-0 ms-2">
+                    <div class="d-flex">
+                        <img class="icon-svg px-0" v-lazy="'/img/icons/info-red.svg'" alt="info">
+                        <div class="col row px-0 mx-0 ms-2">
                         <span class="col-12 px-0 bold font-size-09">срок подачи заявления за 10 рабочих дней до даты
                             проведения мероприятия</span>
-                        <span class="col-12 px-0 opacity-70 thin font-size-09">application deadline 10 working days
+                            <span class="col-12 px-0 opacity-70 thin font-size-09">application deadline 10 working days
                             before the start of the route</span>
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 px-0 mx-0 mb-5 d-flex justify-content-center">
-                    <img class="px-0 rounded img-250 w-100" v-lazy="'/img/3.png'" alt="">
+                    <img class="px-0 rounded img-250 img--mobile-height-75 w-100" v-lazy="'/img/3.png'" alt="">
                 </div>
                 <div class="col-12 px-0 mx-0 mb-5">
-                    <img class="icon-svg px-0" v-lazy="'/img/icons/info-red.svg'" alt="info">
-                    <div class="col row px-0 mx-0 ms-2">
-                        <p class="px-0">
-                            <span class="px-0 bold font-size-09 red">Все поля обязательны к заполнению.</span>
-                            <span class="px-0 thin font-size-09">В случае отсутствия информации по какому-либо из
+                    <div class="d-flex">
+                        <img class="icon-svg px-0" v-lazy="'/img/icons/info-red.svg'" alt="info">
+                        <div class="col row px-0 mx-0 ms-2">
+                            <p class="px-0">
+                                <span class="px-0 bold font-size-09 red">Все поля обязательны к заполнению. </span>
+                                <span class="px-0 thin font-size-09">В случае отсутствия информации по какому-либо из
                                 пунктов, просим </span>
-                            <span class="px-0 bold font-size-09">указывать прочерк или писать "не актуально".</span>
-                        </p>
+                                <span class="px-0 bold font-size-09">указывать прочерк или писать "не актуально".</span>
+                            </p>
+                        </div>
                     </div>
                 </div>
 
                 <form v-on:submit.prevent="submitForm">
                     <div class="col-12 px-0 mx-0 mb-5 align-items-center">
-                        <div class="col-12 col-md-3 ps-0 pe-4 mx-0">
-                            <span class="col-auto px-0 mx-0 blue bold font-size-09">01.</span>
-                            <div class="col px-0 ms-2 d-flex flex-column">
-                                <span class="bold font-size-09">Дата регистрации</span>
-                                <span class="thin font-size-09 opacity-70">Registration date</span>
+                        <div class="d-lg-flex">
+                            <div class="col-12 col-md-3 ps-0 pe-4 mx-0">
+                                <div class="d-flex">
+                                    <span class="col-auto px-0 mx-0 blue bold font-size-09">01.</span>
+                                    <div class="col px-0 ms-2 d-flex flex-column">
+                                        <span class="bold font-size-09">Дата регистрации</span>
+                                        <span class="thin font-size-09 opacity-70">Registration date</span>
+                                    </div>
+                                </div>
                             </div>
+                            <input type="date" name="group-registration-date" placeholder="15 сентября 2022"
+                                   v-model="groupForm.registration_date"
+                                   class="col-12 col-md-3 mt-2 mt-md-0 px-2rem py-4 rounded border-0 " required>
                         </div>
-                        <input type="date" name="group-registration-date" placeholder="15 сентября 2022"
-                               v-model="groupForm.registration_date"
-                               class="col-12 col-md-3 mt-2 mt-md-0 px-2rem py-4 rounded border-0 " required>
                     </div>
                     <div class="col-12 row px-0 mx-0 mb-5">
                         <div class="col-12 row px-0 mx-0">
@@ -267,62 +271,56 @@
                                 <span class="thin ">Общее количество</span>
                                 <span class="thin opacity-70">Total number</span>
                             </div>
-                            <div class="col-12 col-md-9 mt-2 px-0 d-flex justify-content-between">
-                                <input type="number"  name="group-number-total"
+                            <div class="col-4 col-md-2 mt-2 px-0 d-flex justify-content-between">
+                                <input type="number" name="group-number-total"
                                        v-model="groupForm.group_info.members_count"
                                        min="0" step="1" class="w-100 mt-2 mt-md-0 px-2rem py-4 rounded border-0 "
                                        required>
                             </div>
                         </div>
                         <div class="col-12 row mx-0 mt-3 px-0 align-items-start">
-                            <div class="col-12 col-md-3 ps-0 pe-4 d-flex flex-column">
+                            <div class="col-12 col-md-3 ps-0 d-flex flex-column">
                                 <span class="thin ">Из них дети (с указанием возраста)</span>
                                 <span class="thin opacity-70">Number of children (age)</span>
                             </div>
-                            <div class="col-12 col-md-9 mt-2 px-0 d-flex flex-wrap">
-                                <div class="row w-100 mt-2">
-                                    <div class="col-md-4 col-12 d-none d-sm-block">
+                            <div class="col-12 col-md-9 px-0 d-flex flex-wrap">
+                                <div class="row d-none d-sm-flex flex-fill">
+                                    <div class="col-md-4 col-12">
                                         <p>Возраст</p>
                                     </div>
-                                    <div class="col-md-6 col-12 d-none d-sm-block">
-                                        <p>Колличество</p>
+                                    <div class="col-md-6 col-12">
+                                        <p>Количество</p>
                                     </div>
-                                    <div class="col-md-2 col-12 text-center d-none d-sm-block">
+                                    <div class="col-md-2 col-12 text-center">
                                         <p>Действие</p>
                                     </div>
                                 </div>
 
-                                <div class="row w-100 mt-2" v-for="(item, index) in groupForm.group_info.children">
-                                    <div class="col-md-4 col-12">
+                                <div class="row w-100 mt-2 flex-fill"
+                                     v-for="(item, index) in groupForm.group_info.children">
+                                    <div class="col-md-4 col-4">
                                         <p class="d-block d-sm-none">Возраст</p>
                                         <input type="number" min="0" name="group-number-children"
                                                v-model="groupForm.group_info.children[index].age"
                                                class="col-3 px-2rem py-4 rounded border-0 w-100" required>
-
-
                                     </div>
-                                    <div class="col-md-6 col-12">
-                                        <p class="d-block d-sm-none">Колличество</p>
+                                    <div class="col-md-6 col-8">
+                                        <p class="d-block d-sm-none">Количество</p>
                                         <input type="number" min="0" name="group-children-age"
                                                v-model="groupForm.group_info.children[index].count"
                                                class="col  px-2rem py-4 rounded border-0 w-100" required>
                                     </div>
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
-
                                         <button @click="removeChildren(index)" type="button"
-                                                class="btn btn-danger mt-2 w-100">
+                                                class="btn btn-danger mt-lg-0 mt-2 w-100">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </div>
                                 </div>
-
-
                             </div>
                             <button @click="addChildren()" type="button"
                                     class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
-                                Добавить
-                                /
-                                add
+                                Добавить / add
                             </button>
                         </div>
                         <div class="col-12 row mx-0 mt-3 px-0 align-items-start">
@@ -330,12 +328,10 @@
                                 <span class="thin ">Из них иностранные граждане (с указанием страны)</span>
                                 <span class="thin opacity-70">Number of foriegn citizens (country)</span>
                             </div>
-
-                            <div class="col-12 col-md-9 mt-2 px-0 d-flex justify-content-between flex-wrap">
-
-                                <div class="row w-100 mt-2">
+                            <div class="col-12 col-md-9 px-0 d-flex flex-wrap">
+                                <div class="row d-none d-sm-flex flex-fill">
                                     <div class="col-md-4 col-12">
-                                        <p>Колличество</p>
+                                        <p>Количество</p>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <p>Страна</p>
@@ -344,36 +340,31 @@
                                         <p>Действие</p>
                                     </div>
                                 </div>
-
-
-                                <div class="row w-100 mt-2"
+                                <div class="row w-100 mt-2 flex-fill"
                                      v-for="(item, index) in groupForm.group_info.foreign_citizens">
-                                    <div class="col-md-4 col-12">
-
+                                    <div class="col-md-4 col-4">
+                                        <p class="d-block d-sm-none">Количество</p>
                                         <input type="number" min="0" name="group-number-foreign-citizens"
                                                v-model="groupForm.group_info.foreign_citizens[index].count"
                                                class="col-3 px-2rem py-4 rounded border-0 w-100" required>
                                     </div>
-                                    <div class="col-md-6 col-12">
+                                    <div class="col-md-6 col-8">
+                                        <p class="d-block d-sm-none">Страна</p>
                                         <input type="text" name="group-foreign-citizens-countries"
                                                v-model="groupForm.group_info.foreign_citizens[index].country"
-                                               class="col ms-2 ms-md-3 px-2rem py-4 rounded border-0 w-100" required>
+                                               class="col px-2rem py-4 rounded border-0 w-100" required>
                                     </div>
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeForeignCitizen(index)" type="button"
-                                                class="btn btn-danger">
+                                                class="btn btn-danger mt-lg-0 mt-2 w-100">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </div>
                                 </div>
-
-
                             </div>
                             <button @click="addForeignCitizen()" type="button"
                                     class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
-                                Добавить
-                                /
-                                add
+                                Добавить / add
                             </button>
                         </div>
                     </div>
@@ -410,77 +401,68 @@
                                    v-model="groupForm.route_info.route_distance"
                                    class="col-12 col-md-4 mt-2 mt-md-0 px-2rem py-4 rounded border-0 " required>
                         </div>
-                        <div class="col-12 row mx-0 mt-3 px-0">
-                            <div class="col-12 col-md-3 ps-0 pe-4 d-flex flex-column ">
+                        <div class="col-12 row mx-0 mt-3 px-0 align-items-start">
+                            <div class="col-12 col-md-3 ps-0 d-flex flex-column">
                                 <span class="thin ">Сведения о субъектах РФ, по которым пролегает маршрут</span>
                                 <span class="thin opacity-70">Areas of the Russian Federation on which the route
                                 runs</span>
                             </div>
-                            <div class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
-                                <div class="row w-100 mt-2">
+                            <div class="col-12 col-md-9 px-0 d-flex justify-content-between flex-wrap">
+                                <div class="row w-100 d-none d-sm-flex flex-fill">
                                     <div class="col-md-10 col-12">
                                         <p>Локация</p>
                                     </div>
-
                                     <div class="col-md-2 col-12 text-center">
                                         <p>Действие</p>
                                     </div>
                                 </div>
-
-                                <div class="row w-100 mt-2"
+                                <div class="row w-100 mt-2 flex-fill"
                                      v-for="(item, index) in groupForm.route_info.federation_areas">
                                     <div class="col-md-10 col-12">
+                                        <p class="d-block d-sm-none">Локация</p>
                                         <input type="text" name="group-route-subjects"
                                                v-model="groupForm.route_info.federation_areas[index]"
-                                               class="col px-2rem py-4 rounded border-0 w-100" required
-                                        >
+                                               class="col px-2rem py-4 rounded border-0 w-100" required>
                                     </div>
-
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeFederationAreas(index)" type="button"
-                                                class="btn btn-danger">
+                                                class="btn btn-danger w-100 mt-lg-0 mt-2">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </div>
                                 </div>
-
                             </div>
-                            <!-- make click -->
                             <button @click="addFederationAreas" type="button"
                                     class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
-                                Добавить
-                                /
-                                add
+                                Добавить / add
                             </button>
                         </div>
                         <div class="col-12 row mx-0 mt-3 px-0 align-items-start">
-                            <div class="col-12 col-md-3 ps-0 pe-4 d-flex flex-column">
+                            <div class="col-12 col-md-3 ps-0 d-flex flex-column">
                                 <span class="thin ">Предполагаемые места ночлега и отдыха</span>
                                 <span class="thin opacity-70">Lodging points</span>
                             </div>
-                            <div class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
-                                <div class="row w-100 mt-2">
+                            <div class="col-12 col-md-9 px-0 d-flex justify-content-between flex-wrap">
+                                <div class="row w-100 d-none d-sm-flex flex-fill">
                                     <div class="col-md-10 col-12">
                                         <p>Локация</p>
                                     </div>
-
                                     <div class="col-md-2 col-12 text-center">
                                         <p>Действие</p>
                                     </div>
                                 </div>
-
-                                <div class="row w-100 mt-2"
+                                <div class="row w-100 mt-2 flex-fill"
                                      v-for="(item, index) in groupForm.route_info.lodging_points">
                                     <div class="col-md-10 col-12">
+                                        <p class="d-block d-sm-none">Локация</p>
                                         <input type="text" name="group-route-subjects"
                                                v-model="groupForm.route_info.lodging_points[index]"
                                                class="col px-2rem py-4 rounded border-0 w-100"
                                                required>
                                     </div>
-
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeLodgingPoints(index)" type="button"
-                                                class="btn btn-danger">
+                                                class="btn btn-danger w-100 mt-lg-0 mt-2">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </div>
@@ -489,104 +471,86 @@
                             <!-- make click -->
                             <button @click="addLodgingPoints()" type="button"
                                     class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
-                                Добавить
-                                /
-                                add
+                                Добавить / add
                             </button>
                         </div>
-                        <div class="col-12 row mx-0 mt-3 px-0">
-                            <div class="col-12 col-md-3 ps-0 pe-4 d-flex flex-column">
-                            <span class="thin ">Маршруты аварийных выходов (для маршрутов, имеющих категории
-                                сложности)</span>
-                                <span class="thin opacity-70">Emergency exit routes (for routes with category of
-                                difficulty)</span>
-                            </div>
 
-                            <div class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
-                                <div class="row w-100 ">
+                        <div class="col-12 row mx-0 mt-3 px-0 align-items-start">
+                            <div class="col-12 col-md-3 ps-0 d-flex flex-column">
+                            <span class="thin">
+                                Маршруты аварийных выходов (для маршрутов, имеющих категории сложности)
+                            </span>
+                                <span class="thin opacity-70">
+                                    Emergency exit routes (for routes with category of difficulty)
+                                </span>
+                            </div>
+                            <div class="col-12 col-md-9 px-0 d-flex justify-content-between flex-wrap">
+                                <div class="row w-100 d-none d-sm-flex flex-fill">
                                     <div class="col-md-10 col-12">
                                         <p>Локация</p>
                                     </div>
-
                                     <div class="col-md-2 col-12 text-center">
                                         <p>Действие</p>
                                     </div>
                                 </div>
-
-                                <div class="row w-100 mt-2"
+                                <div class="row w-100 mt-2 flex-fill"
                                      v-for="(item, index) in groupForm.route_info.emergency_exit_routes">
                                     <div class="col-md-10 col-12">
-                                        <input type="text" name="group-route-emergency-exit"
-
+                                        <p class="d-block d-sm-none">Локация</p>
+                                        <input type="text" name="group-route-subjects"
                                                v-model="groupForm.route_info.emergency_exit_routes[index]"
-                                               class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 "
-                                               required>
+                                               class="col px-2rem py-4 rounded border-0 w-100" required>
                                     </div>
-
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeEmergencyExitRoutes(index)" type="button"
-                                                class="btn btn-danger">
+                                                class="btn btn-danger w-100 mt-lg-0 mt-2">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </div>
                                 </div>
                             </div>
-
                             <!-- make click -->
                             <button @click="addEmergencyExitRoutes()" type="button"
                                     class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
-                                Добавить
-                                /
-                                add
+                                Добавить / add
                             </button>
                         </div>
-                        <div class="col-12 row mx-0 mt-3 px-0">
+                        <div class="col-12 row mx-0 mt-3 px-0 align-items-start">
                             <div class="col-12 col-md-3 ps-0 pe-4 d-flex flex-column">
                             <span class="thin ">Наличие опасных участков на маршруте (речные пороги, водопады,
-                                ледники,
-                                переходы по льду и иные участки)</span>
+                                ледники, переходы по льду и иные участки)</span>
                                 <span class="thin opacity-70">Dangerous route sections (river rapids, waterfalls,
-                                glaciers,
-                                ice transitions and other)</span>
+                                glaciers, ice transitions and other)</span>
                             </div>
-
-                            <div class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
-                                <div class="row w-100 mt-2">
+                            <div class="col-12 col-md-9 px-0 d-flex justify-content-between flex-wrap">
+                                <div class="row w-100 d-none d-sm-flex flex-fill">
                                     <div class="col-md-10 col-12">
                                         <p>Локация</p>
                                     </div>
-
                                     <div class="col-md-2 col-12 text-center">
                                         <p>Действие</p>
                                     </div>
                                 </div>
-
-                                <div class="row w-100 mt-2"
+                                <div class="row w-100 mt-2 flex-fill"
                                      v-for="(item, index) in groupForm.route_info.dangerous_route_sections">
                                     <div class="col-md-10 col-12">
-                                        <input type="text" name="group-route-emergency-exit"
-
+                                        <p class="d-block d-sm-none">Локация</p>
+                                        <input type="text" name="group-route-subjects"
                                                v-model="groupForm.route_info.dangerous_route_sections[index]"
-                                               class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 "
-                                               required>
+                                               class="col px-2rem rounded border-0 w-100" required>
                                     </div>
-
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeDangerousRouteSection(index)" type="button"
-                                                class="btn btn-danger">
+                                                class="btn btn-danger w-100 mt-lg-0 mt-2">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </div>
                                 </div>
                             </div>
-
-
                             <!-- make click -->
                             <button @click="addDangerousRouteSection()" type="button"
                                     class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
-                                Добавить
-                                /
-                                add
+                                Добавить / add
                             </button>
                         </div>
                         <div class="col-12 row mx-0 mt-3 px-0">
@@ -635,8 +599,7 @@
                             <span class="col-auto px-0 mx-0 blue bold font-size-09">08.</span>
                             <div class="col px-0 ms-2 d-flex flex-column">
                             <span class="bold font-size-09">Дата возвращения с маршрута / Резервная дата возвращения
-                                с
-                                маршрута</span>
+                                смаршрута</span>
                                 <span class="thin font-size-09 opacity-70">Return date / reserve return date</span>
                             </div>
                         </div>
@@ -644,7 +607,7 @@
                                class="col-12 col-md-3 mt-2 mt-md-0 px-2rem py-4 rounded border-0 " required>
                     </div>
                     <div class="col-12 row px-0 mx-0 mb-5">
-                        <div class="col-12 col-md-3 row ps-0 pe-4 mx-0">
+                        <div class="col-12 col-md-3 row ps-0 mx-0">
                             <span class="col-auto px-0 mx-0 blue bold font-size-09">09.</span>
                             <div class="col px-0 ms-2 d-flex flex-column">
                             <span class="bold font-size-09">Срок и способ информирования территориального органа МЧС
@@ -653,16 +616,18 @@
                                 emergencies regional department about the end of the route</span>
                             </div>
                         </div>
-                        <div class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
+                        <div class="col-12 col-md-9 mt-2 mt-md-0 rounded border-0 p-0">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-12 col-md-4">
+                                    <p class="d-block d-sm-none">Срок</p>
                                     <input type="date" name="group-informing-date-and-method"
                                            v-model="groupForm.date_and_method_informing_on_finish.date"
                                            class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 w-100"
                                            required>
 
                                 </div>
-                                <div class="col-8">
+                                <div class="col-12 col-md-8">
+                                    <p class="d-block d-sm-none mt-2">Способ</p>
                                     <input type="text" name="group-informing-date-and-method"
                                            v-model="groupForm.date_and_method_informing_on_finish.method"
                                            class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 w-100"
@@ -674,54 +639,53 @@
 
                     </div>
                     <div class="col-12 row px-0 mx-0 mb-5">
-                        <div class="col-12 col-md-3 row ps-0 pe-4 mx-0">
+                        <div class="col-12 col-md-3 row ps-0 mx-0">
                             <span class="col-auto px-0 mx-0 blue bold font-size-09">10.</span>
                             <div class="col px-0 ms-2 d-flex flex-column">
                             <span class="bold font-size-09">Дата/время и способы организации сеансов связи на
-                                маршруте
-                                передвижения</span>
+                                маршруте передвижения</span>
                                 <span class="thin font-size-09 opacity-70">Date and method of informing Ministry of
                                 emergencies regional department about the end of the route</span>
                             </div>
                         </div>
-
-                        <div class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
-                            <div class="row">
-                                <div class="col-4">
+                        <div class="col-12 col-md-9 mt-2 mt-md-0 p-0 rounded border-0 ">
+                            <div class="row d-none d-sm-flex">
+                                <div class="col-md-4 col-12">
                                     <p>Дата</p>
                                 </div>
-                                <div class="col-8">
+                                <div class="col-md-6 col-12">
                                     <p>Способ</p>
                                 </div>
+                                <div class="col-md-2 col-12">
+                                    <p>Действие</p>
+                                </div>
                             </div>
-
                             <div class="row mt-2"
                                  v-for="(item, index) in groupForm.date_and_method_communication_sessions">
                                 <div class="col-md-4 col-12">
+                                    <p class="d-block d-sm-none">Дата</p>
                                     <input type="date" name="group-informing-date-and-method"
                                            v-model="groupForm.date_and_method_communication_sessions[index].date"
                                            class="col-12 px-2rem py-4 rounded border-0 w-100" required>
                                 </div>
                                 <div class="col-md-6 col-12">
+                                    <p class="d-block d-sm-none">Способ</p>
                                     <input type="text" name="group-informing-date-and-method"
                                            v-model="groupForm.date_and_method_communication_sessions[index].method"
                                            class="col-12 px-2rem py-4 rounded border-0 w-100" required>
                                 </div>
                                 <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                     <button @click="removeCommunicationSession(index)" type="button"
-                                            class="btn btn-danger">
+                                            class="btn btn-danger w-100 mt-2 mt-lg-0">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
-
                         <!-- make click -->
                         <button @click="addCommunicationSession()" type="button"
                                 class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
-                            Добавить
-                            /
-                            add
+                            Добавить / add
                         </button>
                     </div>
                     <div class="col-12 row px-0 mx-0 mb-5">
@@ -732,16 +696,14 @@
                                 <span class="thin font-size-09 opacity-70">Communications means</span>
                             </div>
                         </div>
-                        <div class="col-12 row mx-0 mt-3 px-0 align-items-center">
-                            <div class="col-12 col-md-3 ps-0 pe-4 d-flex flex-column">
+                        <div class="col-12 row mx-0 mt-3 px-0">
+                            <div class="col-12 col-md-3 ps-0 d-flex flex-column">
                                 <span class="thin">Мобильный телефон (с указанием нескольких абонентов)</span>
                                 <span class="thin opacity-70">Mobile phone of several participants</span>
                             </div>
-
-                            <div
-                                v-if="groupForm.communications.mobile_phones.length>0"
-                                class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
-                                <div class="row">
+                            <div v-if="groupForm.communications.mobile_phones.length>0"
+                                 class="col-12 col-md-9 mt-2 mt-md-0 p-0 rounded border-0 ">
+                                <div class="row d-none d-sm-flex">
                                     <div class="col-md-10 col-12">
                                         <p>Информация</p>
                                     </div>
@@ -749,43 +711,35 @@
                                         <p>Действие</p>
                                     </div>
                                 </div>
-
-
                                 <div class="row mt-2" v-for="(item, index) in groupForm.communications.mobile_phones">
                                     <div class="col-md-10 col-12">
+                                        <p class="d-block d-sm-none">Информация</p>
                                         <input type="text" name="group-mobile-phones" v-mask="'+7(###)###-##-##'"
-
                                                v-model="groupForm.communications.mobile_phones[index]"
                                                class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 w-100"
                                                required>
                                     </div>
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeMobilPhone(index)" type="button"
-                                                class="btn btn-danger">
+                                                class="btn btn-danger w-100 mt-lg-0 mt-2">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </div>
                                 </div>
                             </div>
-
-
                             <button @click="addMobilPhone()" type="button"
                                     class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
-                                Добавить
-                                /
-                                add
+                                Добавить / add
                             </button>
                         </div>
-                        <div class="col-12 row mx-0 mt-3 px-0 align-items-center">
-                            <div class="col-12 col-md-3 ps-0 pe-4 d-flex flex-column">
+                        <div class="col-12 row mx-0 mt-3 px-0">
+                            <div class="col-12 col-md-3 ps-0 d-flex flex-column">
                                 <span class="thin ">Спутниковый телефон</span>
                                 <span class="thin opacity-70">Satellite phone</span>
                             </div>
-
-                            <div
-                                v-if="groupForm.communications.satellite_phones.length>0"
-                                class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
-                                <div class="row">
+                            <div v-if="groupForm.communications.satellite_phones.length>0"
+                                 class="col-12 col-md-9 mt-2 mt-md-0 rounded border-0 p-0">
+                                <div class="row w-auto d-none d-sm-flex flex-fill">
                                     <div class="col-md-10 col-12">
                                         <p>Информация</p>
                                     </div>
@@ -793,30 +747,26 @@
                                         <p>Действие</p>
                                     </div>
                                 </div>
-
-                                <div class="row mt-2"
-                                     v-for="(item, index) in groupForm.communications.satellite_phones">
+                                <div class="row mt-2" v-for="(item, index) in groupForm.communications.satellite_phones">
                                     <div class="col-md-10 col-12">
+                                        <p class="d-block d-sm-none">Информация</p>
                                         <input type="text" name="group-satellite-phone"
                                                v-model="groupForm.communications.satellite_phones[index]"
                                                class="col-12 col-md-4 px-2rem py-4 rounded border-0 w-100" required>
                                     </div>
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeSatellitePhone(index)" type="button"
-                                                class="btn btn-danger">
+                                                class="btn btn-danger w-100 mt-2 mt-lg-0">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </div>
                                 </div>
 
                             </div>
-
-
                             <button @click="addSatellitePhone()" type="button"
-                                    class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
-                                Добавить
-                                /
-                                add
+                                    :class="{'mt-3': groupForm.communications.satellite_phones.length > 0}"
+                                    class="big-button bold bg-blue col-12 col-md-auto px-5 rounded font-size-09">
+                                Добавить / add
                             </button>
                         </div>
                         <div class="col-12 row mx-0 mt-3 px-0">
@@ -824,11 +774,9 @@
                                 <span class="thin ">Радиостанция (с указанием частот)</span>
                                 <span class="thin opacity-70">Radio station (with frequency indication)</span>
                             </div>
-
-                            <div
-                                v-if="groupForm.communications.radio_stations.length>0"
-                                class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
-                                <div class="row">
+                            <div v-if="groupForm.communications.radio_stations.length>0"
+                                 class="col-12 col-md-9 mt-2 mt-md-0 rounded border-0 p-0">
+                                <div class="row d-none d-sm-flex flex-fill w-auto">
                                     <div class="col-md-10 col-12">
                                         <p>Информация</p>
                                     </div>
@@ -836,50 +784,42 @@
                                         <p>Действие</p>
                                     </div>
                                 </div>
-
-
                                 <div class="row mt-2" v-for="(item, index) in groupForm.communications.radio_stations">
                                     <div class="col-md-10 col-12">
+                                        <p class="d-block d-sm-none">Информация</p>
                                         <input type="text" name="group-radio-station"
-                                               v-for="(item, index) in groupForm.communications.radio_stations"
                                                v-model="groupForm.communications.radio_stations[index]"
                                                class="col-12 col-md-4 mt-2 mt-md-0 px-2rem py-4 rounded border-0 w-100"
                                                required>
                                     </div>
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeRadioStation(index)" type="button"
-                                                class="btn btn-danger">
+                                                class="btn btn-danger w-100 mt-2 mt-lg-0">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </div>
                                 </div>
                             </div>
-
-
                             <button @click="addRadioStation()" type="button"
-                                    class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
-                                Добавить
-                                /
-                                add
+                                    :class="{'mt-3': groupForm.communications.radio_stations.length > 0}"
+                                    class="big-button bold bg-blue col-12 col-md-auto px-5 rounded font-size-09">
+                                Добавить / add
                             </button>
                         </div>
                     </div>
                     <div class="col-12 row px-0 mx-0 mb-5">
-                        <div class="col-12 col-md-3 row ps-0 pe-4 mx-0">
+                        <div class="col-12 col-md-3 row ps-0 mx-0">
                             <span class="col-auto px-0 mx-0 blue bold font-size-09">12.</span>
                             <div class="col px-0 ms-2 d-flex flex-column">
                             <span class="bold font-size-09">Наличие заряженных запасных элементов питания к
-                                средствам
-                                связи, а также сигнальных средств</span>
+                                средствам связи, а также сигнальных средств</span>
                                 <span class="thin font-size-09 opacity-70">Charged batteries for communication means and
                                 signal means</span>
                             </div>
                         </div>
-
-                        <div
-                            v-if="groupForm.charge_batteries.length>0"
-                            class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
-                            <div class="row">
+                        <div v-if="groupForm.charge_batteries.length>0"
+                             class="col-12 col-md-9 mt-2 mt-md-0 rounded border-0 p-0">
+                            <div class="row d-none d-sm-flex">
                                 <div class="col-md-10 col-12">
                                     <p>Информация</p>
                                 </div>
@@ -890,28 +830,24 @@
 
                             <div class="row mt-2" v-for="(item, index) in groupForm.charge_batteries">
                                 <div class="col-md-10 col-12">
+                                    <p class="d-block d-sm-none">Информация</p>
                                     <input type="text" name="group-batteries-and-signals"
-
                                            v-model="groupForm.charge_batteries[index]"
                                            class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 w-100"
                                            required>
-
                                 </div>
                                 <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                     <button @click="removeChargesBattery(index)" type="button"
-                                            class="btn btn-danger">
+                                            class="btn btn-danger w-100 mt-2 mt-lg-0">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                 </div>
                             </div>
-
                         </div>
-
                         <button @click="addChargesBattery()" type="button"
-                                class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
-                            Добавить
-                            /
-                            add
+                                :class="{'mt-3': groupForm.charge_batteries.length > 0}"
+                                class="big-button bold bg-blue col-12 col-md-auto px-5 rounded font-size-09">
+                            Добавить / add
                         </button>
                     </div>
                     <div class="col-12 row px-0 mx-0 mb-5">
@@ -922,10 +858,9 @@
                                 <span class="thin font-size-09 opacity-70">First aid equipment</span>
                             </div>
                         </div>
-                        <div
-                            v-if="groupForm.first_aid_equipments.length>0"
-                            class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
-                            <div class="row">
+                        <div v-if="groupForm.first_aid_equipments.length>0"
+                            class="col-12 col-md-9 mt-2 mt-md-0 rounded border-0 p-0">
+                            <div class="row d-none d-sm-flex">
                                 <div class="col-md-10 col-12">
                                     <p>Информация</p>
                                 </div>
@@ -933,9 +868,9 @@
                                     <p>Действие</p>
                                 </div>
                             </div>
-
                             <div class="row mt-2" v-for="(item, index) in groupForm.first_aid_equipments">
                                 <div class="col-md-10 col-12">
+                                    <p class="d-block d-sm-none">Информация</p>
                                     <input type="text" name="group-first-aid"
                                            v-model="groupForm.first_aid_equipments[index]"
                                            class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 w-100"
@@ -943,19 +878,16 @@
                                 </div>
                                 <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                     <button @click="removeFirstAidEquipments(index)" type="button"
-                                            class="btn btn-danger">
+                                            class="btn btn-danger w-100 mt-2 mt-lg-0">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
-
-
                         <button @click="addFirstAidEquipments()" type="button"
-                                class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
-                            Добавить
-                            /
-                            add
+                                :class="{'mt-3': groupForm.first_aid_equipments.length > 0}"
+                                class="big-button bold bg-blue col-12 col-md-auto px-5 rounded font-size-09">
+                            Добавить / add
                         </button>
                     </div>
                     <div class="col-12 row px-0 mx-0 mb-5">
@@ -966,10 +898,9 @@
                                 <span class="thin font-size-09 opacity-70">Medical professionals on the route</span>
                             </div>
                         </div>
-                        <div
-                            v-if="groupForm.medical_professionals.length>0"
-                            class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 ">
-                            <div class="row">
+                        <div v-if="groupForm.medical_professionals.length>0"
+                             class="col-12 col-md-9 mt-2 mt-md-0 p-0 rounded border-0 ">
+                            <div class="row d-none d-sm-flex">
                                 <div class="col-md-10 col-12">
                                     <p>Информация</p>
                                 </div>
@@ -977,9 +908,9 @@
                                     <p>Действие</p>
                                 </div>
                             </div>
-
                             <div class="row mt-2" v-for="(item, index) in groupForm.medical_professionals">
                                 <div class="col-md-10 col-12">
+                                    <p class="d-block d-sm-none">Информация</p>
                                     <input type="text" name="group-first-aid"
                                            v-model="groupForm.medical_professionals[index]"
                                            class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 w-100"
@@ -987,19 +918,16 @@
                                 </div>
                                 <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                     <button @click="removeMedicalProfessionals(index)" type="button"
-                                            class="btn btn-danger">
+                                            class="btn btn-danger w-100 mt-2 mt-lg-0">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
-
-
                         <button @click="addMedicalProfessionals()" type="button"
-                                class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
-                            Добавить
-                            /
-                            add
+                                :class="{'mt-3': groupForm.medical_professionals.length > 0}"
+                                class="big-button bold bg-blue col-12 col-md-auto px-5 rounded font-size-09">
+                            Добавить / add
                         </button>
                     </div>
                     <div class="col-12 row px-0 mx-0 mb-5">
@@ -1007,15 +935,14 @@
                             <span class="col-auto px-0 mx-0 blue bold font-size-09">15.</span>
                             <div class="col px-0 ms-2 d-flex flex-column">
                             <span class="bold font-size-09">Наличие страхового полиса на маршруте (название
-                                страхового
-                                агенства, контактный телефон)</span>
+                                страхового агенства, контактный телефон)</span>
                                 <span class="thin font-size-09 opacity-70">Insurance (name of insurance agency, phone
                                 number)</span>
                             </div>
                         </div>
                         <input type="text" name="group-insurance"
                                v-model="groupForm.insurance"
-                               class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 " required>
+                               class="col-12 col-md-9 mt-2 mt-md-0 px-2rem rounded border-0 " required>
                     </div>
                     <div class="col-12 row px-0 mx-0 mb-5">
                         <div class="col-12 col-md-3 row ps-0 pe-4 mx-0">
@@ -1026,37 +953,32 @@
                                 <span class="thin font-size-09 opacity-70">Additional information</span>
                             </div>
                         </div>
-
-                        <div class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 "
-                             v-if="groupForm.additional_info.length>0"
-                        >
-                            <div class="row">
+                        <div class="col-12 col-md-9 mt-2 mt-md-0 p-0 rounded border-0 "
+                             v-if="groupForm.additional_info.length>0">
+                            <div class="row d-none d-sm-flex">
                                 <div class="col-md-10 col-12"><p>Информация</p></div>
                                 <div class="col-md-2 col-12"><p>Действие</p></div>
                             </div>
-
                             <div class="row mt-2" v-for="(item, index) in groupForm.additional_info">
                                 <div class="col-md-10 col-12">
+                                    <p class="d-block d-sm-none">Информация</p>
                                     <input type="text" name="group-insurance"
                                            v-model="groupForm.additional_info[index]"
                                            class="col-12 col-md-9 mt-2 mt-md-0 px-2rem py-4 rounded border-0 w-100"
                                            required>
                                 </div>
                                 <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
-                                    <button @click="removeCommunicationSession(index)" type="button"
-                                            class="btn btn-danger">
+                                    <button @click="removeAdditionalInfo(index)" type="button"
+                                            class="btn btn-danger w-100 mt-2 mt-lg-0">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
-
-
                         <button @click="addAdditionalInfo()" type="button"
-                                class="big-button bold bg-blue col-12 col-md-auto mt-3 px-5 rounded font-size-09">
-                            Добавить
-                            /
-                            add
+                                :class="{'mt-3': groupForm.additional_info.length > 0}"
+                                class="big-button bold bg-blue col-12 col-md-auto px-5 rounded font-size-09">
+                            Добавить / add
                         </button>
                     </div>
                     <div class="col-12 px-0 mx-0 mb-3">
@@ -1083,12 +1005,10 @@
                                     <p class="letter-spacing-1 thin">
                                         Я соглашаюсь с
                                         <a href="#" class="text-decoration-underline thin">Условиями использования
-                                            сайта</a>
-                                        и даю
+                                            сайта</a> и даю
                                         согласие на обработку своих персональных данных в соотвествии с
                                         <a href="#" class="text-decoration-underline thin">Политикой обработки
-                                            персональных
-                                            данных.</a>
+                                            персональных данных.</a>
                                     </p>
                                 </slot>
                             </label>
@@ -1190,7 +1110,7 @@ export default {
     components: {Breadcrumbs},
     data() {
         return {
-            load:false,
+            load: false,
             memberForm: {
                 full_name: null,
                 date_of_birth: null,
@@ -1292,7 +1212,7 @@ export default {
                     text: "Форма регистрации группы в МЧС успешно отправлена. Менеджер свяжется с вами в течении суток.",
                     type: 'success'
                 });
-            }).catch(()=>{
+            }).catch(() => {
                 this.load = false
             })
         },

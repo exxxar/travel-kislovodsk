@@ -90,7 +90,7 @@
 }
 
 @media screen and (max-width: 320px) {
-    #app{
+    #app {
         width: 320px;
     }
 
@@ -266,7 +266,7 @@ h6 {
         fill: $color-blue;
     }
 
-    input[type="checkbox"]{
+    input[type="checkbox"] {
         display: none;
     }
 }
@@ -302,6 +302,7 @@ h6 {
     .dt-page {
         &__breadcrumbs {
             padding-bottom: 30px;
+
             & .breadcrumb-item > a {
                 font-size: 8px;
                 line-height: 10px;
@@ -311,5 +312,13 @@ h6 {
 
     .personal-account {
         margin-bottom: 30px;
+    }
+
+    .img--mobile-height-75 {
+        height: 75px !important;
+    }
+
+    input[type=text], input[type=date], input[type=number] {
+        height: 55px !important;
     }
 }

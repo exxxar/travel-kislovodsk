@@ -159,11 +159,13 @@
     }
 }
 
-@media screen and (max-width: 768px) {
-
+@media screen and (max-width: 767.88px) {
+    .big-button {
+        height: 60px !important;
+    }
 }
 
-@media screen and (max-width: 568px) {
+@media screen and (max-width: 567.88px) {
     .dt-btn-white {
         height: 50px;
         font-size: 12px;
