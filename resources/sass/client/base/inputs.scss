@@ -74,6 +74,10 @@
     }
 }
 
+.multiselect__input {
+    height: 30px !important;
+}
+
 @media (max-width: 991.98px) {
     .dt-input__wrapper {
         & .dt-input__group {
@@ -89,5 +93,8 @@
         & .dt-input__label {
             font-size: 10px;
         }
+    }
+    input[type=text], input[type=number] {
+        height: 50px !important;
     }
 }

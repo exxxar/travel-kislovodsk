@@ -1,6 +1,4 @@
 <template>
-
-
     <div id="documents" class="dt-page__guide-documents col ">
 
         <div class="row mb-2">
@@ -11,7 +9,6 @@
                         <input class="form-control" type="file"
                                multiple id="formFile" @change="onChange">
                     </div>
-
                     <button
                         :disabled="files.length===0"
                         type="submit" class="big-button bg-blue bold px-4 px-xxl-5 font-size-09 rounded">Отправить

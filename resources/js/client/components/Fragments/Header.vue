@@ -76,7 +76,7 @@
                         </li>
                         <li class="dt-btn-entry" v-if="!user.is_guest">
                             <div class="d-flex justify-content-between dropdown">
-                                <button class="btn user-avatar dropdown-toggle" type="button" id="dropdownMenuButton2"
+                                <button class="border-0 btn user-avatar dropdown-toggle" type="button" id="dropdownMenuButton2"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                     <p>{{ user.name }}</p>
 

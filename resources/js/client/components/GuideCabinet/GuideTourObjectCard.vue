@@ -101,9 +101,36 @@ export default {
 }
 </script>
 
+<style scoped lang="scss">
+.dt-tour-objects-list {
+    & .tour-card {
+        &__logo img {
+            height: 200px;
+        }
+        &__content {
+            & .tour-card__name {
+                font-size: 16px;
+            }
+            & .tour-card__description {
+                font-size: 12px;
+                font-family: "Manrope Thin";
+            }
+        }
+    }
+}
+@media (max-width: 991.98px) {
+    .dt-tour-objects-list {
+        & .tour-card {
+            &__logo img {
+                height: 160px;
+            }
+        }
+    }
+}
+
+</style>
+
 <style lang="scss">
-
-
 .tour-card {
     background-color: white;
     overflow: hidden;

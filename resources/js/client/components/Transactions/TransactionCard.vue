@@ -14,7 +14,7 @@
         <div v-if="item.status_type.slug === 'transaction_in_progress_type'"
              class="personal-account-transactions-card-head__status personal-account-transactions-card-head__status_blue">
             в ожидании, <a data-bs-toggle="modal"
-                           class="cursor-pointer underline"
+                           class="cursor-pointer underline font-size-06"
                            :data-bs-target="'#requestPaymentDialog'+item.id">
             повторить оплату?</a>
             <div class="personal-account-transactions-card-head__icon">
@@ -66,11 +66,10 @@
                     </span>
                 </div>
                 <div class="personal-account-transactions-card-body__text_grey ms-2">
-
                 </div>
             </div>
-            <a :href="'/tour/'+item.id" class="personal-account-input__link text-uppercase dt-travel-card__action">
-                <button class="dt-btn-text">подробнее о заказе</button>
+            <a :href="'/tour/'+item.id" class="dt-btn-text">
+                подробнее о заказе
             </a>
         </div>
     </div>

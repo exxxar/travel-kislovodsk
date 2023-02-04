@@ -2,19 +2,23 @@
     <main class="container dt-page-excursions dt-page-excursion">
         <breadcrumbs :items="breadcrumbs"></breadcrumbs>
         <div class="dt-page__header">
-            <p class="dt-header__title">
+            <p class="dt-header__title fs-1">
                 Экскурсии по Ставропольскому краю
             </p>
-            <p class="dt-header__description">
-                118 увлекательных экскурсий в городе Ставропольский край – Минеральные воды и источники в Ставрополье
-                славились лечебными свойствами уже давно: здесь лечили больных в войсках Кавказской линии. А с 1803 года
-                начали обустраивать курорты на Кавказских минеральных водах., экскурсионные маршруты охватывают 111
-                достопримечательностей в городе и за его пределами, смотрите расписание экскурсий на и бронируйте билеты
-                онлайн.
+            <p class="dt-header__description" :class="{'dt-text-more': !isShowMoreText}">
+                118 увлекательных экскурсий в городе Ставропольский край – Минеральные воды и источники в
+                Ставрополье славились лечебными свойствами уже давно: здесь лечили больных в войсках Кавказской
+                линии. А с 1803 года начали обустраивать курорты на Кавказских минеральных водах., экскурсионные
+                маршруты охватывают 111 достопримечательностей в городе и за его пределами, смотрите расписание
+                экскурсий на и бронируйте билеты онлайн.
             </p>
+            <button class="dt-link-filter--hover-blue fw-bold letter-spacing-3 text-uppercase mt-2 d-sm-none d-block"
+                    @click="showMoreText">
+                {{ !isShowMoreText ? 'читать полностью' : 'скрыть' }}
+            </button>
         </div>
         <tour-search-filter/>
-        <div class="dt-page__type-excursions dt__tabs">
+        <div class="dt-page__type-excursions dt__tabs mb-3">
             <tour-categories/>
         </div>
         <div class="dt-page__content row">
@@ -22,7 +26,7 @@
             <div class="col-lg-9 col-12 co dt-content">
                 <tour-sort-filter/>
                 <div class="dt-form row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1" v-if="tours.length>0">
-                    <div class="col col-xs-12" v-for="item in tours" >
+                    <div class="col col-xs-12" v-for="item in tours">
                         <tour-card-component :tour="item" :key="item"/>
                     </div>
 
@@ -32,7 +36,8 @@
                         <div class="empty-list">
                             <img v-lazy="'/img/no-tour.jpg'" alt="">
                             <p>По данному фильтру ничего не найдено:(</p>
-                            <button class="text-uppercase dt-btn-text-red" @click="resetFilter">Сбросить фильтры</button>
+                            <button class="text-uppercase dt-btn-text-red" @click="resetFilter">Сбросить фильтры
+                            </button>
                         </div>
                     </div>
 
@@ -65,10 +70,9 @@ export default {
     components: {TourSearchFilter, TourFilter, TourSortFilter, Breadcrumbs, TourCard, TourCategories},
     data() {
         return {
-
             current_page: 0,
             tours: [],
-            pagination:null,
+            pagination: null,
             breadcrumbs: [
                 {
                     text: "Главная",
@@ -82,8 +86,9 @@ export default {
                 types_filter: null,
                 sort_filter: null,
                 category_filter: null,
-                search_filter:null,
-            }
+                search_filter: null,
+            },
+            isShowMoreText: false
         }
     },
     computed: {
@@ -109,12 +114,11 @@ export default {
     },
     mounted() {
 
-        if (localStorage.getItem("travel_store_filter")){
+        if (localStorage.getItem("travel_store_filter")) {
             this.filters.search_filter = JSON.parse(localStorage.getItem("travel_store_filter"))
             localStorage.removeItem("travel_store_filter")
             this.loadFilteredTours()
-        }
-        else
+        } else
             this.loadTours();
 
         this.eventBus.on('tour_page', (index) => {
@@ -135,7 +139,7 @@ export default {
                 ...this.filters.search_filter,
             }
 
-            this.$store.dispatch("nextToursPage",filterObject).then(() => {
+            this.$store.dispatch("nextToursPage", filterObject).then(() => {
                 this.tours = this.getTours
                 this.pagination = this.getToursPaginateObject
             })
@@ -150,13 +154,12 @@ export default {
                 ...this.filters.search_filter,
             }
 
-            this.$store.dispatch("previousToursPage",filterObject).then(() => {
+            this.$store.dispatch("previousToursPage", filterObject).then(() => {
                 this.tours = this.getTours
                 this.pagination = this.getToursPaginateObject
             })
 
         })
-
 
 
         this.eventBus.on('select_search_filter', (searchFilter) => {
@@ -184,7 +187,6 @@ export default {
         })
     },
     methods: {
-
         resetFilter() {
             this.eventBus.emit('reset_filters')
         },
@@ -196,8 +198,6 @@ export default {
                 this.pagination = this.getToursPaginateObject
             })
         },
-
-
         loadFilteredTours() {
             let filterObject = {
                 ...this.filters.types_filter,
@@ -213,6 +213,9 @@ export default {
                 this.pagination = this.getToursPaginateObject
             })
 
+        },
+        showMoreText() {
+            this.isShowMoreText = !this.isShowMoreText;
         }
     }
 }

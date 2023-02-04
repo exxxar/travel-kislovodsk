@@ -1,7 +1,7 @@
 <template>
     <main class="dt-advantages m-0" >
-        <div class="col-12 col-sm-12">
-            <h1 class="col-12 text-center bold mb-5">Преимущества нашего сервиса</h1>
+        <div class="col-12 col-sm-12 text-center">
+            <h1 class="col-12 text-center bold">Преимущества нашего сервиса</h1>
             <span class="col-12 px-0 text-center thin font-size-09">вы оцените качество нашего сервиса по
                     достоинству</span>
             <div

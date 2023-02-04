@@ -26,31 +26,25 @@
                                     }}</span>
                                 <span class="font-size-08 text-uppercase"><i class="fa-solid fa-ruble-sign"></i></span>
                             </p>
-
                             <p>
                                 <span class="excursion_number letter-spacing-3 text-uppercase bold">{{
                                         tour.duration
                                     }}</span>
                                 <span class="font-size-08 text-uppercase"><i class="fa-solid fa-clock-rotate-left"></i></span>
                             </p>
-
                         </div>
-
-
                         <div
-                            class="col-sm-5 mt-2 mt-sm-0 align-items-center col-12 dt-rating__star d-flex justify-content-around align-items-center">
-                            <p class="w-100 d-flex justify-content-center align-items-center">
+                            class="align-items-center col-12 col-sm-5 d-flex dt-rating__star
+                            justify-content-around mt-2 mt-sm-0">
+                            <p class="w-100 d-flex justify-content-center align-items-center dt-rating__title">
                                 <span class="excursion__rating font-size-07 opacity-40 me-1">рейтинг экскурсии</span>
                                 <span class="excursion_number excursion_number__rating text-uppercase bold">
                             {{ tour.rating }}
                         </span>
                             </p>
-
-                            <div class="w-100 d-flex justify-content-center">
+                            <div class="w-100 d-flex justify-content-center dt-rating__title">
                                 <rating-component :rating="tour.rating"/>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
@@ -86,7 +80,8 @@
                                 </li>
                                 <li v-if="tour.is_active">
                                     <a data-bs-toggle="modal" :data-bs-target="'#archiveModalDialog'+tour.id"
-                                       class="dropdown-item"><i class="fa-solid fa-box-archive"></i> Архивировать тур</a>
+                                       class="dropdown-item"><i class="fa-solid fa-box-archive"></i> Архивировать
+                                        тур</a>
                                 </li>
 
                                 <li v-if="!tour.is_active&&!tour.is_draft">
@@ -119,7 +114,8 @@
             </div>
 
             <div class="col-md-4 excursion-card__preview">
-                <img class="img-fluid rounded-start d-sm-block d-none" style="height: 100%; max-height: 350px;" v-lazy="tour.preview_image"
+                <img class="img-fluid rounded-start d-sm-block d-none" style="height: 100%; max-height: 350px;"
+                     v-lazy="tour.preview_image"
                      alt=""/>
                 <img class="img-fluid rounded-start d-sm-none d-block" style="max-height: 200px;"
                      v-lazy="tour.preview_image" alt=""/>
@@ -267,6 +263,7 @@ export default {
     .card-footer {
         background-color: white;
         border-top: 1px #efefef solid !important;
+
         .btn-action {
             color: #0071eb;
             font-weight: 600;
@@ -279,6 +276,16 @@ export default {
         img {
             object-fit: cover;
             width: 100%;
+        }
+    }
+}
+
+@media (max-width: 1199.98px) {
+    .dt-rating__star {
+        flex-wrap: wrap;
+
+        .dt-rating__title {
+            justify-content: start !important;
         }
     }
 }

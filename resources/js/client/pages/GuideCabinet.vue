@@ -1,6 +1,4 @@
 <template>
-
-
     <main class="container px-3 px-sm-0 personal-account dt-guide-cabinet">
         <breadcrumbs-component :items="breadcrumbs"/>
         <div class="row"
@@ -31,9 +29,8 @@
            </div>
         </div>
 
-        <div class="main row">
+        <div class="main row flex-lg-nowrap">
             <div class="d-lg-block d-none col-3 pe-5">
-
                 <div class="side-menu">
                     <button @click="openMenu('Мои экскурсии','Действующие')" class="personal-account-nav__link
                         menu-item d-flex rounded p-4 mb-2
@@ -69,7 +66,7 @@
                             :class="{'personal-account-nav__link_active active': activeTitle=='Календарь'}">
                         <span class="menu-item__name font-size-09 semibold">Календарь</span>
                         <div>
-                            <i class="fa-regular fa-calendar-days"></i>
+                            <i class="fa-solid fa-calendar-days"></i>
                         </div>
                     </button>
 
@@ -79,7 +76,7 @@
                             :class="{'personal-account-nav__link_active active': activeTitle=='Документы'}">
                         <span class="menu-item__name font-size-09 semibold">Документы</span>
                         <div>
-                            <i class="fa-regular fa-folder-open"></i>
+                            <i class="fa-solid fa-folder-open"></i>
                         </div>
                     </button>
                     <button @click="openMenu('Настройки')"

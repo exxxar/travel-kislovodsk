@@ -1,7 +1,6 @@
 <template>
     <div class="dt-page__search-excursion">
-
-        <div class="d-flex dt-top-info-block&#45;&#45;three-input justify-content-center">
+        <div class="d-flex dt-top-info-block&#45;&#45;three-input justify-content-between">
             <div class="d-flex flex-wrap align-items-end">
                 <div class="switcher d-flex align-items-center">
                     <p class="dt-direction-excursion" :class="{'text-white': isLinksWhite}">Куда?</p>
@@ -14,19 +13,17 @@
                     <p class="dt-direction-excursion" :class="{'text-white': isLinksWhite}">Откуда?</p>
                 </div>
                 <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters&#45;&#45;links-white': isLinksWhite}">
-                    <a data-bs-toggle="modal" data-bs-target="#map-main-modal" class="dt-link-filter&#45;&#45;hover-blue">Смотреть
-                        карту</a>
+                    <a data-bs-toggle="modal" data-bs-target="#map-main-modal"
+                       class="dt-link-filter&#45;&#45;hover-blue cursor-pointer">Смотреть карту</a>
                 </div>
             </div>
             <div class="dt-input__wrapper">
                 <div class="dt-input__group bg-white dt-border-right-gray">
-                    <div class="d-flex flex-wrap w-100">
-
+                    <div class="w-100">
                         <label for="typeahead_id"
                                class="dt-label fw-thin">{{ filters.direction ? 'Откуда?' : 'Куда?' }}</label>
-
                         <multiselect
-                            style="border: none;"
+                            style="border: none; line-height: 1"
                             v-model="filters.location"
                             :options="filteredLocations"
                             placeholder="Название города..."
@@ -36,13 +33,11 @@
                             :close-on-select="true"
                             :clear-on-select="false"
                             label="name"
-                            track-by="name"
-                        />
-
-
+                            track-by="name"/>
                     </div>
                 </div>
-                <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters&#45;&#45;links-white': isLinksWhite}">
+                <div class="dt-filters mt-2 d-lg-flex d-none"
+                     :class="{'dt-filters&#45;&#45;links-white': isLinksWhite}">
                     <div class="d-flex dt-list">
                         <a href="#reset-filter" class="dt-link-filter&#45;&#45;hover-blue"
                            @click="resetFilter">Сбросить фильтры</a>
@@ -51,10 +46,7 @@
             </div>
             <div class="dt-input__wrapper">
                 <div class="dt-input__group bg-white dt-border-right-gray">
-
                     <tour-calendar-component v-model="filters.date"/>
-
-
                     <div class="dt-input__group-item">
                         <div class="dt-input__icon">
                             <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%"
@@ -65,43 +57,49 @@
                         </div>
                     </div>
                 </div>
-                <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters&#45;&#45;links-white': isLinksWhite}">
+                <div class="dt-filters d-lg-flex d-none mt-2"
+                     :class="{'dt-filters&#45;&#45;links-white': isLinksWhite}">
                     <div class="d-flex dt-list">
-                        <a class="dt-link-filter&#45;&#45;hover-blue"
+                        <a class="dt-link-filter&#45;&#45;hover-blue cursor-pointer"
                            v-bind:class="{'active':checkNearest(0)}"
                            @click="toggleNearestFilter(0)">Завтра</a>
-                        <a class="dt-link-filter&#45;&#45;hover-blue"
+                        <a class="dt-link-filter&#45;&#45;hover-blue cursor-pointer"
                            v-bind:class="{'active':checkNearest(1)}"
                            @click="toggleNearestFilter(1)">В ближайшие 3 дня</a>
-                        <a class="dt-link-filter&#45;&#45;hover-blue"
+                        <a class="dt-link-filter&#45;&#45;hover-blue cursor-pointer"
                            v-bind:class="{'active':checkNearest(2)}"
-                           @click="toggleNearestFilter(2)"
-                        >
-
-                            Эти выходные</a>
+                           @click="toggleNearestFilter(2)">
+                            Эти выходные
+                        </a>
                     </div>
                 </div>
             </div>
             <div class="dt-input__wrapper">
                 <div class="dt-input__group bg-white">
                     <div class="d-flex flex-wrap">
-                        <label class="dt-label fw-thin">Тип экскурсии?</label>
-
-                        <div class="dropdown dt-input fw-semibold h-100 w-100">
-                            <a class="btn dropdown-toggle w-100" href="#"
+                        <label class="d-lg-flex d-none dt-label fw-thin">Тип экскурсии?</label>
+                        <div class="dropdown fw-semibold h-100 w-100">
+                            <a class="d-lg-flex d-none btn dropdown-toggle w-100 border-0 text-left ps-0 dt-text--regular"
+                               href="#"
                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span v-if="!filters.tour_type">Не выбрано</span>
                                 <span v-else>{{ filters.tour_type.title || 'Не задано значение' }}</span>
-
                             </a>
-
-                            <ul class="dropdown-menu w-100">
-                                <li>
-                                    <a class="dropdown-item"
+                            <a class="d-lg-none btn dropdown-toggle w-100 border-0 text-left ps-0 dt-text--regular"
+                               href="#"
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span v-if="!filters.tour_type">Тип экскурсии?
+                                    <span class="dt-text-muted--white-50">(необ.)</span>
+                                </span>
+                                <span v-else>{{ filters.tour_type.title || 'Не задано значение' }}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="cursor-pointer">
+                                    <a class="dropdown-item dt-text--regular"
                                        @click="filters.tour_type=null"
                                     >Не выбрано</a></li>
-                                <li v-for="item in tourTypes">
-                                    <a class="dropdown-item"
+                                <li class="cursor-pointer" v-for="item in tourTypes">
+                                    <a class="dropdown-item dt-text--regular"
                                        @click="filters.tour_type=item"
                                     >{{ item.title }}</a></li>
 
@@ -120,9 +118,9 @@
             </div>
             <button class="dt-info-block__button dt-btn dt-btn-blue" @click="applyFilter">
                 Найти экскурсии
-
             </button>
         </div>
+        <hr class="hr-light-gray d-lg-none d-block">
     </div>
 </template>
 <script>
@@ -260,8 +258,6 @@ export default {
     justify-content: center;
     align-items: center;
     color: white;
-
-
 }
 
 .dp__range_between {
@@ -269,11 +265,65 @@ export default {
     .selected-day {
         background: #0071eb !important;
     }
-
 }
 
+.multiselect {
+    min-height: 10px;
+}
 
 .multiselect__tags {
     border: none;
+    padding-top: 0.25rem;
+    padding-left: 0;
+    min-height: 10px;
+    height: 25px;
+
+    input {
+        padding-left: 0;
+    }
+
+    .multiselect__single {
+        font-size: 0.8rem;
+        padding-left: 0;
+    }
+}
+
+.multiselect__input {
+    font-size: 0.8rem;
+    height: 20px !important;
+}
+
+.multiselect__select {
+    height: 28px;
+}
+
+.multiselect__placeholder {
+    font-size: 12px;
+    font-family: "Manrope Regular", serif;
+    color: #222425;
+}
+
+.dt-input__group {
+    .dropdown {
+        height: 22px !important;
+
+        .dropdown-toggle {
+            padding: 0;
+            padding-left: 2px !important;
+        }
+    }
+}
+
+.dt-input__group .dropdown .dropdown-toggle {
+    padding-left: 0 !important;
+}
+
+@media (max-width: 767.88px) {
+    .multiselect__placeholder {
+        font-size: 12px;
+    }
+    .dt-input__group-item {
+        // margin-left: -16px;
+    }
 }
 </style>

@@ -271,6 +271,16 @@ h6 {
     }
 }
 
+.dt-text--regular {
+    font-size: 14px;
+    font-family: $font-family-regular;
+    letter-spacing: 0.25px;
+}
+
+button {
+    height: 70px !important;
+}
+
 @media screen and (max-width: 768px) {
     h1 {
         font-size: 20px !important;
@@ -319,6 +329,30 @@ h6 {
     }
 
     input[type=text], input[type=date], input[type=number] {
-        height: 55px !important;
+        height: 50px !important;
+    }
+
+    .dt-text--regular {
+        font-size: 12px;
+    }
+
+    .dt-text-more {
+        height: 70px;
+        background-image: linear-gradient(to bottom, $color-black, transparent);
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .hr-light-gray {
+        margin-top: 30px;
+        background: #e7e7e7;
+        height: 2px;
+    }
+
+    button {
+        height: 50px !important;
     }
 }

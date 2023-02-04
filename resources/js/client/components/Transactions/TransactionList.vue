@@ -4,36 +4,27 @@
             <h2 class="lh-1 bold mt-lg-0 title-guide-cabinet">
                 Мои транзакции
             </h2>
-            <div class="personal-account-transactions__row d-lg-flex d-none">
+            <div class="personal-account-transactions__row d-flex flex-column flex-lg-row">
                 <div class="personal-account-transactions-check dt-check personal-account-check">
                     <div class="personal-account-transactions-check__input dt-check__input bg-white">
-                        <input type="radio" name="transactions_status"
-                               checked
-                               @click="transaction_type=0"
-                        >
+                        <input type="radio" name="transactions_status" checked @click="transaction_type=0">
                         <div class="dt-check__input-check"></div>
                     </div>
                     <label class="personal-account-transactions-check__label dt-check__label">
                         <slot name="label">
-                            <h5>
-                                все
-                            </h5>
+                            <h5>все</h5>
                         </slot>
                     </label>
                 </div>
                 <div class="personal-account-transactions-check dt-check personal-account-check"
                      v-for="type in status_types">
                     <div class="personal-account-transactions-check__input dt-check__input bg-white">
-                        <input type="radio" name="transactions_status"
-                               @click="transaction_type=type.id"
-                        >
+                        <input type="radio" name="transactions_status" @click="transaction_type=type.id">
                         <div class="dt-check__input-check"></div>
                     </div>
                     <label class="personal-account-transactions-check__label dt-check__label">
                         <slot name="label">
-                            <h5>
-                                {{ type.title }}
-                            </h5>
+                            <h5>{{ type.title }}</h5>
                         </slot>
                     </label>
                 </div>

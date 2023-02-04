@@ -8,7 +8,7 @@
         <div class="mb-4 mx-0 position-relative">
             <h3 class="mb-2 mt-3">Информация об организации</h3>
             <form v-on:submit.prevent="submitCompany">
-                <div class="dt-input__wrapper">
+                <div class="dt-input__wrapper mb-3">
                     <div class="d-flex align-items-center justify-content-between"><label
                         class="dt-input__label">Название организации</label>
                     </div>
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="dt-input__wrapper mt-2">
+                <div class="dt-input__wrapper mb-3">
                     <div class="d-flex align-items-center justify-content-between"><label
                         class="dt-input__label">Юридический адрес организации</label>
                     </div>
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="dt-input__wrapper mt-2">
+                <div class="dt-input__wrapper mb-3">
                     <div class="d-flex align-items-center justify-content-between"><label
                         class="dt-input__label">ОГРН</label>
                     </div>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="dt-input__wrapper mt-2">
+                <div class="dt-input__wrapper mb-3">
                     <div class="d-flex align-items-center justify-content-between"><label
                         class="dt-input__label">ИНН</label>
                     </div>
@@ -81,9 +81,8 @@
                     </div>
                 </div>
 
-                <div class="mb-4 row mx-0 mt-2">
+                <div class="mb-4 row mx-0 mb-3">
                     <span class="dt-label thin position-relative mb-2 col-12 px-0 d-flex align-items-center">описание
-
                         <i class="fa-regular fa-circle-question opacity-25 info-icon ms-1"></i>
                     </span>
                     <textarea name="add-obj-description" cols="30" rows="12"
@@ -92,16 +91,15 @@
                               class="col-12 px-2rem py-4 rounded border-0 font-size-09"></textarea>
                 </div>
 
-
-                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5 mt-3">
+                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5  mb-3">
                     <button type="submit" class="big-button bg-blue bold px-4 px-xxl-5 font-size-09 rounded">Сохранить
                     </button>
                 </div>
             </form>
 
-            <h3 class="mb-2 mt-3">Информация о личности гида</h3>
+            <h3 class="mb-2 mb-3">Информация о личности гида</h3>
             <form v-on:submit.prevent="submitGuide">
-                <div class="dt-input__wrapper">
+                <div class="dt-input__wrapper mb-3">
                     <div class="d-flex align-items-center justify-content-between"><label
                         class="dt-input__label">Фамилия гида</label>
                     </div>
@@ -119,17 +117,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="dt-input__wrapper mt-2">
+                <div class="dt-input__wrapper mb-3">
                     <div class="d-flex align-items-center justify-content-between"><label
                         class="dt-input__label">Имя гида</label>
                     </div>
                     <div class="dt-input__group bg-white"
-                         v-bind:class="{'border-success':form_guide.is_success_saved}"
-                    >
+                         v-bind:class="{'border-success':form_guide.is_success_saved}">
                         <input type="text" placeholder="Иван" class="dt-input"
-                               v-model="form_guide.first_name"
-
-                               autocomplete="off" maxlength="255">
+                               v-model="form_guide.first_name" autocomplete="off" maxlength="255">
                         <div class="dt-input__group-item">
                             <div class="dt-input__icon">
                                 <i class="fa-regular fa-user"></i>
@@ -137,7 +132,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="dt-input__wrapper mt-2">
+                <div class="dt-input__wrapper mb-3">
                     <div class="d-flex align-items-center justify-content-between"><label
                         class="dt-input__label">Отчество гида</label>
                     </div>
@@ -156,7 +151,7 @@
                     </div>
                 </div>
 
-                <div class="dt-input__wrapper d-flex mt-3 mb-3">
+                <div class="dt-input__wrapper d-flex mb-3">
                     <label class="dt-check__input">
                         <input type="checkbox" id="check-1"
                                :checked="form_guide.email_notification"
@@ -168,7 +163,7 @@
                     </label>
                 </div>
 
-                <div class="dt-input__wrapper d-flex mt-3 mb-3">
+                <div class="dt-input__wrapper d-flex mb-3">
                     <label class="dt-check__input">
                         <input type="checkbox" id="check-2"
                                :checked="form_guide.sms_notification"
@@ -179,14 +174,14 @@
                         Оповещать по SMS
                     </label>
                 </div>
-                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5 mt-3">
+                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5 mb-3">
                     <button type="submit" class="big-button bg-blue bold px-4 px-xxl-5 font-size-09 rounded">Сохранить
                     </button>
                 </div>
             </form>
-            <h3 class="mb-2 mt-3">Изменение пароля</h3>
+            <h3 class=" mb-3">Изменение пароля</h3>
             <form v-on:submit.prevent="submitPassword">
-                <div class="dt-input__wrapper ">
+                <div class="dt-input__wrapper  mb-3">
                     <div class="d-flex align-items-center justify-content-between"><label
                         class="dt-input__label">Пароль</label>
                     </div>
@@ -204,7 +199,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="dt-input__wrapper mt-2">
+                <div class="dt-input__wrapper mb-3">
                     <div class="d-flex align-items-center justify-content-between"><label
                         class="dt-input__label">Повторно пароль</label>
                     </div>
@@ -222,26 +217,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5 mt-3">
+                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5  mb-3">
                     <button type="submit" class="big-button bg-blue bold px-4 px-xxl-5 font-size-09 rounded">Сохранить
                     </button>
                 </div>
             </form>
 
-            <h3 class="mb-2 mt-3">Данные авторизации</h3>
+            <h3 class=" mb-3">Данные авторизации</h3>
 
 
             <form v-on:submit.prevent="submitAccounting">
-                <div class="dt-input__wrapper ">
+                <div class="dt-input__wrapper mb-3">
                     <div class="d-flex align-items-center justify-content-between"><label
                         class="dt-input__label">Почта</label>
                     </div>
                     <div class="dt-input__group bg-white"
-                         v-bind:class="{'border-success':form_accounting.is_success_saved}"
-                    >
-                        <input type="email" placeholder="Почта" class="dt-input"
-                               v-model="form_accounting.email"
-
+                         v-bind:class="{'border-success':form_accounting.is_success_saved}">
+                        <input type="email" placeholder="Почта" class="dt-input" v-model="form_accounting.email"
                                autocomplete="off" maxlength="255">
                         <div class="dt-input__group-item">
                             <div class="dt-input__icon">
@@ -250,17 +242,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="dt-input__wrapper mt-2">
+                <div class="dt-input__wrapper mb-3">
                     <div class="d-flex align-items-center justify-content-between"><label
                         class="dt-input__label">Имя аккаунта</label>
                     </div>
                     <div class="dt-input__group bg-white"
-                         v-bind:class="{'border-success':form_accounting.is_success_saved}"
-                    >
+                         v-bind:class="{'border-success':form_accounting.is_success_saved}">
                         <input type="text" placeholder="Пароль" class="dt-input"
-                               v-model="form_accounting.name"
-
-                               autocomplete="off" maxlength="255">
+                               v-model="form_accounting.name" autocomplete="off" maxlength="255">
                         <div class="dt-input__group-item">
                             <div class="dt-input__icon">
                                 <i class="fa-solid fa-heading"></i>
@@ -269,7 +258,7 @@
                     </div>
                 </div>
 
-                <div class="dt-input__wrapper mt-2">
+                <div class="dt-input__wrapper mb-3">
                     <div class="d-flex align-items-center justify-content-between"><label
                         class="dt-input__label">Номер телефона</label>
                     </div>
@@ -289,14 +278,13 @@
                     </div>
                 </div>
 
-                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5 mt-3">
+                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5 mb-3">
                     <button type="submit" class="big-button bg-blue bold px-4 px-xxl-5 font-size-09 rounded">Сохранить
                     </button>
                 </div>
             </form>
 
             <form v-on:submit.prevent="submitImages">
-
                 <input type="file" id="files" multiple accept="image/*" @change="onChange" style="display:none;"/>
                 <div class="mb-4 row mx-0 mt-2">
                     <span class="dt-label  thin position-relative mb-2 col-12 px-0 d-flex align-items-center">добавьте фото
@@ -319,8 +307,7 @@
 
                     </div>
                 </div>
-                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5 mt-3">
-
+                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5">
                     <button type="submit"
                             :disabled="photos.length===0"
                             class="big-button bg-blue bold px-4 px-xxl-5 font-size-09 rounded">Загрузить фотографии

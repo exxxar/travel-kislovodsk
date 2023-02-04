@@ -1079,7 +1079,7 @@ export default {
     margin: 10px;
 }
 
-.photo-loader {
+/*.photo-loader {
     width: 150px;
     height: 150px;
     display: flex;
@@ -1089,9 +1089,9 @@ export default {
     background: white;
     border-radius: 10px;
     border: 1px lightgray solid;
-}
+}*/
 
-.photo-preview {
+/*.photo-preview {
     img {
         width: 150px;
         height: 150px;
@@ -1102,7 +1102,7 @@ export default {
         border-radius: 10px;
         border: 1px lightgray solid;
     }
-}
+}*/
 
 button[disabled] {
     background: gray;

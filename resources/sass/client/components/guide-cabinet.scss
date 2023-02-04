@@ -47,6 +47,119 @@
             font-size: 12px;
         }
     }
+
+    & .card {
+        & .object {
+            &__title {
+                line-height: 1.5;
+                font-size: 24px;
+                font-family: $font-family-bold;
+            }
+
+            &__description {
+                line-height: 1.5;
+                font-size: 14px;
+                font-family: $font-family-regular;
+            }
+        }
+    }
+
+    & .dt-preview-block {
+        width: 200px;
+        height: 100px;
+    }
+
+    & .btn-schedule {
+        color: $color-black;
+    }
+}
+
+button.active.btn-schedule {
+    color: $color-white;
+    background: $color-blue;
+}
+
+.dp__main {
+    .dp__month_year_row {
+        margin-bottom: 1rem;
+    }
+
+    .dp__month_year_col_nav {
+        background: #edf5fe;
+        margin-right: 0.5rem;
+        margin-left: 0.5rem;
+        margin-top: 1rem;
+        padding: 0.4rem;
+        border-radius: var(--bs-border-radius) !important;
+
+        & .dp__inner_nav {
+            svg {
+                fill: $color-blue;
+                opacity: 0.1;
+            }
+        }
+    }
+
+    & .dp__month_year_select {
+        margin-top: 0.9rem;
+        font-family: $font-family-bold;
+        font-size: 14px;
+    }
+
+    & .dp__calendar_header_item {
+        div {
+            text-transform: lowercase;
+            color: $color-black;
+            font-family: $font-family-regular;
+            font-size: 12px;
+        }
+    }
+
+    & .dp__pointer {
+        font-family: $font-family-bold;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    & .dp__cell_offset {
+        color: $color-light-gray;
+    }
+
+    .dp__calendar {
+        width: 100%;
+        padding: 0 10px;
+
+        &_header {
+            width: 100%;
+        }
+        &_row {
+            gap: 0 5px;
+        }
+        &_item {
+            & .dp__range_end, & .dp__range_start, & .dp__range_between {
+                background: $color-blue;
+                box-shadow: 0 15px 30px rgba(0, 113, 235, 0.3);
+                color: $color-white;
+            }
+
+            & .dp__today {
+                background: #edf5fe;
+                color: $color-blue;
+            }
+        }
+    }
+
+    & .dp__action_row {
+        width: 100% !important;
+    }
+}
+
+.dp__main {
+    flex-direction: column !important;
+}
+
+.dp__calendar_item {
+    width: 100%;
 }
 
 @media (max-width: 767.88px) {
@@ -109,8 +222,56 @@
 }
 
 @media (max-width: 991.98px) {
+    .dt-guide-cabinet {
+        button, input[type=text], input[type=email], textarea, .dropdown-item {
+            font-size: 12px;
+        }
+
+        .dt-label-input {
+            font-size: 10px;
+        }
+
+        label[for=photos] {
+            width: 90px;
+            height: 90px;
+
+            & i {
+                font-size: 20px;
+            }
+        }
+
+        .photo-preview .img-preview img {
+            width: 90px !important;
+            height: 90px !important;
+        }
+
+        label[for=preview_photo] {
+            .fa-plus {
+                font-size: 20px;
+            }
+        }
+
+        .card {
+            & .object {
+                &__title {
+                    font-size: 14px;
+                }
+
+                &__description {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+
     .title-guide-cabinet {
         padding-top: 30px !important;
         padding-bottom: 25px !important;
+    }
+}
+
+@media (max-width: 424.98px) {
+    .dt-preview-block {
+        flex: 1 1 auto !important;
     }
 }

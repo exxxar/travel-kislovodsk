@@ -1,10 +1,6 @@
 <template>
-
-    <Datepicker
-                @input="$emit('input', $event.target.value)"
-                class="w-100"
-                ref="dp"
-                multi-dates multi-dates-limit="20" >
+    <Datepicker @input="$emit('input', $event.target.value)" class="w-100 rounded border-0" ref="dp" multi-dates
+                multi-dates-limit="20">
         <template #calendar-header="{ index, day }">
             <div :class="index === 5 || index === 6 ? 'blue-color' : ''">
                 {{ this.days[index] }}
@@ -23,14 +19,14 @@
             {{ months[value] }}
         </template>
 
-<!--        <template #dp-input="{ value, onInput, onEnter, onTab, onClear }">
+        <!--        <template #dp-input="{ value, onInput, onEnter, onTab, onClear }">
 
-            <p class="calendar-text"> {{value||'Когда?'}}</p>
+                    <p class="calendar-text"> {{value||'Когда?'}}</p>
 
-        </template>-->
+                </template>-->
 
         <template #day="{ day, date }">
-                {{ day }}
+            {{ day }}
         </template>
     </Datepicker>
 
@@ -39,7 +35,7 @@
 import Datepicker from '@vuepic/vue-datepicker';
 
 import '@vuepic/vue-datepicker/dist/main.css'
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 
 export default {
@@ -65,7 +61,7 @@ export default {
         return {
             date: null,
             days: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
-            months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль","Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+            months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
 
         }
     },
@@ -75,7 +71,7 @@ export default {
             return window.moment
         }
 
-,
+        ,
     },
 
 }
@@ -85,6 +81,23 @@ export default {
 
 .blue-color {
     color: #0071eb;
+}
+
+input.dp__pointer {
+    border: none;
+    height: 70px;
+    font-size: 14px;
+    color: #222425;
+}
+
+.dp__cell_inner {
+    border-radius: var(--mo-border-radius) !important;
+}
+
+@media (max-width: 991.98px) {
+    input.dp__pointer {
+        height: 50px;
+    }
 }
 
 </style>

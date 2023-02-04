@@ -59,7 +59,6 @@
         &:hover {
             background: $color-blue !important;
             box-shadow: 0 15px 30px rgba(0, 113, 235, 0.3);
-
             color: $color-white;
         }
     }
@@ -134,6 +133,10 @@
             color: white !important;
             fill: white !important;
         }
+
+        & i.fa-solid {
+            color: white !important;
+        }
     }
 }
 
@@ -159,9 +162,17 @@
     }
 }
 
-@media screen and (max-width: 767.88px) {
+@media screen and (max-width: 991.88px) {
+    .button-icon {
+        min-width: 30px;
+        width: 30px;
+        height: 30px !important;
+    }
+}
+
+@media screen and (max-width: 991.88px) {
     .big-button {
-        height: 60px !important;
+        height: 50px !important;
     }
 }
 

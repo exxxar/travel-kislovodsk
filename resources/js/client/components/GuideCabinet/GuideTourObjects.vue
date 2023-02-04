@@ -2,7 +2,6 @@
     <div class="dt-tour-objects-list col">
         <h2 class="mb-sm-2 bold mt-5 mt-lg-0">Мои объекты</h2>
         <div class="row mb-4">
-
             <div class="col-md-10 d-flex mb-4">
                 <button @click="changeActiveTitle('Действующие объекты')"
                         :class="{'personal-account-nav__link_active' : activeType == 'Действующие объекты',
@@ -19,27 +18,19 @@
                     Удаленные
                 </button>
             </div>
-
-
             <div class="dropdown col-md-2 col-12">
-                <button type="button"
-                        class="w-100 dt-btn-add order-1 order-lg-2 button  bg-green d-flex rounded ms-auto px-4
-                                    justify-content-center align-items-center bold"
-                        data-bs-toggle="dropdown">
-                    <i class="fa-solid fa-bars"></i>
+                <button type="button" class="w-100 dt-btn-add order-1 order-lg-2 button  bg-green d-flex rounded
+                        ms-auto px-4 justify-content-center align-items-center bold" data-bs-toggle="dropdown">
+                    <i class="fa-solid fa-bars text-white"></i>
                 </button>
-                <ul
-                    class="dropdown-menu p-2 w-100">
+                <ul class="dropdown-menu p-2">
                     <li @click="openAddTourObject"><a class="dropdown-item"> Добавить объект </a> </li>
-                    <li><a
-                        data-bs-toggle="modal"
-                        data-bs-target="#excelToursUpload"
+                    <li><a data-bs-toggle="modal" data-bs-target="#excelToursUpload"
                         class="dropdown-item"> Загрузить Excel </a> </li>
                     <li><a href="/load-template/tour-objects.xlsx" class="dropdown-item"> Скачать шаблон </a> </li>
 
                 </ul>
             </div>
-
         </div>
         <guide-tour-object-list-component/>
         <guide-tour-object-paginate-component/>

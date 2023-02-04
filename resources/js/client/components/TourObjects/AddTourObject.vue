@@ -8,28 +8,24 @@
             <h1 class="col-12 col-lg-auto bold fs-2 px-0 ms-lg-4">Добавление нового объекта</h1>
         </div>
         <form v-on:submit.prevent="submitTourObject" id="addObjectForm">
-            <div class="mb-4 row mx-0">
-            <span class="thin position-relative mb-2 col-12 px-0">название экскурсии
-       <i class="fa-regular fa-circle-question"></i>
-            </span>
-                <input type="text"
-                       v-model="tourObject.title"
-                       maxlength="255"
+            <div class="mb-3 row mx-0">
+                <span class="dt-label-input thin position-relative mb-2 col-12 px-0">название экскурсии
+                    <i class="fa-regular fa-circle-question dt-text-muted--white-50"></i>
+                </span>
+                <input type="text" v-model="tourObject.title" maxlength="255"
                        name="add-obj-name" class="col-12 px-2rem py-4 rounded border-0 font-size-09" required>
             </div>
-            <div class="mb-4 row mx-0">
-                    <span class="thin position-relative mb-2 col-12 px-0">описание
-                      <i class="fa-regular fa-circle-question"></i>
+            <div class="mb-3 row mx-0">
+                    <span class="dt-label-input thin position-relative mb-2 col-12 px-0">описание
+                      <i class="fa-regular fa-circle-question dt-text-muted--white-50"></i>
                     </span>
-                <textarea name="add-obj-description" cols="30" rows="10"
-                          v-model="tourObject.description"
-                          maxlength="255"
-                          class="col-12 px-2rem py-4 rounded border-0 font-size-09"></textarea>
+                <textarea name="add-obj-description" cols="30" rows="10" v-model="tourObject.description"
+                          maxlength="255" class="col-12 px-2rem py-4 rounded border-0 font-size-09"></textarea>
             </div>
 
-            <div class="mb-4 row mx-0">
-                    <span class="thin position-relative mb-2 col-12 px-0">добавьте фото
-                 <i class="fa-regular fa-circle-question"></i>
+            <div class="mb-3 row mx-0">
+                    <span class="dt-label-input thin position-relative mb-2 col-12 px-0">добавьте фото
+                 <i class="fa-regular fa-circle-question dt-text-muted--white-50"></i>
                     </span>
                 <div name="add-obj-photo" class="row mx-0 px-0 gap-2">
                     <div
@@ -39,18 +35,12 @@
                         </svg>
                         <input type="file" id="files" multiple accept="image/*" @change="onChange"
                                style="display:none;"/>
-                        <label
-                            @click="resetImages"
-                            for="files"
-                            class="col-auto photo-btn px-0 rounded d-flex align-items-center justify-content-center bg-white position-relative">
-
+                        <label @click="resetImages" for="files"
+                               class="col-auto photo-btn px-0 rounded d-flex align-items-center justify-content-center bg-white position-relative">
                             <i class="fa-solid fa-plus"></i>
                         </label>
-
                     </div>
-
                     <div class="add-additional-photo  mr-2" v-for="(item, index) in items">
-
                         <img class="position-relative top-0 start-0 img rounded w-100 h-100"
                              v-if="item.imageUrl" v-lazy="item.imageUrl"
                              alt="">
@@ -61,36 +51,26 @@
                 </div>
             </div>
 
-            <div class="mb-4 row mx-0">
-                <span class="thin position-relative mb-2 col-12 px-0">Расположение туристического объекта
-                        <i class="fa-regular fa-circle-question"></i>
+            <div class="mb-3 mx-0">
+                <span class="dt-label-input thin position-relative mb-2 col-12 px-0">Расположение туристического объекта
+                        <i class="fa-regular fa-circle-question dt-text-muted--white-50"></i>
                 </span>
-
                 <div class="row">
                     <div class="col-md-4 mb-2">
-                        <input type="text"
-                               v-model="tourObject.city"
-                               maxlength="255"
-                               placeholder="Город объекта"
+                        <input type="text" v-model="tourObject.city" maxlength="255" placeholder="Город объекта"
                                name="add-obj-city" class="col-12 px-2rem py-4 rounded border-0 font-size-09" required>
-
                     </div>
                     <div class="col-md-8 mb-2">
-                        <input type="text"
-                               v-model="tourObject.address"
-                               maxlength="255"
-                               placeholder="Адрес объекта"
+                        <input type="text" v-model="tourObject.address" maxlength="255" placeholder="Адрес объекта"
                                name="add-obj-city" class="col-12 px-2rem py-4 rounded border-0 font-size-09" required>
-
                     </div>
                     <div class="col-12 col-md-4">
-                        <button data-bs-toggle="modal" data-bs-target="#map-select-object-coords"
-                                class="map-point col-12 col-lg-auto py-4 mt-3 mt-lg-0 ms-lg-4 px-0 rounded ">
-                            <span class="position-relative black-underline">Укажите точку на карте</span>
-                        </button>
-
-
-                        <selected-map-modal-dialog-component id="map-select-object-coords"
+                        <div class="col-12 position-relative mx-0 px-0 border rounded text-center align-items-center
+                        d-flex justify-content-center" style="height: 50px">
+                            <a class="btn btn-link dt-text--regular" data-bs-toggle="modal"
+                               data-bs-target="#map-select-start-coords">Укажите точку на карте</a>
+                        </div>
+                        <selected-map-modal-dialog-component id="map-select-start-coords"
                                                              v-on:coords="selectCoords"/>
                     </div>
                     <div class="col-12 col-md-8">
@@ -100,10 +80,7 @@
                     </div>
                 </div>
             </div>
-
-
-            <div class="mb-4 row mx-0">
-
+            <div class="mb-3 row mx-0">
                 <label for="add-obj-comment-mark"
                        class="align-items-center checkbox position-relative row mx-0 px-0 mt-3">
                     <input type="checkbox" id="add-obj-comment-mark"
@@ -120,27 +97,21 @@
                 </label>
             </div>
 
-            <div class="mb-4 row mx-0" v-if="tourObject.need_comment">
-                    <span class="thin position-relative mb-2 col-12 px-0">комментарий
-                      <i class="fa-regular fa-circle-question"></i>
+            <div class="mb-3 row mx-0" v-if="tourObject.need_comment">
+                    <span class="dt-label-input thin position-relative mb-2 col-12 px-0">комментарий
+                      <i class="fa-regular fa-circle-question dt-text-muted--white-50"></i>
                     </span>
-                <textarea name="add-obj-description" cols="30" rows="10"
-                          v-model="tourObject.comment"
-                          maxlength="255"
+                <textarea name="add-obj-description" cols="30" rows="10" v-model="tourObject.comment" maxlength="255"
                           class="col-12 px-2rem py-4 rounded border-0 font-size-09"></textarea>
             </div>
 
-            <div
-                class="add-obj-accept position-relative splitted d-flex align-items-center justify-content-between row mx-0 px-0 py-5 mt-5">
-                <a
-                    class="col-12 col-lg-auto font-size-07 blue-hover letter-spacing-3 text-uppercase bold mb-4 mb-lg-0 px-0">
-                    предосмотр
-                    объекта
+            <div class="add-obj-accept position-relative splitted d-flex align-items-center justify-content-between
+                        row mx-0 px-0 py-5 mt-5">
+                <a class="col-12 col-lg-auto dt-btn-text mb-4 mb-lg-0 px-0">
+                    предосмотр объекта
                     <span class="blue fs-6">&gt;</span>
                 </a>
-                <button
-                    type="submit"
-                    class="big-button bold bg-green col-12 col-lg-auto px-5 ms-lg-5 rounded">Сохранить
+                <button type="submit" class="big-button bold bg-green col-12 col-lg-auto px-5 ms-lg-5 rounded">Сохранить
                 </button>
             </div>
         </form>
@@ -201,7 +172,6 @@ export default {
 
             for (let i = 0; i < files.length; i++)
                 this.items.push({imageUrl: URL.createObjectURL(files[i])})
-
 
 
         },

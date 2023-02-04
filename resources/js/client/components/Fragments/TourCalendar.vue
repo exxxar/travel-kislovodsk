@@ -1,12 +1,7 @@
 <template>
-
     <Datepicker @input="$emit('input', $event.target.value)" :range="true"
-                :multiCalendars="true"
-                ref="dp"
-                :inline="inline||false"
-                :auto-apply="autoApply||false"
-                @update:modelValue="update"
-                :enableTimePicker="false">
+                :multiCalendars="multiCalendars||false" ref="dp" :inline="inline||false" :auto-apply="autoApply||false"
+                @update:modelValue="update" :enableTimePicker="false">
         <template #calendar-header="{ index, day }">
             <div :class="index === 5 || index === 6 ? 'blue-color' : ''">
                 {{ this.days[index] }}
@@ -24,13 +19,10 @@
         <template #month="{ text, value }">
             {{ months[value] }}
         </template>
-
         <template #dp-input="{ value, onInput, onEnter, onTab, onClear }">
-
-            <p class="calendar-text"> {{value||'Когда?'}}</p>
-
+            <p class="calendar-text dt-text--regular"> {{ value || 'Когда?' }} <span class="dt-text-muted--white-50">{{ !value ? '(необязательно)?' : '' }} </span>
+            </p>
         </template>
-
         <template #day="{ day, date }">
             <temlplate v-if="checkDate(date)">
                 <p class="selected-day">{{ day }}</p>
@@ -46,11 +38,11 @@ import {mapGetters} from "vuex";
 import Datepicker from '@vuepic/vue-datepicker';
 
 import '@vuepic/vue-datepicker/dist/main.css'
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 
 export default {
-    props:["inline","autoApply","onlySelfTour"],
+    props: ["inline", "autoApply", "onlySelfTour", "multiCalendars"],
     setup() {
         const date = ref();
         const dp = ref(null);
@@ -73,12 +65,12 @@ export default {
         return {
             date: null,
             days: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
-            months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль","Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+            months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
 
         }
     },
     computed: {
-        ...mapGetters([ 'getTourDates']),
+        ...mapGetters(['getTourDates']),
         moment() {
             return window.moment
         },
@@ -97,16 +89,16 @@ export default {
 
             return tmp
         }
-,
+        ,
     },
     mounted() {
         this.loadDictionaries()
     },
     methods: {
-        update(data){
+        update(data) {
             this.$emit("select-date", {
-                start_date:moment(data[0]).format('YYYY-MM-DD'),
-                end_date:moment(data[1] || data[0]).format('YYYY-MM-DD')
+                start_date: moment(data[0]).format('YYYY-MM-DD'),
+                end_date: moment(data[1] || data[0]).format('YYYY-MM-DD')
             })
         },
         checkDate(date) {
@@ -160,5 +152,6 @@ export default {
 .calendar-text {
     width: 230px !important;
     text-align: left;
+    font-size: 0.8rem;
 }
 </style>
