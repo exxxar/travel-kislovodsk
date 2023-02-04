@@ -88,7 +88,15 @@
         }
 
         &--two-input {
+            margin-top: 30px;
+
             & .dt-input__wrapper {
+                & .dt-input__group {
+                    & .dt-input {
+                        height: 15px !important;
+                    }
+                }
+
                 &:nth-child(1) {
                     & .dt-input__group {
                         border-radius: 6px 6px 0 0;
@@ -98,7 +106,7 @@
 
                 &:nth-child(2) {
                     & .dt-input__group {
-                        border-radius: 0;
+                        border-radius: 0 0 6px 6px;
                     }
                 }
             }
@@ -111,6 +119,12 @@
                 & .dt-direction-excursion {
                     font-size: 12px;
                     font-family: $font-family-regular;
+                }
+            }
+
+            & .dt-input__group {
+                & .dt-input {
+                    height: 15px !important;
                 }
             }
 

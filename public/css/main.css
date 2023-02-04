@@ -20033,6 +20033,14 @@ input[type=date]::-webkit-calendar-picker-indicator {
      object-fit: cover;
 }
 
+@media (max-width: 991.98px) {
+  .dt-reviews__rating .dt-rating__item {
+    margin-bottom: 0.5rem;
+  }
+  .dt-reviews__rating .dt-rating__star {
+    gap: 1px;
+  }
+}
 @media screen and (max-width: 768px) {
   .dt-reviews__sort-by {
     justify-content: space-between !important;
@@ -21671,6 +21679,11 @@ h6, .h6 {
   display: none;
 }
 
+.label-for-input {
+  font-size: 12px;
+  font-family: "Manrope Thin";
+}
+
 .dt-text--regular {
   font-size: 14px;
   font-family: "Manrope Regular";
@@ -21721,6 +21734,7 @@ button {
   }
   .dt-text--regular {
     font-size: 12px;
+    font-family: "Manrope Regular";
   }
   .dt-text-more {
     height: 70px;
@@ -22037,12 +22051,18 @@ button {
   .dt-top-info-block .dt-input__wrapper .dt-input__group .dt-input__text {
     display: block !important;
   }
+  .dt-top-info-block--two-input {
+    margin-top: 30px;
+  }
+  .dt-top-info-block--two-input .dt-input__wrapper .dt-input__group .dt-input {
+    height: 15px !important;
+  }
   .dt-top-info-block--two-input .dt-input__wrapper:nth-child(1) .dt-input__group {
     border-radius: 6px 6px 0 0;
     border-bottom: 1px solid #f6f6f6;
   }
   .dt-top-info-block--two-input .dt-input__wrapper:nth-child(2) .dt-input__group {
-    border-radius: 0;
+    border-radius: 0 0 6px 6px;
   }
   .dt-top-info-block--three-input .switcher {
     margin-bottom: 15px;
@@ -22050,6 +22070,9 @@ button {
   .dt-top-info-block--three-input .switcher .dt-direction-excursion {
     font-size: 12px;
     font-family: "Manrope Regular";
+  }
+  .dt-top-info-block--three-input .dt-input__group .dt-input {
+    height: 15px !important;
   }
   .dt-top-info-block--three-input .dt-input__wrapper:nth-child(2) .dt-input__group {
     border-radius: 6px 6px 0 0;

@@ -139,6 +139,19 @@
     }
 }
 
+@media (max-width: 991.98px) {
+    .dt-reviews {
+        &__rating {
+            & .dt-rating__item {
+                margin-bottom: 0.5rem;
+            }
+            & .dt-rating__star {
+                gap: 1px;
+            }
+        }
+    }
+}
+
 @media screen and (max-width: 768px) {
     .dt-reviews {
         &__sort-by {

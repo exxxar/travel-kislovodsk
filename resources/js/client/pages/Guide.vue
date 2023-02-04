@@ -17,7 +17,7 @@
                         </div>
                         <div class="dt-preheader__avatar d-flex justify-content-center">
                             <div class="dt-avatar__img">
-                                <img v-lazy="guide.avatar" alt="">
+                                <img class="w-100 h-100" v-lazy="guide.avatar" alt="">
                             </div>
                         </div>
                     </div>
@@ -70,22 +70,17 @@
                 <div class="col-lg-8 dt-page__content">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link dt-main-text-thin"
-                               v-bind:class="{'active':tab===1}"
-                               @click="tab=1"
+                            <a class="nav-link dt-main-text-thin" v-bind:class="{'active':tab===1}" @click="tab=1"
                                aria-current="page" href="#base">Основное</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link dt-main-text-thin"
-                               @click="tab=2"
-                               v-bind:class="{'active':tab===2}"  href="#reviews">Комментарии</a>
+                            <a class="nav-link dt-main-text-thin" @click="tab=2"
+                               v-bind:class="{'active':tab===2}" href="#reviews">Комментарии</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link dt-main-text-thin"
-                               @click="tab=3"
-                               v-bind:class="{'active':tab===3}"  href="#tours">Туры</a>
+                            <a class="nav-link dt-main-text-thin" @click="tab=3"
+                               v-bind:class="{'active':tab===3}" href="#tours">Туры</a>
                         </li>
-
                     </ul>
                 </div>
                 <div class="col-lg-8 dt-page__content  pt-2" v-if="tab===1">
@@ -119,7 +114,7 @@
                         <div class="dt-bg-light-gray">
                             <div class="dt-guide__info d-flex w-100 h-100">
                                 <div class="dt-guide__img">
-                                    <img v-lazy="" alt="">
+                                    <img class="w-100 h-100" v-lazy="" alt="">
                                 </div>
                                 <div class="dt-guide__text">
                                     <p class="dt-guide__title fw-thin">Информация о компании гида</p>
@@ -174,9 +169,8 @@
                             </div>
                         </div>
                         <div class="dt-set-order">
-                            <button
-                                class="dt-btn-blue w-100 dt-btn--height-60">
-                                <span>Сообщение гиду</span>
+                            <button class="dt-btn-blue w-100 dt-btn--height-60">
+                                Сообщение гиду
                             </button>
                         </div>
 

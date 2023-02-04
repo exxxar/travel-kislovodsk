@@ -2,26 +2,17 @@
     <div class="card-body position-relative zindex-2 py-5" v-if="!user.is_guest">
         <form v-on:submit.prevent="submitReview" class="mx-auto w-100">
             <div class="row g-4">
-
                 <div class="col-sm-12">
-                    <p v-if="objectType==='guide'"> Укажите оценку гиду</p>
-                    <p v-if="objectType==='tour'"> Укажите оценку тура</p>
-                    <StarRating
-                        :increment="0.1"
-                        :active-color="'white'"
-                        :active-border-color="'#2364f1'"
-                        :border-color="'gray'"
-                        :rounded-corners="true"
-                        :border-width="3"
-                        v-bind:star-size="15"
-                        v-model:rating="review.rating"
-                    />
+                    <p class="label-for-input" v-if="objectType==='guide'"> Укажите оценку гиду</p>
+                    <p class="label-for-input" v-if="objectType==='tour'"> Укажите оценку тура</p>
+                    <StarRating :increment="0.1" :active-color="'white'" :active-border-color="'#2364f1'"
+                        :border-color="'lightgray'" :rounded-corners="true" :border-width="3"
+                        v-bind:star-size="15" v-model:rating="review.rating"/>
                 </div>
                 <div class="col-sm-12">
-                    <label class="form-label fs-base" for="message">Текст отзыва</label>
-                    <textarea
-                        v-model="review.comment"
-                        class="form-control form-control-lg" rows="6"
+                    <label class="label-for-input form-label fs-base" for="message">Текст отзыва</label>
+                    <textarea v-model="review.comment"
+                        class="col-12 px-2rem py-4 rounded border-0 font-size-09" rows="6"
                         placeholder="Ведите текст вашего отзыва" required="" id="message">
 
                     </textarea>
@@ -29,10 +20,8 @@
 
                 <div class="col-sm-12">
                     <div class="photo-preview-review d-flex justify-content-start flex-wrap w-100">
-                        <label for="photos"
-                               style="margin-right: 10px;"
-                               class="photo-loader-review ml-2">
-                            <i class="fa-solid fa-plus"></i>
+                        <label for="photos" style="margin-right: 10px;" class="photo-loader ml-2">
+                            <i class="fa-solid fa-plus blue"></i>
                             <input type="file" id="photos" multiple accept="image/*" @change="onChangePhotos"
                                    style="display:none;"/>
 
@@ -45,14 +34,12 @@
 
                 </div>
                 <div class="col-sm-12 text-center pt-4">
-                    <button class="btn btn-primary p-3" style="min-width: 200px;" type="submit">
+                    <button class="btn btn-primary" style="min-width: 200px;" type="submit">
                         <span v-if="!load" class="text-white">Отправить отзыв</span>
                         <div v-if="load" class="spinner-border text-white" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
                     </button>
-
-
                 </div>
             </div>
         </form>
