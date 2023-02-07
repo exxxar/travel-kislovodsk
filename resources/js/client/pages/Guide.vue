@@ -169,7 +169,7 @@
                             </div>
                         </div>
                         <div class="dt-set-order">
-                            <button class="dt-btn-blue w-100 dt-btn--height-60">
+                            <button class="dt-btn dt-btn-blue dt-btn--height-60 w-100">
                                 Сообщение гиду
                             </button>
                         </div>

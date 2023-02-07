@@ -19,15 +19,16 @@
                 <rating-component :rating="item.rating"/>
             </div>
         </div>
-        <div class="dt-review__block flex-grow-1">
+        <div class="dt-review__block flex-grow-1 w-100">
             <div class="dt-review__header d-lg-block d-none">
                 <div class="dt-header__user">
                     <p class="dt-user__date-ago fw-thin text-muted">
                         {{ moment(item.created_at).format('YYYY-MM-DD H:m:s') }}
-                        <span v-if="item.user_id===user.id" @click="removeReview(item.id)"><i class="fa-solid fa-trash-can"></i></span>
+                        <span class="ps-2" v-if="item.user_id===user.id" @click="removeReview(item.id)">
+                            <i class="fa-solid fa-trash-can blue"></i>
+                        </span>
                     </p>
                     <p class="dt-user__name fw-semibold">{{ item.user_name }}</p>
-
                 </div>
                 <div class="dt-rating__star w-auto d-flex">
                     <rating-component :rating="item.rating"/>
@@ -36,14 +37,10 @@
             <p class="dt-review__description dt-main-text-thin">
                 {{ item.comment || 'Нет комментария' }}
             </p>
-            <div v-if="item.images.length !== 0" class="dt-form dt-review__photos">
-                <div v-for="(photo, i) in item.images"
-                     data-bs-toggle="modal"
-                     :data-bs-target="'#comment-image-modal'+item.id+'-'+i"
-                     :key="i" class="dt-photos__item p-0">
+            <div v-if="item.images.length !== 0" class="dt-form dt-review__photos d-flex flex-nowrap overflow-auto pb-3">
+                <div v-for="(photo, i) in item.images" data-bs-toggle="modal"
+                     :data-bs-target="'#comment-image-modal'+item.id+'-'+i" :key="i" class="dt-photos__item p-0 col-2">
                     <img v-lazy="photo"/>
-
-
                     <image-modal-dialog-component :id="'comment-image-modal'+item.id+'-'+i" :url="photo"/>
                 </div>
             </div>

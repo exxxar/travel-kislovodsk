@@ -4,7 +4,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item d-flex align-items-center" v-for="(item, index) in items" :key="index"
                     :class="{ active: item[0] }" :disabled="item.active">
-                    <a :href="item.href" class="breadcrumb-link letter-spacing-2">{{ item.text }}</a>
+                    <a :href="item.href" class="breadcrumb-link letter-spacing-2 text-wrap">{{ item.text }}</a>
                 </li>
             </ol>
         </nav>

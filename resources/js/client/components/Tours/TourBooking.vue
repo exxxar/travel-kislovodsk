@@ -1,9 +1,9 @@
 <template>
     <form class="col-lg-8 dt-content-booking" v-on:submit.prevent="submit">
         <button @click="closeBooking" class="dt-btn-blue dt-btn--height-50">
-            <span class="dt-font--size-12">Назад к описанию</span>
+            Назад к описанию
         </button>
-        <h1 class="dt-content__title fw-bold">Забронировать экскурсию «{{ tour.title }}»</h1>
+        <h1 class="dt-content__title fw-bold mb-4">Забронировать экскурсию «{{ tour.title }}»</h1>
         <div class="dt-alert dt-alert-danger d-flex align-items-center">
             <div class="dt-alert__icon d-flex">
                 <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 48 48"
@@ -14,15 +14,14 @@
             </div>
             <span class="dt-alert__title">Для бронирования внимательно заполните все поля ниже.</span>
         </div>
-        <div class="dt-content__date-and-time d-flex">
-            <div class="dt-input__wrapper me-3 w-100">
+        <div class="dt-content__date-and-time d-flex flex-column flex-lg-row">
+            <div class="dt-input__wrapper me-3 w-100 mb-2">
                 <div class="dt-input__group">
-
                     <div class="dropdown w-100">
-                        <button class="btn dropdown-toggle w-100" type="button" id="dropdownDateMenu"
-                                data-bs-toggle="dropdown" aria-expanded="false">
+                        <a href="#" class="btn dropdown-toggle w-100 text-start dt-text--regular" type="button"
+                           id="dropdownDateMenu" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ bookingForm.date || 'Выберите дату путешествия' }}
-                        </button>
+                        </a>
                         <ul class="dropdown-menu w-100" aria-labelledby="dropdownDateMenu">
                             <li class="cursor-pointer" v-for="day in sortedScheduleDates">
                                 <a class="dropdown-item" @click="changeDate(day.start_day)">{{ day.start_day }}</a>
@@ -43,17 +42,14 @@
             </div>
             <div class="dt-input__wrapper">
                 <div class="dt-input__group">
-
                     <div class="dropdown w-100">
-                        <button class="btn dropdown-toggle w-100" type="button" id="dropdownTimeMenu"
-                                data-bs-toggle="dropdown" aria-expanded="false">
+                        <a href="#" class="btn dropdown-toggle w-100 text-start dt-text--regular" type="button" id="dropdownTimeMenu"
+                           data-bs-toggle="dropdown" aria-expanded="false">
                             {{ bookingForm.time || 'Время' }}
-                        </button>
+                        </a>
                         <ul class="dropdown-menu w-100" aria-labelledby="dropdownTimeMenu">
-                            <li class="cursor-pointer" v-for="time in sortedScheduleTimes"><a class="dropdown-item "
-                                                                                              @click="changeTime(time)">{{
-                                    time.start_time
-                                }}</a>
+                            <li class="cursor-pointer" v-for="time in sortedScheduleTimes">
+                                <a class="dropdown-item " @click="changeTime(time)">{{ time.start_time }}</a>
                             </li>
                         </ul>
                     </div>
@@ -81,28 +77,31 @@
             <span class="dt-alert__title">Цены указаны с учетом скидки</span>
         </div>
         <div class="dt-content__tickets dt-content--bottom-60">
-
-            <div class="dt-ticket__item" v-for="(item, index) in tour.prices">
-                <div class="dt-ticket__name">{{ item.title }}</div>
-                <div class="dt-ticket__price"><strong>{{ item.price }}₽</strong></div>
-                <div class="dt-counter">
-                    <button type="button" @click="increment(item.slug)">
-                        +
-                    </button>
-                    <span>{{ getCountBySlug(item.slug) }}</span>
-                    <button type="button" @click="decrement(item.slug)"
-                            v-bind:class="{'disabled':getCountBySlug(item.slug)===0}"
-                            :disabled="getCountBySlug(item.slug)===0">
-                        -
-                    </button>
+            <div class="dt-text--regular dt-ticket__item flex-md-nowrap flex-wrap" v-for="(item, index) in tour.prices">
+                <div class="dt-ticket__descr d-flex">
+                    <div class="dt-ticket__name">{{ item.title }}</div>
+                    <div class="dt-ticket__price"><strong>{{ item.price }}₽</strong></div>
                 </div>
-                <div class="dt-total-price"><p>{{ getCountBySlug(item.slug) * item.price }}₽</p></div>
+                <div class="d-flex align-items-end w-100">
+                    <div class="dt-counter align-items-end">
+                        <button type="button" @click="increment(item.slug)">
+                            +
+                        </button>
+                        <span>{{ getCountBySlug(item.slug) }}</span>
+                        <button type="button" @click="decrement(item.slug)"
+                                v-bind:class="{'disabled':getCountBySlug(item.slug)===0}"
+                                :disabled="getCountBySlug(item.slug)===0">
+                            -
+                        </button>
+                    </div>
+                    <div class="dt-total-price"><p>{{ getCountBySlug(item.slug) * item.price }}₽</p></div>
+                </div>
             </div>
         </div>
         <div class="dt-check__group dt-content--bottom-60">
             <label class="dt-check__group-title">дополнительные услуги </label>
-            <div class="dt-checkboxes-vertical d-flex">
-                <div class="dt-check" v-for="item in service">
+            <div class="dt-checkboxes-vertical d-flex overflow-auto pb-2">
+                <div class="dt-check me-3" v-for="item in service">
                     <div class="dt-check__input">
                         <input type="checkbox" name="type_person"
                                :value="item.id"
@@ -118,7 +117,7 @@
 
             </div>
         </div>
-        <div class="dt-total-price dt-content--bottom-60 d-flex justify-content-between">
+        <div class="dt-total-price dt-content--bottom-60 d-flex justify-content-between flex-wrap">
             <p class="dt-total-price__title">
                 итоговая стоимость
             </p>
@@ -133,8 +132,8 @@
             </div>
         </div>
         <div class="dt-personal-data dt-content--bottom-60">
-            <ul class="d-flex w-100 flex-wrap">
-                <li
+            <ul class="d-flex flex-nowrap flex-wrap overflow-auto pb-2 w-100">
+                <li class="col-auto"
                     style="padding: 10px; margin-left:5px;"
                     @click="active_person_index=index"
                     v-for="(person, index) in bookingForm.persons">
@@ -357,11 +356,11 @@
             </div>
             <div class="col-1"></div>
 
-            <div class="col-lg-5 align-items-center d-flex">
+            <div class="col-lg-5 align-items-center d-flex mt-3">
                 <button type="submit" class="dt-btn-blue w-100"
                         v-bind:class="{'disabled':!bookingForm.accept_rules || !bookingForm.booking_is_correct}"
                         :disabled="!bookingForm.accept_rules || !bookingForm.booking_is_correct || bookingForm.persons.length===0">
-                    <span>Оформить заказ </span>
+                    Оформить заказ
                 </button>
             </div>
 
@@ -380,7 +379,7 @@
             <div class="row" v-if="payment">
                 <div class="col-12">
                     <a v-if="payment.bankcard.url"
-                       :href="payment.bankcard.url" >
+                       :href="payment.bankcard.url">
                         <img class="w-100" v-lazy="'/img/2payments22.png'" alt="">
                     </a>
                 </div>
@@ -642,7 +641,7 @@ button.disabled {
 
 
             span {
-                padding: 10px;
+                padding: 5px;
             }
 
             button {
@@ -656,8 +655,9 @@ button.disabled {
                 font-family: 'Manrope Bold';
                 font-weight: 900;
                 line-height: 0px;
-                width: 30px;
-                height: 30px;
+                width: 30px !important;
+                max-width: 30px !important;
+                height: 30px !important;
 
                 &.disabled {
                     background: lightgray;

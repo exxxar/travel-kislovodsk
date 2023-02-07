@@ -24,14 +24,11 @@
                         <p class="dt-preheader__description">
                             {{ tour.short_description || 'Нет описания' }}
                         </p>
-                        <div class="dt-preheader__photos justify-content-center">
-                            <div class="dt-photos__item"
-                                 data-bs-toggle="modal"
+                        <div class="dt-preheader__photos justify-content-center overflow-auto flex-nowrap pb-1">
+                            <div class="dt-photos__item col-2" data-bs-toggle="modal"
                                  :data-bs-target="'#image-modal'+index" v-for="(item, index) in tour.images.slice(0,6)">
                                 <img v-lazy="item" alt="">
-
                                 <image-modal-dialog-component :id="'image-modal'+index" :url="item"/>
-
                             </div>
 
                             <div class="dt-photos__item dt-photos__item--placeholder" v-if="tour.images.length>6">
@@ -55,10 +52,10 @@
             </div>
         </div>
         <div class="container dt-page dt-page-excursion dt-page__content-tour">
-            <div class="dt-header__detail d-flex">
+            <div class="dt-header__detail d-flex dt-top-info-block--three-input">
                 <div class="dt-input__wrapper">
                     <div class="dt-input__group bg-white">
-                        <div class="d-flex flex-wrap">
+                        <div class="d-flex flex-wrap flex-fill">
                             <label class="dt-label fw-thin">длительность</label>
                             <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
                                    :value="tour.duration||'Не установлено'" disabled="">
@@ -76,7 +73,7 @@
                 </div>
                 <div class="dt-input__wrapper">
                     <div class="dt-input__group bg-white">
-                        <div class="d-flex flex-wrap">
+                        <div class="d-flex flex-wrap flex-fill">
                             <label class="dt-label fw-thin">город отправления</label>
                             <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
                                    :value="tour.start_city||'Начальный город'" disabled="">
@@ -94,7 +91,7 @@
                 </div>
                 <div class="dt-input__wrapper">
                     <div class="dt-input__group bg-white">
-                        <div class="d-flex flex-wrap">
+                        <div class="d-flex flex-wrap flex-fill">
                             <label class="dt-label fw-thin">тип экскурсии</label>
                             <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
                                    :value="tour.tour_type||'Нет типа тура'" disabled="">
@@ -112,7 +109,7 @@
                 </div>
                 <div class="dt-input__wrapper">
                     <div class="dt-input__group bg-white">
-                        <div class="d-flex flex-wrap">
+                        <div class="d-flex flex-wrap flex-fill">
                             <label class="dt-label fw-thin">передвижение</label>
                             <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
                                    :value="tour.movement_type||'Нет типа'" disabled="">
@@ -253,7 +250,8 @@
                                         вас вопросы.
                                     </p>
                                 </div>
-                                <button class="dt-btn-blue" @click="startChatWithGide"><span>Задать вопрос гиду</span>
+                                <button class="dt-btn-blue" @click="startChatWithGide">
+                                    Задать вопрос гиду
                                 </button>
                             </div>
                         </div>
@@ -278,16 +276,17 @@
                                     <p class="dt-guide__name">{{ tour.guide.fname }} {{ tour.guide.sname }}
                                         {{ tour.guide.tname }}</p>
                                     <div class="dt-rating__star d-flex">
-                                        <rating-component :rating="tour.guide.rating"/>
-                                        <p class="dt-guide__rating fw-bold">{{tour.guide.rating || 'Еще нет рейтинга'}}</p>
+                                        <rating-component v-if="tour.guide.rating" :rating="tour.guide.rating"/>
+                                        <p class="dt-guide__rating fw-bold">
+                                            {{ tour.guide.rating || 'Еще нет рейтинга' }}</p>
                                     </div>
                                     <a :href="'/guide/'+tour.guide.id"
                                        class="dt-btn-text text-uppercase me-3 d-lg-flex d-none">смотреть
                                         отзывы
-                                        ({{tour.reviews.length}})</a>
+                                        ({{ tour.reviews.length }})</a>
                                     <a :href="'/guide/'+tour.guide.id"
                                        class="dt-btn-text text-uppercase text-nowrap d-flex d-lg-none">отзывы
-                                        ({{tour.reviews.length}})</a>
+                                        ({{ tour.reviews.length }})</a>
                                 </div>
                             </div>
                         </div>
@@ -333,15 +332,12 @@
                             </div>
                         </div>
                         <div class="dt-set-order">
-                            <button
-                                :disabled="tour.is_draft||!tour.is_active"
+                            <button :disabled="tour.is_draft||!tour.is_active"
                                 @click="isBooking = true" class="dt-btn-blue w-100 dt-btn--height-60">
-                                <span>Оформить заказ</span>
+                                Оформить заказ
                             </button>
                         </div>
-                        <div
-                            @click="startChatWithGide"
-                            class="dt-question-guide text-center">
+                        <div @click="startChatWithGide" class="dt-question-guide text-center">
                             <p class="dt-btn-text text-uppercase me-lg-3">задать вопрос гиду</p>
                         </div>
                     </div>

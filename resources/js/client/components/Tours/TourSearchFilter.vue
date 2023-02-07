@@ -310,6 +310,7 @@ export default {
         .dropdown-toggle {
             padding: 0;
             padding-left: 2px !important;
+            border: none !important;
         }
     }
 }
