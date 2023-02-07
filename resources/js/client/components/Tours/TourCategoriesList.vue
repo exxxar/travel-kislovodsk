@@ -34,7 +34,7 @@
             <div class="icon-arrow-down"></div>
             <div class="dt-input__group-item">
                 <div class="dt-input__icon" style="width: 16px">
-                    <img src="/img/icons/tune_116939.svg" alt="">
+                    <img v-lazy="'/img/icons/tune_116939.svg'" alt="">
                 </div>
             </div>
         </div>
