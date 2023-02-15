@@ -1,39 +1,33 @@
 <template>
-    <div class="dt-page__search-excursion">
-        <div class="d-flex dt-top-info-block&#45;&#45;three-input justify-content-between">
-            <div class="d-flex flex-wrap align-items-end">
-                <div class="switcher d-flex align-items-center">
-                    <p class="dt-direction-excursion" :class="{'text-white': isLinksWhite}">Куда?</p>
-                    <div class="dt-direction-excursion d-flex">
-                        <label class="dt-switch d-flex">
-                            <input type="checkbox" v-model="filters.direction">
-                            <span class="dt-slider"></span>
-                        </label>
-                    </div>
-                    <p class="dt-direction-excursion" :class="{'text-white': isLinksWhite}">Откуда?</p>
+    <div class="dt-page__search-excursion d-flex flex-wrap flex-lg-nowrap">
+        <div class="d-flex flex-wrap align-items-end mb-3 mb-lg-0">
+            <div class="switcher d-flex align-items-center">
+                <p class="dt-direction-excursion" :class="{'text-white': isLinksWhite}">Куда?</p>
+                <div class="dt-direction-excursion d-flex">
+                    <label class="dt-switch d-flex">
+                        <input type="checkbox" v-model="filters.direction">
+                        <span class="dt-slider"></span>
+                    </label>
                 </div>
-                <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters&#45;&#45;links-white': isLinksWhite}">
-                    <a data-bs-toggle="modal" data-bs-target="#map-main-modal"
-                       class="dt-link-filter&#45;&#45;hover-blue cursor-pointer">Смотреть карту</a>
-                </div>
+                <p class="dt-direction-excursion" :class="{'text-white': isLinksWhite}">Откуда?</p>
             </div>
+            <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters&#45;&#45;links-white': isLinksWhite}">
+                <a data-bs-toggle="modal" data-bs-target="#map-main-modal"
+                   class="dt-link-filter&#45;&#45;hover-blue cursor-pointer">Смотреть карту</a>
+            </div>
+        </div>
+        <div class="d-flex dt-top-info-block&#45;&#45;three-input justify-content-between w-100">
+
             <div class="dt-input__wrapper">
                 <div class="dt-input__group bg-white dt-border-right-gray">
                     <div class="w-100">
-                        <label for="typeahead_id"
-                               class="dt-label fw-thin">{{ filters.direction ? 'Откуда?' : 'Куда?' }}</label>
-                        <multiselect
-                            style="border: none; line-height: 1"
-                            v-model="filters.location"
-                            :options="filteredLocations"
-                            placeholder="Название города..."
-                            selectLabel="Выбрать"
-                            deselectLabel="Enter для отмены"
-                            selectedLabel="Выбрано"
-                            :close-on-select="true"
-                            :clear-on-select="false"
-                            label="name"
-                            track-by="name"/>
+                        <label for="typeahead_id" class="d-lg-flex d-none dt-label fw-thin">
+                            {{ filters.direction ? 'Откуда?' : 'Куда?' }}
+                        </label>
+                        <multiselect style="border: none; line-height: 1" v-model="filters.location"
+                            :options="filteredLocations" placeholder="Название города..." selectLabel="Выбрать"
+                            deselectLabel="Enter для отмены" selectedLabel="Выбрано" :close-on-select="true"
+                            :clear-on-select="false" label="name" track-by="name"/>
                     </div>
                 </div>
                 <div class="dt-filters mt-2 d-lg-flex d-none"

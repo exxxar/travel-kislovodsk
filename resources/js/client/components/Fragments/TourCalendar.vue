@@ -20,7 +20,8 @@
             {{ months[value] }}
         </template>
         <template #dp-input="{ value, onInput, onEnter, onTab, onClear }">
-            <p class="calendar-text dt-text--regular"> {{ value || 'Когда?' }} <span class="dt-text-muted--white-50">{{ !value ? '(необязательно)?' : '' }} </span>
+            <p class="calendar-text dt-text--regular"> {{ value || 'Когда?' }} <span
+                class="dt-text-muted--white-50">{{ !value ? '(необязательно)?' : '' }} </span>
             </p>
         </template>
         <template #day="{ day, date }">
@@ -153,5 +154,9 @@ export default {
     width: 230px !important;
     text-align: left;
     font-size: 0.8rem;
+}
+
+.dt-input__wrapper .dp__main.dp__theme_light {
+    width: 75% !important;
 }
 </style>

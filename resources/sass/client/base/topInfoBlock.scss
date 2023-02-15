@@ -43,10 +43,19 @@
                 }
             }
 
-            &:nth-child(2) {
+            &:nth-child(1) {
                 & .dt-input__group {
                     border-top-right-radius: 0;
                     border-bottom-right-radius: 0;
+                    //border-right: 1px solid $color-light-gray;
+                }
+            }
+
+            &:nth-child(2) {
+                & .dt-input__group {
+                    border-radius: 0;
+                    /*border-top-right-radius: 0;
+                    border-bottom-right-radius: 0;*/
                     //border-right: 1px solid $color-light-gray;
                 }
             }
@@ -158,14 +167,14 @@
 
                 &:nth-child(2) {
                     & .dt-input__group {
-                        border-radius: 6px 6px 0 0;
+                       // border-radius: 6px 6px 0 0;
                         border-bottom: 1px solid $color-light-gray;
                     }
                 }
 
                 &:nth-child(3) {
                     & .dt-input__group {
-                        border-radius: 0;
+                        border-radius: 0 0 6px 6px;
                         border-bottom: 1px solid $color-light-gray;
 
                         & .dt-input__group-item {

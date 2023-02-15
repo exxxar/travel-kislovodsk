@@ -1,7 +1,7 @@
 <template>
-    <ul class="nav nav-pills dt-popular-list d-flex" id="pills-tab" role="tablist">
-        <li class="nav-item flex-fill">
-            <a class="nav-link"
+    <ul class="nav nav-pills dt-popular-list d-flex flex-nowrap overflow-auto pb-3" id="pills-tab" role="tablist">
+        <li class="nav-item flex-fill h-100">
+            <a class="nav-link text-nowrap"
                v-bind:class="{'active':selected_category_id===null}"
                @click="filterTourByCategory(null)"
                id="pills-1" data-toggle="pill" href="#pills-1" role="tab"

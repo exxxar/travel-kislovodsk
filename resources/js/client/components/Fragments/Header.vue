@@ -31,19 +31,19 @@
                                 <img class="ms-3" v-lazy="'/img/icons/mountains.png'" alt="">
                             </button>
                         </li>
-                        <li class="dt-btn-entry">
+                        <li class="dt-btn-entry entry-small">
                             <a href="/tours-all">
                                 <img width="18" height="18" v-lazy="'/img/icons/searchWhite.svg'" alt="search">
                             </a>
                         </li>
-                        <li class="dt-btn-entry" v-if="!user.is_guest">
+                        <li class="dt-btn-entry entry-small" v-if="!user.is_guest">
                             <a href="/favorites">
                                 <img width="18" height="18"
                                      v-lazy="'/img/icons/favorite_FILL0_wght600_GRAD0_opsz48_white.svg'"
                                      alt="favorite">
                             </a>
                         </li>
-                        <li class="dt-btn-entry" v-if="!user.is_guest">
+                        <li class="dt-btn-entry entry-small" v-if="!user.is_guest">
                             <a href="/messages">
                                 <img width="18" height="18"
                                      v-lazy="'/img/icons/sms_FILL0_wght600_GRAD0_opsz48_white.svg'"
@@ -52,7 +52,6 @@
                             </a>
                         </li>
                         <li class="dt-btn-entry" v-if="user.is_guest">
-
                             <div class="dropdown">
                                 <button class="btn humburger-btn dropdown-toggle" type="button" id="dropdownMenuButton1"
                                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -71,8 +70,6 @@
                                            href="#">Восстановление пароля</a></li>
                                 </ul>
                             </div>
-
-
                         </li>
                         <li class="dt-btn-entry" v-if="!user.is_guest">
                             <div class="d-flex justify-content-between dropdown">
@@ -84,8 +81,6 @@
                                          v-lazy="user.profile.photo"
                                          alt="profile photo">
                                 </button>
-
-
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
                                     <li><a class="dropdown-item" v-if="user.is_user" href="/user-cabinet">Профиль
                                         пользователя</a></li>
@@ -112,10 +107,7 @@
                                         <hr class="dropdown-divider bg-primary">
                                     </li>
                                     <li><a class="dropdown-item" href="/logout">Выход</a></li>
-
                                 </ul>
-
-
                             </div>
                         </li>
                     </ul>
@@ -135,7 +127,7 @@
                                 <div class="menu-dot bg-white rounded"></div>
                             </div>
                         </div>
-                        <ul class="dropdown-menu w-100 border-0" role="menu">
+                        <ul class="dropdown-menu w-100 border-0" role="menu" style="z-index: 9999">
                             <li>
                                 <a href="/about" class="dt-arrow-right blue-hover dropdown-item p-0 text-uppercase">
                                     О проекте
@@ -185,6 +177,42 @@
                                      v-lazy="'/img/icons/sms_FILL0_wght600_GRAD0_opsz48_white.svg'"
                                      alt="sms">
                             </a>
+                        </li>
+                        <li class="dt-btn-entry flex-fill" v-if="!user.is_guest">
+                            <div class="d-flex justify-content-between dropdown">
+                                <button class="border-0 btn user-avatar dropdown-toggle" type="button" id="dropdownMenuButton2"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img width="18" height="18" v-lazy="user.profile.photo" alt="profile photo">
+                                    <p>{{ user.name }}</p>
+                                </button>
+                                <ul class="dropdown-menu" style="z-index: 9999" aria-labelledby="dropdownMenuButton2">
+                                    <li><a class="dropdown-item" v-if="user.is_user" href="/user-cabinet">Профиль
+                                        пользователя</a></li>
+                                    <li><a class="dropdown-item" v-if="user.is_guide" href="/guide-cabinet">Кабинет
+                                        гида</a></li>
+                                    <li><a class="dropdown-item" v-if="user.is_admin" href="/admin">Кабинет
+                                        администратора</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider bg-primary">
+                                    </li>
+                                    <li><a class="dropdown-item" href="/favorites">Избранные туры <span
+                                        class="badge bg-primary text-white p-2">{{ statistic.favorites_count || 0 }}</span></a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="/messages">Чаты <span
+                                        class="badge bg-primary text-white p-2">{{ statistic.unread_chats_count || 0 }}</span></a>
+                                    </li>
+                                    <li><a class="dropdown-item disabled" href="#watched">Просмотренные туры <span
+                                        class="badge bg-primary text-white p-2">{{ statistic.watched_count || 0 }}</span></a>
+                                    </li>
+                                    <li><a class="dropdown-item disabled" href="#booked">Забронированные туры <span
+                                        class="badge bg-primary text-white p-2">{{ statistic.booked_count || 0 }}</span></a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider bg-primary">
+                                    </li>
+                                    <li><a class="dropdown-item" href="/logout">Выход</a></li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="dt-btn-entry flex-fill" v-if="user.is_guest">
                             <a data-bs-toggle="modal" data-bs-target="#dtModalEntry"
@@ -295,6 +323,21 @@ export default {
         border-radius: 50%;
         border: 2px white solid;
         box-shadow: 0 0 2px 0px black;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .user-avatar {
+        p {
+            padding: 0;
+        }
+        img {
+            height: 28px;
+            width: 28px;
+            border-radius: 6px;
+            border: none;
+            margin-right: 5px;
+        }
     }
 }
 </style>

@@ -14,8 +14,8 @@
                         <div class="curved">
                             <img :src="'/img/curved_strip.png'" alt="">
                         </div>
-                        <div class="dt-preheader__photos justify-content-center">
-                            <div class="dt-photos__item" data-bs-toggle="modal"
+                        <div class="dt-preheader__photos overflow-auto flex-nowrap">
+                            <div class="dt-photos__item col-2" data-bs-toggle="modal"
                                  :data-bs-target="'#image-modal'+index+'-'+item.id" v-for="(item, index) in object.photos.slice(0,6)">
                                 <img v-lazy="item" alt="">
 

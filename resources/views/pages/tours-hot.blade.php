@@ -4,6 +4,6 @@
     <modals-component></modals-component>
     <notifications-component></notifications-component>
     <header-component></header-component>
-    <tours-hot-page></tour-page>
+    <tours-hot-page></tours-hot-page>
     <footer-component></footer-component>
 @endsection

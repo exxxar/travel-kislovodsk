@@ -22,8 +22,16 @@
 
         & .dt-buttons {
             & .dt-btn-entry {
-                padding: 22px 32px;
+                //padding: 22px 32px;
                 border-left: 1px solid rgba(255, 255, 255, 0.2);
+
+                &.entry-small {
+                    width: 80px;
+                    height: 70px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
 
                 &:last-child {
                     border-right: none;
@@ -83,6 +91,21 @@
 .dt-link {
     &:hover, &.active {
         color: $color-red !important;
+    }
+}
+
+@media (max-width: 1199.98px) {
+    .dt-links__list {
+        padding-right: 20px;
+        padding-left: 20px;
+        right: 0;
+        top: 7px;
+
+        & .dt-link {
+            font-family: $font-family-bold;
+            font-size: 8px;
+            letter-spacing: 3px;
+        }
     }
 }
 

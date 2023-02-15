@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <ul class="nav nav-pills dt__tabs-list flex-nowrap d-lg-flex d-none" id="pills-tab" role="tablist">
+    <ul class="nav nav-pills dt__tabs-list flex-nowrap overflow-auto d-lg-flex d-none" id="pills-tab" role="tablist">
         <li class="nav-item flex-fill me-1 mb-3">
             <a class="nav-link" id="pills-1"
                v-bind:class="{'active':filters.tour_categories.length===0}"
