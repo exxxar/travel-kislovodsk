@@ -12,6 +12,7 @@ use App\Models\ChatUsers;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -31,30 +32,14 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get("/test", function () {
-    $mpdf = new \Mpdf\Mpdf();
-    $mpdf->WriteHTML(
-        view("pdf.group",
-            [
-                "agency" => [],
-                "group" => [],
-                "guide" => [],
-                "members" => [],
-            ]
-        )
-    );
 
-    $data = $mpdf->Output("group.pdf", "S");
+//startup-project.ru/welcome?name=vasya
+Route::get("/welcome/{name?}", function (Request $request, $name = null) {
 
+    $arg = $request->get("name");
 
-    $response = Telegram::sendDocument([
-        'chat_id' => env("ADMIN_TELEGRAM_CHANNEL"),
-        "document" => InputFile::createFromContents($data, "invoice.pdf"),
-        "caption" => "#мчс,#заявкамчс,#туристическаягруппамчс",
-        "parse_mode" => "HTML"
-
-    ]);
-});
+    return view("welcome",['name1'=>$arg,'name2'=>$name]);
+})->where(["name"=>"[0-9]+"]);
 
 Route::get('/push-notificaiton', [WebNotificationController::class, 'index'])->name('push-notificaiton');
 Route::post('/store-token', [WebNotificationController::class, 'storeToken'])->name('store.token');
