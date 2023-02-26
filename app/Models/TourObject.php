@@ -49,7 +49,7 @@ class TourObject extends Model
     }
 
     public function tours(){
-        return $this->belongsToMany(Tour::class);
+        return $this->belongsTo(Tour::class);
     }
 
 

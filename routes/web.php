@@ -142,6 +142,7 @@ Route::prefix("api")
                 Route::get('/watch/{id}', 'watch');
                 Route::get('/{id}', 'show');
                 Route::post('/search', 'search');
+                Route::post('/search-by-coords', 'loadToursByCoords');
             });
 
         Route::prefix("favorites")

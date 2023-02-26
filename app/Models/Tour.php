@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -107,6 +109,7 @@ class Tour extends Model
 
         return $query->orderBy($sortAssociation[$sort->slug], $sortDirection);
     }
+
 
     public function scopeWithCategoryFilters($query, $category)
     {

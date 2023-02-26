@@ -333,7 +333,7 @@
                         </div>
                         <div class="dt-set-order">
                             <button :disabled="tour.is_draft||!tour.is_active"
-                                @click="isBooking = true" class="dt-btn-blue w-100 dt-btn--height-60">
+                                    @click="isBooking = true" class="dt-btn-blue w-100 dt-btn--height-60">
                                 Оформить заказ
                             </button>
                         </div>
@@ -402,10 +402,12 @@ export default {
             })
         },
         addToWatch() {
-            this.$store.dispatch("watchTour", this.tour.id)
+            if (!this.user.is_guest)
+                this.$store.dispatch("watchTour", this.tour.id)
         },
         addToFavorites() {
-            this.$store.dispatch("addToFavorites", this.tour.id)
+            if (!this.user.is_guest)
+                this.$store.dispatch("addToFavorites", this.tour.id)
         }
     }
 }

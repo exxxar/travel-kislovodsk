@@ -1,33 +1,38 @@
 <template>
     <div class="dt-page__search-excursion d-flex flex-wrap flex-lg-nowrap">
-        <div class="d-flex flex-wrap align-items-end mb-3 mb-lg-0">
-            <div class="switcher d-flex align-items-center">
-                <p class="dt-direction-excursion" :class="{'text-white': isLinksWhite}">Куда?</p>
-                <div class="dt-direction-excursion d-flex">
-                    <label class="dt-switch d-flex">
-                        <input type="checkbox" v-model="filters.direction">
-                        <span class="dt-slider"></span>
-                    </label>
-                </div>
-                <p class="dt-direction-excursion" :class="{'text-white': isLinksWhite}">Откуда?</p>
-            </div>
-            <div class="dt-filters d-lg-flex d-none" :class="{'dt-filters&#45;&#45;links-white': isLinksWhite}">
-                <a data-bs-toggle="modal" data-bs-target="#map-main-modal"
-                   class="dt-link-filter&#45;&#45;hover-blue cursor-pointer">Смотреть карту</a>
-            </div>
-        </div>
         <div class="d-flex dt-top-info-block&#45;&#45;three-input justify-content-between w-100">
-
             <div class="dt-input__wrapper">
                 <div class="dt-input__group bg-white dt-border-right-gray">
                     <div class="w-100">
                         <label for="typeahead_id" class="d-lg-flex d-none dt-label fw-thin">
-                            {{ filters.direction ? 'Откуда?' : 'Куда?' }}
+                            Откуда?
                         </label>
-                        <multiselect style="border: none; line-height: 1" v-model="filters.location"
-                            :options="filteredLocations" placeholder="Название города..." selectLabel="Выбрать"
-                            deselectLabel="Enter для отмены" selectedLabel="Выбрано" :close-on-select="true"
-                            :clear-on-select="false" label="name" track-by="name"/>
+
+                        <div class="dropdown fw-semibold h-100 w-100">
+                            <a class="d-lg-flex d-none btn dropdown-toggle w-100 border-0 text-left ps-0 dt-text--regular"
+                               href="#"
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span v-if="!filters.location_from">Не выбрано</span>
+                                <span v-else>{{ filters.location_from }}</span>
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-locations">
+                                <li class="cursor-pointer">
+                                    <a class="dropdown-item dt-text--regular"
+                                       @click="selectLocationFrom(null)"
+                                    >Не выбрано</a></li>
+                                <li class="cursor-pointer" v-for="item in filteredLocationsFrom">
+                                    <a class="dropdown-item dt-text--regular"
+                                       @click="selectLocationFrom(item)"
+                                    >{{ item }}</a></li>
+
+                            </ul>
+                        </div>
+
+                        <!--                        <multiselect style="border: none; line-height: 1" v-model="filters.location"
+                                                             :options="filteredLocations" placeholder="Название города..." selectLabel="Выбрать"
+                                                             deselectLabel="Enter для отмены" selectedLabel="Выбрано" :close-on-select="true"
+                                                             :clear-on-select="false" label="name" track-by="name"/>-->
                     </div>
                 </div>
                 <div class="dt-filters mt-2 d-lg-flex d-none"
@@ -37,6 +42,41 @@
                            @click="resetFilter">Сбросить фильтры</a>
                     </div>
                 </div>
+            </div>
+            <div class="dt-input__wrapper">
+                <div class="dt-input__group bg-white dt-border-right-gray">
+                    <div class="w-100">
+                        <label for="typeahead_id" class="d-lg-flex d-none dt-label fw-thin">
+                            Куда?
+                        </label>
+
+                        <div class="dropdown fw-semibold h-100 w-100">
+                            <a class="d-lg-flex d-none btn dropdown-toggle w-100 border-0 text-left ps-0 dt-text--regular"
+                               href="#"
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span v-if="!filters.location_to">Не выбрано</span>
+                                <span v-else>{{ filters.location_to }}</span>
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-locations">
+                                <li class="cursor-pointer">
+                                    <a class="dropdown-item dt-text--regular"
+                                       @click="selectLocationTo(null)"
+                                    >Не выбрано</a></li>
+                                <li class="cursor-pointer" v-for="item in filteredLocationsTo">
+                                    <a class="dropdown-item dt-text--regular"
+                                       @click="selectLocationTo(item)"
+                                    >{{ item }}</a></li>
+
+                            </ul>
+                        </div>
+                        <!--                        <multiselect style="border: none; line-height: 1" v-model="filters.location"
+                                                    :options="filteredLocations" placeholder="Название города..." selectLabel="Выбрать"
+                                                    deselectLabel="Enter для отмены" selectedLabel="Выбрано" :close-on-select="true"
+                                                    :clear-on-select="false" label="name" track-by="name"/>-->
+                    </div>
+                </div>
+
             </div>
             <div class="dt-input__wrapper">
                 <div class="dt-input__group bg-white dt-border-right-gray">
@@ -116,6 +156,18 @@
         </div>
         <hr class="hr-light-gray d-lg-none d-block">
     </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <div class=" flex-wrap align-items-end mb-3 mb-lg-0">
+                    <a data-bs-toggle="modal" data-bs-target="#map-main-modal"
+                       style="min-width: 200px"
+                       class="btn btn-primary p-3">Смотреть карту</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
 import {mapGetters} from "vuex";
@@ -143,7 +195,8 @@ export default {
 
             filters: {
                 direction: true,
-                location: null,
+                location_from: null,
+                location_to: null,
                 nearest_selected_dates: null,
                 date: null,
                 tour_type: null,
@@ -155,18 +208,15 @@ export default {
         tourTypes() {
             return this.getDictionariesByTypeSlug("tour_type")
         },
-        filteredLocations() {
+        filteredLocationsTo() {
             if (!this.getLocations)
                 return []
-
-            let tmp = []
-
-            this.getLocations.forEach(item => {
-                if (item != null)
-                    tmp.push({name: item})
-            })
-            return tmp
-
+            return this.getLocations.to
+        },
+        filteredLocationsFrom() {
+            if (!this.getLocations)
+                return []
+            return this.getLocations.from
         }
     },
     mounted() {
@@ -189,7 +239,41 @@ export default {
 
     },
     methods: {
+        selectLocationTo(item) {
+            this.filters.location_to = item
+
+            if (item == null) {
+                this.$store.dispatch("loadLocations")
+                this.filters.location_from = null
+                return
+            }
+
+            if (this.filters.location_from == null)
+                this.$store.dispatch("loadLocationsWithFilter", {
+                    title: item,
+                    type: 2,
+                })
+
+        },
+        selectLocationFrom(item) {
+            this.filters.location_from = item
+            if (item == null) {
+                this.$store.dispatch("loadLocations")
+                this.filters.location_to = null
+                return
+            }
+
+            if (this.filters.location_to == null)
+                this.$store.dispatch("loadLocationsWithFilter", {
+                    title: item,
+                    type: 1,
+                })
+
+        },
         resetFilter() {
+            this.filters.location_from = null
+            this.filters.location_to = null
+            this.$store.dispatch("loadLocations")
             this.eventBus.emit('reset_filters')
         },
         selectLocationItem(data) {
@@ -320,5 +404,10 @@ export default {
     .dt-input__group-item {
         // margin-left: -16px;
     }
+}
+
+.dropdown-locations {
+    max-height: 200px;
+    overflow-y: scroll;
 }
 </style>

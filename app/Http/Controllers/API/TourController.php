@@ -66,6 +66,44 @@ class TourController extends Controller
         return response()->json($price);
     }
 
+    public function loadToursByCoords(Request $request)
+    {
+
+        $request->validate([
+            "latitude" => "required",
+            "longitude" => "required",
+        ]);
+
+        $latitude = $request->latitude ?? 0;
+        $longitude = $request->longitude ?? 0;
+
+        $size = $request->get("size") ?? config('app.results_per_page');
+
+        $tours = Tour::query()
+            ->with([
+                'tourObjects',
+                'tourCategories',
+                'durationType',
+                'tourType',
+                'creator.profile',
+                'schedules',
+                'reviews'
+            ])
+            ->where("is_active", true)
+            ->where("is_draft", false)
+            ->where("start_latitude", $latitude)
+            ->where("start_longitude", $longitude)
+            ->orWhere(function ($query) use ($latitude, $longitude) {
+                $query->whereHas("tourObjects", function ($q) use ($latitude, $longitude) {
+                    $q->where("latitude", $latitude)
+                        ->where("longitude", $longitude);
+                });
+            })
+            ->paginate($size);
+
+        return new TourCollection($tours);
+    }
+
     public function loadGuideToursByPage(Request $request)
     {
 
@@ -548,7 +586,7 @@ class TourController extends Controller
         $size = $request->get("size") ?? config('app.results_per_page');
 
         $bookedTours = Booking::query()
-            ->with(["tour", "user.profile", "transaction","schedule"])
+            ->with(["tour", "user.profile", "transaction", "schedule"])
             ->where("tour_id", $tourId)
             ->orderBy("start_at", "ASC")
             ->whereHas("schedule", function ($q) use ($userId) {

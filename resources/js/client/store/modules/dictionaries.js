@@ -79,6 +79,16 @@ const actions = {
         })
     },
 
+    async loadLocationsWithFilter(context, filter) {
+        let _axios = util.makeAxiosFactory(`${BASE_DICTIONARIES_LINK}/locations?title=${filter.title}&type=${filter.type}`, 'GET', null)
+
+        return _axios.then((response) => {
+            let dataObject = response.data
+            context.commit('setLocations', dataObject)
+        }).catch(err => {
+            context.dispatch("errorsDictionaries")
+        })
+    },
     async loadLocations(context) {
         let _axios = util.makeAxiosFactory(`${BASE_DICTIONARIES_LINK}/locations`, 'GET', null)
 

@@ -130,24 +130,77 @@ class   Dictionary extends Model
         return Dictionary::getDictionaryByTypes("service_type");
     }
 
-    public static function getLocations()
+    public static function getLocations($type = 0, $ask = null)
     {
-        $tours = Tour::query()
-            ->select('start_city')
-            ->groupBy('start_city')
-            ->get()
-            ->pluck("start_city")
-            ->toArray();
+        $from = [];
+        $to = [];
 
-        $tourObjects = TourObject::query()
-            ->select('city')
-            ->groupBy('city')
-            ->get()
-            ->pluck("city")
-            ->toArray();
+        if ($type == 0) {
+            $tours = Tour::query()
+                ->select('start_city')
+                ->whereNotNull("start_city")
+                ->groupBy('start_city')
+                ->get()
+                ->pluck("start_city");
+
+            $tourObjects = TourObject::query()
+                ->select('city')
+                ->whereNotNull("city")
+                ->groupBy('city')
+                ->get()
+                ->pluck("city");
+
+            $from = $tours->toArray();
+            $to = $tourObjects->toArray();
+        }
+
+        if ($type == 1) {
+            $tours = Tour::query()
+                ->with(["tourObjects" => function ($query) {
+                    $query->select('city')
+                        ->whereNotNull("city");
+                }])
+                ->whereNotNull("start_city")
+                ->where("start_city", $ask)
+                ->get();
 
 
-        return [...array_intersect($tours, $tourObjects), ...array_diff($tours, $tourObjects)];
+            foreach ($tours as $tour) {
+                if (!in_array("$tour->start_city", $from))
+                    array_push($from, $tour->start_city);
+                foreach ($tour->tourObjects as $obj)
+                    if (!in_array("$obj->city", $to))
+                        array_push($to, $obj->city);
+            }
+        }
+
+        if ($type == 2) {
+            $tours = Tour::query()
+                ->with(["tourObjects" => function ($query) use ($ask) {
+                    $query->select('city')
+                        ->whereNotNull("city")
+                        ->where("city", $ask);
+                }])
+                ->whereNotNull("start_city")
+                ->get();
+
+
+            foreach ($tours as $tour) {
+                if (count($tour->tourObjects)!=0) {
+                    if (!in_array("$tour->start_city", $from))
+                        array_push($from, $tour->start_city);
+                    foreach ($tour->tourObjects as $obj)
+                        if (!in_array("$obj->city", $to))
+                            array_push($to, $obj->city);
+                }
+            }
+
+        }
+
+        return [
+            "from" => $from,
+            "to" => $to
+        ];
     }
 
     public static function getTourDates($self = false)

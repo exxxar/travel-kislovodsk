@@ -128,6 +128,26 @@ const actions = {
         })
 
     },
+    async loadToursFilteredByCoordsByPage(context, payload) {
+        let page = payload.page || 0
+        let size = 12
+
+        let link = `${BASE_TOUR_LINK}/search-by-coords?page=${page}&size=${size}`
+        let method = 'POST'
+        let data = payload.filters
+
+        let _axios = util.makeAxiosFactory(link, method, data)
+
+        return _axios.then((response) => {
+            let dataObject = response.data
+            return Promise.resolve(dataObject);
+        }).catch(err => {
+            return Promise.reject(err);
+        })
+
+
+    },
+
     async loadToursByTourCategoryByPage(context, payload) {
 
         let category = payload.category,

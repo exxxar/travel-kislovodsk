@@ -17,7 +17,6 @@
 
                 </div>
                 <div class="modal-body" v-if="coords&&multiply">
-
                     <YandexMap
                         :coordinates="[coords[0].lat,coords[0].lon]"
                         v-if="coords"
@@ -25,7 +24,7 @@
                     >
                         <YandexMarker
                             v-for="(cord,index) in coords"
-
+                            @click="filterTour(cord)"
                             :coordinates="[cord.lat,cord.lon]" :marker-id="'marker-'+index">
                         </YandexMarker>
                     </YandexMap>
@@ -50,14 +49,24 @@ export default {
 
     },
     methods: {
+        filterTour(cord) {
+            this.$store.dispatch("loadToursFilteredByCoordsByPage", {
+                page: 0,
+                filters: {
+                    latitude: cord.lat || 0,
+                    longitude: cord.lon || 0
+                }
+            }).then(resp => {
+                console.log(resp)
+                if (resp.data.length > 0)
+                    window.location.href = "/tour/" + resp.data[0].id
+            })
+
+        },
         onClick(e) {
-
-                this.$emit("coords", e.get('coords'))
-
-
+            this.$emit("coords", e.get('coords'))
             this.coords.lat = e[1]
             this.coords.lon = e[0]
-
         }
     },
     props: ["coords", "multiply"]
