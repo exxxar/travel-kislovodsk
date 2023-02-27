@@ -78,6 +78,57 @@
 
         }
     }
+
+    &--four-input {
+        & .dt-info-block__button {
+            width: 100%;
+        }
+
+        & .dt-input__wrapper {
+            & .dt-input__group {
+                &-item {
+                    justify-content: flex-end;
+                    margin-right: 1rem !important;
+                }
+            }
+
+            &:nth-child(1) {
+                & .dt-input__group {
+                    border-top-right-radius: 0;
+                    border-bottom-right-radius: 0;
+                }
+            }
+
+            &:nth-child(2) {
+                & .dt-input__group {
+                    border-radius: 0;
+                }
+            }
+
+            &:nth-child(3) {
+                & .dt-input__group {
+                    border-radius: 0;
+                }
+            }
+
+            &:nth-child(4) {
+                & .dt-input__group {
+                    border-radius: 0;
+                }
+            }
+
+            &:nth-child(5) {
+                & .dt-input__group {
+                    border-top-right-radius: 6px;
+                    border-bottom-right-radius: 6px;
+                }
+            }
+        }
+
+        & .dt-info-block__button {
+
+        }
+    }
 }
 
 @media (max-width: 991.98px) {
@@ -185,6 +236,81 @@
                 }
 
                 &:nth-child(4) {
+                    & .dt-input__group {
+                        border-radius: 0 0 6px 6px;
+
+                        & .dt-input__group-item {
+                            justify-content: end;
+                            margin-right: 1rem !important;
+                        }
+                    }
+                }
+            }
+
+            & .dt-info-block__button {
+                border-radius: 6px;
+                height: 60px;
+                margin-top: 0.5rem;
+            }
+        }
+
+        &--four-input {
+            flex-wrap: wrap;
+            & .switcher {
+                margin-bottom: 15px;
+
+                & .dt-direction-excursion {
+                    font-size: 12px;
+                    font-family: $font-family-regular;
+                }
+            }
+
+            & .dt-input__group {
+                & .dt-input {
+                    height: 15px !important;
+                }
+            }
+
+            & .dt-input__wrapper {
+                &:nth-child(1) {
+                    & .dt-input__group {
+                        border-radius: 6px 6px 0 0 !important;
+                        border-bottom: 1px solid $color-light-gray;
+                    }
+                }
+
+                &:nth-child(2) {
+                    & .dt-input__group {
+                       // border-radius: 6px 6px 0 0;
+                        border-bottom: 1px solid $color-light-gray;
+                    }
+                }
+
+                &:nth-child(3) {
+                    & .dt-input__group {
+                        border-radius: 0;
+                        border-bottom: 1px solid $color-light-gray;
+
+                        & .dt-input__group-item {
+                            justify-content: end;
+                            margin-right: 1rem !important;
+                        }
+                    }
+                }
+
+                &:nth-child(4) {
+                    & .dt-input__group {
+                        border-radius: 0 0 6px 6px;
+                        border-bottom: 1px solid $color-light-gray;
+
+                        & .dt-input__group-item {
+                            justify-content: end;
+                            margin-right: 1rem !important;
+                        }
+                    }
+                }
+
+                &:nth-child(5) {
                     & .dt-input__group {
                         border-radius: 0 0 6px 6px;
 

@@ -1,6 +1,6 @@
 <template>
     <div class="dt-page__search-excursion d-flex flex-wrap flex-lg-nowrap">
-        <div class="d-flex dt-top-info-block&#45;&#45;three-input justify-content-between w-100">
+        <div class="d-flex dt-top-info-block&#45;&#45;four-input justify-content-between w-100">
             <div class="dt-input__wrapper">
                 <div class="dt-input__group bg-white dt-border-right-gray">
                     <div class="w-100">
@@ -9,10 +9,10 @@
                         </label>
 
                         <div class="dropdown fw-semibold h-100 w-100">
-                            <a class="d-lg-flex d-none btn dropdown-toggle w-100 border-0 text-left ps-0 dt-text--regular"
+                            <a class="d-flex btn dropdown-toggle w-100 border-0 text-left ps-0 dt-text--regular"
                                href="#"
                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span v-if="!filters.location_from">Не выбрано</span>
+                                <span v-if="!filters.location_from">Откуда?</span>
                                 <span v-else>{{ filters.location_from }}</span>
                             </a>
 
@@ -34,6 +34,18 @@
                                                              deselectLabel="Enter для отмены" selectedLabel="Выбрано" :close-on-select="true"
                                                              :clear-on-select="false" label="name" track-by="name"/>-->
                     </div>
+                    <div class="dt-input__group-item">
+                        <div class="dt-input__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 48 48" fill="#0071eb">
+                                <path d="M24 23.65q1.5 0 2.575-1.075Q27.65 21.5 27.65 20q0-1.5-1.075-2.575Q25.5 16.35 24 16.35q-1.5
+                            0-2.575 1.075Q20.35 18.5 20.35 20q0 1.5 1.075 2.575Q22.5 23.65 24 23.65Zm0 15.75q6.4-5.85
+                            9.45-10.625Q36.5 24 36.5 20.4q0-5.7-3.625-9.3Q29.25 7.5 24 7.5t-8.875 3.6Q11.5 14.7 11.5
+                            20.4q0 3.6 3.125 8.35T24 39.4Zm0 5.2q-8.3-7.05-12.4-13.075Q7.5 25.5 7.5 20.4q0-7.7
+                            4.975-12.3Q17.45 3.5 24 3.5q6.55 0 11.525 4.6Q40.5 12.7 40.5 20.4q0 5.1-4.1 11.125T24
+                            44.6Zm0-24.2Z"/>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
                 <div class="dt-filters mt-2 d-lg-flex d-none"
                      :class="{'dt-filters&#45;&#45;links-white': isLinksWhite}">
@@ -51,10 +63,10 @@
                         </label>
 
                         <div class="dropdown fw-semibold h-100 w-100">
-                            <a class="d-lg-flex d-none btn dropdown-toggle w-100 border-0 text-left ps-0 dt-text--regular"
+                            <a class="d-flex btn dropdown-toggle w-100 border-0 text-left ps-0 dt-text--regular"
                                href="#"
                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span v-if="!filters.location_to">Не выбрано</span>
+                                <span v-if="!filters.location_to">Куда?</span>
                                 <span v-else>{{ filters.location_to }}</span>
                             </a>
 
@@ -74,6 +86,18 @@
                                                     :options="filteredLocations" placeholder="Название города..." selectLabel="Выбрать"
                                                     deselectLabel="Enter для отмены" selectedLabel="Выбрано" :close-on-select="true"
                                                     :clear-on-select="false" label="name" track-by="name"/>-->
+                    </div>
+                    <div class="dt-input__group-item">
+                        <div class="dt-input__icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" viewBox="0 0 48 48" fill="#0071eb">
+                                <path d="M24 23.65q1.5 0 2.575-1.075Q27.65 21.5 27.65 20q0-1.5-1.075-2.575Q25.5 16.35 24 16.35q-1.5
+                            0-2.575 1.075Q20.35 18.5 20.35 20q0 1.5 1.075 2.575Q22.5 23.65 24 23.65Zm0 15.75q6.4-5.85
+                            9.45-10.625Q36.5 24 36.5 20.4q0-5.7-3.625-9.3Q29.25 7.5 24 7.5t-8.875 3.6Q11.5 14.7 11.5
+                            20.4q0 3.6 3.125 8.35T24 39.4Zm0 5.2q-8.3-7.05-12.4-13.075Q7.5 25.5 7.5 20.4q0-7.7
+                            4.975-12.3Q17.45 3.5 24 3.5q6.55 0 11.525 4.6Q40.5 12.7 40.5 20.4q0 5.1-4.1 11.125T24
+                            44.6Zm0-24.2Z"/>
+                            </svg>
+                        </div>
                     </div>
                 </div>
 
