@@ -1,6 +1,6 @@
 <template>
     <main class="container">
-        <div class="row d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
             <div class="col-12 col-md-10 col-lg-8 mx-0 px-0">
                 <breadcrumbs :items="breadcrumbs"/>
 
@@ -312,8 +312,8 @@
                                     </div>
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeChildren(index)" type="button"
-                                                class="btn btn-danger mt-lg-0 mt-2 w-100">
-                                            <i class="fa-solid fa-trash-can"></i>
+                                                class="btn btn-danger mt-lg-0 mt-md-0 mt-2 w-100">
+                                            <i class="fa-solid fa-trash-can text-white"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -356,8 +356,8 @@
                                     </div>
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeForeignCitizen(index)" type="button"
-                                                class="btn btn-danger mt-lg-0 mt-2 w-100">
-                                            <i class="fa-solid fa-trash-can"></i>
+                                                class="btn btn-danger mt-lg-0 mt-md-0 mt-2 w-100">
+                                            <i class="fa-solid fa-trash-can text-white"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -426,8 +426,8 @@
                                     </div>
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeFederationAreas(index)" type="button"
-                                                class="btn btn-danger w-100 mt-lg-0 mt-2">
-                                            <i class="fa-solid fa-trash-can"></i>
+                                                class="btn btn-danger w-100 mt-lg-0 mt-md-0 mt-2">
+                                            <i class="fa-solid fa-trash-can text-white"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -462,8 +462,8 @@
                                     </div>
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeLodgingPoints(index)" type="button"
-                                                class="btn btn-danger w-100 mt-lg-0 mt-2">
-                                            <i class="fa-solid fa-trash-can"></i>
+                                                class="btn btn-danger w-100 mt-lg-0 mt-md-0 mt-2">
+                                            <i class="fa-solid fa-trash-can text-white"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -503,8 +503,8 @@
                                     </div>
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeEmergencyExitRoutes(index)" type="button"
-                                                class="btn btn-danger w-100 mt-lg-0 mt-2">
-                                            <i class="fa-solid fa-trash-can"></i>
+                                                class="btn btn-danger w-100 mt-lg-0 mt-md-0 mt-2">
+                                            <i class="fa-solid fa-trash-can text-white"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -541,8 +541,8 @@
                                     </div>
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeDangerousRouteSection(index)" type="button"
-                                                class="btn btn-danger w-100 mt-lg-0 mt-2">
-                                            <i class="fa-solid fa-trash-can"></i>
+                                                class="btn btn-danger w-100 mt-lg-0 mt-md-0 mt-2">
+                                            <i class="fa-solid fa-trash-can text-white"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -676,8 +676,8 @@
                                 </div>
                                 <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                     <button @click="removeCommunicationSession(index)" type="button"
-                                            class="btn btn-danger w-100 mt-2 mt-lg-0">
-                                        <i class="fa-solid fa-trash-can"></i>
+                                            class="btn btn-danger w-100 mt-2 mt-lg-0 mt-md-0">
+                                        <i class="fa-solid fa-trash-can text-white"></i>
                                     </button>
                                 </div>
                             </div>
@@ -721,8 +721,8 @@
                                     </div>
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeMobilPhone(index)" type="button"
-                                                class="btn btn-danger w-100 mt-lg-0 mt-2">
-                                            <i class="fa-solid fa-trash-can"></i>
+                                                class="btn btn-danger w-100 mt-lg-0 mt-md-0 mt-2">
+                                            <i class="fa-solid fa-trash-can text-white"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -756,8 +756,8 @@
                                     </div>
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeSatellitePhone(index)" type="button"
-                                                class="btn btn-danger w-100 mt-2 mt-lg-0">
-                                            <i class="fa-solid fa-trash-can"></i>
+                                                class="btn btn-danger w-100 mt-2 mt-lg-0 mt-md-0">
+                                            <i class="fa-solid fa-trash-can text-white"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -794,8 +794,8 @@
                                     </div>
                                     <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                         <button @click="removeRadioStation(index)" type="button"
-                                                class="btn btn-danger w-100 mt-2 mt-lg-0">
-                                            <i class="fa-solid fa-trash-can"></i>
+                                                class="btn btn-danger w-100 mt-2 mt-lg-0 mt-md-0">
+                                            <i class="fa-solid fa-trash-can text-white"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -838,8 +838,8 @@
                                 </div>
                                 <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                     <button @click="removeChargesBattery(index)" type="button"
-                                            class="btn btn-danger w-100 mt-2 mt-lg-0">
-                                        <i class="fa-solid fa-trash-can"></i>
+                                            class="btn btn-danger w-100 mt-2 mt-lg-0 mt-md-0">
+                                        <i class="fa-solid fa-trash-can text-white"></i>
                                     </button>
                                 </div>
                             </div>
@@ -878,8 +878,8 @@
                                 </div>
                                 <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                     <button @click="removeFirstAidEquipments(index)" type="button"
-                                            class="btn btn-danger w-100 mt-2 mt-lg-0">
-                                        <i class="fa-solid fa-trash-can"></i>
+                                            class="btn btn-danger w-100 mt-2 mt-lg-0 mt-md-0">
+                                        <i class="fa-solid fa-trash-can text-white"></i>
                                     </button>
                                 </div>
                             </div>
@@ -918,8 +918,8 @@
                                 </div>
                                 <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                     <button @click="removeMedicalProfessionals(index)" type="button"
-                                            class="btn btn-danger w-100 mt-2 mt-lg-0">
-                                        <i class="fa-solid fa-trash-can"></i>
+                                            class="btn btn-danger w-100 mt-2 mt-lg-0 mt-md-0">
+                                        <i class="fa-solid fa-trash-can text-white"></i>
                                     </button>
                                 </div>
                             </div>
@@ -969,8 +969,8 @@
                                 </div>
                                 <div class="col-md-2 col-12 d-flex justify-content-center align-items-center">
                                     <button @click="removeAdditionalInfo(index)" type="button"
-                                            class="btn btn-danger w-100 mt-2 mt-lg-0">
-                                        <i class="fa-solid fa-trash-can"></i>
+                                            class="btn btn-danger w-100 mt-2 mt-lg-0 mt-md-0">
+                                        <i class="fa-solid fa-trash-can text-white"></i>
                                     </button>
                                 </div>
                             </div>
