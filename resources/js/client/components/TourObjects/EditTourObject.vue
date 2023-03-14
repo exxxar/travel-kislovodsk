@@ -7,6 +7,10 @@
             </button>
             <h1 class="col-12 col-lg-auto bold fs-2 px-0 ms-lg-4">Добавление нового объекта</h1>
         </div>
+
+
+
+
         <form v-on:submit.prevent="submitTourObject"
               v-if="isCompletelyLoaded"
               id="addObjectForm">

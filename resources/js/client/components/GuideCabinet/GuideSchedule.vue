@@ -45,6 +45,7 @@
                                 </a>
                             </div>
                         </div>
+
                     </div>
 
                     <button v-if="canLoadMore" @click="loadMoreSchedule"

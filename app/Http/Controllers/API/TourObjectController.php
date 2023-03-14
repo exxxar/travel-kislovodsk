@@ -49,6 +49,17 @@ class TourObjectController extends Controller
         return new TourObjectCollection($tourObjects);
     }
 
+    public function loadGlobalTourObjects(Request $request)
+    {
+
+        $tourObjects = TourObject::query()
+            ->where("is_global_template", true)
+            ->orderBy("created_at", "DESC")
+            ->paginate($request->size ?? config('app.results_per_page'));
+
+        return new TourObjectCollection($tourObjects);
+    }
+
     public function loadGuideTourObjectsByPage(Request $request)
     {
 

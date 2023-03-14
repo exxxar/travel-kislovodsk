@@ -23,11 +23,10 @@
 
     </div>
 
-    <map-modal-dialog-component
+    <map-with-points-modal-dialog-component
         v-if="tours.length>0"
         id="map-main-modal"
-        :multiply="true"
-        :coords="coords"/>
+        :tours="tours"/>
 </template>
 <script>
 import TourCard from "@/components/Tours/TourCard.vue";
@@ -43,14 +42,6 @@ export default {
     },
     computed: {
         ...mapGetters(['getToursByCategoryId', 'getTourById', 'getTours']),
-        coords() {
-            let tmp = []
-            this.tours.forEach(item => {
-                tmp.push({lat: item.start_latitude, lon: item.start_longitude})
-            })
-
-            return tmp
-        }
     },
     mounted() {
         this.loadTours();

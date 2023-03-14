@@ -171,8 +171,9 @@ class TourController extends Controller
     {
 
         $filterObject = (object)[
-            'direction' => $request->direction ?? false,
-            'location' => $request->location ?? null,
+            //'direction' => $request->direction ?? false,
+            'location_from' => $request->location_from ?? null,
+            'location_to' => $request->location_to ?? null,
             'date' => $request->date ?? null,
             'tour_type' => $request->tour_type ?? null,
             'payment_types' => $request->payment_types ?? [],
@@ -221,6 +222,7 @@ class TourController extends Controller
      */
     public function store(TourStoreRequest $request)
     {
+
 
         //todo: категория туров, расписание, объект тура
 
@@ -290,17 +292,29 @@ class TourController extends Controller
             'creator_id' => $userId,
         ];
 
-
-        // dd(json_decode($request->dates));
-
         $tour = Tour::query()->create($data);
 
-        foreach (json_decode($request->dates) as $date)
-            Schedule::query()->create([
-                'tour_id' => $tour->id,
-                'guide_id' => $userId,
-                'start_at' => Carbon::parse($date)->format("Y-m-d H:m")
-            ]);
+        $is_regular = $request->is_regular ?? false;
+
+        if (!$is_regular) {
+            foreach (json_decode($request->dates) as $date)
+                Schedule::query()->create([
+                    'tour_id' => $tour->id,
+                    'guide_id' => $userId,
+                    'start_at' => Carbon::parse($date)->format("Y-m-d H:i")
+                ]);
+        } else {
+
+            $tmp_dates = $this->prepareDatesForRegularity($request->regularity);
+
+            foreach ($tmp_dates as $date)
+                Schedule::query()->create([
+                    'tour_id' => $tour->id,
+                    'guide_id' => $userId,
+                    'start_at' => Carbon::parse($date)->format("Y-m-d H:i")
+                ]);
+        }
+
 
         $tour->tourObjects()->attach(json_decode($request->tour_objects));
         $tour->tourCategories()->attach(json_decode($request->categories));
@@ -310,6 +324,43 @@ class TourController extends Controller
         return new TourResource($tour);
     }
 
+    private function prepareDatesForRegularity(string $jsonStringObject){
+        $regularity = json_decode($jsonStringObject);
+        $days = is_null($regularity->day)||empty($regularity->day) ? null : [$regularity->day];
+        $day_of_week = $regularity->day_of_week ?? null;
+        $months = is_null($regularity->month)||empty($regularity->month) ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] : [$regularity->month];
+        $years = is_null($regularity->year)||empty($regularity->year) ? [Carbon::now()->year, Carbon::now()->year + 1] : [$regularity->year];
+        $time = $regularity->time ?? "09:00";
+
+        $tmp_dates = [];
+
+        foreach ($years as $year)
+            foreach ($months as $month) {
+
+                if (is_null($days)) {
+                    $days = [];
+                    for($i=1; $i<=Carbon::now()->setMonth($month)->daysInMonth;$i++)
+                        array_push($days, $i);
+                }
+
+
+                foreach ($days as $day) {
+                    $tmpHour = explode(':', $time)[0] ?? "10";
+                    $tmpMinutes = explode(':', $time)[1] ?? "00";
+
+                    $tmpDate = Carbon::create($year, $month, $day, $tmpHour, $tmpMinutes);
+
+                    if (!is_null($day_of_week)) {
+                        if ($tmpDate->dayOfWeek == $day_of_week)
+                            array_push($tmp_dates, $tmpDate->format("Y-m-d H:i"));
+                    } else
+                        array_push($tmp_dates, $tmpDate->format("Y-m-d H:i"));
+                }
+            }
+
+        return $tmp_dates ?? [];
+
+    }
     public function getTourByGuide(Request $request, $guideId)
     {
 
@@ -482,14 +533,33 @@ class TourController extends Controller
             }
 
         $schedulesDates = Collection::make(json_decode($request->schedules))->pluck("start_at");
-        if (isset($request->dates))
-            foreach (json_decode($request->dates) as $date)
-                if (!in_array($date, $schedulesDates->toArray()))
-                    Schedule::query()->create([
-                        'tour_id' => $tour->id,
-                        'guide_id' => $userId,
-                        'start_at' => Carbon::parse($date)->format("Y-m-d H:m")
-                    ]);
+
+
+        $is_regular = $request->is_regular ?? false;
+
+
+        if (!$is_regular) {
+            if (isset($request->dates))
+                foreach (json_decode($request->dates) as $date)
+                    if (!in_array($date, $schedulesDates->toArray()))
+                        Schedule::query()->create([
+                            'tour_id' => $tour->id,
+                            'guide_id' => $userId,
+                            'start_at' => Carbon::parse($date)->format("Y-m-d H:i")
+                        ]);
+        } else {
+
+            $tmp_dates = $this->prepareDatesForRegularity($request->regularity);
+
+            foreach ($tmp_dates as $date)
+                Schedule::query()->create([
+                    'tour_id' => $tour->id,
+                    'guide_id' => $userId,
+                    'start_at' => Carbon::parse($date)->format("Y-m-d H:i")
+                ]);
+        }
+
+
 
         return new TourResource($tour);
     }
@@ -505,6 +575,34 @@ class TourController extends Controller
 
         return response()->noContent();
     }
+
+    public function removeAllTours(Request $request)
+    {
+        $userId = Auth::user()->id ?? null;
+
+        if (is_null($userId))
+            return response()->noContent(401);
+
+        $tours = Tour::query()->where("creator_id", $userId)
+            ->get();
+
+        foreach ($tours as $tour)
+            $tour->delete();
+
+        return response()->noContent();
+    }
+
+    public function duplicate(Request $request, $id)
+    {
+
+        $tour = Tour::query()->find($id);
+
+        $newTour = $tour->replicate();
+        $newTour->save();
+
+        return new TourResource($newTour);
+    }
+
 
     public function watch(Request $request, $tourId)
     {
@@ -591,8 +689,8 @@ class TourController extends Controller
             ->orderBy("start_at", "ASC")
             ->whereHas("schedule", function ($q) use ($userId) {
                 $q->whereBetween("start_at", [
-                        Carbon::now()->format('Y-m-d H:m:s'),
-                        Carbon::now()->addYear()->format('Y-m-d H:m:s')
+                        Carbon::now()->format('Y-m-d H:i:s'),
+                        Carbon::now()->addYear()->format('Y-m-d H:i:s')
                     ]
                 );
             })

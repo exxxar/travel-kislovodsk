@@ -53,12 +53,14 @@
         "vue-recaptcha-v3": "^2.0.1",
         "vue-simple-search-dropdown": "^1.0.1",
         "vue-star-rating": "^2.1.0",
+        "vue-step-wizard": "^0.1.17",
         "vue-the-mask": "^0.11.1",
         "vue-yandex-maps": "^1.0.4",
         "vue3-autocomplete": "^0.1.0",
         "vue3-lazyload": "^0.3.6",
         "vue3-simple-typeahead": "^1.0.11",
         "vue3-star-ratings": "^1.1.0",
+        "vue3-steppy": "^1.1.0",
         "vuex": "^4.1.0"
     }
 }

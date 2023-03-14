@@ -5,682 +5,986 @@
                     class="personal-account-nav__link_active button col-auto px-2rem active rounded shadow-none bold">
                 <span class="fs-6 me-1">&lt;</span>Назад
             </button>
-            <h1 class="col-12 col-lg-auto bold fs-2 ms-lg-3 mt-5 mt-lg-0 px-0">Добавление новой экскурсии</h1>
-            <h1 class="col-12 col-lg-auto bold fs-2 ms-lg-3 mt-5 mt-lg-0 px-0 hide">Редактирование экскурсии
-            </h1>
+            <h1 class="col-12 col-lg-auto bold fs-2 ms-lg-3 mt-5 mt-lg-0 px-0">Редактирование экскурсии</h1>
         </div>
 
         <form
             v-if="isCompletelyLoaded"
             v-on:submit.prevent="submitTour">
-            <h1 class="bold mb-3">Основные данные</h1>
-            <div class="mb-4 row mx-0">
+
+            <div class="accordion" id="editTourFormAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Основные данные
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                         data-bs-parent="#editTourFormAccordion">
+                        <div class="accordion-body">
+                            <div class="mb-4 row mx-0">
                     <span class="thin position-relative mb-2 col-12 px-0">название экскурсии
                        <i class="fa-regular fa-circle-question"></i>
                     </span>
-                <input type="text" name="add-exc-name"
-                       v-model="tour.title"
-                       class="col-12 px-2rem py-4 rounded border-0 font-size-09" required/>
-            </div>
-            <div class="mb-4 row mx-0">
+                                <input type="text" name="add-exc-name"
+                                       v-model="tour.title"
+                                       class="col-12 px-2rem py-4 rounded  font-size-09" required/>
+                            </div>
+
+                            <div class="mb-4 row mx-0">
                     <span class="thin position-relative mb-2 col-12 px-0">продающее короткое описание
                         <i class="fa-regular fa-circle-question"></i>
                     </span>
-                <textarea name="add-exc-description" cols="30" rows="3"
-                          v-model="tour.short_description"
-                          class="col-12 px-2rem py-4 rounded border-0 font-size-09" required></textarea>
-            </div>
-            <div class="mb-4 row mx-0">
+                                <textarea name="add-exc-description" cols="30" rows="3"
+                                          v-model="tour.short_description"
+                                          class="col-12 px-2rem py-4 rounded  font-size-09" required></textarea>
+                            </div>
+
+                            <div class="mb-4 row mx-0">
                     <span class="thin position-relative mb-1 col-12 px-0">выберите категории (не более 5)
                         <i class="fa-regular fa-circle-question"></i>
                     </span>
-                <div class="row row-cols-auto mx-0 px-0 d-lg-flex d-none gap-1" v-if="categories.length">
-                    <label :for="'category-tour'+category.id" class="align-items-center checkbox px-0 mx-0 mt-1"
-                           v-for="category in categories">
-                        <input type="checkbox" :id="'category-tour'+category.id"
-                               :value="category.id"
-                               v-model="tour.categories">
-                        <span class="semibold category bg-white px-4 py-3 rounded">{{ category.title }}</span>
-                    </label>
+                                <div class="row row-cols-auto mx-0 px-0 d-lg-flex d-none gap-1"
+                                     v-if="categories.length">
+                                    <label :for="'category-tour'+category.id"
+                                           class="align-items-center checkbox px-0 mx-0 mt-1"
+                                           v-for="category in categories">
+                                        <input type="checkbox" :id="'category-tour'+category.id"
+                                               :value="category.id"
+                                               v-model="tour.categories">
+                                        <span class="semibold category bg-white px-4 py-3 rounded">{{
+                                                category.title
+                                            }}</span>
+                                    </label>
 
+                                </div>
+
+                            </div>
+
+                            <div class="mb-4 row mx-0 justify-content-between">
+                                <div class="col-12 col-lg-8 row mx-0 px-0 ps-lg-3">
+                        <span class="thin position-relative mb-2 col-12 px-0">длительность экскурсии
+                            <i class="fa-regular fa-circle-question"></i>
+                        </span>
+                                    <div
+                                        class="dropdown  dropdown-border col-12 position-relative mx-0 px-0 bg-white pe-2rem rounded ">
+                                        <button type="button"
+                                                class="big-button col-11 ps-2rem dropdown-toggle text-start font-size-09 w-100"
+                                                data-bs-toggle="dropdown">
+                                            {{ getDurationById(tour.duration_type_id).title || 'Не выбрано' }}
+                                        </button>
+                                        <ul
+                                            class="dropdown-menu col-12 flex-grow-1  px-2rem pb-3 pt-0 rounded font-size-09">
+                                            <li v-for="item in durations"
+                                                @click="tour.duration_type_id = item.id"><a
+                                                class="dropdown-item w-100 mt-3 p-0 font-size-09"> {{ item.title }} </a>
+                                            </li>
+
+                                        </ul>
+                                        <svg class="h-100 expand-icon" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 48 48"
+                                             height="20" width="20">
+                                            <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-4 row mx-0 px-0 ps-lg-3">
+                        <span class="thin position-relative mb-2 col-12 px-0">длительность экскурсии текстом
+                            <i class="fa-regular fa-circle-question"></i>
+                        </span>
+
+                                    <input type="text" name="add-exc-name"
+                                           v-model="tour.duration"
+                                           placeholder="12 ч."
+                                           class="col-12 px-2rem py-4 rounded  font-size-09" required/>
+                                </div>
+                            </div>
+
+                            <div class="mb-4 row mx-0 justify-content-between">
+                                <div class="col-12 col-lg row mb-4 mb-lg-0 mx-0 px-0 pe-lg-3">
+                        <span class="thin position-relative mb-2 col-12 px-0">тип экскурсии
+                            <i class="fa-regular fa-circle-question"></i>
+                        </span>
+                                    <div class="dropdown  dropdown-border col-12 position-relative bg-white rounded"
+                                         v-if="tour_types.length>0">
+                                        <button type="button"
+                                                class="big-button col-11 ps-2rem dropdown-toggle text-start font-size-09"
+                                                data-bs-toggle="dropdown"> {{
+                                                getTourTypeById(tour.tour_type_id).title || 'Не выбрано'
+                                            }}
+                                        </button>
+                                        <ul
+                                            class="dropdown-menu col-12 flex-grow-1  px-2rem pb-3 pt-0 rounded font-size-09">
+
+                                            <li
+                                                @click="tour.tour_type_id=item.id"
+                                                v-for="item in tour_types"><a
+                                                class="dropdown-item w-100 mt-3 p-0 font-size-09">
+                                                {{ item.title }} </a>
+                                            </li>
+
+                                        </ul>
+                                        <svg class="h-100 expand-icon" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 48 48"
+                                             height="20" width="20">
+                                            <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg row mx-0 px-0 ps-lg-3 mt-2">
+                        <span class="thin position-relative mb-2 col-12 px-0">передвижение
+                            <i class="fa-regular fa-circle-question"></i>
+                        </span>
+                                    <div class="dropdown  dropdown-border col-12 position-relative bg-white rounded">
+                                        <button type="button"
+                                                class="big-button col-11 ps-2rem dropdown-toggle text-start font-size-09"
+                                                data-bs-toggle="dropdown">
+                                            {{ getMovementTypeById(tour.movement_type_id).title || 'Не выбрано' }}
+                                        </button>
+                                        <ul
+                                            class="dropdown-menu col-12 flex-grow-1  px-2rem pb-3 pt-0 rounded font-size-09">
+                                            <li
+                                                @click="tour.movement_type_id=item.id"
+                                                v-for="item in movements"><a
+                                                class="dropdown-item w-100 mt-3 p-0 font-size-09">
+                                                {{ item.title }} </a>
+                                            </li>
+
+                                        </ul>
+                                        <svg class="h-100 expand-icon" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 48 48"
+                                             height="20" width="20">
+                                            <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <div
+                                    v-if="getSelectedTourType().slug==='group_tour_type'"
+                                    class="col-12 row mx-0 px-0">
+                                    <div class="col-6 d-flex flex-column">
+  <span class="thin position-relative mb-2 col-12 px-0">Минимальный размер группы
+                            <i class="fa-regular fa-circle-question"></i>
+                        </span>
+
+                                        <input type="number"
+                                               min="0"
+                                               max="100"
+
+                                               v-model="tour.min_group_size"
+                                               class="form-control w-100">
+                                    </div>
+                                    <div class="col-6 d-flex flex-column">
+  <span class="thin position-relative mb-2 col-12 px-0">Максимальный размер группы
+                            <i class="fa-regular fa-circle-question"></i>
+                        </span>
+
+                                        <input type="number" name="add-exc-included-input"
+                                               v-model="tour.max_group_size"
+
+                                               min="0"
+                                               max="100"
+                                               class="form-control w-100">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4 row mx-0">
+                    <span class="thin position-relative mb-2 col-12 px-0">описание
+                        <i class="fa-regular fa-circle-question"></i>
+                    </span>
+                                <textarea name="add-exc-description" cols="30" rows="15"
+                                          v-model="tour.description"
+                                          class="col-12 px-2rem py-4 rounded  font-size-09" required></textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-            </div>
-            <div class="mb-4 row mx-0">
-                <div class="col-12 col-lg-12 px-0">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Фотографии к туру
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                         data-bs-parent="#editTourFormAccordion">
+                        <div class="accordion-body">
+                            <div class="mb-4 row mx-0">
+                                <div class="col-12 col-lg-12 px-0">
                         <span class="thin position-relative mb-2 col-auto px-0">добавить титульное фото
                             <i class="fa-regular fa-circle-question"></i>
                         </span>
-                    <div class="col-12 col-lg-auto mt-1 mx-0 d-flex">
-                        <label for="preview_photo"
-                               style="margin-right: 10px;"
-                               class="photo-loader" v-if="preview_photo===null">
-                            <i class="fa-solid fa-plus"></i>
-                            <input type="file" id="preview_photo" accept="image/*" @change="onChangePreview"
-                                   style="display:none;"/>
-                        </label>
+                                    <div class="col-12 col-lg-auto mt-1 mx-0 d-flex">
+                                        <label for="preview_photo"
+                                               style="margin-right: 10px;"
+                                               class="photo-loader" v-if="preview_photo===null">
+                                            <i class="fa-solid fa-plus"></i>
+                                            <input type="file" id="preview_photo" accept="image/*"
+                                                   @change="onChangePreview"
+                                                   style="display:none;"/>
+                                        </label>
 
-                        <div class="photo-preview d-flex flex-column align-items-center justify-content-center"
-                             v-if="preview_photo!==null">
-                            <img v-lazy="preparePreviewImage" alt="">
-                            <a class="btn btn-link" @click="preview_photo = null">Сбросить</a>
-                        </div>
+                                        <div
+                                            class="photo-preview d-flex flex-column align-items-center justify-content-center"
+                                            v-if="preview_photo!==null">
+                                            <img v-lazy="preparePreviewImage" alt="">
+                                            <a class="btn btn-link" @click="preview_photo = null">Сбросить</a>
+                                        </div>
 
-                        <div class="photo-preview d-flex flex-column align-items-center justify-content-center"
-                             v-if="tour.preview_image!==null">
-                            <img v-lazy="tour.preview_image" alt="">
-                            <a class="btn btn-link" @click="tour.preview_image = null">Сбросить</a>
-                        </div>
+                                        <div
+                                            class="photo-preview d-flex flex-column align-items-center justify-content-center"
+                                            v-if="tour.preview_image!==null">
+                                            <img v-lazy="tour.preview_image" alt="">
+                                            <a class="btn btn-link" @click="tour.preview_image = null">Сбросить</a>
+                                        </div>
 
-                    </div>
-                </div>
-                <div class="col-12 col-lg-12 mt-4 px-0">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-12 mt-4 px-0">
                         <span class="thin position-relative mb-2 col-auto px-0">добавьте фото (минимум 5)
                             <i class="fa-regular fa-circle-question"></i>
                         </span>
 
 
-                    <a style="margin-left:10px;"
-                       v-if="photos.length>0"
-                       @click="resetImages"
-                       class="btn btn-link thin position-relative mb-2 col-auto px-0">Сбросить
-                        <i class="fa-solid fa-trash-can"></i>
-                    </a>
+                                    <a style="margin-left:10px;"
+                                       v-if="photos.length>0"
+                                       @click="resetImages"
+                                       class="btn btn-link thin position-relative mb-2 col-auto px-0">Сбросить
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
 
-                    <div class="col-auto mt-1 d-flex">
+                                    <div class="col-auto mt-1 d-flex">
 
 
-                        <div class="photo-preview d-flex justify-content-start flex-wrap w-100">
-                            <label for="photos"
-                                   style="margin-right: 10px;"
-                                   class="photo-loader ml-2">
-                                <i class="fa-solid fa-plus"></i>
-                                <input type="file" id="photos" multiple accept="image/*" @change="onChangePhotos"
-                                       style="display:none;"/>
+                                        <div class="photo-preview d-flex justify-content-start flex-wrap w-100">
+                                            <label for="photos"
+                                                   style="margin-right: 10px;"
+                                                   class="photo-loader ml-2">
+                                                <i class="fa-solid fa-plus"></i>
+                                                <input type="file" id="photos" multiple accept="image/*"
+                                                       @change="onChangePhotos"
+                                                       style="display:none;"/>
 
-                            </label>
-                            <div class="mb-2" style="margin-right: 10px;" v-for="(img, index) in items" v-if="items.length>0">
-                                <img v-lazy="img.imageUrl">
+                                            </label>
+                                            <div class="mb-2" style="margin-right: 10px;" v-for="(img, index) in items"
+                                                 v-if="items.length>0">
+                                                <img v-lazy="img.imageUrl">
+                                            </div>
+                                            <div class="mb-2 img-container" style="margin-right: 10px;"
+                                                 v-for="(img, index) in tour.images"
+                                                 v-if="tour.images.length>0">
+                                                <img v-lazy="img">
+
+                                                <div class="control-container">
+                                                    <a @click="removeFile(index)">Удалить с сервера</a>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mb-2 img-container" style="margin-right: 10px;" v-for="(img, index) in tour.images"
-                                 v-if="tour.images.length>0">
-                                <img v-lazy="img">
+                        </div>
+                    </div>
+                </div>
 
-                                <div class="control-container">
-                                    <a @click="removeFile(index)">Удалить с сервера</a>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Старовая локация
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                         data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="mb-4 row mx-0 justify-content-between">
+                                <div class="col-12 col-lg-12 row mx-0 px-0 ps-lg-3">
+                                    <input type="checkbox"
+                                           v-model="tour.comfort_loading"
+                                           id="add-exc-description-mark">
+                                    <label for="add-exc-description-mark"
+                                           class="align-items-center col-12 col-md-auto checkbox position-relative row mx-0 px-0">
+                                        <div
+                                            class="col-auto custom-checkbox rounded bg-white d-flex align-items-center justify-content-center">
+                                            <div class="col-auto custom-checkbox dot">
+                                            </div>
+                                        </div>
+                                        <span class="col-auto thin ms-1">Забираем сами с адреса</span>
+                                    </label>
                                 </div>
 
                             </div>
 
-                        </div>
+                            <div class="mb-4 row mx-0 justify-content-between" v-if="!tour.comfort_loading">
 
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-4 row mx-0 justify-content-between">
-                <div class="col-12 col-lg-12 row mx-0 px-0 ps-lg-3">
-                    <input type="checkbox"
-                           v-model="tour.comfort_loading"
-                           id="add-exc-description-mark">
-                    <label for="add-exc-description-mark"
-                           class="align-items-center col-12 col-md-auto checkbox position-relative row mx-0 px-0">
-                        <div
-                            class="col-auto custom-checkbox rounded bg-white d-flex align-items-center justify-content-center">
-                            <div class="col-auto custom-checkbox dot">
-                            </div>
-                        </div>
-                        <span class="col-auto thin ms-1">Забираем сами с адреса</span>
-                    </label>
-                </div>
-
-            </div>
-
-            <div class="mb-4 row mx-0 justify-content-between" v-if="!tour.comfort_loading">
-                <div class="col-12 col-lg-8 row mx-0 px-0 ps-lg-3">
-                        <span class="thin position-relative mb-2 col-12 px-0">длительность экскурсии
-                            <i class="fa-regular fa-circle-question"></i>
-                        </span>
-                    <div class="dropdown col-12 position-relative mx-0 px-0 bg-white pe-2rem rounded ">
-                        <button type="button"
-                                class="big-button col-11 ps-2rem dropdown-toggle text-start font-size-09 w-100"
-                                data-bs-toggle="dropdown">
-                            {{ getDurationById(tour.duration_type_id).title || 'Не выбрано' }}
-                        </button>
-                        <ul
-                            class="dropdown-menu col-12 flex-grow-1 border-0 px-2rem pb-3 pt-0 rounded font-size-09">
-                            <li v-for="item in durations"
-                                @click="tour.duration_type_id = item.id"><a
-                                class="dropdown-item w-100 mt-3 p-0 font-size-09"> {{ item.title }} </a>
-                            </li>
-
-                        </ul>
-                        <svg class="h-100 expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
-                             height="20" width="20">
-                            <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
-                        </svg>
-                    </div>
-                </div>
-
-                <div class="col-12 col-lg-4 row mx-0 px-0 ps-lg-3">
-                        <span class="thin position-relative mb-2 col-12 px-0">длительность экскурсии текстом
-                            <i class="fa-regular fa-circle-question"></i>
-                        </span>
-
-                    <input type="text" name="add-exc-name"
-                           v-model="tour.duration"
-                           placeholder="12 ч."
-                           class="col-12 px-2rem py-4 rounded border-0 font-size-09" required/>
-                </div>
-                <div class="col-12 col-lg-8 row mx-0 px-0 ps-lg-3">
+                                <div class="col-12 col-lg-8 row mx-0 px-0 ps-lg-3">
                         <span class="thin position-relative mb-2 col-12 px-0">город отправления
                             <i class="fa-regular fa-circle-question"></i>
                         </span>
-                    <div class="col-12 position-relative mx-0 px-0  rounded">
-                        <input type="text" name="add-exc-name"
-                               v-model="tour.start_city"
-                               placeholder="г. Ставраполь"
-                               class="col-12 px-2rem py-4 rounded border-0 font-size-09" required/>
-                        <svg class="h-100 expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
-                             height="20" width="20">
-                            <path
-                                d="M24 23.65q1.5 0 2.575-1.075Q27.65 21.5 27.65 20q0-1.5-1.075-2.575Q25.5 16.35 24 16.35q-1.5 0-2.575 1.075Q20.35 18.5 20.35 20q0 1.5 1.075 2.575Q22.5 23.65 24 23.65Zm0 15.75q6.4-5.85 9.45-10.625Q36.5 24 36.5 20.4q0-5.7-3.625-9.3Q29.25 7.5 24 7.5t-8.875 3.6Q11.5 14.7 11.5 20.4q0 3.6 3.125 8.35T24 39.4Zm0 5.2q-8.3-7.05-12.4-13.075Q7.5 25.5 7.5 20.4q0-7.7 4.975-12.3Q17.45 3.5 24 3.5q6.55 0 11.525 4.6Q40.5 12.7 40.5 20.4q0 5.1-4.1 11.125T24 44.6Zm0-24.2Z"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-4 row mx-0 px-0 ps-lg-3">
+                                    <div class="col-12 position-relative mx-0 px-0  rounded">
+                                        <input type="text" name="add-exc-name"
+                                               v-model="tour.start_city"
+                                               placeholder="г. Ставраполь"
+                                               class="col-12 px-2rem py-4 rounded  font-size-09" required/>
+                                        <svg class="h-100 expand-icon" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 48 48"
+                                             height="20" width="20">
+                                            <path
+                                                d="M24 23.65q1.5 0 2.575-1.075Q27.65 21.5 27.65 20q0-1.5-1.075-2.575Q25.5 16.35 24 16.35q-1.5 0-2.575 1.075Q20.35 18.5 20.35 20q0 1.5 1.075 2.575Q22.5 23.65 24 23.65Zm0 15.75q6.4-5.85 9.45-10.625Q36.5 24 36.5 20.4q0-5.7-3.625-9.3Q29.25 7.5 24 7.5t-8.875 3.6Q11.5 14.7 11.5 20.4q0 3.6 3.125 8.35T24 39.4Zm0 5.2q-8.3-7.05-12.4-13.075Q7.5 25.5 7.5 20.4q0-7.7 4.975-12.3Q17.45 3.5 24 3.5q6.55 0 11.525 4.6Q40.5 12.7 40.5 20.4q0 5.1-4.1 11.125T24 44.6Zm0-24.2Z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-4 row mx-0 px-0 ps-lg-3">
                         <span class="thin position-relative mb-2 col-12 px-0">Адрес отправления
                             <i class="fa-regular fa-circle-question"></i>
                         </span>
-                    <div class="col-12 position-relative mx-0 px-0  rounded">
-                        <input type="text" name="add-exc-name"
-                               v-model="tour.start_address"
-                               placeholder="ул. Ленина, 24"
-                               class="col-12 px-2rem py-4 rounded border-0 font-size-09" required/>
-                        <svg class="h-100 expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
-                             height="20" width="20">
-                            <path
-                                d="M24 23.65q1.5 0 2.575-1.075Q27.65 21.5 27.65 20q0-1.5-1.075-2.575Q25.5 16.35 24 16.35q-1.5 0-2.575 1.075Q20.35 18.5 20.35 20q0 1.5 1.075 2.575Q22.5 23.65 24 23.65Zm0 15.75q6.4-5.85 9.45-10.625Q36.5 24 36.5 20.4q0-5.7-3.625-9.3Q29.25 7.5 24 7.5t-8.875 3.6Q11.5 14.7 11.5 20.4q0 3.6 3.125 8.35T24 39.4Zm0 5.2q-8.3-7.05-12.4-13.075Q7.5 25.5 7.5 20.4q0-7.7 4.975-12.3Q17.45 3.5 24 3.5q6.55 0 11.525 4.6Q40.5 12.7 40.5 20.4q0 5.1-4.1 11.125T24 44.6Zm0-24.2Z"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-8 row mx-0 px-0 ps-lg-3">
+                                    <div class="col-12 position-relative mx-0 px-0  rounded">
+                                        <input type="text" name="add-exc-name"
+                                               v-model="tour.start_address"
+                                               placeholder="ул. Ленина, 24"
+                                               class="col-12 px-2rem py-4 rounded  font-size-09" required/>
+                                        <svg class="h-100 expand-icon" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 48 48"
+                                             height="20" width="20">
+                                            <path
+                                                d="M24 23.65q1.5 0 2.575-1.075Q27.65 21.5 27.65 20q0-1.5-1.075-2.575Q25.5 16.35 24 16.35q-1.5 0-2.575 1.075Q20.35 18.5 20.35 20q0 1.5 1.075 2.575Q22.5 23.65 24 23.65Zm0 15.75q6.4-5.85 9.45-10.625Q36.5 24 36.5 20.4q0-5.7-3.625-9.3Q29.25 7.5 24 7.5t-8.875 3.6Q11.5 14.7 11.5 20.4q0 3.6 3.125 8.35T24 39.4Zm0 5.2q-8.3-7.05-12.4-13.075Q7.5 25.5 7.5 20.4q0-7.7 4.975-12.3Q17.45 3.5 24 3.5q6.55 0 11.525 4.6Q40.5 12.7 40.5 20.4q0 5.1-4.1 11.125T24 44.6Zm0-24.2Z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-8 row mx-0 px-0 ps-lg-3">
                         <span class="thin position-relative mb-2 col-12 px-0">
                             Текущие координаты
                             <small>{{ tour.start_latitude }}</small>, <small>{{ tour.start_longitude }}</small>
                             <i class="fa-regular fa-circle-question"></i>
                         </span>
-                    <div class="col-12 position-relative mx-0 px-0  rounded">
-                        <a class="btn btn-link" data-bs-toggle="modal" data-bs-target="#map-select-start-coords">Укажите
-                            координаты на карте</a>
-                    </div>
+                                    <div class="col-12 position-relative mx-0 px-0  rounded">
+                                        <a class="btn btn-link" data-bs-toggle="modal"
+                                           data-bs-target="#map-select-start-coords">Укажите
+                                            координаты на карте</a>
+                                    </div>
 
-                    <selected-map-modal-dialog-component id="map-select-start-coords"
-                                                         v-on:coords="selectCoords"/>
+                                    <selected-map-modal-dialog-component id="map-select-start-coords"
+                                                                         v-on:coords="selectCoords"/>
 
-                </div>
-            </div>
+                                </div>
+                            </div>
 
-            <div class="mb-4 row mx-0">
+                            <div class="mb-4 row mx-0">
                     <span class="thin position-relative mb-2 col-12 px-0">Пояснение к стартовой локации
                         <i class="fa-regular fa-circle-question"></i>
                     </span>
-                <textarea name="add-exc-description" cols="30" rows="15"
-                          v-model="tour.start_comment"
-                          class="col-12 px-2rem py-4 rounded border-0 font-size-09"></textarea>
-            </div>
+                                <textarea name="add-exc-description" cols="30" rows="15"
+                                          v-model="tour.start_comment"
+                                          class="col-12 px-2rem py-4 rounded  font-size-09"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="mb-4 row mx-0 justify-content-between">
-                <div class="col-12 col-lg row mb-4 mb-lg-0 mx-0 px-0 pe-lg-3">
-                        <span class="thin position-relative mb-2 col-12 px-0">тип экскурсии
-                            <i class="fa-regular fa-circle-question"></i>
-                        </span>
-                    <div class="dropdown col-12 position-relative bg-white rounded"
-                         v-if="tour_types.length>0">
-                        <button type="button"
-                                class="big-button col-11 ps-2rem dropdown-toggle text-start font-size-09"
-                                data-bs-toggle="dropdown"> {{
-                                getTourTypeById(tour.tour_type_id).title || 'Не выбрано'
-                            }}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseFour" aria-expanded="false"
+                                aria-controls="collapseFour">
+                            Маршрут
                         </button>
-                        <ul
-                            class="dropdown-menu col-12 flex-grow-1 border-0 px-2rem pb-3 pt-0 rounded font-size-09">
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                         data-bs-parent="#editTourFormAccordion">
+                        <div class="accordion-body">
+                            <div class="mb-5 row mx-0">
+                                <div class="col-12 mx-0 px-0 mt-1 mb-1"
+                                     v-if="tour.tour_objects.length>0"
+                                     v-for="(item, index) in tour.tour_objects">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h3>Точка маршрута № {{ index + 1 }}</h3>
+                                            <div class="row tour-object-list-item">
+                                                <div class="col-md-10">
+                                                    <div class="row">
+                                                        <div class="col-2" v-for="img in item.photos">
+                                                            <img v-lazy="img" class="w-100" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
 
-                            <li
-                                @click="tour.tour_type_id=item.id"
-                                v-for="item in tour_types"><a class="dropdown-item w-100 mt-3 p-0 font-size-09">
-                                {{ item.title }} </a>
-                            </li>
-
-                        </ul>
-                        <svg class="h-100 expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
-                             height="20" width="20">
-                            <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="col-12 col-lg row mx-0 px-0 ps-lg-3 mt-2">
-                        <span class="thin position-relative mb-2 col-12 px-0">передвижение
-                            <i class="fa-regular fa-circle-question"></i>
-                        </span>
-                    <div class="dropdown col-12 position-relative bg-white rounded">
-                        <button type="button"
-                                class="big-button col-11 ps-2rem dropdown-toggle text-start font-size-09"
-                                data-bs-toggle="dropdown">
-                            {{ getMovementTypeById(tour.movement_type_id).title || 'Не выбрано' }}
-                        </button>
-                        <ul
-                            class="dropdown-menu col-12 flex-grow-1 border-0 px-2rem pb-3 pt-0 rounded font-size-09">
-                            <li
-                                @click="tour.movement_type_id=item.id"
-                                v-for="item in movements"><a class="dropdown-item w-100 mt-3 p-0 font-size-09">
-                                {{ item.title }} </a>
-                            </li>
-
-                        </ul>
-                        <svg class="h-100 expand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
-                             height="20" width="20">
-                            <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
-                        </svg>
-                    </div>
-                </div>
-
-                <div
-                    v-if="getSelectedTourType().slug==='group_tour_type'"
-                    class="col-12 row mx-0 px-0">
-                    <div class="col-6 d-flex flex-column">
-  <span class="thin position-relative mb-2 col-12 px-0">Минимальный размер группы
-                            <i class="fa-regular fa-circle-question"></i>
-                        </span>
-
-                        <input type="number"
-                               min="0"
-                               max="100"
-
-                               v-model="tour.min_group_size"
-                               class="form-control w-100">
-                    </div>
-                    <div class="col-6 d-flex flex-column">
-  <span class="thin position-relative mb-2 col-12 px-0">Максимальный размер группы
-                            <i class="fa-regular fa-circle-question"></i>
-                        </span>
-
-                        <input type="number" name="add-exc-included-input"
-                               v-model="tour.max_group_size"
-
-                               min="0"
-                               max="100"
-                               class="form-control w-100">
-                    </div>
-                </div>
-            </div>
-            <div class="mb-4 row mx-0">
-                    <span class="thin position-relative mb-2 col-12 px-0">описание
-                        <i class="fa-regular fa-circle-question"></i>
-                    </span>
-                <textarea name="add-exc-description" cols="30" rows="15"
-                          v-model="tour.description"
-                          class="col-12 px-2rem py-4 rounded border-0 font-size-09" required></textarea>
-            </div>
-
-            <h1 class="bold">Маршрут <a
-                class="btn btn-link"
-                @click="openAddTourObjectWindow">Добавить новый туристический объект</a>
-            </h1>
-
-
-            <div class="mb-5 row mx-0">
-                <div class="col-12 mx-0 px-0 mt-1 mb-1"
-                     v-if="tour.tour_objects.length>0"
-                     v-for="(item, index) in tour.tour_objects">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3>Точка маршрута № {{ index + 1 }}</h3>
-                            <div class="row tour-object-list-item">
-                                <div class="col-md-10">
-                                    <div class="row">
-                                        <div class="col-2" v-for="img in item.photos">
-                                            <img v-lazy="img" class="w-100" alt="">
+                                                        <div class="col-11 d-flex flex-wrap">
+                                                            <h2 class="w-100">{{ item.title }}</h2>
+                                                            <p class="w-100">{{ item.city }}
+                                                                {{ item.address }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 d-flex align-items-start justify-content-center">
+                                                    <a @click="removeTourObject(index)"
+                                                       class="btn btn-danger">
+                                                        <i class="fa-solid fa-trash-can"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row">
 
-                                        <div class="col-11 d-flex flex-wrap">
-                                            <h2 class="w-100">{{ item.title }}</h2>
-                                            <p class="w-100">{{ item.city }}
-                                                {{ item.address }}</p>
-                                        </div>
+                                </div>
+
+                                <div class="col-12 mx-0 px-0 mt-1 mb-1" v-else>
+                                    <h3> На текущий момент вы не выбрали ни одного туристического объекта</h3>
+                                </div>
+
+                                <div class="col-12 mx-0 px-0 mt-3 mb-3">
+                                    <div class="dropdown  dropdown-border w-100">
+                                        <button class="btn btn-primary p-3 w-100 dropdown-toggle" type="button"
+                                                id="dropdownMenuButton1"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                            Выбор туристического объекта
+                                        </button>
+                                        <ul style="overflow-y: scroll; height: 360px;"
+                                            class="dropdown-menu tour-object-list-item"
+                                            aria-labelledby="dropdownMenuButton1">
+                                            <li @click="addTourObject(item)"
+                                                v-for="item in filteredTourObjects">
+
+                                                <div class="dropdown-item">
+
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-2" v-for="img in item.photos">
+                                                                    <img v-lazy="img" class="w-100" alt="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+
+                                                                <div class="col-11 d-flex flex-wrap">
+                                                                    <h2 class="w-100">{{ item.title }}</h2>
+                                                                    <p class="w-100">{{ item.city }} {{
+                                                                            item.address
+                                                                        }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                                <div class="col-md-2 d-flex align-items-start justify-content-center">
-                                    <a @click="removeTourObject(index)"
-                                       class="btn btn-danger">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </a>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseFive" aria-expanded="false"
+                                aria-controls="collapseFive">
+                            Сервисы
+                        </button>
+                    </h2>
+                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
+                         data-bs-parent="#editTourFormAccordion">
+                        <div class="accordion-body">
+                            <div class="row mb-5">
+                                <div name="add-exc-included" class="col-12 col-lg mb-5 mb-lg-0">
+                                    <h1 class="bold mb-3">Что входит в стоимость</h1>
+                                    <div class="row mx-0 pe-2 rounded bg-white align-items-center">
+                                        <input type="text" name="add-exc-included-input"
+                                               v-model="include_service"
+                                               class="col px-2rem rounded  font-size-09 flex-grow-1">
+                                        <button
+                                            @click="addIncludeService"
+                                            type="button"
+                                            class="button col-auto bold bg-blue px-lg-4 rounded">
+                                            <span class="hide visible-lg bold white">Добавить</span>
+                                            <i class="fa-solid fa-plus bold white"></i>
+                                        </button>
+                                    </div>
+                                    <div class="">
+                                        <div v-for="(item, index) in tour.include_services"
+                                             class="row mx-0 rounded px-2rem py-3 mt-2 bg-white bg-opacity-50">
+                                            <span class="col px-0 font-size-09 lh-sm">{{ item }}</span>
+                                            <button
+                                                type="button"
+                                                @click="removeIncludeServices(index)"
+                                                class="col-auto ms-auto px-0">
+                                                <span class="position-relative red red-underline lh-sm">Удалить</span>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div name="add-exc-excluded" class="col-12 col-lg">
+                                    <h1 class="bold mb-3">Что не входит в стоимость</h1>
+                                    <div class="row mx-0 pe-2 rounded bg-white align-items-center">
+                                        <input type="text" name="add-exc-excluded-input"
+                                               v-model="exclude_service"
+                                               class="col px-2rem rounded  font-size-09 flex-grow-1">
+                                        <button
+                                            @click="addExcludeService"
+                                            type="button"
+                                            class="button col-auto bold bg-blue px-lg-4 rounded">
+                                            <span class="hide visible-lg bold white">Добавить</span>
+                                            <i class="fa-solid fa-plus bold white"></i>
+                                        </button>
+                                    </div>
+                                    <div class="">
+                                        <div v-for="(item, index) in tour.exclude_services"
+                                             class="row mx-0 rounded px-2rem py-3 mt-2 bg-white bg-opacity-50">
+                                            <span class="col px-0 font-size-09 lh-sm">{{ item }}</span>
+                                            <button
+                                                type="button"
+                                                @click="removeExcludeServices(index)"
+                                                class="col-auto ms-auto px-0">
+                                                <span class="position-relative red red-underline lh-sm">Удалить</span>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSix">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseSix" aria-expanded="false"
+                                aria-controls="collapseSix">
+                            Цена для карточки
+                        </button>
+                    </h2>
+                    <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
+                         data-bs-parent="#editTourFormAccordion">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div class="col-6">
+                     <span class="thin position-relative mb-2 col-12 px-0">Конечная цена билета,руб.
+                            <i class="fa-regular fa-circle-question"></i>
+                        </span>
+                                    <div class="col mx-0 px-0 pe-2rem rounded bg-white d-flex align-items-center">
+                                        <input type="text" name="add-exc-last-price"
+                                               v-model="tour.base_price"
+                                               class="w-100 d-flex flex-grow-1 ps-2rem pe-2 py-3 rounded  font-size-09 semibold">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                     <span class="thin position-relative mb-2 col-12 px-0">Цена до скидки,руб.
+                            <i class="fa-regular fa-circle-question"></i>
+                        </span>
+                                    <div class="col mx-0 px-0 pe-2rem rounded bg-white d-flex align-items-center">
+                                        <input type="text" name="add-exc-last-price"
+                                               v-model="tour.discount_price"
+                                               class="w-100 d-flex flex-grow-1 ps-2rem pe-2 py-3 rounded  font-size-09 semibold">
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
-                <div class="col-12 mx-0 px-0 mt-1 mb-1" v-else>
-                    <h3> На текущий момент вы не выбрали ни одного туристического объекта</h3>
-                </div>
-
-                <div class="col-12 mx-0 px-0 mt-3 mb-3">
-                    <div class="dropdown w-100">
-                        <button class="btn btn-primary p-3 w-100 dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                            Выбор туристического объекта
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingSeven">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseSeven" aria-expanded="false"
+                                aria-controls="collapseSeven">
+                            Цена для расчета
                         </button>
-                        <ul style="overflow-y: scroll; height: 360px;"
-                            class="dropdown-menu tour-object-list-item" aria-labelledby="dropdownMenuButton1">
-                            <li @click="addTourObject(item)"
-                                v-for="item in filteredTourObjects">
-
-                                <div class="dropdown-item">
-
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-2" v-for="img in item.photos">
-                                                    <img v-lazy="img" class="w-100" alt="">
-                                                </div>
-                                            </div>
-                                            <div class="row">
-
-                                                <div class="col-11 d-flex flex-wrap">
-                                                    <h2 class="w-100">{{ item.title }}</h2>
-                                                    <p class="w-100">{{ item.city }} {{ item.address }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-
-            </div>
-
-            <div class="row mb-5">
-                <div name="add-exc-included" class="col-12 col-lg mb-5 mb-lg-0">
-                    <h1 class="bold mb-3">Что входит в стоимость</h1>
-                    <div class="row mx-0 pe-2 rounded bg-white align-items-center">
-                        <input type="text" name="add-exc-included-input"
-                               v-model="include_service"
-                               class="col px-2rem rounded border-0 font-size-09 flex-grow-1">
-                        <button
-                            @click="addIncludeService"
-                            type="button"
-                            class="button col-auto bold bg-blue px-lg-4 rounded">
-                            <span class="hide visible-lg bold white">Добавить</span>
-                            <i class="fa-solid fa-plus bold white"></i>
-                        </button>
-                    </div>
-                    <div class="">
-                        <div v-for="(item, index) in tour.include_services"
-                             class="row mx-0 rounded px-2rem py-3 mt-2 bg-white bg-opacity-50">
-                            <span class="col px-0 font-size-09 lh-sm">{{ item }}</span>
-                            <button
-                                type="button"
-                                @click="removeIncludeServices(index)"
-                                class="col-auto ms-auto px-0">
-                                <span class="position-relative red red-underline lh-sm">Удалить</span>
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-                <div name="add-exc-excluded" class="col-12 col-lg">
-                    <h1 class="bold mb-3">Что не входит в стоимость</h1>
-                    <div class="row mx-0 pe-2 rounded bg-white align-items-center">
-                        <input type="text" name="add-exc-excluded-input"
-                               v-model="exclude_service"
-                               class="col px-2rem rounded border-0 font-size-09 flex-grow-1">
-                        <button
-                            @click="addExcludeService"
-                            type="button"
-                            class="button col-auto bold bg-blue px-lg-4 rounded">
-                            <span class="hide visible-lg bold white">Добавить</span>
-                            <i class="fa-solid fa-plus bold white"></i>
-                        </button>
-                    </div>
-                    <div class="">
-                        <div v-for="(item, index) in tour.exclude_services"
-                             class="row mx-0 rounded px-2rem py-3 mt-2 bg-white bg-opacity-50">
-                            <span class="col px-0 font-size-09 lh-sm">{{ item }}</span>
-                            <button
-                                type="button"
-                                @click="removeExcludeServices(index)"
-                                class="col-auto ms-auto px-0">
-                                <span class="position-relative red red-underline lh-sm">Удалить</span>
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <h1 class="bold">Стоимость</h1>
-
-            <h3>Цена для карточки</h3>
-            <div class="row">
-                <div class="col-6">
-                     <span class="thin position-relative mb-2 col-12 px-0">Конечная цена билета
-                            <i class="fa-regular fa-circle-question"></i>
-                        </span>
-                    <div class="col mx-0 px-0 pe-2rem rounded bg-white d-flex align-items-center">
-                        <input type="text" name="add-exc-last-price"
-                               v-model="tour.base_price"
-                               class="w-100 d-flex flex-grow-1 ps-2rem pe-2 py-3 rounded border-0 font-size-09 semibold">
-                        <span class="opacity-25 w-auto h-auto">руб.</span>
-                    </div>
-                </div>
-
-                <div class="col-6">
-                     <span class="thin position-relative mb-2 col-12 px-0">Цена до скидки
-                            <i class="fa-regular fa-circle-question"></i>
-                        </span>
-                    <div class="col mx-0 px-0 pe-2rem rounded bg-white d-flex align-items-center">
-                        <input type="text" name="add-exc-last-price"
-                               v-model="tour.discount_price"
-                               class="w-100 d-flex flex-grow-1 ps-2rem pe-2 py-3 rounded border-0 font-size-09 semibold">
-                        <span class="opacity-25 w-auto h-auto">руб.</span>
-                    </div>
-                </div>
-            </div>
-            <h3>Цена для расчета</h3>
-            <div class="row mx-0 px-0 mt-3" v-for="(item, index) in tour.prices">
-                <div class="col-12 col-xxl-4 row mx-0 px-0">
+                    </h2>
+                    <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven"
+                         data-bs-parent="#editTourFormAccordion">
+                        <div class="accordion-body">
+                            <div class="row mx-0 px-0 mt-3" v-for="(item, index) in tour.prices">
+                                <div class="col-12 col-xxl-4 row mx-0 px-0">
                         <span class="thin position-relative mb-2 col-12 px-0">тип билета
                             <i class="fa-regular fa-circle-question"></i>
                         </span>
-                    <div class="dropdown col-12 position-relative mx-0 px-0 bg-white rounded">
-                        <button type="button"
+                                    <div
+                                        class="dropdown  dropdown-border col-12 position-relative mx-0 px-0 bg-white rounded">
+                                        <button type="button"
 
-                                class="big-button col-10 ps-2rem dropdown-toggle text-start font-size-09"
-                                data-bs-toggle="dropdown"> {{
+                                                class="big-button col-10 ps-2rem dropdown-toggle text-start font-size-09"
+                                                data-bs-toggle="dropdown"> {{
 
-                                getTicketTypeById(tour.prices[index].ticket_type_id).title
+                                                getTicketTypeById(tour.prices[index].ticket_type_id).title
 
 
-                                || 'Не выбрано'
-                            }}
-                        </button>
-                        <ul
-                            class="dropdown-menu col-12 flex-grow-1 border-0 px-2rem pb-3 pt-0 rounded font-size-09">
+                                                || 'Не выбрано'
+                                            }}
+                                        </button>
+                                        <ul
+                                            class="dropdown-menu col-12 flex-grow-1  px-2rem pb-3 pt-0 rounded font-size-09">
 
-                            <li
-                                @click="tour.prices[index].ticket_type_id = item.id"
-                                v-for="item in filteredTickets">
-                                <a class="dropdown-item w-100 mt-3 p-0 font-size-09"> {{ item.title }} </a>
-                            </li>
+                                            <li
+                                                @click="tour.prices[index].ticket_type_id = item.id"
+                                                v-for="item in filteredTickets">
+                                                <a class="dropdown-item w-100 mt-3 p-0 font-size-09"> {{
+                                                        item.title
+                                                    }} </a>
+                                            </li>
 
-                        </ul>
-                        <svg class="h-100 expand-icon " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
-                             height="20" width="20">
-                            <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="col-6 col-xxl-3 order-1 row mx-0 px-0 pe-3 pe-xxl-0 mt-3 mt-xxl-0 ms-xxl-2">
-                        <span class="thin position-relative mb-2 col-12 px-0">конечная цена билета
+                                        </ul>
+                                        <svg class="h-100 expand-icon " xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 48 48"
+                                             height="20" width="20">
+                                            <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-xxl-3 order-1 row mx-0 px-0 pe-3 pe-xxl-0 mt-3 mt-xxl-0 ms-xxl-2">
+                        <span class="thin position-relative mb-2 col-12 px-0">конечная цена билета,руб.
                             <i class="fa-regular fa-circle-question"></i>
                         </span>
-                    <div class="col mx-0 px-0 pe-2rem rounded bg-white d-flex align-items-center">
-                        <input type="number" name="add-exc-last-price"
+                                    <div class="col mx-0 px-0 pe-2rem rounded bg-white d-flex align-items-center">
+                                        <input type="number" name="add-exc-last-price"
 
-                               v-model="tour.prices[index].base_price"
-                               class="w-100 d-flex flex-grow-1 ps-2rem pe-2 py-3 rounded border-0 font-size-09 semibold">
-                        <span class="opacity-25 w-auto h-auto">руб.</span>
-                    </div>
-                </div>
-                <input type="checkbox"
-                       v-model="tour.prices[index].has_discount"
-                       :id="'add-exc-discount-mark-'+index">
-                <label :for="'add-exc-discount-mark-'+index"
-                       class="align-items-center order-3 order-xxl-2 col-8 col-xxl-auto checkbox position-relative row mx-0 px-0 ms-xxl-4 mt-2rem align-items-center">
-                    <div
-                        class="col-auto custom-checkbox rounded bg-white d-flex align-items-center justify-content-center">
-                        <div class="col-auto custom-checkbox dot">
-                        </div>
-                    </div>
-                    <span class="col-auto thin ms-1">добавить скидку</span>
-                </label>
-                <div
-                    class="discount-block order-2 order-xxl-3 hide row col-6 col-xxl px-0 ps-3 ps-xxl-0 mx-0 mt-3 mt-xxl-0 justify-content-center align-items-center">
-                    <div class="col-12 col-xxl-10 row mx-0 px-0">
-                            <span class="thin position-relative mb-2 col-12 px-0">цена до скидки
+                                               v-model="tour.prices[index].base_price"
+                                               class="w-100 d-flex flex-grow-1 ps-2rem pe-2 py-3 rounded  font-size-09 semibold">
+
+                                    </div>
+                                </div>
+                                <input type="checkbox"
+                                       v-model="tour.prices[index].has_discount"
+                                       :id="'add-exc-discount-mark-'+index">
+                                <label :for="'add-exc-discount-mark-'+index"
+                                       class="align-items-center order-3 order-xxl-2 col-8 col-xxl-auto checkbox position-relative row mx-0 px-0 ms-xxl-4 mt-2rem align-items-center">
+                                    <div
+                                        class="col-auto custom-checkbox rounded bg-white d-flex align-items-center justify-content-center">
+                                        <div class="col-auto custom-checkbox dot">
+                                        </div>
+                                    </div>
+                                    <span class="col-auto thin ms-1">добавить скидку</span>
+                                </label>
+                                <div
+                                    class="discount-block order-2 order-xxl-3 hide row col-6 col-xxl px-0 ps-3 ps-xxl-0 mx-0 mt-3 mt-xxl-0 justify-content-center align-items-center">
+                                    <div class="col-12 col-xxl-10 row mx-0 px-0">
+                            <span class="thin position-relative mb-2 col-12 px-0">цена до скидки,руб.
                                 <i class="fa-regular fa-circle-question"></i>
                             </span>
-                        <div class="col mx-0 px-0 pe-2rem rounded bg-white d-flex align-items-center">
-                            <input type="text" name="add-exc-price"
-                                   v-model="tour.prices[index].discount_price"
-                                   class="w-100 d-flex flex-grow-1 ps-2rem pe-2 py-3 rounded border-0 font-size-09 semibold">
-                            <span class="opacity-25 w-auto h-auto">руб.</span>
+                                        <div class="col mx-0 px-0 pe-2rem rounded bg-white d-flex align-items-center">
+                                            <input type="text" name="add-exc-price"
+                                                   v-model="tour.prices[index].discount_price"
+                                                   class="w-100 d-flex flex-grow-1 ps-2rem pe-2 py-3 rounded  font-size-09 semibold">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <button
+                                    @click="removePrice(index)"
+                                    type="button"
+                                    class="col-auto order-last px-0 pt-2rem ms-auto">
+                                    <span class="position-relative red red-underline">Удалить</span>
+                                </button>
+                            </div>
+                            <div class="mt-3">
+                                <button
+                                    v-if="tour.prices.length<tickets.length"
+                                    @click="addPrice"
+                                    type="button"
+                                    class="button bold bg-blue col-12 col-lg-auto mt-4 px-4 rounded">
+                                    <span class="bold white">Добавить</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <button
-                    @click="removePrice(index)"
-                    type="button"
-                    class="col-auto order-last px-0 pt-2rem ms-auto">
-                    <span class="position-relative red red-underline">Удалить</span>
-                </button>
-            </div>
-            <div class="mt-3">
-                <button
-                    v-if="tour.prices.length<tickets.length"
-                    @click="addPrice"
-                    type="button"
-                    class="button bold bg-blue col-12 col-lg-auto mt-4 px-4 rounded">
-                    <span class="bold white">Добавить</span>
-                </button>
-            </div>
 
-            <h1 class="bold">Информация об оплате</h1>
-            <h3>Выберите тип оплаты</h3>
-            <div class="mb-4 row mx-0 justify-content-between">
-
-                <div class="col-12 col-md-6">
-                    <div class="dropdown col-12 position-relative mx-0 px-0 bg-white pe-2rem rounded">
-                        <button class="big-button col-11 ps-2rem dropdown-toggle text-start font-size-09 w-100"
-                                type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ getPaymentsById().title }}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingEight">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseEight" aria-expanded="false"
+                                aria-controls="collapseEight">
+                            Информация об оплате
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li v-for="(item, index) in payments" @click="tour.payment_type_id = item.id">
-                                <a class="dropdown-item">{{ item.title }}</a>
-                            </li>
+                    </h2>
+                    <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight"
+                         data-bs-parent="#editTourFormAccordion">
+                        <div class="accordion-body">
+                            <h3>Выберите тип оплаты</h3>
+                            <div class="mb-4 row mx-0 justify-content-between">
 
-                        </ul>
-                    </div>
-                </div>
+                                <div class="col-12 col-md-6">
+                                    <div
+                                        class="dropdown  dropdown-border col-12 position-relative mx-0 px-0 bg-white pe-2rem rounded">
+                                        <button
+                                            class="big-button col-11 ps-2rem dropdown-toggle text-start font-size-09 w-100"
+                                            type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            {{ getPaymentsById().title }}
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li v-for="(item, index) in payments"
+                                                @click="tour.payment_type_id = item.id">
+                                                <a class="dropdown-item">{{ item.title }}</a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
 
 
-            </div>
-            <h3>Введие способы оплаты (до 3х способов)</h3>
-            <span class="w-100">Укажите как оплатить
+                            </div>
+                            <h3>Введие способы оплаты (до 3х способов)</h3>
+                            <span class="w-100">Укажите как оплатить
                                 <i class="fa-regular fa-circle-question"></i>
                             </span>
-            <div class="mb-4 row mx-0 justify-content-between"
-                 v-for="(item, index) in tour.payment_infos">
+                            <div class="mb-4 row mx-0 justify-content-between"
+                                 v-for="(item, index) in tour.payment_infos">
 
-                <div class="col-12 col-md-10 d-flex flex-column">
-
-
-                    <input type="text" name="add-exc-price"
-                           v-model="tour.payment_infos[index]"
-                           class="w-100 rounded border-0 pl-2">
-
-                </div>
-
-                <div class="col-12 col-md-2 d-flex justify-content-center align-items-center">
-                    <button
-                        class="btn btn-link red" @click="removePaymentInfo(index)">
-                        Удалить
-                    </button>
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-4">
-                    <button
-                        type="button"
-                        :disabled="tour.payment_infos.length>=3"
-                        class="btn btn-primary p-4 w-100" @click="addPaymentInfo">
-                        Добавить
-                    </button>
-                </div>
-            </div>
+                                <div class="col-12 col-md-10 d-flex flex-column">
 
 
-            <h1 class="bold mt-5">Дата старта экскурсий</h1>
-            <div class="row mx-0 px-0 mt-3">
-                <div class="row col-12 col-lg-12">
-                    <div class="col-12 col-lg-12 ">
-                        <span class="thin position-relative mb-2 col-12 px-0">выберите дату и время</span>
-                        <date-time-calendar-component
-                            placeholder="Выберите до 20 дат"
-                            v-model="tour.dates"/>
+                                    <input type="text" name="add-exc-price"
+                                           v-model="tour.payment_infos[index]"
+                                           class="w-100 rounded  pl-2">
+
+                                </div>
+
+                                <div class="col-12 col-md-2 d-flex justify-content-center align-items-center">
+                                    <button
+                                        class="btn btn-link red" @click="removePaymentInfo(index)">
+                                        Удалить
+                                    </button>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <button
+                                        type="button"
+                                        :disabled="tour.payment_infos.length>=3"
+                                        class="btn btn-primary p-4 w-100" @click="addPaymentInfo">
+                                        Добавить
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="add-exc-dates col-6 d-flex flex-column gap-2 ms-3 mt-2rem ">
-                    <div class="add-exc-date row mx-0 rounded px-2rem py-3 bg-light"
-                         v-for="(item, index) in tour.schedules">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingNine">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseNine" aria-expanded="false"
+                                aria-controls="collapseNine">
+                            Расписание экскурсий
+                        </button>
+                    </h2>
+                    <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine"
+                         data-bs-parent="#editTourFormAccordion">
+                        <div class="accordion-body">
+                            <div class="row mt-3">
+                                <div class="col-lg-4 col-12 ">
+
+
+                                    <input type="checkbox"
+                                           v-model="tour.is_regular"
+                                           id="set-is-regular-mark">
+                                    <label for="set-is-regular-mark"
+                                           class="align-items-center col-12 col-md-auto checkbox position-relative row mx-0 px-0">
+                                        <div
+                                            class="col-auto custom-checkbox rounded bg-white d-flex align-items-center justify-content-center">
+                                            <div class="col-auto custom-checkbox dot">
+                                            </div>
+                                        </div>
+                                        <span class="dt-label-input col-auto thin ms-1" v-if="!tour.is_regular">
+                                    Сделать тур регулярным
+                                </span>
+
+                                        <span class="dt-label-input col-auto thin ms-1" v-else>
+                                    Сделать тур с привязкой к дате
+                                </span>
+                                    </label>
+
+
+                                </div>
+                            </div>
+
+                            <div v-if="!tour.is_regular" class="row mx-0 px-0 mt-3">
+                                <div class="row col-12 col-lg-12">
+                                    <div class="col-12 col-lg-12 ">
+                                        <span
+                                            class="thin position-relative mb-2 col-12 px-0">выберите дату и время</span>
+                                        <date-time-calendar-component
+                                            class="dropdown-border"
+                                            placeholder="Выберите до 20 дат"
+                                            v-model="tour.dates"/>
+                                    </div>
+                                </div>
+
+                                <div class="add-exc-dates col-6 d-flex flex-column gap-2 ms-3 mt-2rem ">
+                                    <div class="add-exc-date row mx-0 rounded px-2rem py-3 bg-light"
+                                         v-for="(item, index) in tour.schedules">
                         <span class="col px-0 font-size-09 lh-sm"> {{
                                 moment(item.start_at).format('YYYY-MM-DD')
                             }}</span>
-                        <span class="col px-0 font-size-09 lh-sm">{{ moment(item.start_at).format('HH:mm') }}</span>
-                        <button
-                            type="button"
-                            class="col-auto ms-auto px-0">
+                                        <span class="col px-0 font-size-09 lh-sm">{{
+                                                moment(item.start_at).format('HH:mm')
+                                            }}</span>
+                                        <button
+                                            type="button"
+                                            class="col-auto ms-auto px-0">
                     <span class="position-relative red red-underline lh-sm"
                           @click="removeScheduleItem(index)">Удалить</span>
-                        </button>
-                    </div>
+                                        </button>
+                                    </div>
 
 
-                    <div class="add-exc-date row mx-0 rounded px-2rem py-3 bg-light"
+                                    <div class="add-exc-date row mx-0 rounded px-2rem py-3 bg-light"
 
-                         v-for="(item, index) in tour.dates">
-                        <span class="col px-0 font-size-09 lh-sm"> {{ moment(item).format('YYYY-MM-DD') }}</span>
-                        <span class="col px-0 font-size-09 lh-sm">{{ moment(item).format('HH:mm') }}</span>
-                        <button
-                            type="button"
-                            class="col-auto ms-auto px-0">
+                                         v-for="(item, index) in tour.dates">
+                                        <span class="col px-0 font-size-09 lh-sm"> {{
+                                                moment(item).format('YYYY-MM-DD')
+                                            }}</span>
+                                        <span class="col px-0 font-size-09 lh-sm">{{
+                                                moment(item).format('HH:mm')
+                                            }}</span>
+                                        <button
+                                            type="button"
+                                            class="col-auto ms-auto px-0">
                     <span class="position-relative red red-underline lh-sm"
                           @click="removeDateItem(index)">Удалить</span>
-                        </button>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h1 class="bold mt-3" v-if="tour.is_regular">Указание регулярности экускурсии</h1>
+                            <div v-if="tour.is_regular"
+                                 class="row mx-0 px-0 mt-3">
+
+                                <div class="alert alert-info" role="alert">
+                                    Данный блок позволяет задать автоматический интервал туру.
+                                    Оставьте пустыми те поля, которые должны повторяться. Поле "Часы" не должно
+                                    быть пустым
+                                </div>
+
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Период</th>
+                                        <th scope="col">Число</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Часы</td>
+
+                                        <td>
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control"
+                                                       placeholder="10:00"
+                                                       v-mask="'##:##'"
+                                                       v-model="tour.regularity.time" required>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>День</td>
+
+                                        <td>
+                                            <div class="input-group mb-3">
+                                                <input type="number" class="form-control"
+                                                       placeholder="31"
+                                                       min="1" max="31"
+                                                       step="1"
+                                                       v-model="tour.regularity.day">
+
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>День недели</td>
+
+                                        <td>
+                                            <div class="input-group mb-3">
+                                                <select
+                                                    v-model="tour.regularity.day_of_week"
+                                                    class="form-select" id="inputGroupSelect02">
+                                                    <option value="-1" selected>Сделайте выбор</option>
+                                                    <option value="1">Понедельник</option>
+                                                    <option value="2">Вторник</option>
+                                                    <option value="3">Среда</option>
+                                                    <option value="3">Четверг</option>
+                                                    <option value="3">Пятница</option>
+                                                    <option value="3">Суббота</option>
+                                                    <option value="3">Воскресенье</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Месяц</td>
+
+                                        <td>
+                                            <div class="input-group mb-3">
+                                                <input type="number" class="form-control"
+                                                       placeholder="4"
+                                                       min="1" max="12"
+                                                       step="1"
+                                                       v-model="tour.regularity.month">
+
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Год</td>
+
+                                        <td>
+                                            <div class="input-group mb-3">
+                                                <input type="number" class="form-control"
+                                                       placeholder="2023"
+                                                       min="2023" max="2040"
+                                                       step="1"
+                                                       v-model="tour.regularity.year"
+                                                >
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <!--                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingTen">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseTen" aria-expanded="false"
+                                                aria-controls="collapseTen">
+                                            Accordion Item #10
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen"
+                                         data-bs-parent="#editTourFormAccordion">
+                                        <div class="accordion-body">
+
+                                        </div>
+                                    </div>
+                                </div>-->
             </div>
+
             <!--добавление-->
             <div
                 class="add-exc-accept splitted d-flex align-items-center justify-content-center justify-content-lg-start row mx-0 px-0 py-5 mt-5">
@@ -756,8 +1060,9 @@
                 </label>
                 <button class="big-button bold bg-green col-auto px-4 ms-5 rounded">Сохранить</button>
             </div>
-
         </form>
+
+
     </div>
 </template>
 <script>
@@ -782,7 +1087,8 @@ export default {
             accept_rules: true,
             data_is_correct: false,
             tour: {
-                dates:[]
+                dates: [],
+
             },
             preview_photo: null,
             photos: [],
@@ -838,7 +1144,6 @@ export default {
 
             for (let i = 0; i < files.length; i++)
                 this.items.push({imageUrl: URL.createObjectURL(files[i])})
-
 
 
         },
@@ -919,7 +1224,7 @@ export default {
             this.tour.dates.splice(index, 1);
 
         },
-        removeFile(index){
+        removeFile(index) {
             this.tour.images.splice(index, 1);
         },
         removeExcludeServices(index) {
@@ -1040,6 +1345,14 @@ export default {
                 this.tour = resp.data
 
                 this.tour.dates = [];
+                this.tour.is_regular = false
+                this.tour.regularity = {
+                    time: "10:00",
+                    day: null,
+                    day_of_week: null,
+                    month: null,
+                    year: null,
+                }
                 this.isCompletelyLoaded = true;
             })
         },
@@ -1128,10 +1441,13 @@ button[disabled] {
         width: 100%;
         top: 0;
         border-radius: 10px;
+
         a {
-            color:white;
+            color: white;
         }
     }
 
 }
+
+
 </style>

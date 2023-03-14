@@ -2,6 +2,7 @@
 
 namespace App\Exports\Dictionary;
 
+use App\Models\DictionaryType;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
@@ -11,22 +12,23 @@ class DictionaryExport implements  WithMultipleSheets
 
     public $dictionary;
 
-    public function __construct($dictionary)
+    public function __construct()
     {
-        $this->dictionary = $dictionary;
+        $this->dictionary  = DictionaryType::query()
+            ->with(["dictionaries"])
+            ->get();
+
+
     }
 
     public function sheets(): array
     {
-        return [
-        /*    new DictionaryPageExport($this->dictionary["devices"],"Устройства"),
-            new DictionaryPageExport($this->dictionary["bondaries"],"Рубежи"),
-            new DictionaryPageExport($this->dictionary["device_groups"], "Группы устройств"),
-            new DictionaryPageExport($this->dictionary["device_types"], "Типы устройств"),
-            new DictionaryPageExport($this->dictionary["boundary_groups"], "Группы рубежей"),
-            new DictionaryPageExport($this->dictionary["roles"], "Роли"),
-            new DictionaryPageExport($this->dictionary["permissions"], "Разрешения"),*/
-            // new DictionaryPageExport($this->reports,"voltage", "Напряжение"),
-        ];
+        $tmp = [];
+
+        foreach ($this->dictionary as $item){
+            $item = (object)$item;
+            array_push($tmp, new DictionaryPageExport($item->dictionaries,$item->title) );
+        }
+        return $tmp;
     }
 }

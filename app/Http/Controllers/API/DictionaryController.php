@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Exports\Dictionary\DictionaryExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\DictionaryStoreRequest;
 use App\Http\Requests\API\DictionaryUpdateRequest;
@@ -11,6 +12,7 @@ use App\Http\Resources\DictionaryTypeCollection;
 use App\Models\Dictionary;
 use App\Models\DictionaryType;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DictionaryController extends Controller
 {
@@ -152,5 +154,9 @@ class DictionaryController extends Controller
 
     public function getSelfTourDates(Request $request){
         return response()->json(Dictionary::getTourDates(true));
+    }
+
+    public function exportDictionary(Request $request){
+        return Excel::download(new DictionaryExport, 'dictionaries.xlsx');
     }
 }

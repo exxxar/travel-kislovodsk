@@ -1,6 +1,7 @@
 import {createStore} from 'vuex'
 import auth from './modules/auth';
 import tours from './modules/tours';
+import tourObjects from './modules/tour-objects';
 import reviews from './modules/reviews';
 import favorites from './modules/favorites';
 import dictionaries from './modules/dictionaries';
@@ -72,6 +73,7 @@ export default createStore({
         reviews,
         guideCabinet,
         userCabinet,
-        adminCabinet
+       /* adminCabinet,*/
+        tourObjects
     }
 })

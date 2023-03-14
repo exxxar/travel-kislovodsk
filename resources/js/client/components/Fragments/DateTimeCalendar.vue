@@ -1,5 +1,5 @@
 <template>
-    <Datepicker @input="$emit('input', $event.target.value)" class="w-100 rounded border-0" ref="dp" multi-dates
+    <Datepicker @input="$emit('input', $event.target.value)" class="w-100 rounded" ref="dp" multi-dates
                 multi-dates-limit="20">
         <template #calendar-header="{ index, day }">
             <div :class="index === 5 || index === 6 ? 'blue-color' : ''">

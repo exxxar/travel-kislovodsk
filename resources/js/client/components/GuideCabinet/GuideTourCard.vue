@@ -65,7 +65,16 @@
                                 </li>
 
                                 <li v-if="!tour.is_draft">
-                                    <a class="dropdown-item"><i class="fa-solid fa-eye"></i> Просмотреть тур</a>
+                                    <a
+                                        :href="'/tour/'+tour.id" target="_blank"
+                                        class="dropdown-item"><i class="fa-solid fa-eye"></i> Просмотреть тур</a>
+                                </li>
+
+                                <li>
+                                    <a
+                                        data-bs-toggle="modal"
+                                        :data-bs-target="'#duplicateModalDialog'+tour.id"
+                                        class="dropdown-item"><i class="fa-solid fa-copy"></i> Дублировать тур</a>
                                 </li>
 
                                 <li v-if="tour.is_active">
@@ -148,6 +157,18 @@
     </action-modal-dialog-component>
 
     <action-modal-dialog-component
+        :id="'duplicateModalDialog'+tour.id"
+        v-on:accept="duplicateTour">
+        <template v-slot:head>
+            <p>Диалог дублирования тура</p>
+        </template>
+
+        <template v-slot:body>
+            <p>Вы действтельно хотите дублировать тур "{{ tour.title || 'Нет заголовка' }}" ?</p>
+        </template>
+    </action-modal-dialog-component>
+
+    <action-modal-dialog-component
         :id="'archiveRestoreModalDialog'+tour.id"
         v-on:accept="removeTourFromArchive">
         <template v-slot:head>
@@ -210,6 +231,18 @@ export default {
         },
         openGuideTourGroup(tour) {
             this.eventBus.emit('open_gide_tour_group', tour);
+        },
+        duplicateTour(){
+            this.$store.dispatch("duplicateTour", this.tour.id).then((resp) => {
+                console.log(resp)
+                this.eventBus.emit('load_guide_tours', 'Действующие');
+
+                this.$notify({
+                    title: "Мои туры",
+                    text: "Тур успешно продублирован",
+                    type: 'success'
+                });
+            })
         },
         removeTour() {
             this.$store.dispatch("removeTour", this.tour.id).then(() => {

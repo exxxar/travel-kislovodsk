@@ -13,7 +13,7 @@ class SMSRU
     private $protocol;
     private $domain;
     private $count_repeat;    //количество попыток достучаться до сервера если он не доступен
-
+    private $is_test;
 
     function __construct()
     {
@@ -21,6 +21,7 @@ class SMSRU
         $this->count_repeat = config("smsru.count_repeat");
         $this->domain = config("smsru.domain");
         $this->protocol = config("smsru.protocol");
+        $this->is_test = config("smsru.is_test");
     }
 
     public function actions()
@@ -40,6 +41,28 @@ class SMSRU
             if (!isset($json->status))
                 return null;
             return ($json->status == "OK") ? $json->code : null;
+
+        } else {
+            return null;
+        }
+    }
+
+    public function sendSMS($phone, $message)
+    {
+
+        $body = file_get_contents($this->protocol . '://'
+            . $this->domain
+            . "/sms/send?to=$phone&msg="
+            . $message . "&api_id=" . $this->ApiKey . "&test=" . $this->is_test
+            . "&json=1");
+
+        $json = json_decode($body);
+
+
+        if ($json) { // Получен ответ от сервера
+            if (!isset($json->status))
+                return null;
+            return ($json->status == "OK") ? $json->sms : null;
 
         } else {
             return null;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Events\TelegramNotificationProfileVerifiedEvent;
 use App\Events\TelegramNotificationTourVerifiedEvent;
+use App\Exports\TourExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\TouristGuideStoreRequest;
 use App\Http\Requests\API\TouristGuideUpdateRequest;
@@ -26,6 +27,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Excel;
 
 class TouristGuideController extends Controller
 {
@@ -478,5 +480,18 @@ class TouristGuideController extends Controller
             ->send(new VerifyProfileMail($company));
 
         return response()->noContent();
+    }
+
+    public function exportTours(Request $request){
+        $userId = Auth::user()->id ?? null;
+
+        if (is_null($userId))
+            return response()->noContent(401);
+        $tours = Tour::query()
+            ->with(["schedules",  "tourCategories"])
+            ->where("creator_id", $userId)
+            ->get();
+
+        return \Maatwebsite\Excel\Facades\Excel::download(new TourExport($tours), "tours.xlsx");
     }
 }

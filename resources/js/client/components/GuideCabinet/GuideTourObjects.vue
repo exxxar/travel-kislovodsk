@@ -24,10 +24,10 @@
                     <i class="fa-solid fa-bars text-white"></i>
                 </button>
                 <ul class="dropdown-menu p-2">
-                    <li @click="openAddTourObject"><a class="dropdown-item"> Добавить объект </a> </li>
+                    <li @click="openAddTourObject"><a class="dropdown-item cursor-pointer"><i class="fa-regular fa-square-plus"></i> Добавить объект </a> </li>
                     <li><a data-bs-toggle="modal" data-bs-target="#excelToursUpload"
-                        class="dropdown-item"> Загрузить Excel </a> </li>
-                    <li><a href="/load-template/tour-objects.xlsx" class="dropdown-item"> Скачать шаблон </a> </li>
+                        class="dropdown-item cursor-pointer"><i class="fa-solid fa-upload"></i> Загрузить Excel </a> </li>
+                    <li><a href="/load-template/tour-objects.xlsx" class="dropdown-item cursor-pointer"><i class="fa-solid fa-file-export"></i> Скачать шаблон </a> </li>
 
                 </ul>
             </div>

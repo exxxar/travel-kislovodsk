@@ -20,6 +20,8 @@ class ScheduleResource extends JsonResource
 
         $date = explode(' ', $tmpDate);
 
+
+
         $schedule = [
             'id' => $this->id,
             'user_id' => $this->tour_id,

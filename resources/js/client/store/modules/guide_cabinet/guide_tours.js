@@ -95,6 +95,23 @@ const actions = {
             method: 'DELETE'
         })
     },
+
+    async duplicateTour(context, tourId) {
+        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_TOURS_LINK}/duplicate/${tourId}`, 'POST')
+        return _axios.then((response) => {
+            return Promise.resolve(response);
+        }).catch(err => {
+            context.dispatch("errorsGuideTours")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
+        })
+    },
+    async removeAllTours(context) {
+        return await context.dispatch("guideToursPage", {
+            url: `${BASE_GUIDE_TOURS_LINK}/clear`,
+            method: 'DELETE'
+        })
+    },
     async removeTour(context, tourId) {
         return await context.dispatch("guideToursPage", {
             url: `${BASE_GUIDE_TOURS_LINK}/${tourId}`,

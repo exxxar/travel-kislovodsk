@@ -32,11 +32,14 @@ import TourFavoriteList from '@/components/Tours/TourFavoriteList.vue'
 import ImageModalDialog from '@/components/Fragments/ImageModalDialog.vue'
 import ActionModalDialog from '@/components/Fragments/ActionModalDialog.vue'
 import MapModalDialog from '@/components/Fragments/MapModalDialog.vue'
+import MapWithPointsModalDialog from '@/components/Fragments/MapWithPointsModalDialog.vue'
 import SelectedMapModalDialog from '@/components/Fragments/SelectedMapModalDialog.vue'
 import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
 import CallbackForm from '@/components/Callback/CallbackForm.vue'
 import CallbackSection from '@/components/Fragments/CallbackSection.vue'
 
+import TourObjects from '@/components/TourObjects/TourObjectGlobalList.vue'
+import TourObjectCard from '@/components/TourObjects/TourObjectCard.vue'
 /* Pages */
 import MainPage from '@/pages/Main.vue'
 import LoginPage from '@/pages/Login.vue'
@@ -62,7 +65,7 @@ import TourPage from '@/pages/tours/Tour.vue'
 import ToursAllPage from '@/pages/tours/ToursAll.vue'
 import ToursHotPage from '@/pages/tours/ToursHot.vue'
 import TourObjectPage from '@/pages/tours/TourObject.vue'
-import ToursSearchPage from '@/pages/tours/ToursSearch.vue'
+// ToursSearchPage from '@/pages/tours/ToursSearch.vue'
 import UserCabinetPage from '@/pages/UserCabinet.vue'
 import VerifyEmailPage from '@/pages/VerifyEmail.vue'
 
@@ -145,6 +148,7 @@ app.component('tour-favorite-list-component', TourFavoriteList)
 app.component('image-modal-dialog-component', ImageModalDialog)
 app.component('action-modal-dialog-component', ActionModalDialog)
 app.component('map-modal-dialog-component', MapModalDialog)
+app.component('map-with-points-modal-dialog-component', MapWithPointsModalDialog)
 app.component('selected-map-modal-dialog-component', SelectedMapModalDialog)
 
 app.component('main-page', MainPage)
@@ -171,10 +175,12 @@ app.component('tour-page', TourPage)
 app.component('tours-all-page', ToursAllPage)
 app.component('tours-hot-page', ToursHotPage)
 app.component('tour-object-page', TourObjectPage)
-app.component('tour-search-page', ToursSearchPage)
+//app.component('tour-search-page', ToursSearchPage)
 app.component('user-cabinet-page', UserCabinetPage)
 app.component('verify-email-page', VerifyEmailPage)
 
+app.component('tour-objects-component', TourObjects)
+app.component('tour-object-card-component', TourObjectCard)
 /*---------------------------*/
 app.component('guide-tours-component', GuideTours)
 app.component('guide-tour-list-component', GuideTourList)

@@ -11,7 +11,7 @@ class TourObjectResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -27,8 +27,10 @@ class TourObjectResource extends JsonResource
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'comment' => $this->comment,
-            'guide'=>$guide,
+            'guide' => $guide,
             'photos' => $this->photos,
+            "is_global_template" => $this->is_global_template ?? false,
+            "is_verified" => $this->photos ?? false,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,

@@ -2,6 +2,7 @@
 
 
 use App\Events\TelegramNotificationProfileVerifiedEvent;
+use App\Exports\Dictionary\DictionaryExport;
 use App\Exports\TourGroupExport;
 use App\Http\Controllers\API\ReviewController;
 use App\Http\Controllers\VerificationController;
@@ -33,13 +34,15 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 |
 */
 
-//startup-project.ru/welcome?name=vasya
-Route::get("/welcome/{name?}", function (Request $request, $name = null) {
+Route::get("/test", function (){
+    $watches = \App\Models\UserWatchTours::query()
+      //  ->with(["tour"])
+        ->whereHas("tour", function ($q){
+            return $q->where("creator_id", Auth::user()->id);
+        })->get();
 
-    $arg = $request->get("name");
-
-    return view("welcome",['name1'=>$arg,'name2'=>$name]);
-})->where(["name"=>"[0-9]+"]);
+    dd($watches->toArray());
+});
 
 Route::get('/push-notificaiton', [WebNotificationController::class, 'index'])->name('push-notificaiton');
 Route::post('/store-token', [WebNotificationController::class, 'storeToken'])->name('store.token');
@@ -50,7 +53,6 @@ Route::get('/storage/user/{id}/{path}', [\App\Http\Controllers\API\TouristGuideC
 Route::get('/load-template/{path}', [\App\Http\Controllers\API\TouristGuideController::class, "loadTemplate"]);
 
 //Route::get('/storage/user/{id}/tour-objects/{path}',[\App\Http\Controllers\API\TouristGuideController::class,"downloadImage"]);
-
 
 Route::view('/', 'pages.main')->name("page.main");
 Route::view('/about', 'pages.about')->name("page.about");
@@ -86,6 +88,9 @@ Route::view('/error', 'errors.500')->name("page.error");
 Route::view('/success', 'errors.200')->name("page.success");
 
 Route::middleware(["auth", "verified"])->group(function () {
+    Route::get('/export-tours', [\App\Http\Controllers\API\TouristGuideController::class, "exportTours"]);
+    Route::get('/export-dictionary', [\App\Http\Controllers\API\DictionaryController::class, "exportDictionary"]);
+
     Route::middleware(["is_guide"])->group(function () {
         Route::view('/guide-cabinet', 'pages.guide-cabinet')->name("page.guide-cabinet");
     });
@@ -129,6 +134,13 @@ Route::prefix("api")
                 Route::post('/invoice', 'invoice');
                 Route::post('/success', 'success');
                 Route::post('/failure', 'failure');
+            });
+
+
+        Route::prefix("tour-objects")
+            ->controller(\App\Http\Controllers\API\TourObjectController::class)
+            ->group(function () {
+                Route::get('/', 'loadGlobalTourObjects');
             });
 
         Route::prefix("tours")
@@ -210,6 +222,8 @@ Route::prefix("api")
                         Route::get('/actual-booked-tours/{id}', 'loadActualGuideBookedTours');
                         Route::get('/archive-add/{id}', 'addGuideTourToArchive');
                         Route::delete('/archive-remove/{id}', 'removeGuideTourFromArchive');
+                        Route::delete('/clear', 'removeAllTours');
+                        Route::post('/duplicate/{id}', 'duplicate');
 
                         Route::post('/update/{id}', 'update');
                         Route::get('/', 'loadGuideToursByPage');

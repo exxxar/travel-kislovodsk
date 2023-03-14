@@ -37,6 +37,27 @@
                     </div>
                 </div>
             </div>
+
+            <div class="dt-popular mb-5">
+                <div class="dt-popular__header dt-block-header text-center">
+                    <h1 class="dt-header__title">Популярные туристические объекты</h1>
+                    <h6 class="dt-header__subtitle">выбор редакции сайта</h6>
+                </div>
+                <div class="dt-popular__tabs">
+                    <tour-objects-component/>
+                    <div class="dt-popular__action text-center d-flex justify-content-center">
+                        <a href="/tour-objects"
+                           style="width: 400px;"
+                           class="align-items-center btn d-flex dt-btn dt-btn-blue justify-content-center">
+                            Все туристические объекты
+                        </a>
+                    </div>
+                </div>
+
+
+
+            </div>
+
             <benefits-component/>
 
             <callback-section-component/>

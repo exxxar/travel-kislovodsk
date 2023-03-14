@@ -16,10 +16,24 @@
             <div class="d-flex align-items-center justify-content-between"><label
                 class="dt-input__label"><span v-if="is_email">почта</span><span v-else>телефон</span></label>
 
-                <span class="mb-2 cursor-pointer" @click="is_email = !is_email"
-                      v-if="is_email">Войти по номеру телефона</span>
-                <span class="mb-2 cursor-pointer" @click="is_email = !is_email"
-                      v-if="!is_email">Войти через email</span>
+                <div class="form-check form-switch d-flex align-items-center">
+                    <label class="form-check-label d-flex"
+                           @click="is_email = !is_email"
+                           for="switchEmailPhoneEntrance">
+                         <span class="mb-2 cursor-pointer"
+                               v-if="is_email">Войти по номеру телефона</span>
+                        <span class="mb-2 cursor-pointer"
+                              v-else>Войти через email</span>
+
+                        <input class="form-check-input"
+                               style="margin-left:10px; margin-right: 5px;"
+                               type="checkbox" id="switchEmailPhoneEntrance">
+                    </label>
+
+
+                </div>
+
+
             </div>
             <div class="dt-input__group">
                 <input type="text" name="phone"

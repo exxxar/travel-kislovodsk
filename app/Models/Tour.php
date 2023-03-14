@@ -110,7 +110,6 @@ class Tour extends Model
         return $query->orderBy($sortAssociation[$sort->slug], $sortDirection);
     }
 
-
     public function scopeWithCategoryFilters($query, $category)
     {
         switch ($category) {
@@ -167,14 +166,14 @@ class Tour extends Model
 
         }
 
-        if (!is_null($filterObject->location) && $filterObject->direction == true) {
-            $query = $query->where("start_city", $filterObject->location);
+        if (!is_null($filterObject->location_from)) {
+            $query = $query->where("start_city", $filterObject->location_from);
 
         }
 
-        if (!is_null($filterObject->location) && $filterObject->direction == false) {
+        if (!is_null($filterObject->location_to)) {
             $query = $query->whereHas('tourObjects', function ($q) use ($filterObject) {
-                $q->where('city', $filterObject->location);
+                $q->where('city', $filterObject->location_to);
             });
         }
 
@@ -261,7 +260,6 @@ class Tour extends Model
         return $query;
     }
 
-
     public function getRatingAttribute()
     {
 
@@ -291,7 +289,6 @@ class Tour extends Model
 
         return $tmp;
     }
-
 
     public function getIsLikedAttribute()
     {

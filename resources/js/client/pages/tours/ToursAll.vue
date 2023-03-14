@@ -50,11 +50,16 @@
         </div>
     </main>
 
-    <map-modal-dialog-component
+    <map-with-points-modal-dialog-component
+        v-if="tours.length>0"
+        id="map-main-modal"
+        :tours="tours"/>
+
+<!--    <map-modal-dialog-component
         v-if="tours.length>0"
         id="map-main-modal"
         :multiply="true"
-        :coords="coords"/>
+        :coords="coords"/>-->
 </template>
 <script>
 import TourCard from "@/components/Tours/TourCard.vue";

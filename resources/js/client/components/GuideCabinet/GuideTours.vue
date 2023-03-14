@@ -36,11 +36,17 @@
                     <i class="fa-solid fa-bars text-white"></i>
                 </button>
                 <ul class="dropdown-menu">
-                    <li @click="openAddTour"><a class="dropdown-item"> Добавить экскурсию </a> </li>
-                    <li><a class="dropdown-item"
+                    <li @click="openAddTour"><a class="dropdown-item cursor-pointer"><i class="fa-regular fa-square-plus"></i> Добавить экскурсию </a> </li>
+                    <li><a class="dropdown-item cursor-pointer"
                            data-bs-toggle="modal"
-                           data-bs-target="#excelToursUpload"> Загрузить Excel </a> </li>
-                    <li><a href="/load-template/tours.xlsx" class="dropdown-item"> Скачать шаблон </a> </li>
+                           data-bs-target="#excelToursUpload"><i class="fa-solid fa-upload"></i> Загрузить Excel </a> </li>
+                    <li><a href="/load-template/tours.xlsx" class="dropdown-item cursor-pointer"><i class="fa-solid fa-file-export"></i> Скачать шаблон </a> </li>
+                    <li><a href="/export-dictionary" class="dropdown-item cursor-pointer"><i class="fa-solid fa-book"></i> Скачать словарь обозначений </a> </li>
+                    <li><a href="/export-tours" class="dropdown-item cursor-pointer"><i class="fa-solid fa-download"></i> Экспортировать мои туры </a> </li>
+                    <li><a
+                        data-bs-toggle="modal"
+                        data-bs-target="#excelToursReset"
+                        class="dropdown-item cursor-pointer"><i class="fa-solid fa-recycle"></i> Удалить все туры </a> </li>
 
                 </ul>
             </div>
@@ -72,6 +78,17 @@
         </div>
     </div>
 
+    <action-modal-dialog-component
+        :id="'excelToursReset'"
+        v-on:accept="resetAllTours">
+        <template v-slot:head>
+            <p>Диалог удаления туров</p>
+        </template>
+
+        <template v-slot:body>
+            <p>Вы действтельно хотите удалить все туры из системы?</p>
+        </template>
+    </action-modal-dialog-component>
 </template>
 
 <script>
@@ -90,7 +107,17 @@ export default {
         openAddTour(){
             this.eventBus.emit('open_add_tours_window')
         },
+        resetAllTours(){
+            this.$store.dispatch("removeAllTours").then(() => {
+                this.eventBus.emit('load_guide_tours', 'Действующие');
 
+                this.$notify({
+                    title: "Мои туры",
+                    text: "Туры успешно сброшены",
+                    type: 'success'
+                });
+            })
+        },
         changeActiveTitle(title) {
             this.activeType = title
 

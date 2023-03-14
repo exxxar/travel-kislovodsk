@@ -25,6 +25,9 @@ class TourObject extends Model
         'comment',
         'creator_id',
         'photos',
+
+        "is_global_template",
+        "is_verified",
     ];
 
     /**
@@ -48,7 +51,8 @@ class TourObject extends Model
         return url('/admin/tour-objects/' . $this->getKey());
     }
 
-    public function tours(){
+    public function tours()
+    {
         return $this->belongsTo(Tour::class);
     }
 

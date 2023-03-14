@@ -3,8 +3,10 @@
 namespace App\Imports;
 
 use App\Models\Dictionary;
+use App\Models\Schedule;
 use App\Models\Tour;
 use App\Models\TourObject;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -29,7 +31,7 @@ class TourImport implements OnEachRow
 
         $images = [];
 
-        for ($i = 19; $i <= 28; $i++)
+        for ($i = 25; $i <= 34; $i++)
             if (!empty($row[$i]))
                 array_push($images, $row[$i]);
 
@@ -37,25 +39,32 @@ class TourImport implements OnEachRow
             ->get()
             ->pluck("id")
             ->toArray();
-        $duration_type_id = $tmp[0];
+
+        $duration_type_id = in_array($row[21], $tmp) ? $row[21] : $tmp[0];
 
         $tmp = Dictionary::getMovementTypes()
             ->get()
             ->pluck("id")
             ->toArray();
-        $movement_type_id = $tmp[0];
+        $movement_type_id = in_array($row[22], $tmp) ? $row[22] : $tmp[0];
 
         $tmp = Dictionary::getTourTypes()
             ->get()
             ->pluck("id")
             ->toArray();
-        $tour_type_id = $tmp[0];
+        $tour_type_id = in_array($row[23], $tmp) ? $row[23] : $tmp[0];
 
         $tmp = Dictionary::getPaymentTypes()
             ->get()
             ->pluck("id")
             ->toArray();
-        $payment_type_id = $tmp[0];
+        $payment_type_id = in_array($row[24], $tmp) ? $row[24] : $tmp[0];
+
+        $included_services = explode(";", $row[16]) ?? null;
+        $exclude_services = explode(";", $row[17]) ?? null;
+        $payment_infos = explode(";", $row[18]) ?? null;
+        $schedules = explode(";", $row[19]) ?? null;
+        $categories = explode(";", $row[20]) ?? null;
 
         try {
             $tour = Tour::create([
@@ -73,18 +82,21 @@ class TourImport implements OnEachRow
                 'start_longitude' => $row[12] ?? 0,
                 'start_comment' => $row[13] ?? null,
                 'preview_image' => $row[14] ?? null,
-                'duration' => $row[16] ?? null,
-                'include_services' => $row[17] ?? null,
-                'exclude_services' => $row[18] ?? null,
+                'duration' => $row[15] ?? null,
+                'include_services' => $included_services ?? null,
+                'exclude_services' => $exclude_services ?? null,
+                'payment_infos' => $payment_infos ?? null,
+
+                'duration_type_id' => $duration_type_id,
+                'movement_type_id' => $movement_type_id,
+                'tour_type_id' => $tour_type_id,
+                'payment_type_id' => $payment_type_id,
+
                 'images' => $images,
                 'is_hot' => false,
                 'is_active' => false,
                 'is_draft' => true,
-                'payment_infos' => [
-                    "Онлайн картой (МИР, Visa, MasterCard).",
-                    "Онлайн электронными деньгами (ЮMoney).",
-                    "Оффлайн в офисе по адресу",
-                ],
+
                 'prices' => [
                     (object)[
                         "base_price" => $row[2],
@@ -115,13 +127,21 @@ class TourImport implements OnEachRow
                     ]
 
                 ],
-                'duration_type_id' => $duration_type_id,
-                'movement_type_id' => $movement_type_id,
-                'tour_type_id' => $tour_type_id,
-                'payment_type_id' => $payment_type_id,
+
                 'creator_id' => Auth::user()->id,
             ]);
-        }catch (\Exception $ex){
+
+            foreach ($schedules as $date)
+                Schedule::query()->create([
+                    'tour_id' => $tour->id,
+                    'guide_id' => Auth::user()->id,
+                    'start_at' => Carbon::parse($date)->format("Y-m-d H:m")
+                ]);
+
+            foreach ($categories as $category)
+                if (strlen(trim($category))>0)
+                $tour->tourCategories()->attach($category);
+        } catch (\Exception $ex) {
             throw new \Exception("Ошибка структуры файла");
         }
 

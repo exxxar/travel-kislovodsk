@@ -31,7 +31,7 @@ class UserWatchTours extends Model
         'id' => 'integer',
         'user_id' => 'integer',
         'tour_id' => 'integer',
-        'watched_at' => 'timestamp',
+        //'watched_at' => 'timestamp',
     ];
 
     public function user()
