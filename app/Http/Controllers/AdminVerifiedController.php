@@ -58,6 +58,10 @@ class AdminVerifiedController extends Controller
         Mail::to($document->user->email)
             ->send(new VerifyDocumentSuccessMail($document));
 
+
+        if ($request->ajax())
+            return response()->noContent();
+
         return redirect()->route("page.success");
     }
 
@@ -92,6 +96,10 @@ class AdminVerifiedController extends Controller
         Mail::to($document->user->email)
             ->send(new VerifyDocumentDeclineMail($document, $messages));
 
+
+        if ($request->ajax())
+            return response()->noContent();
+
         return redirect()->route("page.success");
     }
 
@@ -123,6 +131,10 @@ class AdminVerifiedController extends Controller
 
         Mail::to($company->user->email)
             ->send(new VerifyProfileDeclineMail($company, $messages));
+
+
+        if ($request->ajax())
+            return response()->noContent();
 
         return redirect()->route("page.success");
     }
@@ -157,6 +169,10 @@ class AdminVerifiedController extends Controller
 
         Mail::to($company->user->email)
             ->send(new VerifyProfileSuccessMail($company));
+
+
+        if ($request->ajax())
+            return response()->noContent();
 
         return redirect()->route("page.success");
     }
@@ -193,6 +209,9 @@ class AdminVerifiedController extends Controller
         Mail::to($tour->creator->email)
             ->send(new VerifyTourSuccessMail($tour));
 
+        if ($request->ajax())
+            return response()->noContent();
+
         return redirect()->route("page.success");
     }
 
@@ -228,6 +247,9 @@ class AdminVerifiedController extends Controller
         Mail::to($tour->creator->email)
             ->send(new VerifyTourDeclineMail($tour));
 
+
+        if ($request->ajax())
+            return response()->noContent();
 
         return redirect()->route("page.success");
     }

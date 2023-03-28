@@ -43,7 +43,18 @@ class Transaction extends Model
 
     public function scopeWithFilters($query, $transactionTypeId)
     {
-        $query = $query->where("status_type_id",$transactionTypeId);
+        if (is_null($transactionTypeId))
+            return $query;
+
+        if ($transactionTypeId===0)
+            return $query;
+
+        if ($transactionTypeId===-1)
+            $query = $query
+                ->whereNotNull("deleted_at");
+
+        $query = $query->where("status_type_id",$transactionTypeId)
+            ->whereNull("deleted_at");
 
         return $query;
     }

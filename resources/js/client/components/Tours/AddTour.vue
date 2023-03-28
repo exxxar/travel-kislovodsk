@@ -207,6 +207,46 @@
                                                    class="col-12 px-2rem py-4 rounded font-size-09" required/>
                                         </div>
                                     </div>
+
+                                    <div class="row mx-0">
+                                        <div class="col-12 mb-3">
+                                            <input type="checkbox"
+                                                   class="hide"
+                                                   v-model="tour.need_email_notification"
+                                                   id="set-is-need-email-notification">
+                                            <label for="set-is-need-email-notification"
+                                                   class="align-items-center col-12 col-md-auto checkbox position-relative row mx-0 px-0">
+                                                <div
+                                                    class="col-auto custom-checkbox rounded bg-white d-flex align-items-center justify-content-center">
+                                                    <div class="col-auto custom-checkbox dot">
+                                                    </div>
+                                                </div>
+                                                <span class="dt-label-input col-auto thin ms-1">
+                                      Оповещать через EMAIL за сутки
+                                </span>
+
+                                            </label>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <input type="checkbox"
+                                                   class="hide"
+                                                   v-model="tour.need_sms_notification"
+                                                   id="set-is-need-sms-notification">
+                                            <label for="set-is-need-sms-notification"
+                                                   class="align-items-center col-12 col-md-auto checkbox position-relative row mx-0 px-0">
+                                                <div
+                                                    class="col-auto custom-checkbox rounded bg-white d-flex align-items-center justify-content-center">
+                                                    <div class="col-auto custom-checkbox dot">
+                                                    </div>
+                                                </div>
+                                                <span class="dt-label-input col-auto thin ms-1">
+                                    Оповещать по СМС за сутки
+                                </span>
+
+                                            </label>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -316,6 +356,25 @@
 
                                     </div>
 
+                                    <div class="row  mx-0 justify-content-between">
+                                        <div class="col-12 col-lg-8 row mx-0 px-0 mb-3">
+                            <span class="dt-label-input thin position-relative mb-2 col-12 px-0">Страна тура
+                                <i class="fa-regular fa-circle-question dt-text-muted&#45;&#45;white-50"></i>
+                            </span>
+                                            <div class="col-12 position-relative mx-0 px-0 rounded">
+                                                <input type="text" name="add-exc-name" v-model="tour.country"
+                                                       placeholder="Россия"
+                                                       class="col-12 px-2rem py-4 rounded  font-size-09" />
+                                                <svg class="h-100 expand-icon" xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 48 48"
+                                                     height="20" width="20">
+                                                    <path
+                                                        d="M24 23.65q1.5 0 2.575-1.075Q27.65 21.5 27.65 20q0-1.5-1.075-2.575Q25.5 16.35 24 16.35q-1.5 0-2.575 1.075Q20.35 18.5 20.35 20q0 1.5 1.075 2.575Q22.5 23.65 24 23.65Zm0 15.75q6.4-5.85 9.45-10.625Q36.5 24 36.5 20.4q0-5.7-3.625-9.3Q29.25 7.5 24 7.5t-8.875 3.6Q11.5 14.7 11.5 20.4q0 3.6 3.125 8.35T24 39.4Zm0 5.2q-8.3-7.05-12.4-13.075Q7.5 25.5 7.5 20.4q0-7.7 4.975-12.3Q17.45 3.5 24 3.5q6.55 0 11.525 4.6Q40.5 12.7 40.5 20.4q0 5.1-4.1 11.125T24 44.6Zm0-24.2Z"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="row mx-0 justify-content-between" v-if="!tour.comfort_loading">
 
 
@@ -405,7 +464,7 @@
                                         <div class="col-12 mx-0 px-0 mt-1 mb-1"
                                              v-if="tour.tour_objects.length>0"
                                              v-for="(id, index) in tour.tour_objects">
-                                            <div class="card"  v-if="getTourObjectById(id)">
+                                            <div class="card" v-if="getTourObjectById(id)">
                                                 <div class="card-body">
                                                     <h3>Точка маршрута № {{ index + 1 }}</h3>
                                                     <div class="row tour-object-list-item">
@@ -712,7 +771,7 @@
                                         <div
                                             class="discount-block order-2 order-xxl-3 hide row col-6 col-xxl px-0 ps-3 ps-xxl-0 mx-0 mt-3 mt-xxl-0 justify-content-center align-items-center">
                                             <div class="col-12 col-xxl-10 row mx-0 px-0">
-                                    <span class="dt-label-input thin position-relative mb-2 col-12 px-0">цена до скидки
+                                    <span class="dt-label-input thin position-relative mb-2 col-12 px-0">цена до скидки, руб
                                         <i class="fa-regular fa-circle-question dt-text-muted--white-50"></i>
                                     </span>
                                                 <div
@@ -720,7 +779,6 @@
                                                     <input type="text" name="add-exc-price"
                                                            v-model="tour.prices[index].discount_price"
                                                            class="w-100 d-flex flex-grow-1 ps-2rem pe-2 py-3 rounded  font-size-09 semibold">
-                                                    <span class="opacity-25 w-auto h-auto">руб.</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1137,7 +1195,7 @@ const getTestFormData = () => ({
 
         is_draft: true,
         duration: "12 ч.",
-        tour_objects: [1,2,3,4,5],
+        tour_objects: [1, 2, 3, 4, 5],
 
         dates: [],
         payment_infos: [],
@@ -1148,7 +1206,9 @@ const getTestFormData = () => ({
         movement_type_id: 37,
         tour_type_id: 23,
         payment_type_id: 28,
-
+        country: null,
+        need_email_notification: false,
+        need_sms_notification: false,
         is_regular: false,
         regularity: {
             time: "10:00",
@@ -1215,7 +1275,11 @@ export default {
                     day_of_week: 1,
                     month: null,
                     year: null,
-                }
+                },
+
+                country: null,
+                need_email_notification: false,
+                need_sms_notification: false
 
             },
             preview_photo: null,
@@ -1230,8 +1294,7 @@ export default {
                 this.preview_photo = null
                 this.photos = []
                 this.items = []
-            }
-            else {
+            } else {
                 this.tour = getTestFormData().tour
 
                 this.preview_photo = null

@@ -36,9 +36,27 @@ class TourObjectController extends Controller
     public function index(Request $request)
     {
 
-            $tourObjects = TourObject::withTrashed()
-                ->orderBy("created_at", "DESC")
-                ->paginate($request->size ?? config('app.results_per_page'));
+        $tourObjects = TourObject::withTrashed()
+            ->orderBy("created_at", "DESC")
+            ->paginate($request->size ?? config('app.results_per_page'));
+
+        return new TourObjectCollection($tourObjects);
+    }
+
+    public function search(Request $request)
+    {
+        $filterObject = (object)[
+            "need_not_verified" => (bool)$request->need_not_verified ?? false,
+            "need_verified" => (bool)$request->need_verified ?? false,
+            "need_template" => (bool)$request->need_template ?? false,
+            "need_all" => (bool)$request->need_all ?? false,
+            "need_removed" => (bool)$request->need_removed ?? false,
+            "need_active" => (bool)$request->need_active ?? false,
+        ];
+        $tourObjects = TourObject::withTrashed()
+            ->withFilters($filterObject)
+            ->orderBy("created_at", "DESC")
+            ->paginate($request->size ?? config('app.results_per_page'));
 
         return new TourObjectCollection($tourObjects);
     }
@@ -86,21 +104,6 @@ class TourObjectController extends Controller
         return new TourObjectResource($tourObject);
     }
 
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\TourObject $tourObject
-     * @return \App\Http\Resources\TourObjectResource
-     */
-    public function show(Request $request, $id)
-    {
-
-        $tourObject = TourObject::query()
-            ->with(["creator", "creator.profile"])
-            ->where("id", $id)
-            ->first();
-
-        return view('pages.tour-object', ["object" => json_encode(new TourObjectResource($tourObject))]);
-    }
 
     /**
      * @param \App\Http\Requests\API\TourObjectUpdateRequest $request

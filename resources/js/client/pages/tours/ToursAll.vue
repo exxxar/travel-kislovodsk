@@ -3,7 +3,7 @@
         <breadcrumbs :items="breadcrumbs"></breadcrumbs>
         <div class="dt-page__header">
             <p class="dt-header__title fs-1">
-                Экскурсии по Ставропольскому краю
+                Авторские экскурсионные туры по России
             </p>
             <p class="dt-header__description" :class="{'dt-text-more': !isShowMoreText}">
                 118 увлекательных экскурсий в городе Ставропольский край – Минеральные воды и источники в

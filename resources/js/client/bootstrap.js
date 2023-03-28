@@ -70,3 +70,12 @@ if (window.user) {
     */
 
 }
+
+
+setInterval(()=>{
+    let online = navigator.onLine;
+
+    if (!online)
+        window.location.reload()
+}, 60000)
+

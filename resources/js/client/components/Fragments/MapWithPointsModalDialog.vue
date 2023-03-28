@@ -35,7 +35,7 @@
                                     Фильтр отображаемых точек
                                 </div>
                             </div>-->
-                            <div class="scroll-container">
+                            <div class="scroll-container" v-if="tours.length>0">
                                 <div class="accordion accordion-flush" id="accordionFlushExample">
                                     <div
                                         v-for="(tour, index) in tours"
@@ -86,7 +86,9 @@
                                                         </a>
 
                                                        {{ object.title || 'Нет названия' }}
-
+                                                        <small>({{
+                                                                object.city || 'Нет города'
+                                                            }})</small>
                                                     </li>
                                                 </div>
                                             </div>
@@ -95,6 +97,11 @@
 
                                 </div>
                             </div>
+                           <div class="empty-list" v-else>
+                               <img alt="" v-lazy="'/img/no-tour.jpg'">
+                               <p>По данному фильтру ничего не найдено:(</p>
+
+                           </div>
 
                         </div>
                     </div>

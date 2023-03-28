@@ -1,7 +1,7 @@
 import util from '../utilites';
 import axios from "axios";
 
-const BASE_ADMIN_TOUR_OBJECTS_LINK = '/api/admin/tour-objects'
+const BASE_ADMIN_TOUR_OBJECTS_LINK = '/admin/api/tour-objects'
 
 let state = {
     admin_tour_objects: [],
@@ -10,12 +10,6 @@ let state = {
 
 const getters = {
     getAdminTourObjects: state => state.admin_tour_objects || [],
-    getAdminActiveTourObjects: (state) => {
-        return state.admin_tour_objects.filter(item => item.deleted_at == null)
-    },
-    getAdminRemovedTourObjects: (state) => {
-        return state.admin_tour_objects.filter(item => item.deleted_at !== null)
-    },
     getAdminTourObjectById: (state) => (id) => {
         return state.admin_tour_objects.find(item => item.id === id)
     },
@@ -66,7 +60,7 @@ const actions = {
 
         })
     },
-    async addTourObject(context, tourObject) {
+    async addAdminTourObject(context, tourObject) {
         let link = `${BASE_ADMIN_TOUR_OBJECTS_LINK}`
         let _axios = util.makeAxiosFactory(link, 'POST', tourObject)
         return _axios.then((response) => {
@@ -77,7 +71,7 @@ const actions = {
             return Promise.reject(err);
         })
     },
-    async editTourObject(context, payload) {
+    async editAdminTourObject(context, payload) {
         let link = `${BASE_ADMIN_TOUR_OBJECTS_LINK}/edit/${payload.id}`
         let _axios = util.makeAxiosFactory(link, 'POST', payload.data)
         return _axios.then((response) => {
@@ -140,14 +134,7 @@ const actions = {
             url: `${BASE_ADMIN_TOUR_OBJECTS_LINK}?page=${page}&size=${size}`
         })
     },
-    async loadRemovedAdminTourObjectsByPage(context, payload = {page: 0, size: 12}) {
-        let page = payload.page || 0,
-            size = payload.size || 15
 
-        return await context.dispatch("adminTourObjectsPage", {
-            url: `${BASE_ADMIN_TOUR_OBJECTS_LINK}?removed=1&page=${page}&size=${size}`
-        })
-    },
 }
 
 const mutations = {

@@ -1,7 +1,7 @@
 <template>
     <form v-on:submit.prevent="preRegistration">
         <div class="dt-check align-items-start mt-2">
-            <div class="dt-check__input">
+            <div class="dt-check__input input-border">
                 <input type="checkbox" v-model="i_am_guide"/>
                 <div class="dt-check__input-check"></div>
             </div>
@@ -66,7 +66,7 @@
                 <div class="d-flex align-items-center justify-content-between"><label
                     class="dt-input__label">Название<span class="red ml-2fs-6">*</span></label>
                 </div>
-                <div class="dt-input__group">
+                <div class="dt-input__group input-border">
                     <input type="text" name="company_title" id="company_title_reg"
                            v-model="form.company.title"
                            placeholder="ООО 'Кисловодск-Тревел'" class="dt-input"
@@ -83,7 +83,7 @@
                 <div class="d-flex align-items-center justify-content-between"><label
                     class="dt-input__label">Короткое описание</label>
                 </div>
-                <div class="dt-input__group">
+                <div class="dt-input__group input-border">
                     <input type="text"
                            maxlength="255"
                            name="company_description" id="company_description_reg"
@@ -102,7 +102,7 @@
                 <div class="d-flex align-items-center justify-content-between"><label
                     class="dt-input__label">Юридический адрес</label>
                 </div>
-                <div class="dt-input__group">
+                <div class="dt-input__group input-border">
                     <input type="text"
                            maxlength="255"
                            name="company_law_address" id="company_law_address_reg"
@@ -121,7 +121,7 @@
                 <div class="d-flex align-items-center justify-content-between"><label
                     class="dt-input__label">ОГРН<span class="red ml-2fs-6">*</span></label>
                 </div>
-                <div class="dt-input__group">
+                <div class="dt-input__group input-border">
                     <input type="number"
                            maxlength="255"
                            name="company_ogrn" id="company_ogrn_reg"
@@ -140,7 +140,7 @@
                 <div class="d-flex align-items-center justify-content-between"><label
                     class="dt-input__label">ИНН<span class="red ml-2fs-6">*</span></label>
                 </div>
-                <div class="dt-input__group">
+                <div class="dt-input__group input-border">
                     <input type="number"
                            maxlength="255"
                            name="company_inn" id="company_inn_reg"
@@ -161,7 +161,7 @@
             <div class="d-flex align-items-center justify-content-between"><label
                 class="dt-input__label">Имя аккаунта<span class="red ml-2fs-6">*</span></label>
             </div>
-            <div class="dt-input__group">
+            <div class="dt-input__group input-border">
                 <input type="text" name="username" id="username_reg"
                        pattern="[A-Za-z0-9]+"
                        v-model="form.username"
@@ -179,7 +179,7 @@
             <div class="d-flex align-items-center justify-content-between"><label
                 class="dt-input__label">Фамилия<span class="red ml-2fs-6">*</span></label>
             </div>
-            <div class="dt-input__group">
+            <div class="dt-input__group input-border">
                 <input type="text" name="last_name" id="last_name_reg"
                        v-model="form.last_name"
                        placeholder="Иванов" class="dt-input"
@@ -196,7 +196,7 @@
             <div class="d-flex align-items-center justify-content-between"><label
                 class="dt-input__label">Имя<span class="red ml-2fs-6">*</span></label>
             </div>
-            <div class="dt-input__group">
+            <div class="dt-input__group input-border">
                 <input type="text" name="first_name" id="first_name_reg"
                        v-model="form.first_name"
                        placeholder="Иван" class="dt-input"
@@ -213,7 +213,7 @@
             <div class="d-flex align-items-center justify-content-between"><label
                 class="dt-input__label">Отчество</label>
             </div>
-            <div class="dt-input__group">
+            <div class="dt-input__group input-border">
                 <input type="text" name="patronymic" id="patronymic_reg"
                        v-model="form.patronymic"
                        placeholder="Иванович" class="dt-input"
@@ -230,7 +230,7 @@
             <div class="d-flex align-items-center justify-content-between">
                 <label class="dt-input__label">Телефон<span class="red ml-2fs-6">*</span></label>
             </div>
-            <div class="dt-input__group">
+            <div class="dt-input__group input-border">
 
                 <input type="text" name="phone" id="phone_reg"
                        v-model="form.phone"
@@ -247,9 +247,9 @@
 
         <div class="dt-input__wrapper">
             <div class="d-flex align-items-center justify-content-between">
-                <label class="dt-input__label">почта<span class="red ml-2fs-6">*</span></label>
+                <label class="dt-input__label">Почта<span class="red ml-2fs-6">*</span></label>
             </div>
-            <div class="dt-input__group">
+            <div class="dt-input__group input-border">
 
                 <input type="text" name="email" id="email_reg"
                        v-model="form.email"
@@ -272,7 +272,7 @@
             <div class="d-flex align-items-center justify-content-between">
                 <label class="dt-input__label">Пароль<span class="red ml-2fs-6">*</span></label>
             </div>
-            <div class="dt-input__group">
+            <div class="dt-input__group input-border">
                 <input type="password"
                        v-model="form.password"
                        name="password" id="password" class="dt-input">
@@ -282,7 +282,7 @@
             <div class="d-flex align-items-center justify-content-between">
                 <label class="dt-input__label">Повторите пароль<span class="red ml-2fs-6">*</span></label>
             </div>
-            <div class="dt-input__group">
+            <div class="dt-input__group input-border">
                 <input type="password"
                        v-model="form.confirm_password"
                        name="confirm_password" id="confirm_password" class="dt-input">
@@ -290,7 +290,7 @@
         </div>
 
         <div class="dt-check align-items-start mt-2">
-            <div class="dt-check__input">
+            <div class="dt-check__input input-border">
                 <input type="checkbox" v-model="accept_rules"/>
                 <div class="dt-check__input-check"></div>
             </div>
@@ -326,7 +326,7 @@
             <div class="d-flex align-items-center justify-content-between"><label
                 class="dt-input__label">sms-код подтверждения</label>
             </div>
-            <div class="dt-input__group">
+            <div class="dt-input__group input-border">
                 <input type="text" name="sms"
                        v-mask="'####'"
                        placeholder="XXXX"
@@ -441,3 +441,8 @@ export default {
     }
 }
 </script>
+<style>
+.input-border {
+    border: 2px solid rgb(0 123 255);
+}
+</style>

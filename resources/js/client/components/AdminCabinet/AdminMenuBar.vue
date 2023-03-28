@@ -1,8 +1,8 @@
 <template>
-    <div class="row">
-        <div class="col-md-3">
+    <div class="row d-flex justify-content-center flex-nowrap" style="overflow-x: auto;">
+        <div class="col-md-2 ">
             <a href="/admin/tours"
-               v-bind:class="{'border-success':active===0}"
+               v-bind:class="{'border-success ':active===0}"
                class="card text-bg-dark  mb-2">
                 <img v-lazy="'/img/load.gif'" class="card-img card-img-menu-item" alt="...">
                 <div class="card-img-overlay">
@@ -11,20 +11,20 @@
             </a>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
             <a href="/admin/tour-objects"
                v-bind:class="{'border-success':active===1}"
                class="card  text-bg-dark mb-2">
                 <img v-lazy="'/img/load.gif'" class="card-img card-img-menu-item" alt="...">
                 <div class="card-img-overlay">
-                    <h5 class="card-title text-center">Туристические объекты</h5>
+                    <h5 class="card-title text-center">Тур.объекты</h5>
                 </div>
             </a>
         </div>
 
 
-        <div class="col-md-3">
-            <a href="/admin/users"
+        <div class="col-md-2">
+            <a href="/admin/users-and-guides"
                v-bind:class="{'border-success':active===2}"
                class="card  text-bg-dark mb-2">
                 <img v-lazy="'/img/load.gif'" class="card-img card-img-menu-item" alt="...">
@@ -35,13 +35,24 @@
         </div>
 
 
-        <div class="col-md-3">
+        <div class="col-md-2">
             <a href="/admin/transactions"
                v-bind:class="{'border-success':active===3}"
                class="card  text-bg-dark mb-2">
                 <img v-lazy="'/img/load.gif'" class="card-img card-img-menu-item" alt="...">
                 <div class="card-img-overlay">
                     <h5 class="card-title text-center">Транзакции</h5>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-2 ">
+            <a href="/admin/database"
+               v-bind:class="{'border-success ':active===4}"
+               class="card text-bg-dark  mb-2">
+                <img v-lazy="'/img/load.gif'" class="card-img card-img-menu-item" alt="...">
+                <div class="card-img-overlay">
+                    <h5 class="card-title text-center">Остальное</h5>
                 </div>
             </a>
         </div>

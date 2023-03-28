@@ -43,7 +43,8 @@
             <div class="dt-input__wrapper">
                 <div class="dt-input__group">
                     <div class="dropdown w-100">
-                        <a href="#" class="btn dropdown-toggle w-100 text-start dt-text--regular" type="button" id="dropdownTimeMenu"
+                        <a href="#" class="btn dropdown-toggle w-100 text-start dt-text--regular" type="button"
+                           id="dropdownTimeMenu"
                            data-bs-toggle="dropdown" aria-expanded="false">
                             {{ bookingForm.time || 'Время' }}
                         </a>
@@ -160,7 +161,8 @@
                 <h2 class="mb-2 mt-2">Регистрационные данные на участника #{{ index + 1 }}</h2>
                 <div class="row dt-personal-data__item">
                     <div class="col-lg-3">
-                        <label class="dt-personal-data__label">Фамилия Имя Отчество</label>
+                        <label class="dt-personal-data__label">Фамилия Имя Отчество<span
+                            class="text-red-600 ml-5">*</span></label>
                     </div>
                     <div class="col-lg-9">
                         <div class="dt-input__wrapper">
@@ -175,7 +177,7 @@
                 </div>
                 <div class="row dt-personal-data__item">
                     <div class="col-lg-3">
-                        <label class="dt-personal-data__label">телефон</label>
+                        <label class="dt-personal-data__label">телефон<span class="text-red-600 ml-5">*</span></label>
                     </div>
                     <div class="col-lg-9">
                         <div class="dt-input__wrapper">
@@ -191,7 +193,7 @@
                 </div>
                 <div class="row dt-personal-data__item">
                     <div class="col-lg-3">
-                        <label class="dt-personal-data__label">почта</label>
+                        <label class="dt-personal-data__label">почта<span class="text-red-600 ml-5">*</span></label>
                     </div>
                     <div class="col-lg-9">
                         <div class="dt-input__wrapper">
@@ -214,7 +216,7 @@
                                 <input type="number" name="age"
                                        v-model="bookingForm.persons[index].age"
                                        placeholder="18"
-                                       class="dt-input" autocomplete="off" required>
+                                       class="dt-input" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -228,10 +230,11 @@
                     <div class="col-lg-9">
                         <div class="dt-input__wrapper">
                             <div class="dt-input__group">
-                                <input type="text" name="document_type_title"
-                                       placeholder="Паспорт"
+
+                                <input type="text" name="document"
                                        v-model="bookingForm.persons[index].document_type_title"
-                                       class="dt-input" autocomplete="off" required>
+                                       placeholder="Паспорт"
+                                       class="dt-input" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -247,7 +250,7 @@
                             <textarea type="number" name="document_info"
                                       placeholder="1234 55555, РО МВД России по городу Ростову, 24 августа 2022"
                                       v-model="bookingForm.persons[index].document_info"
-                                      class="dt-input" autocomplete="off" required>
+                                      class="dt-input" autocomplete="off">
                             </textarea>
                             </div>
                         </div>
@@ -496,8 +499,16 @@ export default {
     methods: {
         checkFormVerified(index) {
             let isVerified = true
+
+            let keysForValidate = [
+                "full_name",
+                "phone",
+                "email",
+            ];
+
             Object.keys(this.bookingForm.persons[index]).forEach(key => {
-                isVerified = isVerified && (this.bookingForm.persons[index][key] != null)
+                if (keysForValidate.includes(key))
+                    isVerified = isVerified && (this.bookingForm.persons[index][key] != null)
             })
 
             return isVerified
@@ -671,5 +682,15 @@ button.disabled {
 
 .not-verified {
     border-bottom: 1px red solid;
+}
+
+.text-red-600 {
+    color: red;
+    font-weight: bold;
+}
+
+
+.ml-5 {
+    margin-left: 5px;
 }
 </style>

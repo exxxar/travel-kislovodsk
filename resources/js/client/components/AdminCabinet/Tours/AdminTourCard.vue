@@ -4,7 +4,14 @@
         <div class="row g-0">
             <div class="col-12 d-flex justify-content-between flex-column">
                 <div class="card-body">
+
+                    <h6> <span class="badge bg-success" v-if="tour.verified_at">Проверен</span>
+                        <span class="badge bg-danger" v-if="!tour.verified_at">Не проверен</span>
+                    </h6>
                     <h2 class="card-title">
+
+
+
                         {{ tour.title || 'Нет заголовка' }}
                     </h2>
                     <p class="card-text scroll-description">
@@ -98,11 +105,26 @@
                                         Восстановить из архива</a>
                                 </li>
                                 <li>
+                                    <a class="dropdown-item"><i class="fa-solid fa-pen-to-square"></i> Дублировать</a>
+                                </li>
+                                <li v-if="!tour.verified_at">
+                                    <a class="dropdown-item"
+                                       data-bs-toggle="modal"
+                                       :data-bs-target="'#approveTourModalDialog'+tour.id"
+                                    ><i class="fa-solid fa-pen-to-square"></i> Подтвердить тур</a>
+                                </li>
+                                <li v-if="tour.verified_at">
+                                    <a class="dropdown-item"
+                                       data-bs-toggle="modal"
+                                       :data-bs-target="'#declineTourModalDialog'+tour.id"
+                                    ><i class="fa-solid fa-pen-to-square"></i> Отклонить тур</a>
+                                </li>
+                                <li>
                                     <a class="dropdown-item"
                                        @click="openEditTour"
                                        href="#edit-tour-object"><i class="fa-solid fa-pen-to-square"></i> Редактировать</a>
                                 </li>
-                                <li>
+                                <li v-if="!tour.deleted_at">
                                     <a class="dropdown-item"
                                        style="color:red;"
                                        data-bs-toggle="modal"
@@ -111,6 +133,17 @@
                                         <i
                                             style="color:red;"
                                             class="fa-solid fa-trash"></i> Удалить
+                                    </a>
+                                </li>
+                                <li v-if="tour.deleted_at">
+                                    <a class="dropdown-item"
+                                       style="color:red;"
+                                       data-bs-toggle="modal"
+                                       :data-bs-target="'#restoreTourModalDialog'+tour.id"
+                                       href="#restore-tour-object">
+                                        <i
+                                            style="color:red;"
+                                            class="fa-solid fa-trash"></i> Восстановить тур
                                     </a>
                                 </li>
 
@@ -141,6 +174,30 @@
     </action-modal-dialog-component>
 
     <action-modal-dialog-component
+        :id="'approveTourModalDialog'+tour.id"
+        v-on:accept="approveTour">
+        <template v-slot:head>
+            <p>Диалог подтверждения тура</p>
+        </template>
+
+        <template v-slot:body>
+            <p>Вы действтельно хотите подтвердить тур "{{ tour.title || 'Нет заголовка' }}"?</p>
+        </template>
+    </action-modal-dialog-component>
+
+    <action-modal-dialog-component
+        :id="'declineTourModalDialog'+tour.id"
+        v-on:accept="declineTour">
+        <template v-slot:head>
+            <p>Диалог деактивации тура</p>
+        </template>
+
+        <template v-slot:body>
+            <p>Вы действтельно хотите деактивировать тур "{{ tour.title || 'Нет заголовка' }}"?</p>
+        </template>
+    </action-modal-dialog-component>
+
+    <action-modal-dialog-component
         :id="'removeTourModalDialog'+tour.id"
         v-on:accept="removeTour">
         <template v-slot:head>
@@ -149,6 +206,18 @@
 
         <template v-slot:body>
             <p>Вы действтельно хотите удалить тур "{{ tour.title || 'Нет заголовка' }}"?</p>
+        </template>
+    </action-modal-dialog-component>
+
+    <action-modal-dialog-component
+        :id="'restoreTourModalDialog'+tour.id"
+        v-on:accept="restoreTour">
+        <template v-slot:head>
+            <p>Диалог восстановления тура</p>
+        </template>
+
+        <template v-slot:body>
+            <p>Вы действтельно хотите восстановить тур "{{ tour.title || 'Нет заголовка' }}"?</p>
         </template>
     </action-modal-dialog-component>
 
@@ -164,18 +233,7 @@
         </template>
     </action-modal-dialog-component>
 
-    <action-modal-dialog-component
-        :id="'verifyRequestModalDialog'+tour.id"
-        v-on:accept="requestVerify">
-        <template v-slot:head>
-            <p>Диалог запроса верификации тура</p>
-        </template>
 
-        <template v-slot:body>
-            <p>Вы действтельно хотите запросить у администрации сайта проверку тура
-                "{{ tour.title || 'Нет заголовка' }}"?</p>
-        </template>
-    </action-modal-dialog-component>
 </template>
 <script>
 export default {
@@ -198,16 +256,48 @@ export default {
         return {}
     },
     methods: {
+        declineTour(){
+            this.$store.dispatch("declineTourByAdmin", this.tour.id).then(() => {
+                this.eventBus.emit('load_admin_tours', 'Все');
 
+                this.$notify({
+                    title: "Мои туры",
+                    text: "Тур успешно деактивирован",
+                    type: 'success'
+                });
+            })
+        },
+        approveTour() {
+            this.$store.dispatch("approveTourByAdmin", this.tour.id).then(() => {
+                this.eventBus.emit('load_admin_tours', 'Все');
+
+                this.$notify({
+                    title: "Мои туры",
+                    text: "Тур успешно подвтержден",
+                    type: 'success'
+                });
+            })
+        },
         openEditTour() {
-            this.eventBus.emit('open_edit_tour_window', this.tour)
+            this.$emit('edit', this.tour.id)
         },
         openGuideTourGroup(tour) {
             this.eventBus.emit('open_gide_tour_group', tour);
         },
-        removeTour() {
-            this.$store.dispatch("removeTour", this.tour.id).then(() => {
+        restoreTour(){
+            this.$store.dispatch("restoreAdminTour", this.tour.id).then(() => {
                 this.eventBus.emit('load_admin_tours', 'Все');
+
+                this.$notify({
+                    title: "Мои туры",
+                    text: "Тур успешно восстановлен",
+                    type: 'success'
+                });
+            })
+        },
+        removeTour() {
+            this.$store.dispatch("removeAdminTour", this.tour.id).then(() => {
+                this.eventBus.emit('load_admin_tours', 'Удаленные');
 
                 this.$notify({
                     title: "Мои туры",

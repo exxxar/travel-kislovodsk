@@ -57,6 +57,7 @@
 </template>
 <script>
 export default {
+    props:["text", "type"],
     data() {
         return {
             load: false,
@@ -65,7 +66,7 @@ export default {
                 phone: null,
                 email: null,
                 type: 0,
-                message: '',
+                message: null,
             },
             question_types: [
                 "Вопросы по заказу тура",
@@ -74,6 +75,13 @@ export default {
                 "Другие вопросы"
             ]
         };
+    },
+    mounted() {
+        if (this.text) {
+            this.form.message = this.text
+            this.form.type = this.type || 0
+        }
+
     },
     methods: {
         sendRequest: function (e) {

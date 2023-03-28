@@ -13,6 +13,7 @@ import guideCabinet from './modules/guide_cabinet';
 import userCabinet from './modules/user_cabinet';
 import adminCabinet from './modules/admin_cabinet';
 import util from "./modules/utilites";
+import weather from "./modules/weather";
 
 const BASE_API_LINK = "/api"
 
@@ -73,7 +74,8 @@ export default createStore({
         reviews,
         guideCabinet,
         userCabinet,
-       /* adminCabinet,*/
-        tourObjects
+        adminCabinet,
+        tourObjects,
+        weather
     }
 })

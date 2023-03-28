@@ -7,7 +7,9 @@ use App\Http\Requests\API\ProfileStoreRequest;
 use App\Http\Requests\API\ProfileUpdateRequest;
 use App\Http\Resources\ProfileCollection;
 use App\Http\Resources\ProfileResource;
+use App\Http\Resources\UserCollection;
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -18,9 +20,33 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $profiles = Profile::paginate($request->count ?? config('app.results_per_page'));
+        $users = User::query()
+            ->with(["role","profile","company","userLawStatus","documents"])
+            ->paginate($request->count ?? config('app.results_per_page'));
 
-        return new ProfileCollection($profiles);
+        return new UserCollection($users);
+    }
+
+
+    public function search(Request $request)
+    {
+
+        $filterObject = (object)[
+            "need_removed"=>$request->need_removed ?? false,
+            "need_admins"=>$request->need_admins ?? false,
+            "need_moderate"=>$request->need_moderate ?? false,
+            "need_guides"=>$request->need_guides ?? false,
+            "need_tourist"=>$request->need_tourist ?? false,
+            "need_all"=>$request->need_all ?? false,
+            "need_blocked"=>$request->need_blocked ?? false,
+        ];
+
+        $users = User::query()
+            ->with(["role","profile","company","userLawStatus","documents"])
+            ->withFilters($filterObject)
+            ->paginate($request->count ?? config('app.results_per_page'));
+
+        return new UserCollection($users);
     }
 
     /**

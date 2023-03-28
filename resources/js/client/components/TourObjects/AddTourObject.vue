@@ -56,11 +56,15 @@
                         <i class="fa-regular fa-circle-question dt-text-muted--white-50"></i>
                 </span>
                 <div class="row">
-                    <div class="col-md-4 mb-2">
+                    <div class="col-md-6 mb-2">
+                        <input type="text" v-model="tourObject.country" maxlength="255" placeholder="Страна объекта"
+                               name="add-obj-city" class="col-12 px-2rem py-4 rounded border-0 font-size-09">
+                    </div>
+                    <div class="col-md-6 mb-2">
                         <input type="text" v-model="tourObject.city" maxlength="255" placeholder="Город объекта"
                                name="add-obj-city" class="col-12 px-2rem py-4 rounded border-0 font-size-09" required>
                     </div>
-                    <div class="col-md-8 mb-2">
+                    <div class="col-md-12 mb-2">
                         <input type="text" v-model="tourObject.address" maxlength="255" placeholder="Адрес объекта"
                                name="add-obj-city" class="col-12 px-2rem py-4 rounded border-0 font-size-09" required>
                     </div>
@@ -78,7 +82,35 @@
                             указаны</p>
                         <p class="pt-3" v-else>Координаты: {{ tourObject.longitude }} {{ tourObject.latitude }}</p>
                     </div>
+
+
+
+                    <div class="col-12 col-md-8">
+                        <p class="pt-3" v-if="tourObject.pogoda_klimat_id===null">Регион для отображения погоды не
+                            выбран</p>
+                        <p class="pt-3 mb-3" v-else>Погода будет указана для города
+                            <strong class="bold">{{ selectedLocation }}</strong>
+                            <button v-if="tourObject.pogoda_klimat_id!==null"
+                                    type="button" class="btn btn-outline-success"
+                                    style="margin-left: 15px;"
+                                    data-bs-toggle="modal" data-bs-target="#show-weather">
+                                <i class="fa-solid fa-umbrella"></i>
+                            </button>
+                        </p>
+
+                    </div>
+
+                    <div class="col-12" v-if="weather_locations.length>0">
+                        <div class="list-group">
+                            <a href="#select-weather"
+                               @click="setLocationId(item.id)"
+                               v-for="item in weather_locations"
+                               class="list-group-item list-group-item-action">{{item.title || 'Не указан'}}</a>
+                        </div>
+                    </div>
                 </div>
+
+
             </div>
             <div class="mb-3 row mx-0">
                 <label for="add-obj-comment-mark"
@@ -96,6 +128,7 @@
                            class="d-none col-12 px-2rem py-4 rounded border-0 font-size-09 mt-2">
                 </label>
             </div>
+
 
             <div class="mb-3 row mx-0" v-if="tourObject.need_comment">
                     <span class="dt-label-input thin position-relative mb-2 col-12 px-0">комментарий
@@ -116,6 +149,23 @@
             </div>
         </form>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="show-weather" tabindex="-1" aria-labelledby="show-weather" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="show-weather">Прогноз погоды в {{selectedLocation }} на 14 дней </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <weather-component
+                        v-if="tourObject.pogoda_klimat_id"
+                        :region-id="tourObject.pogoda_klimat_id"/>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
 
@@ -123,13 +173,15 @@ const getInitialFormData = () => ({
     tourObject: {
         title: null,
         description: null,
+        country: null,
         city: null,
         address: null,
         latitude: null,
         longitude: null,
         comment: null,
         photos: [],
-        need_comment: false
+        need_comment: false,
+        pogoda_klimat_id: null,
     },
 });
 
@@ -137,25 +189,57 @@ const getInitialFormData = () => ({
 export default {
     data() {
         return {
+            weather_locations: [],
+            location: null,
             tourObject: {
                 title: null,
                 description: null,
+                country: null,
                 city: null,
                 address: null,
                 latitude: null,
                 longitude: null,
                 comment: null,
                 photos: [],
-                need_comment: false
+                need_comment: false,
+                pogoda_klimat_id: null,
+
             },
             photos: [],
             items: []
+        }
+    },
+    watch:{
+      'tourObject.city':function (oldVal, newVal) {
+          this.findLocation();
+      }
+    },
+    computed: {
+        selectedLocation() {
+            let location = this.weather_locations.find(item => item.id === this.tourObject.pogoda_klimat_id)
+            return location ? location.title : 'Не указано'
         }
     },
     mounted() {
 
     },
     methods: {
+        findLocation() {
+            this.weather_locations = []
+            this.$store.dispatch("findWeatherLocation", this.tourObject.city).then(resp=>{
+                this.weather_locations = resp
+            }).catch(err=>{
+                this.weather_locations = []
+            })
+
+        },
+        setLocationId(id) {
+            this.tourObject.pogoda_klimat_id = null
+            setTimeout(()=>{
+                this.tourObject.pogoda_klimat_id = id
+            }, 1000)
+
+        },
         selectCoords(e) {
             this.tourObject.longitude = e[0]
             this.tourObject.latitude = e[1]

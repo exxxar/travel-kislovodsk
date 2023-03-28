@@ -24,32 +24,12 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $userId = Auth::user()->id;
 
-        $user = User::query()->with(["role"])->find($userId);
+        $transaction_type_id = $request->transaction_type ?? null;
 
-        $transactions = [];
-
-        if ($user->role->name == 'user') {
-            $transactions = Transaction::query()
-                ->where("user_id", $userId)
-                ->paginate($request->count ?? config('app.results_per_page'));
-        }
-
-        if ($user->role->name == 'guide') {
-          /*  $tourIds = Tour::query()->where("creator_id", Auth::user()->id)
-                ->get()->pluck("id");*/
-
-            $transactions = Transaction::query()
-                ->with(["tour"])
-                ->whereHas("tour", function ($q){
-                    $q->where("creator_id", Auth::user()->id);
-                })
-                ->orderBy("created_at","desc")
-               // ->whereIntegerInRaw("tour_id", $tourIds)
-                ->paginate($request->count ?? config('app.results_per_page'));
-
-        }
+        $transactions = Transaction::withTrashed()
+            ->withFilters($transaction_type_id)
+            ->paginate($request->count ?? config('app.results_per_page'));
 
         return new TransactionCollection($transactions);
     }

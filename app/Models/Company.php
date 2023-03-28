@@ -51,4 +51,18 @@ class Company extends Model
     {
         return $this->hasOne(User::class);
     }
+
+    public function scopeWithSearchFilter($query, $search)
+    {
+        if (is_null($search))
+            return $query;
+
+        $query = $query->where("title", "like", "%$search%")
+            ->orWhere("inn", "like", "%$search%")
+            ->orWhere("description", "like", "%$search%")
+            ->orWhere("law_address", "like", "%$search%")
+            ->orWhere("ogrn", "like", "%$search%");
+
+        return $query;
+    }
 }

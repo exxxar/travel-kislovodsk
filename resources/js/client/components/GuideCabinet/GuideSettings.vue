@@ -224,8 +224,6 @@
             </form>
 
             <h3 class=" mb-3">Данные авторизации</h3>
-
-
             <form v-on:submit.prevent="submitAccounting">
                 <div class="dt-input__wrapper mb-3">
                     <div class="d-flex align-items-center justify-content-between"><label
@@ -315,6 +313,30 @@
                 </div>
             </form>
 
+            <h3 class=" mb-3">Управления скидками по турам</h3>
+            <form v-on:submit.prevent="submitTourDiscount">
+                <div class="dt-input__wrapper mb-3">
+                    <div class="d-flex align-items-center justify-content-between"><label
+                        class="dt-input__label">Скидка к турам, %</label>
+                    </div>
+                    <div class="dt-input__group bg-white"
+                         v-bind:class="{'border-success':form_discount.global_discount}">
+                        <input type="email" placeholder="Глобальная скидка" class="dt-input" v-model="form_discount.global_discount"
+                               autocomplete="off" maxlength="255">
+                        <div class="dt-input__group-item">
+                            <div class="dt-input__icon">
+                                <i class="fa-solid fa-percent"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row col-12 col-lg-5 col-xl-4 col-xxl-3 mx-0 pe-lg-5 mb-3">
+                    <button type="submit" class="big-button bg-blue bold px-4 px-xxl-5 font-size-09 rounded">Сохранить
+                    </button>
+                </div>
+            </form>
 
         </div>
     </div>
@@ -334,6 +356,9 @@ export default {
                 law_address: null,
                 is_success_saved: false,
 
+            },
+            form_discount:{
+                global_discount:null,
             },
             form_accounting: {
                 email: null,
@@ -393,6 +418,9 @@ export default {
 
             for (let i = 0; i < files.length; i++)
                 this.items.push({imageUrl: URL.createObjectURL(files[i])})
+
+        },
+        submitTourDiscount(){
 
         },
         submitAccounting() {

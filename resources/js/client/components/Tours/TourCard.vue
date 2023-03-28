@@ -2,8 +2,8 @@
 
     <div class="card dt-travel-card" v-if="tour">
         <div class="card-header bg-white p-0 position-relative">
-            <div class="card-img">
-                <div class="dt-wrapper-gradient position-absolute"></div>
+            <div class="card-img" >
+                <a :href="'/tour/'+tour.id"  class="dt-wrapper-gradient position-absolute"></a>
                 <h5 class="dt-excursion-type">{{ tour.tour_type }}</h5>
                 <div class="dt-like d-flex align-items-center justify-content-center"
                      v-bind:class="{'right-60':!user.is_guest}"
@@ -29,6 +29,7 @@
 
                 </div>
                 <img class="dt-excursion__image" v-lazy="tour.preview_image" alt="">
+
                 <div v-if="tour.payment != null"
                      class="dt-price d-flex justify-content-between position-absolute w-100 align-items-end">
                     <h5 class="align-items-end d-flex dt-price__sum text-white">
@@ -43,7 +44,7 @@
                 </div>
                 <div v-else class="dt-price d-flex justify-content-between position-absolute w-100 align-items-end">
                     <h5 class="align-items-end d-flex dt-price__sum text-white">
-                        <span class="fw-bold text-white me-2">{{ tour.base_price }} руб.</span>
+                        <a :href="'/tour/'+tour.id" class="fw-bold text-white me-2">{{ tour.base_price }} руб.</a>
                         <span class="dt-price__title text-uppercase text-muted-white d-lg-block d-md-block d-none">
                                                         за человека
                                                     </span>
@@ -72,9 +73,9 @@
                 </div>
             </div>
             <div class="card-body__excursion">
-                <div class="card-body__excursion-name">
+                <a :href="'/tour/'+tour.id" class="card-body__excursion-name">
                     <h4 class="fw-bold">{{ tour.title }}</h4>
-                </div>
+                </a>
                 <div class="card-body__excursion-description fw-light">
                     <h5>{{ tour.short_description }}</h5>
                 </div>

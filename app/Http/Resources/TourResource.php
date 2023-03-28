@@ -27,16 +27,44 @@ class TourResource extends JsonResource
         $movementType = new DictionaryResource($this->whenLoaded("movementType"));
 
 
+        $this->with(["creator","creator.company"]);
+
+        $discount = $this->creator->company->global_discount ?? null;
+
+        $basePrice = is_null($discount)?
+            $this->base_price:
+            $this->base_price*((100-$discount)/100);
+
+        $paymentInfos =  $this->payment_infos ?? [];
+
+
+        if ( count($paymentInfos)>0) {
+            $index = 0;
+            foreach ($paymentInfos as $info){
+                $info = (object)$info;
+
+                if (isset($info->base_price)){
+                    $paymentInfos[$index]->base_price =
+                        $paymentInfos[$index]->base_price *((100-$discount)/100);
+                }
+                $index++;
+            }
+        }
+
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'base_price' => $this->base_price,
+            'base_price' => $basePrice,
             'discount_price' => $this->discount_price,
             'short_description' => $this->short_description,
             'min_group_size' => $this->min_group_size,
             'max_group_size' => $this->max_group_size,
             'comfort_loading' => $this->comfort_loading,
             'schedules' => $schedules,
+
+            "country" => $this->country ?? null,
+            "need_email_notification" => $this->need_email_notification ?? false,
+            "need_sms_notification"=> $this->need_sms_notification ?? false,
 
             'description' => $this->description,
             'start_address' => $this->start_address,
@@ -56,7 +84,7 @@ class TourResource extends JsonResource
             'rating_statistic' => $this->rating_statistic ?? [],
             'images' => $this->images ?? [],
             'prices' => $this->prices ?? [],
-            'payment_infos' => $this->payment_infos ?? [],
+            'payment_infos' => $paymentInfos,
             'include_services' => $this->include_services ?? [],
             'exclude_services' => $this->exclude_services ?? [],
             'duration_type_id' => $this->duration_type_id,
@@ -68,7 +96,9 @@ class TourResource extends JsonResource
             'guide' => new ProfileResource($this->creator->profile) ?? null,
             'request_verify_at' => $this->request_verify_at,
             'verified_at' => $this->verified_at,
-            'reviews' => $reviews
+            'deleted_at' => $this->deleted_at,
+            'reviews' => $reviews,
+            'is_once_booked' => $this->is_once_booked,
 
         ];
     }

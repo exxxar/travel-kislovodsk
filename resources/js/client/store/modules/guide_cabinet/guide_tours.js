@@ -112,6 +112,8 @@ const actions = {
             method: 'DELETE'
         })
     },
+
+
     async removeTour(context, tourId) {
         return await context.dispatch("guideToursPage", {
             url: `${BASE_GUIDE_TOURS_LINK}/${tourId}`,

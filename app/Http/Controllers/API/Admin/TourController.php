@@ -7,17 +7,20 @@ use App\Http\Requests\API\TourSearchRequest;
 use App\Http\Requests\API\TourStoreRequest;
 use App\Http\Requests\API\TourUpdateRequest;
 use App\Http\Resources\BookingResource;
+use App\Http\Resources\CompanyCollection;
 use App\Http\Resources\FavoriteCollection;
 use App\Http\Resources\TourCollection;
 use App\Http\Resources\TourResource;
 use App\Imports\TourImport;
 use App\Imports\TourObjectImport;
 use App\Models\Booking;
+use App\Models\Company;
 use App\Models\Dictionary;
 use App\Models\Favorite;
 use App\Models\Schedule;
 use App\Models\Tour;
 use App\Models\TourObject;
+use App\Models\User;
 use App\Models\UserWatchTours;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -62,7 +65,12 @@ class TourController extends Controller
     public function store(TourStoreRequest $request)
     {
 
-        $userId = Auth::user()->id;
+        $creator = json_decode($request->creator ?? null);
+
+        if (!is_null($creator))
+            $userId = $creator->is_self ? Auth::user()->id : $creator->user_id;
+        else
+            $userId = Auth::user()->id;
 
         $path = '/user/' . $userId . "/tours";
         if (!Storage::exists('/public' . $path)) {
@@ -104,6 +112,7 @@ class TourController extends Controller
             'base_price' => $request->base_price ?? 0,
             'discount_price' => $request->discount_price ?? 0,
             'comfort_loading' => (boolean)($request->comfort_loading ?? false),
+            'country' => $request->country ?? null,
             'start_address' => $request->start_address ?? '',
             'start_city' => $request->start_city ?? '',
             'start_latitude' => (double)($request->start_latitude ?? 0),
@@ -112,9 +121,12 @@ class TourController extends Controller
             'preview_image' => $preview_photo,
             'max_group_size' => (int)($request->max_group_size ?? 0),
             'min_group_size' => (int)($request->min_group_size ?? 0),
-            'is_hot' => false,
-            'is_active' => false,
+            'is_hot' => (boolean)($request->is_hot ?? false),
+            'is_active' => (boolean)($request->is_active ?? false),
             'is_draft' => (boolean)($request->is_draft ?? false),
+            'need_email_notification' => (boolean)($request->need_email_notification ?? false),
+            'need_sms_notification' => (boolean)($request->need_sms_notification ?? false),
+
             'duration' => $request->duration ?? null,
             'images' => $photos,
             'prices' => json_decode($request->prices ?? '[]'),
@@ -157,7 +169,12 @@ class TourController extends Controller
     {
         $tour = Tour::query()->find($id);
 
-        $userId = Auth::user()->id;
+        $creator = json_decode($request->creator ?? null);
+
+        if (!is_null($creator))
+            $userId = $creator->is_self ? Auth::user()->id : $creator->user_id;
+        else
+            $userId = Auth::user()->id;
 
         $path = '/user/' . $userId . "/tours";
         if (!Storage::exists('/public' . $path)) {
@@ -207,7 +224,8 @@ class TourController extends Controller
             'preview_image' => $preview_photo,
             'max_group_size' => (int)($request->max_group_size ?? 0),
             'min_group_size' => (int)($request->min_group_size ?? 0),
-            'is_active' => true,
+            'is_hot' => (boolean)($request->is_hot ?? false),
+            'is_active' => (boolean)($request->is_active ?? false),
             'is_draft' => (boolean)($request->is_draft ?? false),
             'duration' => $request->duration ?? null,
             'images' => $photos,
@@ -257,18 +275,35 @@ class TourController extends Controller
      * @param \App\Models\Tour $tour
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Tour $tour)
+    public function destroy(Request $request, $id)
     {
+        $tour = Tour::query()->find($id);
+
+        if (is_null($tour))
+            return response()->noContent(404);
+
         $tour->delete();
+
+        return response()->noContent();
+    }
+
+    public function restoreTour(Request $request, $id)
+    {
+        $tour = Tour::withTrashed()
+            ->find($id);
+
+        if (is_null($tour))
+            return response()->noContent(404);
+
+        $tour->deleted_at = null;
+        $tour->save();
 
         return response()->noContent();
     }
 
     public function addTourToArchive(Request $request, $tourId)
     {
-        $userId = Auth::user()->id;
         $tour = Tour::query()
-            ->where("creator_id", $userId)
             ->where("id", $tourId)
             ->first();
 
@@ -287,9 +322,7 @@ class TourController extends Controller
 
     public function removeTourFromArchive(Request $request, $tourId)
     {
-        $userId = Auth::user()->id;
         $tour = Tour::query()
-            ->where("creator_id", $userId)
             ->where("id", $tourId)
             ->first();
 
@@ -308,15 +341,14 @@ class TourController extends Controller
 
     public function loadBookedTours(Request $request, $tourId)
     {
-        $userId = Auth::user()->id;
 
         $size = $request->get("size") ?? config('app.results_per_page');
 
         $bookedTours = Booking::query()
-            ->with(["tour", "user.profile", "transaction","schedule"])
+            ->with(["tour", "user.profile", "transaction", "schedule"])
             ->where("tour_id", $tourId)
             ->orderBy("start_at", "ASC")
-            ->whereHas("schedule", function ($q) use ($userId) {
+            ->whereHas("schedule", function ($q) {
                 $q->whereBetween("start_at", [
                         Carbon::now()->format('Y-m-d H:m:s'),
                         Carbon::now()->addYear()->format('Y-m-d H:m:s')
@@ -351,5 +383,45 @@ class TourController extends Controller
         unlink(storage_path('app/public/') . $fileName);
 
         return response()->noContent();
+    }
+
+    public function getTourGuides(Request $request)
+    {
+
+        $search = $request->search ?? null;
+
+        $guides = Company::query()
+            ->with(["user"])
+            ->withSearchFilter($search)
+            ->get();
+
+        return new CompanyCollection($guides);
+    }
+
+    public function loadGuideTourById(Request $request, $id)
+    {
+        $tour = Tour::query()
+            ->with(["tourObjects", "tourCategories", "schedules"])
+            ->find($id);
+
+        $tourObjectsIds = $tour->tourObjects->pluck("id");
+        $tourCategoriesIds = $tour->tourCategories->pluck("id");
+        $scheduleDates = $tour->schedules->pluck("start_at");
+
+
+        $tmp = $tour->toArray();
+
+        // $tmp["tour_objects"] = $tourObjectsIds;
+        $tmp["categories"] = $tourCategoriesIds;
+        $tmp["dates"] = [];
+
+        //unset($tmp["schedules"]);
+        //unset($tmp["tourCategories"]);
+        //unset($tmp["tourObjects"]);
+
+        //dd(  $tmp);
+
+        return response()->json((object)$tmp);
+
     }
 }

@@ -5,7 +5,7 @@
                 <div class="d-flex align-items-center justify-content-between"><label
                     class="dt-input__label">ваш телефон</label>
                 </div>
-                <div class="dt-input__group">
+                <div class="dt-input__group input-border">
                     <input type="text" name="phone"
                            v-mask="'+7(###)###-##-##'"
                            placeholder="+7(000)000-00-00"
@@ -31,7 +31,7 @@
                 <div class="d-flex align-items-center justify-content-between"><label
                     class="dt-input__label">введите код из смс</label>
                 </div>
-                <div class="dt-input__group">
+                <div class="dt-input__group input-border">
                     <input type="text"
                            v-mask="'####'"
                            placeholder="XXXX"
@@ -59,7 +59,7 @@
                 <div class="d-flex align-items-center justify-content-between"><label
                     class="dt-input__label">новый пароль</label>
                 </div>
-                <div class="dt-input__group">
+                <div class="dt-input__group input-border">
                     <input type="password"
                            v-model="form.password"
                            name="password" class="dt-input">
@@ -69,7 +69,7 @@
                 <div class="d-flex align-items-center justify-content-between"><label
                     class="dt-input__label">повторите новый пароль</label>
                 </div>
-                <div class="dt-input__group">
+                <div class="dt-input__group input-border">
                     <input type="password"
                            v-model="form.confirm_password"
                            name="confirm_password" class="dt-input">

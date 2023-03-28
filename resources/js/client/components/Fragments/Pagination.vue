@@ -19,7 +19,7 @@
                     <li class="page-item" :key="'paginate'+index"
                         v-for="(item, index) in filteredLinks"
                         @click="page(index)"
-                        v-bind:class="{'active':currentPage==index }"
+                        v-bind:class="{'active':index==pagination.meta.current_page }"
                     >
 
                         <div class="page-link" v-if="index!==0&&index!==filteredLinks.length-1">{{item.label}}</div>
@@ -78,13 +78,15 @@ export default {
             this.eventBus.emit('pagination_page', this.pagination.meta.current_page+1)
         },
         page(index){
-            if (this.currentPage===index)
-                return;
+            this.currentPage = index
+            /*if (this.currentPage===index)
+                return;*/
+
             window.scrollTo({
                 top: 500,
                 behavior: "smooth"
             })
-            this.currentPage = index
+
             this.eventBus.emit('pagination_page', index)
         },
         prevPage(){

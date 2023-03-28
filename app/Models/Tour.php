@@ -29,6 +29,10 @@ class Tour extends Model
         'max_group_size',
         'comfort_loading',
 
+        "country",
+        "need_email_notification",
+        "need_sms_notification",
+
         'description',
         'start_city',
         'start_address',
@@ -83,7 +87,7 @@ class Tour extends Model
         'verified_at' => 'timestamp',
     ];
 
-    protected $appends = ['resource_url', 'is_liked', 'rating', 'rating_statistic'];
+    protected $appends = ['resource_url', 'is_liked', 'rating', 'rating_statistic', 'is_once_booked'];
 
 
     public function scopeWithSort($query, $sortObject)
@@ -128,12 +132,17 @@ class Tour extends Model
                     ->where("is_draft", false);
             case 2:
                 return $query
-                    ->whereNull("verified_at")
-                    ->whereNotNull("request_verify_at");
+                    ->whereNull("verified_at");
+            //->whereNotNull("request_verify_at");
             case 3:
                 return $query
                     ->where("is_active", false)
                     ->where("is_draft", true);
+
+            case 4:
+                return $query
+                    ->withTrashed()
+                    ->whereNotNull("deleted_at");
 
 
         }
@@ -300,6 +309,27 @@ class Tour extends Model
             ->where("user_id", $user->id)->first());
     }
 
+    public function getIsOnceBookedAttribute(): bool
+    {
+
+        $status = Dictionary::getTransactionTypes()
+            ->where("slug", "transaction_payed_type")
+            ->first();
+
+        if (is_null(Auth::user()) || is_null($status))
+            return false;
+
+        $bookings = $this->bookings()
+            ->with(["transaction"])
+            ->where("user_id", Auth::user()->id)
+            ->whereHas("transaction", function ($q) use ($status) {
+                $q->where("status_type_id", $status->id);
+            })
+            ->get();
+
+        return count($bookings) > 0;
+    }
+
     public function getResourceUrlAttribute()
     {
         return url('/admin/tours/' . $this->getKey());
@@ -328,6 +358,11 @@ class Tour extends Model
     public function tourType()
     {
         return $this->belongsTo(Dictionary::class);
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
     }
 
     public function paymentType()

@@ -113,6 +113,73 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="dt-bg__price">
+                        <div class="dt-price text-center">
+                        <span>
+                        <p class="dt-price__non-active">{{object.address}}</p>
+                        </span>
+                            <h1 class=" mt-3 text-uppercase bold">{{object.city || 'Не указан'}}</h1>
+                            <label>город расположения</label>
+                        </div>
+                        <div class="dt-preferences">
+                            <div class="dt-preferences__item d-flex mb-3">
+                                <div class="dt-item__icon me-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 48 48"
+                                         fill="#0071eb">
+                                        <path
+                                            d="M35.25 43.2h-22.3V16.8l13.6-14.05 2.5 1.85q.35.3.55.875.2.575.2 1.325v.25l-2.15 9.75H42.3q1.55 0 2.775 1.2 1.225 1.2 1.225 2.8v2.8q0 .4.05.85.05.45-.1.8L39.8 40.1q-.55 1.3-1.825 2.2-1.275.9-2.725.9ZM16.6 39.25h19.3l6.35-15.1V20.8h-19.2l2.4-11.4-8.85 9.4Zm0-20.45v20.45Zm-3.65-2v4h-6v18.45h6v3.95H3V16.8Z"></path>
+                                    </svg>
+                                </div>
+                                <div class="dt-item__text">
+                                    <div class="dt-text__title">Гарантия лучшей цены</div>
+                                    <p class="dt-main-text-thin">
+                                        Если вы найдете цену ниже, мы вернем разницу.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="dt-preferences__item d-flex">
+                                <div class="dt-item__icon me-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 48 48"
+                                         fill="#0071eb">
+                                        <path
+                                            d="m17 45.9-3.95-6.8-7.9-1.6.9-7.65-5-5.85 5-5.8-.9-7.65 7.9-1.6L17 2.1l7 3.2 7-3.2 4 6.85 7.85 1.6-.9 7.65 5 5.8-5 5.85.9 7.65L35 39.1l-4 6.8-7-3.2Zm1.75-5.15L24 38.5l5.4 2.25 3.3-4.95 5.7-1.45-.55-5.85L41.8 24l-3.95-4.6.55-5.85-5.7-1.35-3.4-4.95L24 9.5l-5.4-2.25-3.3 4.95-5.7 1.35.55 5.85L6.2 24l3.95 4.5-.55 5.95 5.7 1.35ZM24 24Zm-2.15 6.9 11.6-11.5-2.55-2.3-9.05 9-4.7-4.95-2.6 2.5Z"></path>
+                                    </svg>
+                                </div>
+                                <div class="dt-item__text">
+                                    <div class="dt-text__title">Моментальное бронирование</div>
+                                    <p class="dt-main-text-thin">
+                                        Без ожидания ответа гида
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dt-set-order">
+                            <button
+                                    @click="goToTour" class="dt-btn-blue w-100 dt-btn--height-60">
+                                Найти все туры с объектом
+                            </button>
+                        </div>
+
+
+                        <div
+                            class="dt-question-guide text-center"
+                            data-bs-toggle="modal" data-bs-target="#callback-from-1">
+                            <p class="dt-btn-text text-uppercase me-lg-3">Задать вопрос менеджеру</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row dt-page__content">
+                <div class="col-lg-12 dt-page__content">
+                    <p class="dt-article__title">Погода в локации</p>
+                    <p class="dt-main-text-thin">
+                        <weather-component v-if="object.pogoda_klimat_id" :region-id="object.pogoda_klimat_id"/>
+                        <find-weather-component
+                            v-else
+                            :search="object.city"/>
+                    </p>
                 </div>
             </div>
         </div>
@@ -121,6 +188,20 @@
     <map-modal-dialog-component :id="'map-tour-object-modal-'+object.id"
                                 multiple="false"
                                 :coords="{lat: object.latitude, lon:object.longitude}"/>
+
+    <div class="modal fade" id="callback-from-1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Форма обратной связи</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <callback-component :text="preparedText"/>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
 import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
@@ -128,8 +209,14 @@ import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
 export default {
     components: {Breadcrumbs},
     props:["object"],
+    computed:{
+        preparedText(){
+            return `Здравствуйте! Заинтересовал туристический объект №${this.object.id} - ${this.object.title}! Хотелось бы узнать подробнее. Заранее спасибо!`
+        },
+    },
     data() {
         return {
+
             breadcrumbs: [
                 {
                     text: "Главная",
@@ -143,6 +230,22 @@ export default {
                     text: this.object.title,
                     active: true,
                 }],
+        }
+    },
+    methods:{
+        goToTour(){
+            let filters =  {
+                direction: false,
+                location_from: null,
+                location_to: this.object.city || null,
+                nearest_selected_dates: null,
+                date: null,
+                tour_type: null,
+            }
+
+            localStorage.setItem("travel_store_filter", JSON.stringify(filters || null))
+
+            window.location = '/tours-all'
         }
     }
 }

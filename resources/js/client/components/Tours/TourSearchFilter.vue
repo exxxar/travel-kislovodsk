@@ -246,8 +246,11 @@ export default {
     mounted() {
 
         if (localStorage.getItem("travel_store_filter")) {
+
             this.filters = JSON.parse(localStorage.getItem("travel_store_filter"))
             localStorage.removeItem("travel_store_filter")
+
+            this.applyFilter();
         }
 
         this.loadDictionaries()
@@ -319,6 +322,7 @@ export default {
         applyFilter() {
 
             localStorage.setItem("travel_store_filter", JSON.stringify(this.filters || null))
+
 
             if (this.needRedirectToAll) {
                 window.location = '/tours-all'

@@ -35,7 +35,7 @@
 
 
             </div>
-            <div class="dt-input__group">
+            <div class="dt-input__group input-border">
                 <input type="text" name="phone"
                        v-model="form.username"
                        v-if="!is_email"
@@ -63,7 +63,7 @@
             <div class="d-flex align-items-center justify-content-between"><label
                 class="dt-input__label">пароль</label>
             </div>
-            <div class="dt-input__group">
+            <div class="dt-input__group input-border">
                 <input :type="is_hidden_password?'password':'text'" name="password"
                        v-model="form.password" class="dt-input" autocomplete="off">
                 <div class="dt-input__group-item">
@@ -78,7 +78,7 @@
 
 
         <div class="dt-check align-items-start mb-4">
-            <div class="dt-check__input">
+            <div class="dt-check__input input-border">
                 <input type="checkbox" v-model="accept_rules"/>
                 <div class="dt-check__input-check"></div>
             </div>
@@ -96,7 +96,7 @@
             <div class="d-flex align-items-center justify-content-between"><label
                 class="dt-input__label">sms-код подтверждения</label>
             </div>
-            <div class="dt-input__group">
+            <div class="dt-input__group input-border">
                 <input type="text" name="sms"
                        v-mask="'####'"
                        placeholder="XXXX"
@@ -161,7 +161,7 @@ export default {
                     if (role !== 'admin')
                         window.location.href = `/${role}-cabinet`
                     else
-                        window.location.href = `/admin/cabinet`
+                        window.location.href = `/admin/tours`
                 }
 
                 this.load = false

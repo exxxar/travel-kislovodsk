@@ -1,9 +1,11 @@
 <?php
 
 
+use App\Classes\PogodaKlimat\PogodaIKlimatAPI;
 use App\Events\TelegramNotificationProfileVerifiedEvent;
 use App\Exports\Dictionary\DictionaryExport;
 use App\Exports\TourGroupExport;
+use App\Http\Controllers\AdminVerifiedController;
 use App\Http\Controllers\API\ReviewController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\WebNotificationController;
@@ -34,14 +36,42 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 |
 */
 
-Route::get("/test", function (){
-    $watches = \App\Models\UserWatchTours::query()
-      //  ->with(["tour"])
-        ->whereHas("tour", function ($q){
-            return $q->where("creator_id", Auth::user()->id);
-        })->get();
 
-    dd($watches->toArray());
+Route::get("/test-pogoda", function (){
+
+    $pogoda = new PogodaIKlimatAPI();
+    dd($pogoda->findLocation("Со"));
+
+    dd($pogoda->getPogodaByRegionId("37193"));
+    //dd($pogoda->getMonthAPI(27785, 2023,3));//
+
+});
+Route::get("/test-pdf", function (){
+    $mpdf = new \Mpdf\Mpdf([
+        'format' => 'A4-L',
+        'margin_left' => 0,
+        'margin_right' => 0,
+        'margin_top' => 0,
+        'margin_bottom' => 0,
+        'margin_header' => 0,
+        'margin_footer' => 0,
+    ]);
+
+
+    $mpdf->SetDisplayMode('fullpage');
+
+
+    for ($i=1;$i<=6;$i++)
+        $mpdf->WriteHTML(
+            view("pdf.tour-route-book-page-$i")
+        );
+
+
+
+
+    return $mpdf->Output("test.pdf","D");
+
+
 });
 
 Route::get('/push-notificaiton', [WebNotificationController::class, 'index'])->name('push-notificaiton');
@@ -82,6 +112,7 @@ Route::get('/tour-object/{id}', [\App\Http\Controllers\API\TourObjectController:
 
 Route::view('/tours-all', 'pages.tours-all')->name("page.tours-all");
 Route::view('/tours-hot', 'pages.tours-hot')->name("page.tours-hot");
+Route::view('/tour-objects', 'pages.tour-objects')->name("page.tour-objects");
 Route::view('/tour-search', 'pages.tours-search')->name("page.tour-search");
 Route::view('/not-found', 'errors.404')->name("page.not-found");
 Route::view('/error', 'errors.500')->name("page.error");
@@ -117,6 +148,15 @@ Route::prefix("api")
                 Route::post('/pre-recovery', 'preRecovery');
                 Route::post('/pre-recovery-code', 'preRecoveryCode');
                 Route::post('/recovery', 'recovery');
+            });
+
+
+        Route::prefix("weather")
+            ->controller(\App\Http\Controllers\API\WeatherController::class)
+            ->group(function () {
+                Route::post('/location', 'findWeatherLocation');
+                Route::get('/locations', 'getAllWeatherLocations');
+                Route::get('/{id}', 'getWeatherByRegionId');
             });
 
         Route::prefix("tour-categories")
@@ -341,23 +381,66 @@ Route::prefix("admin")
 
         Route::view('/cabinet', 'pages.admin.cabinet')->name("page.admin.cabinet");
         Route::view('/tours', 'pages.admin.tours')->name("page.admin.tours");
-        Route::view('/users', 'pages.admin.users')->name("page.admin.users");
+        Route::view('/users-and-guides', 'pages.admin.users')->name("page.admin.users");
         Route::view('/transactions', 'pages.admin.transactions')->name("page.admin.transactions");
         Route::view('/tour-objects', 'pages.admin.tour-objects')->name("page.admin.tour-objects");
 
 
-        Route::prefix("api/tours")
-            ->controller(\App\Http\Controllers\API\Admin\TourController::class)
-            ->group(function () {
-                Route::get('/', 'index');
-                Route::get('/actual-booked-tours/{id}', 'loadActualGuideBookedTours');
-                Route::get('/archive-add/{id}', 'addGuideTourToArchive');
-                Route::delete('/archive-remove/{id}', 'removeGuideTourFromArchive');
-                Route::post('/update/{id}', 'update');
-                Route::post('/', 'store');
-                Route::post('/search', 'search');
-                Route::delete('/{id}', 'destroy');
-            });
+        Route::prefix("api")->group(function(){
+            Route::prefix("tours")
+                ->controller(\App\Http\Controllers\API\Admin\TourController::class)
+                ->group(function () {
+                    Route::get('/', 'index');
+                    Route::get('/guides', 'getTourGuides');
+                    Route::get('/restore/{id}', 'restoreTour');
+                    Route::get('/accept-tour/{id}', [AdminVerifiedController::class,"acceptTour"]);
+                    Route::get('/decline-tour/{id}', [AdminVerifiedController::class,"declineTour"]);
+                    Route::get('/actual-booked-tours/{id}', 'loadActualBookedTours');
+                    Route::get('/archive-add/{id}', 'addTourToArchive');
+                    Route::delete('/archive-remove/{id}', 'removeTourFromArchive');
+                    Route::post('/update/{id}', 'update');
+                    Route::post('/', 'store');
+                    Route::post('/search', 'search');
+                    Route::get('/{id}', 'loadGuideTourById');
+                    Route::delete('/{id}', 'destroy');
+                });
+
+            Route::prefix("tour-objects")
+                ->controller(\App\Http\Controllers\API\Admin\TourObjectController::class)
+                ->group(function () {
+                    Route::get('/', 'index');
+
+                    Route::post('/search', 'search');
+                    Route::post('/upload-tour-objects-excel', 'uploadTourObjectsExcel');
+                    Route::delete('/clear', 'clear');
+                    Route::get('/restore-all', 'restoreAll');
+                    Route::get('/restore/{id}', 'restore');
+                    Route::delete('/remove/{id}', 'destroy');
+                    Route::post('/edit/{id}', 'update');
+
+                    Route::get('/{id}', 'loadGuideTourObjectById');
+
+
+
+                    Route::post('/', 'store');
+
+                });
+
+            Route::prefix("transactions")
+                ->controller(\App\Http\Controllers\API\Admin\TransactionController::class)
+                ->group(function () {
+                    Route::get('/', 'index');
+                    Route::get('/request/{transactionId}', 'requestPaymentByTransactionId');
+                    Route::post('/search', 'getFilteredTransactions');
+                });
+
+            Route::prefix("users-and-guides")
+                ->controller(\App\Http\Controllers\API\Admin\UserController::class)
+                ->group(function () {
+                    Route::get('/', 'index');
+                    Route::post('/search', 'search');
+                });
+        });
 
         Route::controller(\App\Http\Controllers\AdminVerifiedController::class)
             ->group(function () {

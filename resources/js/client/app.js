@@ -63,6 +63,7 @@ import PrivacyPolicyPage from '@/pages/PrivacyPolicy.vue'
 import RulesPage from '@/pages/Rules.vue'
 import TourPage from '@/pages/tours/Tour.vue'
 import ToursAllPage from '@/pages/tours/ToursAll.vue'
+import TourObjectsPage from '@/pages/tours/TourObjects.vue'
 import ToursHotPage from '@/pages/tours/ToursHot.vue'
 import TourObjectPage from '@/pages/tours/TourObject.vue'
 // ToursSearchPage from '@/pages/tours/ToursSearch.vue'
@@ -173,6 +174,7 @@ app.component('privacy-policy-page', PrivacyPolicyPage)
 app.component('rules-page', RulesPage)
 app.component('tour-page', TourPage)
 app.component('tours-all-page', ToursAllPage)
+app.component('tour-objects-page', TourObjectsPage)
 app.component('tours-hot-page', ToursHotPage)
 app.component('tour-object-page', TourObjectPage)
 //app.component('tour-search-page', ToursSearchPage)
@@ -212,15 +214,21 @@ import AdminUsersPage from '@/pages/admin/Users.vue'
 import AdminTransactionsPage from '@/pages/admin/Transactions.vue'
 
 import AdminMenuComponent from '@/components/AdminCabinet/AdminMenuBar.vue'
-import AdminToursComponent from '@/components/AdminCabinet/AdminTours.vue'
-import AdminTourCardComponent from '@/components/AdminCabinet/AdminTourCard.vue'
-import AdminTourObjectsComponent from '@/components/AdminCabinet/AdminTours.vue'
-import AdminAddTourComponent from '@/components/AdminCabinet/AdminAddTour.vue'
-import AdminAddTourObjectComponent from '@/components/AdminCabinet/AdminTours.vue'
-import AdminAddUserComponent from '@/components/AdminCabinet/AdminTours.vue'
-import AdminEditUserComponent from '@/components/AdminCabinet/AdminTours.vue'
-import AdminEditTourComponent from '@/components/AdminCabinet/AdminTours.vue'
-import AdminEditTourObjectComponent from '@/components/AdminCabinet/AdminTours.vue'
+import AdminToursComponent from '@/components/AdminCabinet/Tours/AdminTours.vue'
+import AdminTourCardComponent from '@/components/AdminCabinet/Tours/AdminTourCard.vue'
+import AdminTourObjectsComponent from '@/components/AdminCabinet/TourObjects/AdminTourObjects.vue'
+import AdminTourObjectCardComponent from '@/components/AdminCabinet/TourObjects/AdminTourObjectCard.vue'
+import AdminAddTourComponent from '@/components/AdminCabinet/Tours/AdminAddTour.vue'
+import AdminAddTourObjectComponent from '@/components/AdminCabinet/Tours/AdminTours.vue'
+import AdminUsersComponent from '@/components/AdminCabinet/Users/AdminUsers.vue'
+import AdminTransactionsComponent from '@/components/AdminCabinet/Transactions/AdminTransactions.vue'
+import AdminAddUserComponent from '@/components/AdminCabinet/Tours/AdminTours.vue'
+import AdminUserCardComponent from '@/components/AdminCabinet/Users/AdminUserCard.vue'
+import AdminEditUserComponent from '@/components/AdminCabinet/Tours/AdminTours.vue'
+import AdminEditTourComponent from '@/components/AdminCabinet/Tours/AdminEditTour.vue'
+import AdminEditTourObjectComponent from '@/components/AdminCabinet/Tours/AdminTours.vue'
+import WeatherComponent from '@/components/Fragments/Weather.vue'
+import FindWeatherComponent from '@/components/Fragments/FindWeather.vue'
 
 app.component('admin-cabinet-page', AdminCabinetPage)
 app.component('admin-tours-page', AdminToursPage)
@@ -231,13 +239,21 @@ app.component('admin-transactions-page', AdminTransactionsPage)
 app.component('admin-menu-component', AdminMenuComponent)
 app.component('admin-tours-component', AdminToursComponent)
 app.component('admin-tour-card-component', AdminTourCardComponent)
+
 app.component('admin-tour-objects-component', AdminTourObjectsComponent)
+app.component('admin-tour-object-card-component', AdminTourObjectCardComponent)
+
 app.component('admin-add-tour-component', AdminAddTourComponent)
 app.component('admin-add-tour-object-component', AdminAddTourObjectComponent)
+app.component('admin-users-component', AdminUsersComponent)
+app.component('admin-transactions-component', AdminTransactionsComponent)
 app.component('admin-add-user-component', AdminAddUserComponent)
+app.component('admin-user-card-component', AdminUserCardComponent)
 app.component('admin-edit-user-component', AdminEditUserComponent)
 app.component('admin-edit-tour-component', AdminEditTourComponent)
 app.component('admin-edit-tour-object-component ', AdminEditTourObjectComponent)
+app.component('weather-component', WeatherComponent)
+app.component('find-weather-component', FindWeatherComponent)
 
 import store from './store'
 

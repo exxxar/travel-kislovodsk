@@ -120,6 +120,11 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
         return $this->belongsTo(Profile::class);
     }
 
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
+
     public function userLawStatus()
     {
         return $this->belongsTo(Dictionary::class);
@@ -350,6 +355,49 @@ class User extends \TCG\Voyager\Models\User implements MustVerifyEmail
         }
 
         return $tmp;
+    }
+
+    public function scopeWithFilters($query, $filterObject)
+    {
+        if (is_null($filterObject))
+            return $query;
+
+        if ($filterObject->need_removed)
+            return $query->whereNotNull("deleted_at");
+
+        if ($filterObject->need_blocked)
+            return $query->whereNotNull("blocked_at");
+
+        if ($filterObject->need_admins)
+            return $query->whereHas("role", function ($query){
+               $query->where("name", "admin");
+            });
+
+
+        if ($filterObject->need_guides)
+            return $query->whereHas("role", function ($query){
+                $query->where("name", "guide");
+            });
+
+        if ($filterObject->need_tourist)
+            return $query->whereHas("role", function ($query){
+                $query->where("name", "user");
+            });
+
+        if ($filterObject->need_moderate)
+            return $query->whereHas("company", function ($query){
+                $query->whereNotNull("request_approve_at");
+            });
+
+      /*  "need_removed"=>$request->need_removed ?? false,
+            "need_admins"=>$request->need_admins ?? false,
+            "need_moderate"=>$request->need_moderate ?? false,
+            "need_guides"=>$request->need_guides ?? false,
+            "need_tourist"=>$request->need_tourist ?? false,
+            "need_all"=>$request->need_all ?? false,*/
+
+        return $query;
+
     }
 
 }

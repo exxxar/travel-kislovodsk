@@ -5,12 +5,16 @@ const BASE_ADMIN_TOURS_LINK = '/admin/api/tours'
 
 let state = {
     admin_tours: [],
+    tour_guides:[],
     admin_tours_paginate_object: [],
 }
 
 const getters = {
     getAdminTours: state => {
         return state.admin_tours
+    },
+    getTourGuides: state => {
+        return state.tour_guides
     },
     getAdminTourById: (state) => (id) => {
         return state.admin_tours.find(item => item.id === id)
@@ -74,10 +78,10 @@ const actions = {
             return Promise.reject(err);
         })
     },
-    async addTour(context, tour) {
+    async addAdminTour(context, tour) {
         let _axios = util.makeAxiosFactory(`${BASE_ADMIN_TOURS_LINK}`, 'POST', tour)
         return _axios.then((response) => {
-
+            return Promise.resolve(response.data);
         }).catch(err => {
             context.dispatch("errorsAdminTours")
             context.commit("setErrors", err.response.data.errors || [])
@@ -95,7 +99,13 @@ const actions = {
             method: 'DELETE'
         })
     },
-    async removeTour(context, tourId) {
+    async restoreAdminTour(context, tourId) {
+        return await context.dispatch("adminToursPage", {
+            url: `${BASE_ADMIN_TOURS_LINK}/restore/${tourId}`,
+            method: 'GET'
+        })
+    },
+    async removeAdminTour(context, tourId) {
         return await context.dispatch("adminToursPage", {
             url: `${BASE_ADMIN_TOURS_LINK}/${tourId}`,
             method: 'DELETE'
@@ -117,10 +127,46 @@ const actions = {
             data: data
         })
     },
+    async approveTourByAdmin(context, id){
+        let _axios = util.makeAxiosFactory(`${BASE_ADMIN_TOURS_LINK}/accept-tour/${id}`)
+        return _axios.then((response) => {
+            return response
+        }).catch(err => {
+            context.dispatch("errorsAdminTours")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
+        })
+    },
+    async declineTourByAdmin(context, id){
+        let _axios = util.makeAxiosFactory(`${BASE_ADMIN_TOURS_LINK}/decline-tour/${id}`)
+        return _axios.then((response) => {
+            return response
+        }).catch(err => {
+            context.dispatch("errorsAdminTours")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
+        })
+    },
     async loadAdminTourById(context, id) {
         let _axios = util.makeAxiosFactory(`${BASE_ADMIN_TOURS_LINK}/${id}`)
         return _axios.then((response) => {
             return response
+        }).catch(err => {
+            context.dispatch("errorsAdminTours")
+            context.commit("setErrors", err.response.data.errors || [])
+            return Promise.reject(err);
+        })
+    },
+    async loadTourGuidesByPage(context, payload = {search: null, page: 0, size: 100}) {
+        let page = payload.page || 0,
+            size = payload.size || 100,
+            search = payload.search || null
+
+        let _axios = util.makeAxiosFactory(`${BASE_ADMIN_TOURS_LINK}/guides${search!=null?'?search='+search:''}`, 'GET')
+        return _axios.then((response) => {
+
+
+            context.commit("setTourGuides", response.data.data || [])
         }).catch(err => {
             context.dispatch("errorsAdminTours")
             context.commit("setErrors", err.response.data.errors || [])
@@ -144,6 +190,13 @@ const mutations = {
         state.admin_tours = payload || []
 
         localStorage.setItem('travel_store_admin_tours', JSON.stringify(payload));
+    },
+
+    setTourGuides(state, payload) {
+        state.tour_guides = payload || []
+
+
+        localStorage.setItem('travel_store_admin_tour_guides', JSON.stringify(payload));
     },
     setAdminToursPaginateObject(state, payload) {
         state.admin_tours_paginate_object = payload || [];

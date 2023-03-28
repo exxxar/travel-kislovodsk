@@ -268,6 +268,7 @@ class TourController extends Controller
             'base_price' => $request->base_price ?? 0,
             'discount_price' => $request->discount_price ?? 0,
             'comfort_loading' => (boolean)($request->comfort_loading ?? false),
+            'country' => $request->country ?? null,
             'start_address' => $request->start_address ?? '',
             'start_city' => $request->start_city ?? '',
             'start_latitude' => (double)($request->start_latitude ?? 0),
@@ -279,6 +280,9 @@ class TourController extends Controller
             'is_hot' => false,
             'is_active' => false,
             'is_draft' => (boolean)($request->is_draft ?? false),
+            'need_email_notification' => (boolean)($request->need_email_notification ?? false),
+            'need_sms_notification' => (boolean)($request->need_sms_notification ?? false),
+
             'duration' => $request->duration ?? null,
             'images' => $photos,
             'prices' => json_decode($request->prices ?? '[]'),

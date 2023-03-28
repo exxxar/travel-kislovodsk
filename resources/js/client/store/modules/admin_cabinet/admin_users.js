@@ -1,36 +1,36 @@
 import util from '../utilites';
 import axios from "axios";
 
-const BASE_GUIDE_TOURS_LINK = '/api/guide-cabinet/tours'
+const BASE_ADMIN_USERS_LINK = '/admin/api/users-and-guides'
 
 let state = {
-    guide_tours: [],
-    guide_tours_paginate_object: [],
+    admin_users: [],
+    admin_users_paginate_object: [],
 }
 
 const getters = {
-    getGuideTours: state => {
-        return state.guide_tours
+    getAdminUsers: state => {
+        return state.admin_users
     },
-    getGuideTourById: (state) => (id) => {
-        return state.guide_tours.find(item => item.id === id)
+    getAdminUserById: (state) => (id) => {
+        return state.admin_users.find(item => item.id === id)
     },
-    getGuideToursPaginateObject: state => state.guide_tours_paginate_object || [],
+    getAdminUsersPaginateObject: state => state.admin_users_paginate_object || [],
 }
 
 const actions = {
-    errorsGuideTours(context) {
-        context.commit('setGuideTours',
-            !localStorage.getItem('travel_store_guide_tours') ?
-                [] : JSON.parse(localStorage.getItem('travel_store_guide_tours')))
+    errorsAdminUsers(context) {
+        context.commit('setAdminUsers',
+            !localStorage.getItem('travel_store_admin_users') ?
+                [] : JSON.parse(localStorage.getItem('travel_store_admin_users')))
 
-        context.commit('setGuideToursPaginateObject',
-            !localStorage.getItem('travel_store_guide_tours_paginate_object') ?
-                [] : JSON.parse(localStorage.getItem('travel_store_guide_tours_paginate_object')))
+        context.commit('setAdminUsersPaginateObject',
+            !localStorage.getItem('travel_store_admin_users_paginate_object') ?
+                [] : JSON.parse(localStorage.getItem('travel_store_admin_users_paginate_object')))
     },
-    async guideToursPage(context, payload) {
+    async adminUsersPage(context, payload) {
 
-        let link = payload.url || BASE_GUIDE_TOURS_LINK
+        let link = payload.url || BASE_ADMIN_USERS_LINK
         let method = payload.method || 'GET'
         let data = payload.data || null
 
@@ -39,18 +39,20 @@ const actions = {
         return _axios.then((response) => {
             let dataObject = response.data
 
-            context.commit('setGuideTours', dataObject.data)
+            context.commit('setAdminUsers', dataObject.data)
             delete dataObject.data
-            context.commit('setGuideToursPaginateObject', dataObject)
+
+            console.log("dataObject",dataObject)
+            context.commit('setAdminUsersPaginateObject', dataObject)
 
         }).catch(err => {
-            context.dispatch("errorsGuideTours")
+            context.dispatch("errorsAdminUsers")
             context.commit("setErrors", err.response.data.errors || [])
             return Promise.reject(err);
         })
     },
-    async uploadToursExcel(context, formData) {
-        return axios.post(`${BASE_GUIDE_TOURS_LINK}/upload-tours-excel`, formData, {
+    async uploadAdminUsersExcel(context, formData) {
+        return axios.post(`${BASE_ADMIN_USERS_LINK}/upload-tours-excel`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -58,116 +60,79 @@ const actions = {
 
         }).catch(err => {
             context.commit("setErrors", err.response.data.errors || [])
-            context.dispatch("errorsGuideTours")
+            context.dispatch("errorsAdminUsers")
             return Promise.reject(err);
 
         })
     },
-    async editGuideTour(context, payload) {
+    async editAdminUser(context, payload) {
 
-        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_TOURS_LINK}/update/${payload.id}`, 'POST', payload.data)
+        let _axios = util.makeAxiosFactory(`${BASE_ADMIN_USERS_LINK}/update/${payload.id}`, 'POST', payload.data)
         return _axios.then((response) => {
             return response
         }).catch(err => {
-            context.dispatch("errorsGuideTours")
+            context.dispatch("errorsAdminUsers")
             context.commit("setErrors", err.response.data.errors || [])
             return Promise.reject(err);
         })
     },
-    async addTour(context, tour) {
-        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_TOURS_LINK}`, 'POST', tour)
+    async addAdminUser(context, tour) {
+        let _axios = util.makeAxiosFactory(`${BASE_ADMIN_USERS_LINK}`, 'POST', tour)
         return _axios.then((response) => {
 
         }).catch(err => {
-            context.dispatch("errorsGuideTours")
+            context.dispatch("errorsAdminUsers")
             context.commit("setErrors", err.response.data.errors || [])
             return Promise.reject(err);
         })
     },
-    async addTourToArchive(context, tourId) {
-        return await context.dispatch("guideToursPage", {
-            url: `${BASE_GUIDE_TOURS_LINK}/archive-add/${tourId}`
-        })
-    },
-    async removeTourFromArchive(context, tourId) {
-        return await context.dispatch("guideToursPage", {
-            url: `${BASE_GUIDE_TOURS_LINK}/archive-remove/${tourId}`,
+    async removeAdminUser(context, tourId) {
+        return await context.dispatch("adminUsersPage", {
+            url: `${BASE_ADMIN_USERS_LINK}/${tourId}`,
             method: 'DELETE'
         })
     },
-    async removeTour(context, tourId) {
-        return await context.dispatch("guideToursPage", {
-            url: `${BASE_GUIDE_TOURS_LINK}/${tourId}`,
-            method: 'DELETE'
-        })
-    },
-    async requestGuideTourVerified(context, tourId) {
 
-        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_TOURS_LINK}/request-tour-verified/${tourId}`)
-
-        return _axios.then((response) => {
-
-        }).catch(err => {
-            context.commit("setErrors", err.response.data.errors || [])
-            context.dispatch("errorsGuideTours")
-            return Promise.reject(err);
-        })
-    },
-    async clearArchiveTours(context) {
-        return await context.dispatch("guideToursPage", {
-            url: `${BASE_GUIDE_TOURS_LINK}/archive-clear`
-        })
-    },
-    async loadGuideToursFilteredByPage(context, payload) {
+    async loadAdminUsersFilteredByPage(context, payload) {
 
         let data = payload.filterObject,
             page = payload.page || 0,
             size = payload.size || 15
 
-        return await context.dispatch("guideToursPage", {
-            url: `${BASE_GUIDE_TOURS_LINK}/search?page=${page}&size=${size}`,
+        return await context.dispatch("adminUsersPage", {
+            url: `${BASE_ADMIN_USERS_LINK}/search?page=${page}&size=${size}`,
             method: 'POST',
             data: data
         })
     },
-    async loadGuideTourById(context, id) {
-        let _axios = util.makeAxiosFactory(`${BASE_GUIDE_TOURS_LINK}/${id}`)
+    async loadAdminUserById(context, id) {
+        let _axios = util.makeAxiosFactory(`${BASE_ADMIN_USERS_LINK}/${id}`)
         return _axios.then((response) => {
             return response
         }).catch(err => {
-            context.dispatch("errorsGuideTours")
+            context.dispatch("errorsAdminUsers")
             context.commit("setErrors", err.response.data.errors || [])
             return Promise.reject(err);
         })
     },
-    async loadGuideToursByPage(context, payload = {category: 0, page: 0, size: 100}) {
-        let page = payload.page || 0,
-            size = payload.size || 100,
-            category = payload.category || 0
-
-        return await context.dispatch("guideToursPage", {
-                url: `${BASE_GUIDE_TOURS_LINK}?page=${page}&size=${size}&category=${category}`
-            }
-        )
-    },
 }
 
 const mutations = {
-    setGuideTours(state, payload) {
-        state.guide_tours = payload || []
+    setAdminUsers(state, payload) {
+        state.admin_users = payload || []
 
-        localStorage.setItem('travel_store_guide_tours', JSON.stringify(payload));
+        localStorage.setItem('travel_store_admin_users', JSON.stringify(payload));
     },
-    setGuideToursPaginateObject(state, payload) {
-        state.guide_tours_paginate_object = payload || [];
-        localStorage.setItem('travel_store_guide_tours_paginate_object', JSON.stringify(payload));
+    setAdminUsersPaginateObject(state, payload) {
+        state.admin_users_paginate_object = payload || [];
+        localStorage.setItem('travel_store_admin_users_paginate_object', JSON.stringify(payload));
     }
 }
 
-const guideToursModule = {
+const adminUsersModule = {
     state,
     mutations,
     actions,
     getters
 }
-export default guideToursModule;
+export default adminUsersModule;

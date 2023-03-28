@@ -4,7 +4,7 @@
             <div class="dt-wrapper--black-70 position-absolute"></div>
 
             <div class="container dt-search__content text-center">
-                <h1 class="dt-search__title">Экскурсионные туры</h1>
+                <h1 class="dt-search__title">Авторские экскурсионные туры по России</h1>
                 <tour-search-filter :is-links-white="true" :need-redirect-to-all="true"/>
             </div>
         </div>
@@ -67,6 +67,10 @@
 
 
     </main>
+
+
+
+
 </template>
 <script>
 import TourSearchFilter from "@/components/Tours/TourSearchFilter.vue";

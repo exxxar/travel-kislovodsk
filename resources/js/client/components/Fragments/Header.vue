@@ -5,6 +5,10 @@
                 <div class="dt-actions__links align-items-center d-flex">
                     <ul class="dt-links__list d-flex">
                         <li>
+                            <a href="/"
+                               class="dt-link text-white text-decoration-none text-uppercase">Главная</a>
+                        </li>
+                        <li>
                             <a href="/about" target="_blank"
                                class="dt-link text-white text-decoration-none text-uppercase">О проекте</a>
                         </li>
@@ -26,7 +30,9 @@
                 <div class="dt-actions__entry">
                     <ul class="dt-buttons d-flex align-items-center">
                         <li class="dt-btn-entry dt-btn--weather">
-                            <button class="dt-btn dt-btn-blue">
+                            <button
+                                data-bs-toggle="modal" data-bs-target="#find-weather"
+                                class="dt-btn dt-btn-blue">
                                 Погода в горах
                                 <img class="ms-3" v-lazy="'/img/icons/mountains.png'" alt="">
                             </button>
@@ -226,6 +232,21 @@
     </header>
 
     <notifications/>
+
+
+    <div class="modal fade" id="find-weather" tabindex="-1" aria-labelledby="find-weather" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Поиск погоды</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <find-weather-component/>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>

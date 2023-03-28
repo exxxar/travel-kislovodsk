@@ -21,6 +21,7 @@ class CompanyResource extends JsonResource
             'photo' => $this->photo,
             'inn' => $this->inn,
             'ogrn' => $this->ogrn,
+            'user_id'=>$this->whenLoaded("user")->id ?? null,
             'law_address' => $this->law_address,
             'approve_at'=> $this->approve_at,
             'request_approve_at'=> $this->request_approve_at,

@@ -250,8 +250,18 @@
                                         вас вопросы.
                                     </p>
                                 </div>
-                                <button class="dt-btn-blue" @click="startChatWithGide">
+                                <button
+                                    v-if="!user.is_guest&&tour.is_once_booked"
+                                    class="dt-btn-blue" @click="startChatWithGide">
                                     Задать вопрос гиду
+                                </button>
+
+                                <button
+                                    v-if="user.is_guest||!tour.is_once_booked"
+                                    class="dt-btn-blue"
+                                    data-bs-toggle="modal" data-bs-target="#callback-from-1"
+                                >
+                                    Задать вопрос менеджеру
                                 </button>
                             </div>
                         </div>
@@ -337,7 +347,16 @@
                                 Оформить заказ
                             </button>
                         </div>
-                        <div @click="startChatWithGide" class="dt-question-guide text-center">
+
+
+                        <div
+                            v-if="user.is_guest||!tour.is_once_booked"
+                            class="dt-question-guide text-center"
+                            data-bs-toggle="modal" data-bs-target="#callback-from-1">
+                            <p class="dt-btn-text text-uppercase me-lg-3">Задать вопрос менеджеру</p>
+                        </div>
+
+                        <div  v-if="!user.is_guest&&tour.is_once_booked" @click="startChatWithGide" class="dt-question-guide text-center">
                             <p class="dt-btn-text text-uppercase me-lg-3">задать вопрос гиду</p>
                         </div>
                     </div>
@@ -346,6 +365,20 @@
         </div>
         <benefits-component v-if="!isBooking" class="container"/>
     </main>
+
+    <div class="modal fade" id="callback-from-1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Форма обратной связи</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <callback-component :text="preparedText"/>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
 import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
@@ -359,6 +392,9 @@ export default {
     computed: {
         user() {
             return window.user
+        },
+        preparedText(){
+            return `Здравствуйте! Заинтересовал тур №${this.tour.id} - ${this.tour.title}! Хотелось бы узнать подробнее. Заранее спасибо!`
         }
     },
     data() {

@@ -1,16 +1,23 @@
 <template>
     <div class="card tour-card">
         <div class="card-body p-0">
-            <div class="tour-card__logo">
+            <a :href="'/tour-object/'+tourObject.id" class="tour-card__logo">
                 <img class="cover w-100" :class="{'archived': tourObject.deleted_at}"
                      v-lazy="tourObject.photos[0]"
                      alt="travel"/>
-            </div>
+            </a>
             <div class="tour-card__content-2">
-                <h2 class="tour-card__name mb-2 bold">{{ tourObject.title }}</h2>
+                <h2 class="tour-card__name mb-2 bold"><a :href="'/tour-object/'+tourObject.id">{{ tourObject.title }}</a></h2>
                 <p class="tour-card__description">
                     {{ tourObject.description }}
                 </p>
+
+                <a href="#show-weather"
+                   data-bs-toggle="modal"
+                   v-if="tourObject.pogoda_klimat_id"
+                   class="btn btn-link w-100 text-center p-3"
+                   :data-bs-target="'#show-weather-tour-object-'+tourObject.id"
+                >Посмотреть погоду</a>
             </div>
         </div>
         <div class="card-footer d-flex justify-content-center align-items-center">
@@ -19,6 +26,23 @@
                class="text-uppercase dt-travel-card__action p-3">
                 <h6 class="dt-btn-text">Подробнее</h6>
             </a>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" :id="'show-weather-tour-object-'+tourObject.id" tabindex="-1" aria-labelledby="show-weather" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="show-weather">Прогноз погоды в {{tourObject.city }} на 14 дней </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <weather-component
+                        v-if="tourObject.pogoda_klimat_id"
+                        :region-id="tourObject.pogoda_klimat_id"/>
+                </div>
+            </div>
         </div>
     </div>
 </template>
