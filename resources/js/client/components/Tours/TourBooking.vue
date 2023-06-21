@@ -132,7 +132,7 @@
                 <span class="text-muted-black fw-regular">за {{ summaryPeopleCount }} человек</span>
             </div>
         </div>
-        <div class="dt-personal-data dt-content--bottom-60">
+        <div v-if="false" class="dt-personal-data dt-content--bottom-60">
             <ul class="d-flex flex-nowrap flex-wrap overflow-auto pb-2 w-100">
                 <li class="col-auto"
                     style="padding: 10px; margin-left:5px;"
@@ -152,14 +152,269 @@
             </ul>
         </div>
 
-        <div class="dt-personal-data dt-content--bottom-60"
+        <div v-if="false" class="dt-ticket__item bg-white shadow p-3" style="border-radius: 6px">
+            <h4 class="fw-bold">2. Малыш до 5 лет без места</h4>
+            <div class="dt-header__detail dt-ticket__detail d-flex mb-0">
+                <div class="dt-input__wrapper">
+                    <div class="dt-input__group bg-white p-0">
+                        <div class="d-flex flex-wrap flex-fill">
+                            <label class="dt-label fw-thin">Фамилия</label>
+                            <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
+                                   disabled="">
+                        </div>
+                    </div>
+                </div>
+                <div class="dt-input__wrapper">
+                    <div class="dt-input__group bg-white p-0">
+                        <div class="d-flex flex-wrap flex-fill">
+                            <label class="dt-label fw-thin">Имя</label>
+                            <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
+                                   disabled="">
+                        </div>
+                    </div>
+                </div>
 
-             v-for="(person, index) in bookingForm.persons">
+                <div class="dt-input__wrapper">
+                    <div class="dt-input__group bg-white p-0">
+                        <div class="d-flex flex-wrap flex-fill">
+                            <label class="dt-label fw-thin">Отчество</label>
+                            <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
+                                   disabled="">
+                        </div>
+                    </div>
+                </div>
+                <div class="dt-input__wrapper">
+                    <div class="dt-input__group bg-white">
+                        <div class="d-flex flex-wrap flex-column">
+                            <label class="dt-label fw-thin">Пол</label>
+                            <div class="dt-check__group d-flex">
+                                <div class="dt-check">
+                                    <div class="dt-check__input d-none">
+                                        <input type="checkbox" name="woman" id="woman"/>
+                                        <div class="dt-check__input-check"></div>
+                                    </div>
+                                    <label class="dt-check__label" for="woman">
+                                        <slot name="label">
+                                            <p>М</p>
+                                        </slot>
+                                    </label>
+                                </div>
+                                <div class="dt-check">
+                                    <div class="dt-check__input d-none">
+                                        <input type="checkbox" name="man" id="man"/>
+                                        <div class="dt-check__input-check"></div>
+                                    </div>
+                                    <label class="dt-check__label" for="man">
+                                        <slot name="label">
+                                            <p>Ж</p>
+                                        </slot>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dt-input__wrapper">
+                    <div class="dt-input__group bg-white">
+                        <div class="d-flex flex-wrap flex-fill">
+                            <label class="dt-label fw-thin">Дата рождения</label>
+                            <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
+                                   disabled="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dt-document d-flex">
+                <div class="dt-input__wrapper">
+                    <div class="dt-input__group bg-white p-0">
+                        <div class="d-flex flex-wrap">
+                            <label class="dt-label fw-thin">Документ</label>
+                            <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
+                                   disabled="">
+                        </div>
+                    </div>
+                </div>
+                <div class="dt-input__wrapper">
+                    <div class="dt-input__group bg-white p-0">
+                        <div class="d-flex flex-wrap flex-fill">
+                            <label class="dt-label fw-thin">Номер документа</label>
+                            <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
+                                   disabled="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="dt-personal-data dt-content--bottom-60" v-for="(person, index) in bookingForm.persons">
+            <div> <!-- v-if="active_person_index===index"!-->
+                <div class="dt-ticket__item bg-white shadow mb-4" style="border-radius: 6px">
+                    <div class="dt-ticket__header p-3">
+                        <h4 class="fw-bold">{{ index + 1 }}. Посетитель</h4>
+                        <div class="dt-header__detail dt-ticket__detail d-flex mb-0">
+                            <div class="dt-input__wrapper">
+                                <div class="dt-input__group bg-white p-0">
+                                    <div class="d-flex flex-wrap flex-fill">
+                                        <label class="dt-label fw-thin">Фамилия<span
+                                            class="text-red-600 ml-5">*</span></label>
+                                        <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
+                                               placeholder="Иванов" required
+                                               v-model="bookingForm.persons[index].surname">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dt-input__wrapper">
+                                <div class="dt-input__group bg-white p-0">
+                                    <div class="d-flex flex-wrap flex-fill">
+                                        <label class="dt-label fw-thin">Имя<span
+                                            class="text-red-600 ml-5">*</span></label>
+                                        <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
+                                               placeholder="Иван" required v-model="bookingForm.persons[index].name">
+                                    </div>
+                                </div>
+                            </div>
 
-            <div v-if="active_person_index===index">
-                <h2 class="mb-2 mt-2">Регистрационные данные на участника #{{ index + 1 }}</h2>
-                <div class="row dt-personal-data__item">
+                            <div class="dt-input__wrapper">
+                                <div class="dt-input__group bg-white p-0">
+                                    <div class="d-flex flex-wrap flex-fill">
+                                        <label class="dt-label fw-thin">Отчество<span
+                                            class="text-red-600 ml-5">*</span></label>
+                                        <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
+                                               placeholder="Иванович" required
+                                               v-model="bookingForm.persons[index].patronymic">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dt-input__wrapper">
+                                <div class="dt-input__group bg-white">
+                                    <div class="d-flex flex-wrap flex-column">
+                                        <label class="dt-label fw-thin">Пол<span
+                                            class="text-red-600 ml-5">*</span></label>
+                                        <div class="dt-check__group d-flex">
+                                            <div class="dt-check"
+                                                 :class="{'active': bookingForm.persons[index].sex === 'М'}">
+                                                <div class="dt-check__input d-none">
+                                                    <input type="checkbox" name="woman" id="woman"/>
+                                                    <div class="dt-check__input-check"></div>
+                                                </div>
+                                                <label @click="bookingForm.persons[index].sex = 'М'"
+                                                       class="dt-check__label cursor-pointer" for="woman">
+                                                    М
+                                                </label>
+                                            </div>
+                                            <div class="dt-check"
+                                                 :class="{'active': bookingForm.persons[index].sex === 'Ж'}">
+                                                <div class="dt-check__input d-none">
+                                                    <input type="checkbox" name="man" id="man"/>
+                                                    <div class="dt-check__input-check"></div>
+                                                </div>
+                                                <label @click="bookingForm.persons[index].sex = 'Ж'"
+                                                       class="dt-check__label cursor-pointer" for="man">
+                                                    Ж
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dt-input__wrapper">
+                                <div class="dt-input__group bg-white">
+                                    <div class="d-flex flex-wrap flex-fill">
+                                        <label class="dt-label fw-thin">Дата рождения<span
+                                            class="text-red-600 ml-5">*</span></label>
+                                        <input type="date" name="name" class="dt-input fw-semibold" autocomplete="off"
+                                               :min="'1920-01-01'" :max="currentDate"
+                                               v-model="bookingForm.persons[index].date_of_birth">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dt-document d-flex">
+                            <div class="dt-input__wrapper">
+                                <div class="dt-input__group bg-white p-0">
+                                    <div class="d-flex flex-wrap flex-column">
+                                        <label class="dt-label fw-thin">Документ<span
+                                            class="text-red-600 ml-5">*</span></label>
+                                        <div
+                                            class="dropdown dropdown-border position-relative bg-white rounded p-0 ps-2 pe-2">
+                                            <button type="button"
+                                                    class="col-11 ps-2rem dropdown-toggle font-size-09 h-100 w-100 d-flex align-items-center me-5"
+                                                    data-bs-toggle="dropdown">
+                                                {{ bookingForm.persons[index].document_type_title }}
+                                                <svg class="h-100 expand-icon" xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 48 48" fill="blue"
+                                                     height="20" width="20">
+                                                    <path d="M24 31.4 11.3 18.7l2.85-2.8L24 25.8l9.85-9.85 2.85 2.8Z"/>
+                                                </svg>
+                                            </button>
+                                            <ul class="dropdown-menu flex-grow-1 px-2rem pb-3 pt-0 rounded font-size-09">
+                                                <li @click="bookingForm.persons[index].document_type_title=item"
+                                                    v-for="item in document_types">
+                                                    <a class="dropdown-item w-100 mt-3 p-0 font-size-09 cursor-pointer">
+                                                        {{ item }}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dt-input__wrapper w-100">
+                                <div class="dt-input__group bg-white p-0">
+                                    <div class="d-flex flex-wrap flex-fill">
+                                        <label class="dt-label fw-thin">Информация о документе<span
+                                            class="text-red-600 ml-5">*</span></label>
+                                        <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
+                                               required v-model="bookingForm.persons[index].document_info"
+                                               placeholder="1234 55555, РО МВД России по городу Ростову, 24 августа 2022">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dt-ticket__footer p-3" :class="{'bg-white dt-border-top-gray': bookingForm.persons[index].isBuyer}"
+                    :style="{'border-top: 1px solid': bookingForm.persons[index].isBuyer}">
+                        <div v-if="index === 0" class="dt-input__wrapper d-flex mb-3">
+                            <label class="dt-check__input">
+                                <input @click="bookingForm.persons[index].isBuyer = !bookingForm.persons[index].isBuyer" type="checkbox" id="check-1"/>
+                                <div class="dt-check__input-check"></div>
+                            </label>
+                            <label class="dt-check__label" for="check-1">
+                                Этот пассажир - покупатель
+                            </label>
+                        </div>
+                        <div class="dt-user-data d-flex">
+                            <div class="dt-input__wrapper me-3">
+                                <div class="dt-input__group bg-white p-0">
+                                    <div class="d-flex flex-wrap flex-fill">
+                                        <label class="dt-label fw-thin">Моб. телефон
+                                            <span v-if="!bookingForm.persons[index].isBuyer">, по желанию</span>
+                                        </label>
+                                        <input type="text" name="name" class="dt-input fw-semibold bg-white"
+                                               autocomplete="off" v-model="bookingForm.persons[index].phone">
+                                        <span v-if="bookingForm.persons[index].isBuyer" class="dt-subtitle">Пришлем СМС с номером заказа</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dt-input__wrapper">
+                                <div class="dt-input__group bg-white p-0">
+                                    <div class="d-flex flex-wrap flex-fill">
+                                        <label class="dt-label fw-thin">Эл. почта
+                                            <span v-if="!bookingForm.persons[index].isBuyer">, по желанию</span>
+                                        </label>
+                                        <input type="text" name="name" class="dt-input fw-semibold bg-white"
+                                               autocomplete="off" v-model="bookingForm.persons[index].email">
+                                        <span v-if="bookingForm.persons[index].isBuyer" class="dt-subtitle">Отправим билет, сообщим об изменениях</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="text-muted-black" v-if="!bookingForm.persons[index].isBuyer">Экскурсовод сможет связаться с пассажиром в случае проблем</span>
+                    </div>
+                </div>
+
+                <h2 v-if="false" class="mb-2 mt-2">Регистрационные данные на участника #{{ index + 1 }}</h2>
+                <div v-if="false" class="row dt-personal-data__item">
                     <div class="col-lg-3">
                         <label class="dt-personal-data__label">Фамилия Имя Отчество<span
                             class="text-red-600 ml-5">*</span></label>
@@ -175,7 +430,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row dt-personal-data__item">
+                <div v-if="false" class="row dt-personal-data__item">
                     <div class="col-lg-3">
                         <label class="dt-personal-data__label">телефон<span class="text-red-600 ml-5">*</span></label>
                     </div>
@@ -191,7 +446,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row dt-personal-data__item">
+                <div v-if="false" class="row dt-personal-data__item">
                     <div class="col-lg-3">
                         <label class="dt-personal-data__label">почта<span class="text-red-600 ml-5">*</span></label>
                     </div>
@@ -206,7 +461,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row dt-personal-data__item">
+                <div v-if="false" class="row dt-personal-data__item">
                     <div class="col-lg-3">
                         <label class="dt-personal-data__label">Возраст</label>
                     </div>
@@ -221,9 +476,8 @@
                         </div>
                     </div>
                 </div>
-
-                <h3>Документ, удостоверяющий личность</h3>
-                <div class="row dt-personal-data__item">
+                <h3 v-if="false">Документ, удостоверяющий личность</h3>
+                <div v-if="false" class="row dt-personal-data__item">
                     <div class="col-lg-3">
                         <label class="dt-personal-data__label">Тип документа</label>
                     </div>
@@ -239,8 +493,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="row dt-personal-data__item">
+                <div v-if="false" class="row dt-personal-data__item">
                     <div class="col-lg-3">
                         <label class="dt-personal-data__label">Информация о документе</label>
                     </div>
@@ -270,10 +523,7 @@
                            id="flexSwitchCheckDefault">
                     <label class="form-check-label" for="flexSwitchCheckDefault">Создать аккаунт</label>
                 </div>
-
                 <div v-if="bookingForm.persons[index].need_create_account&&user.is_guest">
-
-
                     <div class="row dt-personal-data__item">
                         <div class="col-lg-3">
                             <label class="dt-personal-data__label">Имя аккаунта</label>
@@ -323,7 +573,6 @@
                     </div>
 
                 </div>
-
             </div>
 
 
@@ -410,7 +659,6 @@ export default {
             active_person_index: 0,
             service: [],
             bookingForm: {
-
                 tour_id: null,
                 date: null,
                 time: null,
@@ -420,7 +668,10 @@ export default {
                 persons: [],
                 accept_rules: false,
                 booking_is_correct: false
-            }
+            },
+            document_types: [
+                'Паспорт РФ', 'Св-во о рождении', 'Загранпаспорт РФ', 'Военный билет', 'Паспорт моряка', 'Иностранный документ'
+            ]
         }
 
     },
@@ -490,6 +741,18 @@ export default {
         },
         user() {
             return window.user
+        },
+        currentDate() {
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+            const day = String(currentDate.getDate()).padStart(2, '0');
+
+            return `${year}-${month}-${day}`;
+        },
+        hasBuyer() {
+            const countBuyer = this.bookingForm.persons.filter(item => item.isBuyer === true);
+            return countBuyer.length;
         }
     },
     mounted() {
@@ -501,7 +764,11 @@ export default {
             let isVerified = true
 
             let keysForValidate = [
-                "full_name",
+                "name",
+                "surname",
+                "patronymic",
+                "sex",
+                //"full_name",
                 "phone",
                 "email",
             ];
@@ -560,11 +827,17 @@ export default {
                 findItem.count++;
 
             this.bookingForm.persons.push({
-                full_name: null,
+                name: null,
+                surname: null,
+                patronymic: null,
+                sex: null,
+                date_of_birth: null,
+                isBuyer: false,
+                // full_name: null,
                 phone: null,
-                age: null,
+                //age: null,
                 document_info: null,
-                document_type_title: null,
+                document_type_title: 'Паспорт РФ',
                 email: null,
                 need_create_account: this.bookingForm.persons.length === 0,
                 account: {

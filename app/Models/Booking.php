@@ -28,6 +28,7 @@ class Booking extends Model
         'fname',
         'sname',
         'tname',
+        'date_of_birth',
         'age',
         'document_info',
         'document_type_title',

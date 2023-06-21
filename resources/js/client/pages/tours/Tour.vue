@@ -356,7 +356,8 @@
                             <p class="dt-btn-text text-uppercase me-lg-3">Задать вопрос менеджеру</p>
                         </div>
 
-                        <div  v-if="!user.is_guest&&tour.is_once_booked" @click="startChatWithGide" class="dt-question-guide text-center">
+                        <div v-if="!user.is_guest&&tour.is_once_booked" @click="startChatWithGide"
+                             class="dt-question-guide text-center">
                             <p class="dt-btn-text text-uppercase me-lg-3">задать вопрос гиду</p>
                         </div>
                     </div>
@@ -393,7 +394,7 @@ export default {
         user() {
             return window.user
         },
-        preparedText(){
+        preparedText() {
             return `Здравствуйте! Заинтересовал тур №${this.tour.id} - ${this.tour.title}! Хотелось бы узнать подробнее. Заранее спасибо!`
         }
     },

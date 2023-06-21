@@ -1,0 +1,182 @@
+.dt-ticket {
+    &__footer {
+        background: $color-gray;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+    }
+
+    &__detail {
+        & input.dt-input {
+            border: 1px solid lightgray;
+            height: 40px !important;
+            padding: 0.5rem !important;
+        }
+
+        & .dt-input__wrapper {
+            & .dt-input__group {
+                & .dt-label {
+                    color: $color-black;
+                }
+            }
+
+            &:nth-child(1) {
+                & .dt-input__group {
+                    & .dt-input {
+                        border-top-left-radius: 6px;
+                        border-bottom-left-radius: 6px;
+                    }
+                }
+            }
+
+            &:nth-child(2) {
+                & .dt-input__group {
+                    & .dt-input {
+                        border-right: none;
+                        border-left: none;
+                    }
+                }
+            }
+
+            &:nth-child(3) {
+                & .dt-input__group {
+                    & .dt-input {
+                        border-top-right-radius: 6px;
+                        border-bottom-right-radius: 6px;
+                    }
+                }
+            }
+
+            &:nth-child(5) {
+                & .dt-input__group {
+                    padding: 0;
+
+                    & .dt-input {
+                        border-radius: 6px;
+                    }
+                }
+            }
+        }
+
+        & .dt-check__group {
+            height: 40px;
+
+            & .dt-check {
+                width: 40px;
+                margin-bottom: 0;
+                justify-content: center;
+
+                &:hover {
+                    border: 1px solid $color-red !important;
+
+                    & .dt-check__label {
+                        color: $color-red;
+                    }
+                }
+
+                &.active {
+                    background: $color-blue;
+                    border: none !important;
+
+                    & .dt-check__label {
+                        color: $color-white;
+                    }
+                }
+
+                &:first-child {
+                    border: 1px solid lightgray;
+                    border-right: none;
+                    border-radius: 6px 0 0 6px;
+                }
+
+                &:last-child {
+                    border: 1px solid lightgray;
+                    border-radius: 0 6px 6px 0;
+                }
+
+                &__label {
+                    color: $color-blue;
+                }
+
+
+            }
+        }
+    }
+
+    &__item {
+        & .dt-document {
+            & input.dt-input {
+                border: 1px solid lightgray;
+                height: 40px !important;
+                padding: 0.5rem !important;
+            }
+
+            & .dt-input__wrapper {
+                & .dt-input__group {
+                    & .dt-label {
+                        color: $color-black;
+                    }
+                }
+
+                &:first-child {
+                    width: auto;
+
+                    & .dt-input__group {
+                        & .dt-input {
+                            border-top-left-radius: 6px;
+                            border-bottom-left-radius: 6px;
+                        }
+                    }
+                }
+
+                &:last-child {
+                    width: 295px;
+
+                    & .dt-input__group {
+                        & .dt-input {
+                            border-top-right-radius: 6px;
+                            border-bottom-right-radius: 6px;
+                            border-left: none;
+                        }
+                    }
+                }
+            }
+
+            & .dropdown {
+                //  width: 200px;
+                height: 40px !important;
+                border-top-right-radius: 0 !important;
+                border-bottom-right-radius: 0 !important;
+                border: 1px solid lightgray;
+
+                & button {
+                    color: $color-blue;
+                }
+            }
+        }
+
+        & .dt-user-data {
+            & input.dt-input {
+                border: 1px solid lightgray;
+                height: 40px !important;
+                padding: 0.5rem !important;
+                border-radius: 6px;
+            }
+
+            & .dt-input__wrapper {
+                width: 300px;
+
+                & .dt-input__group {
+                    background: transparent !important;
+                    & .dt-label {
+                        color: $color-black;
+                    }
+
+                    & .dt-subtitle {
+                        font-size: 12px;
+                        color: lightgray;
+                    }
+                }
+            }
+        }
+    }
+}

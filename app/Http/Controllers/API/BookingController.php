@@ -90,10 +90,14 @@ class BookingController extends Controller
             "time" => "required",
             "counts" => "required",
             "persons.*" => "required",
-            "persons.*.full_name" => "required",
-            "persons.*.phone" => "required",
-            "persons.*.email" => "required",
-            'persons.*.age' => "required",
+            "persons.*.name" => "required",
+            "persons.*.surname" => "required",
+            "persons.*.patronymic" => "required",
+            "persons.*.date_of_birth" => "required",
+            "persons.*.sex" => "required",
+            //"persons.*.phone" => "required",
+            //"persons.*.email" => "required",
+            //'persons.*.age' => "required",
             'persons.*.document_info' => "required",
             'persons.*.document_type_title' => "required"
         ]);
@@ -143,7 +147,7 @@ class BookingController extends Controller
 
         foreach ($request->persons as $person) {
             $person = (object)$person;
-            $name = explode(' ', $person->full_name);
+           // $name = explode(' ', $person->full_name);
 
             $ph_number = preg_replace("/[^0-9]/", "", $person->phone);
 
@@ -160,9 +164,9 @@ class BookingController extends Controller
 
                 $user = User::createUser([
                     'username' => $account->username,
-                    'first_name' => $name[2] ?? '',
-                    'last_name' => $name[0] ?? '',
-                    'patronymic' => $name[1] ?? '',
+                    'first_name' => $person->name ?? '',
+                    'last_name' => $person->surname ?? '',
+                    'patronymic' => $person->patronymic ?? '',
                     'phone' => $ph_number,
                     'email' => $person->email,
                     'password' => $account->password,
@@ -198,23 +202,26 @@ class BookingController extends Controller
             'description' => "Бронирование тура: $summaryTax руб за $personCount чел."
         ]);
 
-        Booking::query()->create([
+        $booking = Booking::query()->create([
             'tour_id' => $request->tour_id,
             'user_id' => $userId,
             'schedule_id' => $request->schedule_id,
             'transaction_id' => $transaction->id,
             'selected_prices' => $prices,
             'additional_services' => $services,
-            'fname' => $name[2] ?? '',
-            'sname' => $name[1] ?? '',
-            'tname' => $name[0] ?? '',
+            'fname' => $person->name ?? '',
+            'sname' => $person->surname ?? '',
+            'tname' => $person->patronymic ?? '',
+            'age' => 0,
+            'sex' => $person->sex,
+            'date_of_birth' => $person->date_of_birth,
             'phone' => $ph_number,
             'email' => $person->email,
             'start_at' => Carbon::parse("$request->data $request->time"),
             'payed_at' => null,
         ]);
 
-        $chat = Chat::startNewChat("Вы забронировали  <a class='btn btn-primary' href='/tour/$tour->id'>тур</a> $tour->title для $personCount человек.",
+        $chat = Chat::startNewChat("Вы забронировали <a class='btn btn-primary' href='/tour/$tour->id'>тур</a> $tour->title для $personCount человек.",
             $userId,
             $tour->creator_id);
 
