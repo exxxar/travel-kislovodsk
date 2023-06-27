@@ -2,7 +2,7 @@
     <div class="card tour-card">
         <div class="card-body p-0">
             <div class="tour-card__logo">
-                <img class="cover w-100" :class="{'archived': tourObject.deleted_at}"
+                <img v-if="tourObject.photos" class="cover w-100" :class="{'archived': tourObject.deleted_at}"
                      v-lazy="tourObject.photos[0]"
                      alt="travel"/>
             </div>
@@ -93,7 +93,8 @@ export default {
     },
     methods: {
         openEditTourObject() {
-            this.eventBus.emit('open_edit_tour_object_window', this.tourObject)
+            this.$emit('edit', this.tourObject)
+           // this.eventBus.emit('open_edit_tour_object_window', this.tourObject)
         },
         restoreRemovedTourObject() {
             this.$store.dispatch("restoreRemovedGuideTourObjectsById", this.tourObject.id).then(() => {

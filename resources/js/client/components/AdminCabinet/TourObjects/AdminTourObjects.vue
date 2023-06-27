@@ -46,7 +46,7 @@
                         <i class="fa-solid fa-bars text-white"></i>
                     </button>
                     <ul class="dropdown-menu p-2 w-100">
-                        <li @click="openAddTourObject"><a class="dropdown-item cursor-pointer"><i
+                        <li data-bs-toggle="modal" data-bs-target="#adminAddTourObjectModal"><a class="dropdown-item cursor-pointer"><i
                             class="fa-regular fa-square-plus"></i> Добавить объект </a></li>
                         <li><a data-bs-toggle="modal" data-bs-target="#excelToursUpload"
                                class="dropdown-item cursor-pointer"><i class="fa-solid fa-upload"></i> Загрузить Excel </a>
@@ -54,8 +54,7 @@
                         <li><a href="/load-template/tour-objects.xlsx" class="dropdown-item cursor-pointer"><i
                             class="fa-solid fa-file-export"></i> Скачать шаблон </a></li>
                         <li data-bs-toggle="modal" data-bs-target="#adminAddTourModal"><a class="dropdown-item"> Удалить
-                            все
-                            туристические объекты </a></li>
+                            все туристические объекты </a></li>
                         <li data-bs-toggle="modal" data-bs-target="#adminAddTourModal"><a class="dropdown-item">
                             Сгенерировать демонстрационные туристические объекты </a></li>
                         <li><a href="/load-template/tours.xlsx" class="dropdown-item"> Экспортировать все туристические объекты </a>
@@ -76,6 +75,8 @@
                     <div class="col-12 col-md-6 col-xl-3 col-lg-6 mb-2" :key="item" v-for="item in tour_objects">
                         <admin-tour-object-card-component
                             :tour-object="item"
+                            :key="item"
+                            v-on:edit="openTourObjectEditorWindow"
                         />
                     </div>
                 </div>
@@ -118,6 +119,24 @@
 
 
     <!-- Modal -->
+    <div class="modal fade" id="adminAddTourObjectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Добавление объекта для тура</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <admin-add-tour-object-component/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="excelToursUpload"
          data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -137,18 +156,43 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="adminEditTourObjectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Редактирование объекта для тура</h1>
+                    <button type="button" class="btn-close"
+                            @click="selectedTourObjectId = null"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <admin-edit-tour-object v-if="selectedTourObjectId!=null" :tour-object-id="selectedTourObjectId"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" @click="selectedTourObjectId = null"
+                            class="btn btn-secondary" data-bs-dismiss="modal">Закрыть
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
 
 import {mapGetters} from "vuex";
+import AdminEditTourObject from '@/components/AdminCabinet/TourObjects/AdminEditTourObject.vue';
 
 export default {
+    components: {AdminEditTourObject},
     data() {
         return {
             activeType: "Все",
             load: false,
             tour_objects: [],
-            pagination: null
+            pagination: null,
+            selectedTourObjectId: null,
         }
     },
     computed: {
@@ -167,8 +211,11 @@ export default {
           })*/
     },
     methods: {
-        openAddTourObject() {
-            this.eventBus.emit('open_add_tour_objects_window')
+        openTourObjectEditorWindow(tourObjectId) {
+            this.selectedTourObjectId = tourObjectId.id
+
+            let myModal = new bootstrap.Modal(document.getElementById('adminEditTourObjectModal'))
+            myModal.show()
         },
         changeActiveTitle(title) {
             this.activeType = title
