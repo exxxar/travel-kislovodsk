@@ -6,6 +6,11 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <style>
+        p {
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
 <table style="width: 100%;">
@@ -19,12 +24,13 @@
                     <td style="text-align:right;"><p>Форма № 5 – Тур (электронная)</p></td>
                 </tr>
                 <tr>
-                    <td style="text-align:center;margin-bottom:100px;"><h3>Федерация спортивного туризма России</h3></td>
+                    <td style="text-align:center;margin-bottom:50px;"><h3>Федерация спортивного туризма России</h3>
+                    </td>
                 </tr>
                 <tr>
-                    <td style="text-align:center;padding-top: 200px;">
-                        <h3 >МАРШРУТНАЯ   КНИЖКА</h3>
-                        <h3>ТУРИСТСКОГО   МАРШРУТА</h3>
+                    <td style="text-align:center;padding-top: 100px;">
+                        <h3 style="margin: 0">МАРШРУТНАЯ КНИЖКА № ___________</h3>
+                        <h3 style="margin: 0">ТУРИСТСКОГО МАРШРУТА</h3>
 
                     </td>
                 </tr>
@@ -44,8 +50,8 @@
 
 
                 <tr>
-                    <td style="text-align:center;padding-top: 250px;">
-                        <p>20 ____ г.</p>
+                    <td style="text-align:center;padding-top: 200px;">
+                        <p style="font-weight: bold">20 ____ г.</p>
                     </td>
                 </tr>
 
