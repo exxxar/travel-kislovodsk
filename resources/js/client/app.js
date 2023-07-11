@@ -34,6 +34,7 @@ import ActionModalDialog from '@/components/Fragments/ActionModalDialog.vue'
 import MapModalDialog from '@/components/Fragments/MapModalDialog.vue'
 import MapWithPointsModalDialog from '@/components/Fragments/MapWithPointsModalDialog.vue'
 import SelectedMapModalDialog from '@/components/Fragments/SelectedMapModalDialog.vue'
+import SelectedTourDirectionModalDialog from '@/components/Fragments/SelectedTourDirectionModalDialog.vue'
 import Breadcrumbs from "@/components/Fragments/Breadcrumbs.vue";
 import CallbackForm from '@/components/Callback/CallbackForm.vue'
 import CallbackSection from '@/components/Fragments/CallbackSection.vue'
@@ -151,6 +152,7 @@ app.component('action-modal-dialog-component', ActionModalDialog)
 app.component('map-modal-dialog-component', MapModalDialog)
 app.component('map-with-points-modal-dialog-component', MapWithPointsModalDialog)
 app.component('selected-map-modal-dialog-component', SelectedMapModalDialog)
+app.component('selected-tour-direction-modal-dialog-component', SelectedTourDirectionModalDialog)
 
 app.component('main-page', MainPage)
 app.component('login-page', LoginPage)
