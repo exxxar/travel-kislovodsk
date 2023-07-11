@@ -5,15 +5,15 @@
     "isEntry": true
   },
   "resources/js/client/app.js": {
-    "file": "assets/app.4d298179.js",
+    "file": "assets/app.0da5db01.js",
     "src": "resources/js/client/app.js",
     "isEntry": true,
     "css": [
-      "assets/app.b65586d2.css"
+      "assets/app.82369729.css"
     ]
   },
   "resources/js/client/app.css": {
-    "file": "assets/app.b65586d2.css",
+    "file": "assets/app.82369729.css",
     "src": "resources/js/client/app.css"
   }
 }

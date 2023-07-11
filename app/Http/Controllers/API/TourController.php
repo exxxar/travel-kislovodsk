@@ -259,6 +259,7 @@ class TourController extends Controller
 
             $file->storeAs("/public", $path . '/' . $name);
             $preview_photo = Storage::url('user/' . $userId . "/tours/" . $name);
+
         }
 
         $data = [

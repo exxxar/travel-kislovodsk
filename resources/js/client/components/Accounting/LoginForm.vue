@@ -142,6 +142,12 @@ export default {
             accept_rules: false,
         }
     },
+    watch:{
+        is_email:function (oldV, newV){
+            this.form.username = null
+            this.form.password = null
+        }
+    },
     methods: {
         login() {
             this.is_send_sms = false

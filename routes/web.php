@@ -35,7 +35,24 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get("/test-esia", function (){
+$config = [
+    'clientId' => 'INSP03211',
+    'redirectUrl' => 'https://rustravel.shop/callback',
+    'portalUrl' => 'https://esia-portal1.test.gosuslugi.ru/',
+    'privateKeyPath' =>   storage_path()."/app/public/cert/RSA.txt",
+    'privateKeyPassword' => 'my-site.com',
+    'certPath' =>
+        storage_path()."/app/public/cert/RSA_TESIA.cer",
+    'tmpPath' =>   storage_path()."/app/public/",
+];
 
+
+$esia = new \esia\OpenId($config);
+
+return "<a href=\"".($esia->getUrl())."\">Войти через портал госуслуги</a>";
+
+});
 
 Route::get("/test-pogoda", function (){
 
@@ -47,7 +64,7 @@ Route::get("/test-pogoda", function (){
 
 });
 Route::get("/test-pdf", function (){
-    $mpdf = new \Mpdf\Mpdf([
+ /*   $mpdf = new \Mpdf\Mpdf([
         'format' => 'A4-L',
         'margin_left' => 0,
         'margin_right' => 0,
@@ -69,8 +86,10 @@ Route::get("/test-pdf", function (){
 
 
 
-    return $mpdf->Output("test.pdf","D");
 
+    return $mpdf->Output("test.pdf","D");*/
+
+    return view("pdf.route-passport-page-1");
 
 });
 
