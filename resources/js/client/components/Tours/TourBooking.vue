@@ -251,9 +251,9 @@
                 <div class="dt-ticket__item bg-white shadow mb-4" style="border-radius: 6px">
                     <div class="dt-ticket__header p-3">
                         <h4 class="fw-bold">{{ index + 1 }}. Посетитель</h4>
-                        <div class="dt-header__detail dt-ticket__detail d-flex mb-0">
+                        <div class="dt-header__detail dt-ticket__detail d-flex mb-2">
                             <div class="dt-input__wrapper">
-                                <div class="dt-input__group bg-white p-0">
+                                <div class="dt-input__group bg-white p-0 h-100">
                                     <div class="d-flex flex-wrap flex-fill">
                                         <label class="dt-label fw-thin">Фамилия<span
                                             class="text-red-600 ml-5">*</span></label>
@@ -264,7 +264,7 @@
                                 </div>
                             </div>
                             <div class="dt-input__wrapper">
-                                <div class="dt-input__group bg-white p-0">
+                                <div class="dt-input__group bg-white p-0 h-100">
                                     <div class="d-flex flex-wrap flex-fill">
                                         <label class="dt-label fw-thin">Имя<span
                                             class="text-red-600 ml-5">*</span></label>
@@ -275,7 +275,7 @@
                             </div>
 
                             <div class="dt-input__wrapper">
-                                <div class="dt-input__group bg-white p-0">
+                                <div class="dt-input__group bg-white p-0 h-100">
                                     <div class="d-flex flex-wrap flex-fill">
                                         <label class="dt-label fw-thin">Отчество<span
                                             class="text-red-600 ml-5">*</span></label>
@@ -286,12 +286,13 @@
                                 </div>
                             </div>
                             <div class="dt-input__wrapper">
-                                <div class="dt-input__group bg-white">
+                                <div
+                                    class="bg-white dt-input__group h-100 justify-content-lg-center justify-content-start ps-0">
                                     <div class="d-flex flex-wrap flex-column">
-                                        <label class="dt-label fw-thin">Пол<span
+                                        <label class="dt-label fw-thin h-100">Пол<span
                                             class="text-red-600 ml-5">*</span></label>
-                                        <div class="dt-check__group d-flex">
-                                            <div class="dt-check"
+                                        <div class="dt-check__group d-flex h-100">
+                                            <div class="dt-check dt-check__gender"
                                                  :class="{'active': bookingForm.persons[index].sex === 'М'}">
                                                 <div class="dt-check__input d-none">
                                                     <input type="checkbox" name="woman" id="woman"/>
@@ -302,7 +303,7 @@
                                                     М
                                                 </label>
                                             </div>
-                                            <div class="dt-check"
+                                            <div class="dt-check dt-check__gender"
                                                  :class="{'active': bookingForm.persons[index].sex === 'Ж'}">
                                                 <div class="dt-check__input d-none">
                                                     <input type="checkbox" name="man" id="man"/>
@@ -318,7 +319,7 @@
                                 </div>
                             </div>
                             <div class="dt-input__wrapper">
-                                <div class="dt-input__group bg-white">
+                                <div class="dt-input__group bg-white h-100">
                                     <div class="d-flex flex-wrap flex-fill">
                                         <label class="dt-label fw-thin">Дата рождения<span
                                             class="text-red-600 ml-5">*</span></label>
@@ -331,14 +332,14 @@
                         </div>
                         <div class="dt-document d-flex">
                             <div class="dt-input__wrapper">
-                                <div class="dt-input__group bg-white p-0">
+                                <div class="bg-white dt-input__group h-100 p-0">
                                     <div class="d-flex flex-wrap flex-column">
                                         <label class="dt-label fw-thin">Документ<span
                                             class="text-red-600 ml-5">*</span></label>
-                                        <div
-                                            class="dropdown dropdown-border position-relative bg-white rounded p-0 ps-2 pe-2">
+                                        <div style="padding: 26px 30px !important;"
+                                             class="dropdown dropdown-border position-relative bg-white rounded p-0 ps-2 pe-2">
                                             <button type="button"
-                                                    class="col-11 ps-2rem dropdown-toggle font-size-09 h-100 w-100 d-flex align-items-center me-5"
+                                                    class="col-11 ps-2rem dropdown-toggle font-size-09 h-100 w-100 d-flex align-items-center me-5 "
                                                     data-bs-toggle="dropdown">
                                                 {{ bookingForm.persons[index].document_type_title }}
                                                 <svg class="h-100 expand-icon" xmlns="http://www.w3.org/2000/svg"
@@ -350,7 +351,7 @@
                                             <ul class="dropdown-menu flex-grow-1 px-2rem pb-3 pt-0 rounded font-size-09">
                                                 <li @click="bookingForm.persons[index].document_type_title=item"
                                                     v-for="item in document_types">
-                                                    <a class="dropdown-item w-100 mt-3 p-0 font-size-09 cursor-pointer">
+                                                    <a class="dropdown-item w-100 mt-3 p-0 font-size-09 cursor-pointer dt-text--regular">
                                                         {{ item }}
                                                     </a>
                                                 </li>
@@ -360,23 +361,26 @@
                                 </div>
                             </div>
                             <div class="dt-input__wrapper w-100">
-                                <div class="dt-input__group bg-white p-0">
+                                <div class="dt-input__group bg-white p-0 h-100">
                                     <div class="d-flex flex-wrap flex-fill">
                                         <label class="dt-label fw-thin">Информация о документе<span
                                             class="text-red-600 ml-5">*</span></label>
                                         <input type="text" name="name" class="dt-input fw-semibold" autocomplete="off"
                                                required v-model="bookingForm.persons[index].document_info"
-                                               placeholder="1234 55555, РО МВД России по городу Ростову, 24 августа 2022">
+                                               placeholder="1234 55555, РО МВД России по городу Ростову, 24 августа 2022"
+                                               style="padding: 26px 30px !important;">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="dt-ticket__footer p-3" :class="{'bg-white dt-border-top-gray': bookingForm.persons[index].isBuyer}"
-                    :style="{'border-top: 1px solid': bookingForm.persons[index].isBuyer}">
+                    <div class="dt-ticket__footer p-3"
+                         :class="{'bg-white dt-border-top-gray': bookingForm.persons[index].isBuyer}"
+                         :style="{'border-top: 1px solid': bookingForm.persons[index].isBuyer}">
                         <div v-if="index === 0" class="dt-input__wrapper d-flex mb-3">
                             <label class="dt-check__input">
-                                <input @click="bookingForm.persons[index].isBuyer = !bookingForm.persons[index].isBuyer" type="checkbox" id="check-1"/>
+                                <input @click="bookingForm.persons[index].isBuyer = !bookingForm.persons[index].isBuyer"
+                                       type="checkbox" id="check-1"/>
                                 <div class="dt-check__input-check"></div>
                             </label>
                             <label class="dt-check__label" for="check-1">
@@ -384,26 +388,30 @@
                             </label>
                         </div>
                         <div class="dt-user-data d-flex">
-                            <div class="dt-input__wrapper me-3">
-                                <div class="dt-input__group bg-white p-0">
-                                    <div class="d-flex flex-wrap flex-fill">
+                            <div class="dt-input__wrapper me-lg-3">
+                                <div class="dt-input__group bg-white p-0 h-100">
+                                    <div class="d-flex flex-wrap flex-fill h-100">
                                         <label class="dt-label fw-thin">Моб. телефон
                                             <span v-if="!bookingForm.persons[index].isBuyer">, по желанию</span>
                                         </label>
-                                        <input type="text" name="name" class="dt-input fw-semibold bg-white"
-                                               autocomplete="off" v-model="bookingForm.persons[index].phone">
+                                        <input type="text" name="name"
+                                               class="dt-input dt-input__padding fw-semibold bg-white"
+                                               autocomplete="off" v-model="bookingForm.persons[index].phone"
+                                               style="padding: 26px 30px !important;" v-mask="'+7(###)###-##-##'">
                                         <span v-if="bookingForm.persons[index].isBuyer" class="dt-subtitle">Пришлем СМС с номером заказа</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="dt-input__wrapper">
-                                <div class="dt-input__group bg-white p-0">
-                                    <div class="d-flex flex-wrap flex-fill">
+                                <div class="dt-input__group bg-white p-0 h-100">
+                                    <div class="d-flex flex-wrap flex-fill h-100">
                                         <label class="dt-label fw-thin">Эл. почта
                                             <span v-if="!bookingForm.persons[index].isBuyer">, по желанию</span>
                                         </label>
-                                        <input type="text" name="name" class="dt-input fw-semibold bg-white"
-                                               autocomplete="off" v-model="bookingForm.persons[index].email">
+                                        <input type="email" name="name"
+                                               class="dt-input dt-input__padding fw-semibold bg-white"
+                                               autocomplete="off" v-model="bookingForm.persons[index].email"
+                                               style="padding: 26px 30px !important;">
                                         <span v-if="bookingForm.persons[index].isBuyer" class="dt-subtitle">Отправим билет, сообщим об изменениях</span>
                                     </div>
                                 </div>
